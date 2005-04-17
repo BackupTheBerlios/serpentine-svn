@@ -1,0 +1,25 @@
+AC_INIT(scripts/serpentine)
+
+AM_INIT_AUTOMAKE(serpentine, 0.5)
+
+AM_MAINTAINER_MODE
+
+AC_PATH_PROG(GCONFTOOL, gconftool-2)
+AM_GCONF_SOURCE_2
+# AC_PROG_INTLTOOL([0.23])
+
+dnl check for python
+AM_PATH_PYTHON(2.3)
+
+# ALL_LINGUAS=""
+
+# GETTEXT_PACKAGE=serpentine
+# AC_SUBST(GETTEXT_PACKAGE)
+# AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [The gettext package])
+# For generating the Makefile.in :(
+# AM_GLIB_GNU_GETTEXT
+
+AC_OUTPUT([
+Makefile
+serpentine/release.py
+])

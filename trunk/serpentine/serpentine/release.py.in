@@ -1,0 +1,2 @@
+# Version is defined in configure.in
+version = "@VERSION@"

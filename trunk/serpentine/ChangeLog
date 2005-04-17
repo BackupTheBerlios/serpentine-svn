@@ -1,0 +1,291 @@
+2005-02-12 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* scripts/serpentine: Serpentine can optionally throw an exception, catch it
+	and print the error message.
+	
+	* converting.py:
+	* audio.py: Changed license to LGPL, since it isn't linked to any GPL'ed
+	module.
+	
+	* gaw.py: Included copyright noticed (LGPL)
+	
+	* __init__.py: Removed DATA_DIR contant, it was moved to a new module:
+	constants.py. Added support for new optional DBus module: services.py.
+	Added initial support for multiple recorders.
+	
+	* gtkutil.py: A close button was added and defaults to hidden state.
+	Corrected a bug where the insensitive property was being get in the wrong
+	way.
+	
+	* mastering.py: Corrected the import module from playlist_parser to
+	totem.plparser, which is it's new name.
+	
+	* recording.py: RecordingMedia operation has now a "drive" property which is
+	the associated nautiulsburn.Drive. When the operation is finished the 
+	progress window is no longer closed but the cancel button changes to a
+	close button (should this happen? HIG is a bit confusing).
+	
+	
+2005-02-07 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+	
+	* mastering.py: Changed the Disk capacity progress label to the time missing
+	instead of the filled, since it's more useful.
+	
+	* gtkutil.py:
+	* recording.py: Progress is now HIG compliant.
+	
+	* converting.py: Corrected a bug where WAV files sent with URL's would not
+	be converted correctly.
+	
+	* converting.py:
+	* audio.py:
+	* mastering.py: Renamed from gnome.vfs to gnomevfs, deprecation
+	issues.
+	
+	* preferences.py:
+	* recording.py: Renamed from nautilus_burn to nautilusburn (new name
+	when it was ported to gnome-python-extras).
+	
+	* gtk_util.py: Added a GAW wrapper to FileChooserButton
+	
+	* __init__.py: Now data_dir is automatically found. Thus the argument
+	is optional. TreeView is no longer set insensitive when loading, it
+	uncovered a bug in Gtk+/PyGtk and some theming bugs. Renamed from
+	gtk_util to gtkutil to conform to Python's coding style. Now uses
+	Gtk.AboutDialog instead of GNOME's one. Started refactoring the
+	recording method into a function or class in order for Serpentine to
+	be run from command line or C API.
+
+	* preferences.py: Now uses the Gtk.FileChooserButton (Gtk+ 2.6)
+
+	
+2005-01-14 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* recording.py:
+	* converting.py:
+	* __init__.py:
+	Corrected updated reference introduced in GtkMusicList's new format.
+
+	* __init__.py:
+	Now main window gets insensitve while musics are loaded from previous
+	session. Corrected how About box is displayed. Now Serpentine is
+	recognized as a GObject type.
+
+	* preferences.py:
+	Corrected a bug when there were no recording drives on a system.
+	
+2004-12-28 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* mastering.py: (ErrorTrapper.start): (AddFile):
+	Now it's possible to set the title and artist while adding files. This
+	affects .pls platlist format and newly added xpsf.
+	(MusicList): Add possibility to load and save from a xspf playlist.
+	
+	* converting.py: (GvfsMusicPool):
+	gnome_util module is no longer needed, since we're using urlparse and urllib
+	to achieve the same effect.
+	
+	* __init__.py: (Serpentine):
+	* preferences: (RecordingPreferences):
+	Loads the default playlist on startup and saves it on exit.
+	
+	* preferences.py:
+	Added copyright notice. Removed an unnecessary debugging 'print'.
+	
+2004-12-28 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* mastering.py: (AddFile.on_metadata): (GtkMusicList):
+	(AudioMastering.__on_dnd_drop):
+	Removed redundant insert_before/insert_after to only an insert method
+	(which works as insert_before, as expected).
+	
+	* mastering.py:
+	(AudioMastering.__on_dnd_drop):
+	Corrected a bug where it tries
+	to insert at the position after the last one (in this case it should append).
+	(AudioMastering.__init__):
+	Forgot to add a last reference to global operations queue.
+	
+	* __init__.py:
+	(Serpentine.burn): verification of cache location should be made before
+	verifying if it has the available space.
+
+	
+2004-12-27 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* mastering.py: (AudioMastering.add_file): (AudioMastering.add_files):
+	Made queue's local versus global, this corrects concurrency problems.
+	Added dynamic support to playlists which is available when the
+	totem-pl-parser-python package is installed.
+	
+2004-12-26 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+	
+	* preferences.py: (RecordingPreferences): Made speed radio button's position
+	remembered by gconf. Now speed spinbox is insensitive when the option is
+	not selected.
+	
+	* __init__.py: (Serpentine.burn): Now warns the user when the disc has more
+	then it can handle and in that case asks if the user wants to overburn.
+	Changed the default Ok button to 'Record Disk' for Hig compliance.
+	
+	* gtk_util.py: (dialog_ok_cancel): Now has the possibility of setting the
+	ok button's text.
+	
+=== 0.4 ===
+
+2004-12-25 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+	
+	* gtk_util.py: (DictStore):
+	Added insert_before and insert_after. Corrected a bug on __delitem__, now
+	items are deletable.
+	
+	* mastering.py: (GtkMusicList): Added a field for private handling in 
+	DND_TARGETS. Now GtkMusicList fully supports DND with row insertion (as
+	opposed to append-only) and row reordering.
+	
+	* mastering.py: recording.py: __init__.py: serpentine.glade:
+	Added main window on dialogs as parent and ensure they are centered on
+	parent for HIG compliance.
+
+	* gtk_util.py: new function get_root_parent, returns the parent window on
+	contained widgets.
+	
+2004-12-24 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	*__init__.py: (Serpentine.burn): Now the space left on the cache location
+	is checked before starting the burning procedure.
+	
+=== 0.3 ===
+
+2004-12-24 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* serpentine:
+	A new relocable script for running Serpentine.
+	
+	* __init__.py: serpentine_shell.py was renamed to __init__.py.
+	There is no mastering object sent through argument, one is constructed
+	inside. data_dir is sent through argument and fed to RecordingPreferences.
+	About dialog was implemented. Changed the default size to 450x350.
+	
+	* preferences.py:
+	the releases file will have the version.
+	
+2004-12-23 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* preferences.py:
+	Directory browsing button now works.
+	
+	* serpentine_shell.py:
+	(MainWindow.burn): Now check if the temporary directory is available.
+	
+	* gaw.py:
+	(Data.__set_data): forgot pass the gconf key as an argument.
+	
+2004-12-22 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* mastering.py:
+	ErrorTrapper, class used to show an error message showing which files were
+	not added.
+	(AddFile.on_finished): now this operation returns the same success value as
+	the metadata fetching operation.
+	(AudioMastering.add_file), (AudioMastering.add_files):
+	Uses ErrorTrapper.
+
+	* audio.py:
+	(AudioMetadata):
+	Now returns the correct operation success value.
+	
+	* serpentine_shell.py:
+	Removed the file dialog title for HIG compliance.
+	
+	* gtk_util.py:
+	New function to show error dialogs: dialog_error
+	(hig_alert):
+	Removed title and corrected image alignment for HIG compliance.
+	(dialog_warn): Changed the button from OK to Close, for HIG compliance.
+	
+	* operations.py:
+	(OperationsQueue):
+	Adds support for queues that do not abort on an operation error.
+	
+	* recording.py:
+	* serpentine_shell.py:
+	Moved RecordingMedia class to recording.py
+	
+	* recording.py:
+	(RecordMusicList.stop):
+	Canceling a recording operation now works.
+	(RecordMusicList.__insert_cd):
+	Added a missing case for the dialog.
+	
+	* preferences.py:
+	Added support for gconf throw the new module gaw.py
+	
+	* converting.py:
+	(GetMusic.start): Made GetMusic more effecting, adding support for operations
+	generators that can throw exceptions (fetch_music method).
+	(GstMusicPool.fetch_music): closes the mkstemp file descriptor.
+	(GvfsMusicPool.is_available): corrected a bug introduced in last commits.
+	
+2004-12-21 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+	* serpentine_shell.py:
+	(MainWindow.__init__):
+	Handle systems which do not have recorder devices.
+	Do not set the default device on DriveSelection (this is done internally).
+	Update speed widget explicitly.
+	
+	* preferences.py:
+	(RecordingPreferences.__update_speed):
+	When user does not have a device turn the speed widget insensitive.
+	
+	* converting.py:
+	unique_music_id was moved up to GstMusicPool and corrected, since it was
+	not working correctly.
+	
+	* gnome_util.py:
+	Corrected a typo bug.
+	
+	* audio.py:
+	(GstOperation.__on_error):
+	Only remove source if it is defined, since sometimes it happens.
+	
+	* mastering.py:
+	Started adding reordering code but postponed because of pygtk bug.
+	
+2004-12-20 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* preferences.py:
+	Centralized pool inside RecordingPreferences
+	
+	* gnome_util.py:
+	Made unsescape_uri a bit more correct, but with the same pratical results.
+	
+	* serpentine_shell.py:
+	Updated the pool to use it from RecordingPreferences.
+	Explicitly clears cache on exit.
+	
+	* converting.py:
+	(GstSourceToWavListener.on_finished):
+	Corrected a bug where it would put an element on cache even when it wasn't
+	a successfull covertion. Also removes temporary files upon failure.
+	(GvfsMusicPool.__unique_uri):
+	Generates a unique string from an URI.
+	(GvfsMusicPool.is_available), (GvfsMusicPool.get_filename),
+	(GvfsMusicPool.fetch_music):
+	Musics are passed through __unique_uri.
+	(FetchMusicListPriv.on_finished):
+	GetMusic operations when are finished in an unsuccessful state are ignored.
+	
+	* operations.py:
+	Added two new classes for simplifying multiple widgets for the same purpose
+	factor: MapProxy and MapFunctor (used by the previous).
+	
+	* serpentine_shell.py:
+	(MainWindow.on_contents_changed), (MainWindow.__init__),
+	(MainWindow.on_selection_changed):
+	Updated to use MapProxy instance.
+	
+	* serpentine.glade:
+	Updated a few widget names. Menu items now have a '_mni' suffix.
+
+=== 0.2 ===

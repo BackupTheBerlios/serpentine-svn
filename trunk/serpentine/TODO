@@ -1,0 +1,21 @@
+- when u have a rw cd it doesn't ask if u want to clean it first (done but 
+  should be moved to ncb instead)
+- Make it possible to close serpentine main window without stopping a recording
+  operation (dbus.SessionBus).
+- emit to context when dnd has moved successfully, highlight TreeView
+- add export to playlist
+- When a list of files is added order the files which have the same album name 
+  and track number
+- recent files support (?)
+- On nautilus, right click on a group of media files and "write to cd..."
+- Have a way to minimize to tray on progress dialog
+- Be able to close serpentine main window and run a progress dialog
+- The list of drives must be generated according to the ones not recording
+- Handle erros when we are recording
+- Lock the drive when converting audio
+- Before we start recording we check if the size of the media size fits in the
+medium and should show an appropriate dialog. We need to implement it as a
+plugin since it depends on D-Bus
+- plug mediasize blocks whith some drives, should be made async
+- Drives list and drive speed should be refreshed more often
+- Add a Copy Disc feature
