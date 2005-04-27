@@ -14,13 +14,13 @@ serpentine_PYTHON = \
 	serpentine/xspf.py         \
 	serpentine/services.py     \
 	serpentine/constants.py    \
-	serpentine/mediaprober.py  \
+#	serpentine/mediaprober.py  \
 	serpentine/release.py
 
 serpentine_pluginsdir = $(pythondir)/serpentine/plugins
 
 serpentine_plugins_PYTHON = \
-	serpentine/plugins/plugmediasize.py       \
+#	serpentine/plugins/plugmediasize.py       \
 	serpentine/plugins/plugfilter_plparser.py \
 	serpentine/plugins/plugfilter_xspf.py     \
 	serpentine/plugins/plugfilter_dir.py      \
