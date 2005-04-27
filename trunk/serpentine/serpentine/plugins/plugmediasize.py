@@ -4,8 +4,8 @@ widget accordingly.
 import nautilusburn, gobject
 
 # DBus breaks my app :(
-from serpentine import mediaprober
-#mediaprober = None
+#from serpentine import mediaprober
+mediaprober = None
 
 class SerpentineMediaLookup (object):
 	def __init__ (self, serpentine_object):
@@ -27,6 +27,7 @@ class SerpentineMediaLookup (object):
 	serpentine = property (lambda self: self.__serpentine)
 	
 	def __get_media_size (self, vol):
+
 		if self.drive is None:
 			return None
 			
