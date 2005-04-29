@@ -1,3 +1,9 @@
+2005-04-29 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* __init__.py: Made preferences window transient to the main window.
+
+=== 0.5 ===
+
 2005-02-12 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 	* scripts/serpentine: Serpentine can optionally throw an exception, catch it
