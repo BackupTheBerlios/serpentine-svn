@@ -59,7 +59,6 @@ class SerpentineApplication (operations.Operation):
 		self.__preferences = RecordingPreferences ()
 		self.__window = SerpentineWindow (self)
 		self.preferences.dialog.set_transient_for (self.window_widget)
-		self.preferences.dialog.set_parent (self.window_widget)
 		self.__window.listeners.append (self)
 		# Load Plugins
 		self.__plugins = []
