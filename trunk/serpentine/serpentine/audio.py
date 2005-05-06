@@ -134,7 +134,7 @@ class AudioMetadata (operations.Operation, operations.OperationListener):
 	"""
 	Returns the metadata associated with the source element.
 	
-	To retrieve the metadata associated with a certain media file on gst-launch:
+	To retrieve the metadata associated with a certain media file on gst-launch -t:
 	source ! decodebin ! fakesink
 	"""
 	
@@ -177,7 +177,10 @@ class AudioMetadata (operations.Operation, operations.OperationListener):
 		success = event.id == operations.ABORTED
 		if success:
 			# We've completed the operation successfully
-			self.__metadata["duration"] = self.__oper.element.query(gst.QUERY_TOTAL, gst.FORMAT_TIME) / gst.SECOND
+			if self.__metadata.has_key ("duration"):
+				self.__metadata["duration"] /= gst.SECOND
+			else:
+				self.__metadata["duration"] = self.__oper.element.query(gst.QUERY_TOTAL, gst.FORMAT_TIME) / gst.SECOND
 			evt = operations.Event (self)
 			
 			for l in self.listeners:
@@ -293,8 +296,8 @@ if __name__ == '__main__':
 			gst.main_quit()
 	
 	l = L()
-	f = file_to_wav (sys.argv[1], sys.argv[2])
-	#f = file_audio_metadata (sys.argv[1])
+	#f = file_to_wav (sys.argv[1], sys.argv[2])
+	f = file_audio_metadata (sys.argv[1])
 	f.listeners.append (l)
 	f.start()
 	l.finished = False

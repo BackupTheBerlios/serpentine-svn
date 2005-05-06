@@ -353,6 +353,8 @@ class HintsFilter (object):
 		assert isinstance (value, HintsFilter)
 		return self.priority - value.priority
 
+from gdkpiechart import SerpentineUsage
+
 class AudioMastering (gtk.VBox, operations.Listenable):
 	SIZE_74 = 0
 	SIZE_80 = 1
@@ -377,6 +379,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 		g = gtk.glade.XML (os.path.join (constants.data_dir, "serpentine.glade"),
 		                   "audio_container")
 		self.add (g.get_widget ("audio_container"))
+		
 		self.__setup_track_list (g)
 		self.__setup_container_misc (g)
 		# Filters
@@ -387,6 +390,11 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 		self.__disc_size = size
 		self.__size_list.set_active (AudioMastering.disc_sizes.index(size))
 		self.update_disc_usage()
+		e = operations.Event (self)
+		for l in self.listeners:
+			if hasattr (l, "on_disc_size_changed"):
+				l.on_disc_size_changed (e)
+		
 
 	music_list = property (lambda self: self.source)
 	disc_size = property (
@@ -398,7 +406,16 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 	
 	def __setup_container_misc (self, g):
 		self.__size_list = g.get_widget ("size_list")
-		self.__usage_bar = g.get_widget ("usage_bar")
+		self.__usage_label = g.get_widget ("usage_label")
+		
+		self.__usage_gauge = SerpentineUsage (self)
+		self.__usage_gauge.widget.show ()
+		self.__usage_gauge.widget.set_size_request (92, 92)
+		hbox = g.get_widget ("disc_details")
+		hbox.pack_start (self.__usage_gauge.widget, expand = False, fill = False)
+		
+		#self.__usage_bar = g.get_widget ("usage_bar")
+		#self.__usage_bar.hide ()
 		self.__capacity_exceeded = g.get_widget ("capacity_exceeded")
 		
 		self.__size_list.connect ("changed", self.__on_size_changed)
@@ -536,21 +553,29 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 		if not self.update:
 			return
 		if self.source.total_duration > self.disc_size:
-			self.__usage_bar.set_fraction (1)
+			#self.__usage_bar.set_fraction (1)
+			
+			#self.__new_usage.overflow = True
 			self.__capacity_exceeded.show ()
+			
 		else:
-			self.__usage_bar.set_fraction (self.source.total_duration / float (self.disc_size))
+			#self.__usage_bar.set_fraction (self.source.total_duration / float (self.disc_size))
+			#self.__new_usage.overflow = False
 			self.__capacity_exceeded.hide ()
 		# Flush events so progressbar redrawing gets done
 		while gtk.events_pending():
 			gtk.main_iteration(True)
 		
 		if self.source.total_duration > 0:
-			dur = "%s remaining"  % self.__hig_duration (self.__disc_size - self.source.total_duration)
+			duration = self.__disc_size - self.source.total_duration
+			if duration > 0:
+				dur = "%s remaining"  % self.__hig_duration (duration)
+			else:
+				dur = "%s overlaping" % self.__hig_duration (abs (duration))
 		else:
 			dur = "Empty"
 		
-		self.__usage_bar.set_text (dur)
+		self.__usage_label.set_text (dur)
 			
 		e = operations.Event(self)
 		for l in self.listeners:
@@ -614,17 +639,22 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 		queue.append (SetGraphicalUpdate (self, True))
 		queue.append (trapper)
 		queue.start()
-
-	def remove_selected (self):
+	
+	def get_selected (self):
+		"""Returns the selected indexes"""
 		store, path_list = self.__selection.get_selected_rows ()
-		if not path_list:
-			return
+		
+		if path_list is None:
+			return []
+			
 		indexes = []
 		for p in path_list:
 			assert len(p) == 1
 			indexes.append(*p)
-			
-		self.source.delete_many (indexes)
+		return indexes
+	
+	def remove_selected (self):
+		self.source.delete_many (self.get_selected ())
 			
 	def count_selected (self):
 		return self.__selection.count_selected_rows()

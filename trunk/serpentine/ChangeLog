@@ -1,3 +1,14 @@
+2005-05-06 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* mastering.py: Removed progress bar for displaying disc usage.
+	Now it uses a the new GdkPieChart and SerpentineUsage object.
+	Corrected the text to show a positive time and the corresponding
+	text when there are more minutes then the disc can hold.
+	Added a new method for retrieving the selected indexes.
+	
+	* audio.py: Corrected a bug about the media duration. Now it's correctly
+	handled.
+	
 2005-04-29 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 	* __init__.py: Made preferences window transient to the main window.
