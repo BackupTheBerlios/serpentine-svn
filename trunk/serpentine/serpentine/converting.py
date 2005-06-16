@@ -334,39 +334,41 @@ if __name__ == '__main__':
 		def before_music_fetched (self, evt, music):
 			print music
 			prog_txt = "Converting "
-			prog_txt += gnomevfs.URI (music['uri']).short_path_name
+			prog_txt += gnomevfs.URI (music['location']).short_path_name
 			
-			self.prog.set_sub_progress_text (prog_txt)
-			self.prog.set_progress_fraction (self.oper.progress)
+			self.prog.sub_progress_text = prog_txt
+			self.prog.progress_fraction = self.oper.progress
 			
 			if self.music:
-				print "Fetched", self.music['filename']
+				print "Fetched", self.music['cache_location']
 				
-			print "Fetching", music['uri']
+			print "Fetching", music['location']
 			self.music = music
 			
 		def on_finished (self, e):
 			if self.music:
-				print "Fetched", self.music['filename']
+				print "Fetched", self.music['cache_location']
 			print self.oper.progress
 			#self.prog.set_progress_fraction (self.oper.progress)
-			#gtk.main_quit()
+			gtk.main_quit()
 		
 		def tick (self):
-			self.prog.set_progress_fraction (self.oper.progress)
+			self.prog.progress_fraction = self.oper.progress
 			return True
 	
 #	win = gtk.Window (gtk.WINDOW_TOPLEVEL)
 	prog = gtkutil.HigProgress ()
-	prog.set_primary_text ("Recording Audio Disc")
-	prog.set_secondary_text ("Selected files are to be written to a CD or DVD disc. This operation may take a long time, depending on data size and write speed.")
+	prog.primary_text = "Recording Audio Disc"
+	prog.secondary_text = "Selected files are to be written to a CD or DVD "   \
+	                      "disc. This operation may take a long time, "        \
+	                      "depending on data size and write speed."
 	prog.show()
 #	win.add (prog)
 #	win.set_border_width (6)
 #	win.show()
 	pool = GvfsMusicPool ()
 	#f = os.path.abspath (sys.argv[1])
-	music_list = [{'uri': 'file://' + os.path.abspath (sys.argv[1])}]
+	music_list = [{'location': os.path.abspath (sys.argv[1])}]
 	fetcher = FetchMusicList (music_list, pool)
 	l = MyListener (prog, fetcher)
 	fetcher.listeners.append (l)

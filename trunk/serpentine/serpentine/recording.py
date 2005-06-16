@@ -85,7 +85,7 @@ class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 		self.__recording = oper
 
 		self.__queue.start ()
-		self.__source = gobject.timeout_add (200, self.__tick)
+		self.__source = gobject.timeout_add (300, self.__tick)
 	
 	def stop (self):
 		self.__on_cancel ()

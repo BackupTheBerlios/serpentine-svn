@@ -28,7 +28,7 @@ import operations
 ################################################################################
 
 class GstOperation (operations.MeasurableOperation):
-	def __init__ (self, query_element = None, pipeline = None):
+	def __init__ (self, query_element = None, pipeline = None, use_threads = False):
 		operations.MeasurableOperation.__init__ (self)
 		self.__element = query_element
 		self.__can_start = True
@@ -36,10 +36,10 @@ class GstOperation (operations.MeasurableOperation):
 		
 		# create a new bin to hold the elements
 		if pipeline is None:
-			self.__bin = gst.Pipeline ()
+			self.__bin = use_threads and gst.Thread () or gst.Pipeline ()
 		else:
 			self.__bin = pipeline 
-			
+		self.__use_threads = use_threads
 		self.__source = None
 		self.__bin.connect ('error', self.__on_error)
 		self.__bin.connect ('eos', self.__on_eos)
@@ -76,7 +76,8 @@ class GstOperation (operations.MeasurableOperation):
 		self.__bin.set_state (gst.STATE_PLAYING)
 		self.__can_start = False
 		self.__running = True
-		self.__source = gobject.idle_add (self.bin.iterate)
+		if not self.__use_threads:
+			self.__source = gobject.idle_add (self.bin.iterate)
 	
 	def __on_eos (self, element, user_data = None):
 		self.__finalize ()
@@ -296,8 +297,8 @@ if __name__ == '__main__':
 			gst.main_quit()
 	
 	l = L()
-	#f = file_to_wav (sys.argv[1], sys.argv[2])
-	f = file_audio_metadata (sys.argv[1])
+	f = file_to_wav (sys.argv[1], sys.argv[2])
+	#f = file_audio_metadata (sys.argv[1])
 	f.listeners.append (l)
 	f.start()
 	l.finished = False
