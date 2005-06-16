@@ -3,12 +3,15 @@ import gtk, sys, gobject, gnome, os
 from optparse import OptionParser
 # TODO: put the window operation here
 def parse_args (option, opt_str, value, parser):
-	value.write_files = list (parser.rargs)
+	setattr (parser.values, option.dest,  list (parser.rargs))
 
 parser = OptionParser()
 parser.add_option ("-s", "--simulate", action="store_true", dest="simulate",
                    help="Recording operations will be done in simulation mode.",
                    default=False)
+parser.add_option ("-p", "--preferences", action="store_true", dest="preferences",
+                   help="Show preferences dialog and exit.", default = False)
+                   
 parser.add_option ("-w", "--write", action="callback", callback=parse_args,
                    help="Writes the filenames after this option to a CD. This "\
                    "will show a dialog suitable for embedding in other "\
@@ -31,35 +34,45 @@ lib_dir = os.path.join (prefix_dir, 'lib',
 if os.path.isdir (lib_dir) and lib_dir not in sys.path:
 	sys.path.append (lib_dir)
 
-from serpentine import SerpentineApplication, SerpentineError, operations, gtkutil
+from serpentine import SerpentineApplication, SerpentineError, operations, gtkutil, validate_music_list
 
+class OurListener (operations.OperationListener):
+	def on_finished (self, event):
+		gtk.main_quit ()
+		sys.exit (0)
+		
+listener = OurListener ()
+app = SerpentineApplication ()
+app.listeners.append (listener)
+app.preferences.simulate = options.simulate
+gnome_app = gnome.init ('serpentine', app.preferences.version)
+
+if app.preferences.simulate:
+	gtkutil.dialog_warn ("Simulation mode", 
+	                     "Serpentine is on simulation mode, no "\
+	                     "actual writing will be done on inserted media.")
+
+# Check if we want to write files
 if options.write_files is not None:
-	prefs = serpentine.Preferences ()
-	# Create the music_list object
-	music_list = []
+	filenames = []
 	for filename in options.write_files:
-		music_list.append ({"location": filename})
-	# Now validate it
-	serpentine.validate_music_list (music_list, preferences)
-	
-try:
-	class OurListener (operations.OperationListener):
-		def on_finished (self, event):
-			gtk.main_quit ()
-			sys.exit (0)
-			
-	listener = OurListener ()
-	app = SerpentineApplication ()
-	gnome_app = gnome.init ('serpentine', app.preferences.version)
-	app.listeners.append (listener)
-	app.preferences.simulate = options.simulate
-	if app.preferences.simulate:
-		gtkutil.dialog_warn ("Simulation mode", 
-		                     "Serpentine is on simulation mode, no "\
-		                     "actual writing will be done on inserted media.")
-	app.show_window ()
-	app.start ()
+		filenames.append ({"location": os.path.abspath(filename)})
+	app.add_files (filenames)
+	app.write_files ()
 
+# Show main window
+else:
+	if options.preferences:
+		app.preferences.dialog.run ()
+		app.preferences.dialog.hide ()
+		sys.exit (0)
+		
+	else:
+		app.show_window ()
+
+
+try:
+	app.start ()
 except SerpentineError, e:
 	print >> sys.stderr, e
 	sys.exit (1)

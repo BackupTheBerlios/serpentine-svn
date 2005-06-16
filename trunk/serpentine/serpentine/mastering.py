@@ -198,9 +198,13 @@ class MusicList (operations.Listenable):
 			t.title = r['title']
 			t.creator = r['artist']
 			playlist.tracks.append (t)
-			
+
 class GtkMusicList (MusicList):
-	"Takes care of the data source. Supports events and listeners."
+	"""The GtkMusicList uses a ListStore as a backend, it is not visual and
+	depends only on glib.
+	
+	Takes care of the data source. Supports events and listeners.
+	"""
 	SPEC = (
 			# URI is used in converter
 			{"name": "location", "type": gobject.TYPE_STRING},
@@ -586,22 +590,6 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 		for l in self.listeners:
 			l.on_selection_changed (e)
 
-	def add_file (self, hints):
-		w = gtkutil.get_root_parent (self)
-		assert isinstance(w, gtk.Window)
-		pls = self.__add_playlist (hints['location'])
-		if pls is not None:
-			self.add_files (pls)
-			return
-			
-		trapper = ErrorTrapper (w)
-		a = AddFile (self.source, hints)
-		queue = OperationsQueue()
-		queue.abort_on_failure = False
-		queue.append (a)
-		queue.append (trapper)
-		queue.start()
-	
 	def __filter_location (self, location):
 		for loc_filter in self.__filters:
 			hints = loc_filter.filter_location (location)

@@ -19,3 +19,8 @@ plugin since it depends on D-Bus
 - plug mediasize blocks whith some drives, should be made async
 - Drives list and drive speed should be refreshed more often
 - Add a Copy Disc feature
+- double clicking a music should 'gnome-open' it so that the user can have a playback (or start one on hover? a toggle button Preview below the disc capacity?)
+- mc solaar oggs have the GST_ERROR? Progress > 1: 6651448.0 problem, thus affecting the progress bar (it gets back to zero).
+- distutils serpentine?
+- gettext it
+- when it finishes the progressbar should stop and a text should appear advising the user it finished.

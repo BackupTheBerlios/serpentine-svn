@@ -137,7 +137,6 @@ class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 			l.on_finished (e)
 
 ################################################################################
-
 class RecordMusicList (MeasurableOperation):
 	def __init__ (self, music_list, preferences, parent = None):
 		MeasurableOperation.__init__(self)

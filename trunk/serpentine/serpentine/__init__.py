@@ -26,7 +26,7 @@ from xml.parsers.expat import ExpatError
 
 # Private modules
 import operations, nautilusburn, gtkutil
-from mastering import AudioMastering
+from mastering import AudioMastering, GtkMusicList
 from recording import RecordMusicList, RecordingMedia
 from preferences import RecordingPreferences
 from operations import MapProxy, OperationListener
@@ -129,6 +129,9 @@ class SerpentineApplication (operations.Operation):
 		
 	def remove_hints_filter (self, location_filter):
 		self.__window.music_list_widget.remove_hints_filter (location_filter)
+	
+	# each file is a {'location':filename}
+	add_files = lambda self, files: self.__window.masterer.add_files (files)
 		
 class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 	# TODO: finish up implementing an Operation
@@ -213,6 +216,8 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 	can_start = property (lambda self: True)
 	# TODO: handle the can_stop property better
 	can_stop = property (lambda self: True)
+	
+	masterer = property (lambda self: self.__masterer)
 	
 	def __on_show (self, *args):
 		self.__running = True

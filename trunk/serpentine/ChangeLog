@@ -1,3 +1,12 @@
+2005-06-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* __init__.py:
+	* serpentine:
+	Now we have two more command line options:
+	  -p : Shows preferences dialog and exists
+	  -w <file1> <file2> ... : writes the given files
+	  
+
 2005-05-06 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 	* mastering.py: Removed progress bar for displaying disc usage.
