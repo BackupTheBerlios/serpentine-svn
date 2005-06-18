@@ -110,7 +110,7 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
 			row['title'] = self.hints['title']
 		if self.hints.has_key ('artist'):
 			row['artist'] = self.hints['artist']
-		print "Adding", row
+
 		if self.insert is not None:
 			self.music_list.insert (self.insert, row)
 		else:

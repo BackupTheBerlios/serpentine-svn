@@ -55,6 +55,14 @@ class Application (operations.Operation):
 		operations.Operation.__init__ (self)
 		self.__preferences = RecordingPreferences ()
 		self.__operations = []
+		
+		self._music_file_patterns = {}
+		self._playlist_file_patterns = {}
+		self._music_file_filters = None
+		self._playlist_file_filters = None
+		self.register_music_file_pattern ("MPEG Audio Stream, Layer III", "*.mp3")
+		self.register_music_file_pattern ("Ogg Vorbis Codec Compressed WAV File", "*.ogg")
+		self.register_music_file_pattern ("Free Lossless Audio Codec", "*.flac")
 	
 	def _load_plugins (self):
 		# Load Plugins
@@ -109,7 +117,69 @@ class Application (operations.Operation):
 	def remove_hints_filter (self, location_filter):
 		self.music_list_gw.remove_hints_filter (location_filter)
 	
-	# each file is a {'location':filename}
+	def register_music_file_pattern (self, name, pattern):
+		"""Music patterns are meant to be used in the file dialog for adding
+		musics to the playlist."""
+		self._music_file_patterns[pattern] = name
+		self._music_file_filters = None
+
+	def register_playlist_file_pattern (self, name, pattern):
+		"""Playlist patterns are meant to be used in the file dialog for adding
+		playlist contents to the current playlist."""
+		self._playlist_file_patterns[pattern] = name
+		self._playlist_file_filters = None
+	
+	def __gen_file_filters (self, patterns, all_filters_name):
+		all_musics = gtk.FileFilter ()
+		all_musics.set_name (all_filters_name)
+		
+		filters = [all_musics]
+		
+		for pattern, name in patterns.iteritems ():
+			all_musics.add_pattern (pattern)
+			
+			filter = gtk.FileFilter ()
+			filter.set_name (name)
+			filter.add_pattern (pattern)
+			
+			filters.append (filter)
+		
+		return filters
+	
+	def __get_file_filter (self, filter_attr, pattern_attr, name):
+		file_filter = getattr (self, filter_attr)
+		if file_filter is not None:
+			return file_filter
+		
+		setattr (
+			self,
+			filter_attr,
+			self.__gen_file_filters (
+				getattr (self, pattern_attr),
+				name
+			)
+		)
+		
+		return getattr (self, filter_attr)
+		
+	music_file_filters = property (
+		lambda self: self.__get_file_filter (
+			"_music_file_filters",
+			"_music_file_patterns",
+			"Supported files"
+		)
+	)
+
+	playlist_file_filters = property (
+		lambda self: self.__get_file_filter (
+			"_playlist_file_filters",
+			"_playlist_file_patterns",
+			"Playlists"
+		)
+	)
+
+	
+	# a list of filenames, can be URI's
 	add_files = lambda self, files: self.music_list_gw.add_files (files)
 
 class HeadlessApplication (Application):
@@ -170,7 +240,7 @@ class SerpentineApplication (Application):
 	music_list_gw = property (lambda self: self.window_widget.masterer.music_list_gateway)
 	
 	def write_files (self):
-		Application.write_files (self, self.window_widget)
+		return Application.write_files (self, self.window_widget)
 	
 	# TODO: decouple the window from SerpentineApplication ?
 	def show_window (self):
@@ -189,12 +259,106 @@ class SerpentineApplication (Application):
 		self.__window.destroy ()
 		del self.__window
 		
+
+class PlaylistWidgets:
+	pass
+
+import weakref
+
+class GladeComponent (object):
+	def __init__ (self, parent, glade_file):
+		self.__parent = weakref.ref (parent)
+	
+	parent = property (lambda self: self.__parent())
+
+class FileDialogComponent (GladeComponent):
+	def __init__ (self, parent, g):
+		super (FileDialogComponent, self).__init__ (parent, g)
 		
+		# Open playlist file dialog
+		self.file_dlg = gtk.FileChooserDialog (buttons = (gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+		self.file_dlg.set_title ("")
+		self.file_dlg.set_transient_for (self.parent)
+		self.__file_filters = None
+		self._setup (g)
+		
+	
+	def _setup (self, g):
+		pass
+	
+	def run_dialog (self, *args):
+		# Triggered by add button
+		# update file filters
+		self.__sync_file_filters ()
+		
+		if self.file_dlg.run () == gtk.RESPONSE_OK:
+			self._on_response_ok ()
+		
+		self._on_response_fail ()
+		
+		self.file_dlg.unselect_all()
+		self.file_dlg.hide()
+	
+	def _on_response_ok (self):
+		pass
+	
+	def _on_response_fail (self):
+		pass
+	
+	def _get_file_filter (self):
+		raise NotImplementedError
+	
+	def __sync_file_filters (self):
+		file_filters = self._get_file_filters ()
+				
+		if file_filters == self.__file_filters:
+			return
+		
+		# Remove old filters
+		for filter in self.file_dlg.list_filters ():
+			self.file_dlg.remove_filter (filter)
+			
+		self.__file_filters = file_filters
+
+		# Add new filters
+		for filter in file_filters:
+			self.file_dlg.add_filter (filter)
+
+class AddFileComponent (FileDialogComponent):
+	def _setup (self, g):
+		g.get_widget ("add").connect ("clicked", self.run_dialog)
+		g.get_widget ("add_mni").connect ("activate", self.run_dialog)
+		
+		self.file_dlg.set_select_multiple (True)
+		
+	def _on_response_ok (self):
+		files = self.file_dlg.get_uris()
+		self.parent.music_list_widget.music_list_gateway.add_files (files).start ()
+
+	_get_file_filters = lambda self: self.parent.application.music_file_filters
+
+	
+class PlaylistComponent (FileDialogComponent):
+	def _setup (self, g):
+		g.get_widget ("open_playlist_mni").connect ("activate", self.run_dialog)
+	
+	
+	_get_file_filters = lambda self: self.parent.application.playlist_file_filters
+
+	def _on_response_ok (self):
+		playlist = self.file_dlg.get_uri()
+		self.parent.music_list_widget.music_list_gateway.add_files ([playlist]).start ()
+		self.parent.clear_files ()
+
 class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 	# TODO: finish up implementing an Operation
+	components = (AddFileComponent, PlaylistComponent)
+	
 	def __init__ (self, application):
 		gtk.Window.__init__ (self, gtk.WINDOW_TOPLEVEL)
 		operations.Operation.__init__ (self)
+		components = []
+			
 		self.__application = application
 		self.__masterer = AudioMastering ()
 		# Variable related to this being an Operation
@@ -205,16 +369,19 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 
 		glade_file = os.path.join (constants.data_dir, "serpentine.glade")
 		g = gtk.glade.XML (glade_file, "main_window_container")
+
+		for c in SerpentineWindow.components:
+			components.append (c(self, g))
+		self.__components = components
+
 		self.add (g.get_widget ("main_window_container"))
 		self.set_title ("Serpentine")
 		self.set_default_size (450, 350)
 		
-		# Add a file button
-		g.get_widget ("add").connect ("clicked", self.__on_add_file)
-		g.get_widget ("add_mni").connect ("activate", self.__on_add_file)
 		
 		# record button
 		g.get_widget("burn").connect ("clicked", self.__on_write_files)
+		g.get_widget ("write_to_disc_mni").connect ("activate", self.__on_write_files)
 		
 		# masterer widget
 		box = self.get_child()
@@ -222,7 +389,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 		box.add (self.music_list_widget)
 		
 		# preferences
-		g.get_widget ("preferences_mni").connect ('activate', self.__on_preferences)
+		g.get_widget ("preferences_mni").connect ("activate", self.__on_preferences)
 		
 		# setup remove buttons
 		self.remove = MapProxy ({'menu': g.get_widget ("remove_mni"),
@@ -244,16 +411,11 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 		self.clear.set_sensitive (False)
 		
 		# setup quit menu item
-		g.get_widget ("quit_mni").connect ('activate', self.stop)
+		g.get_widget ("quit_mni").connect ("activate", self.stop)
 		self.connect("delete-event", self.stop)
 		
 		# About dialog
-		g.get_widget ("about_mni").connect ('activate', self.__on_about)
-		
-		self.__last_path = None
-		self.__add_file = gtk.FileChooserDialog (buttons = (gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
-		self.__add_file.set_title ('')
-		self.__add_file.set_select_multiple (True)
+		g.get_widget ("about_mni").connect ("activate", self.__on_about)
 		
 		# update buttons
 		self.on_contents_changed()
@@ -275,6 +437,8 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 	can_stop = property (lambda self: True)
 	
 	masterer = property (lambda self: self.__masterer)
+	
+	application = property (lambda self: self.__application)
 	
 	def __on_show (self, *args):
 		self.__running = True
@@ -304,15 +468,6 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 		
 	def clear_files (self, *args):
 		self.music_list_widget.source.clear()
-		
-	def __on_add_file (self, *args):
-		# Triggered by add button
-		if self.__add_file.run () == gtk.RESPONSE_OK:
-			files = self.__add_file.get_uris()
-			self.music_list_widget.music_list_gateway.add_files (files).start ()
-			
-		self.__add_file.unselect_all()
-		self.__add_file.hide()
 	
 	def __on_preferences (self, *args):
 		# Triggered by preferences menu item

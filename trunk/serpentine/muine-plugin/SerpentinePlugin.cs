@@ -52,7 +52,7 @@ namespace Muine.Serpentine
         {
         	//Console.WriteLine ("Running serpentine");
         	
-        	ProcessStartInfo ps = new ProcessStartInfo ("serpentine", "-s -w ~/.gnome2/muine/playlist.m3u");
+        	ProcessStartInfo ps = new ProcessStartInfo ("serpentine", "-w ~/.gnome2/muine/playlist.m3u");
         	ps.UseShellExecute = true;
         	
         	Process p = new Process ();

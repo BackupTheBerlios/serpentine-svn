@@ -39,4 +39,6 @@ class XspfFilter (HintsFilter):
 		return None
 
 def create_plugin (serpentine_object):
+	serpentine_object.register_playlist_file_pattern ("XML Shareable Playlist Format", "*.xspf")
+	serpentine_object.register_music_file_pattern ("XML Shareable Playlist Format", "*.xspf")
 	serpentine_object.add_hints_filter (XspfFilter ())

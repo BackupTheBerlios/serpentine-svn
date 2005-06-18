@@ -165,9 +165,11 @@ class RecordMusicList (MeasurableOperation):
 		self.recorder.connect ('warn-data-loss', self.__on_data_loss)
 		gobject.idle_add (self.__thread, tracks)
 	
-	def __on_data_loss (self, *args):
-		print "data loss", args
-		return True
+	def __on_data_loss (self, recorder):
+		# the return value of this signal is if we want to stop recording
+		# in this case we don't because we've already warned the user
+		# if there is going to be a data loss but it could be moved here
+		return False
 	
 	def stop (self):
 		# To cancel you have to send False, sending True just checks

@@ -246,7 +246,7 @@ class GvfsMusicPool (GstMusicPool):
 			if scheme != '':
 				# Remove %20
 				path = urllib.unquote(path)
-			print path
+
 			src.set_property ("location", path)
 			
 		return src
@@ -280,7 +280,6 @@ class FetchMusicListPriv (operations.OperationListener):
 			m["cache_location"] = filename
 		else:
 			assert False, "uri '%s' was not found in music list." % (uri)
-		print "Converting done:", m["location"]
 		
 	def before_operation_starts (self, event, operation):
 		e = operations.Event (self.parent)
@@ -291,8 +290,6 @@ class FetchMusicListPriv (operations.OperationListener):
 			if isinstance (l, FetchMusicListListener):
 				l.before_music_fetched (e, m)
 		
-		print "Converting:", m["location"]
-
 class FetchMusicListListener (operations.OperationListener):
 	def before_music_fetched (self, event, music):
 		pass

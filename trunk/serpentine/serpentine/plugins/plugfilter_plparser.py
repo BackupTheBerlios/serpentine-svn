@@ -32,5 +32,11 @@ class PlparserFilter (HintsFilter):
 		return None
 	
 def create_plugin (serpentine_object):
+	serpentine_object.register_playlist_file_pattern ("PLS Audio Playlist", "*.pls")
+	serpentine_object.register_music_file_pattern ("PLS Audio Playlist", "*.pls")
+	
+	serpentine_object.register_playlist_file_pattern ("MP3 Playlist File", "*.m3u")
+	serpentine_object.register_music_file_pattern ("MP3 Playlist File", "*.m3u")
+	
 	serpentine_object.add_hints_filter (PlparserFilter ())
 	

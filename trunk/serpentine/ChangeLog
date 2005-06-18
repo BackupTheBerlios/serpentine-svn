@@ -1,5 +1,17 @@
 2005-06-18 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+	* plugfilter_xspf.py:
+	* __init__.py:
+	* plugfilter_plparser.py:
+	Added support for file dialog filters.
+	
+	* __init__.py:
+	Refactored SerpentineWindow to decouple parts that are tightly dependend, like
+	all code related to adding a file through a file dialog.
+	
+	* recording.py:
+	Corrected a bug where with data-loss signal was returning the wrong value.
+	
 	* mastering.py:
 	Corrected filters.
 	
