@@ -119,15 +119,16 @@ class HeadlessApplication (Application):
 			MusicListGateway.__init__ (self)
 			self.music_list = GtkMusicList ()
 		
-		def _prepare_queue (self, queue):
-			self.trapper = ErrorTrapper (None)
-		
-		def _prepare_add_file (self, add_file):
-			add_file.listeners.append (self.trapper)
+		class Handler:
+			def prepare_queue (self, gateway, queue):
+				self.trapper = ErrorTrapper (None)
 			
-		def _finish_queue (self, queue):
-			queue.append (self.trapper)
-			del self.trapper
+			def prepare_add_file (self, gateway, add_file):
+				add_file.listeners.append (self.trapper)
+				
+			def finish_queue (self, gateway, queue):
+				queue.append (self.trapper)
+				del self.trapper
 		
 
 	def __init__ (self):
@@ -142,7 +143,6 @@ def write_files (app, files):
 	"""Helper function that takes a Serpentine application adds the files
 	to the music list and writes them. When no `app` is provided a
 	HeadlessApplication is created."""
-	
 	files = map (os.path.abspath, files)
 	queue = OperationsQueue ()
 	queue.append (app.add_files (files))

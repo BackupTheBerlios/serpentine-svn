@@ -110,7 +110,7 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
 			row['title'] = self.hints['title']
 		if self.hints.has_key ('artist'):
 			row['artist'] = self.hints['artist']
-				
+		print "Adding", row
 		if self.insert is not None:
 			self.music_list.insert (self.insert, row)
 		else:
@@ -365,6 +365,19 @@ class MusicListGateway:
 	a hints `dict`. It also serves as a hints filter which is a list of client
 	objects which must provide the `filter_location` method.
 	"""
+
+	class Handler:
+		"""A handler is created each time a method is created, it must
+		return objects with this class signature."""
+		
+		def prepare_queue (self, gateway, queue):
+			"""Method called before the AddFile operations are added to the queue"""
+		
+		def finish_queue (self, gateway, queue):
+			"""Method called after the AddFile operations are added to the queue"""
+		
+		def prepare_add_file (self, gateway, add_file):
+			"""Method called before add_file object is added to queue"""
 	
 	def __init__ (self):
 		# Filters
@@ -383,28 +396,23 @@ class MusicListGateway:
 		hints = [{'location':file} for file in filenames]
 		return self.add_hints (hints)
 
-	def _prepare_queue (self, queue):
-		"""Method called before the AddFile operations are added to the queue"""
-	
-	def _finish_queue (self, queue):
-		"""Method called after the AddFile operations are added to the queue"""
-	
-	def _prepare_add_file (self, add_file):
-		"""Method called before add_file object is added to queue"""
-	
 	def add_hints (self, hints_list, insert = None):
 		assert insert is None or isinstance (insert, IntType)
 
 		queue = OperationsQueue()
 		queue.abort_on_failure = False
 		
-		self._prepare_queue (queue)
+		handler = self.Handler ()
+		
+		handler.prepare_queue (self, queue)
 		
 		i = 0
 		for h in hints_list:
 			pls = self.__filter_location (h['location'])
 			if pls is not None:
-				self.add_hints(pls, insert)
+				# We add this to the queue so it is
+				# processed before the next file on the list
+				queue.append (self.add_hints(pls, insert))
 				continue
 				
 			ins = insert
@@ -412,13 +420,13 @@ class MusicListGateway:
 				ins += i
 			
 			a = AddFile (self.music_list, h, ins)
-			self._prepare_add_file (a)
+			handler.prepare_add_file (self, a)
 			
 			queue.append (a)
 			
 			i += 1
 		
-		self._finish_queue (queue)
+		handler.finish_queue (self, queue)
 		return queue
 
 	def add_hints_filter (self, location_filter):
@@ -448,18 +456,19 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 			return gtkutil.get_root_parent (self.parent)
 		
 		window = property (window)
-
-		def _prepare_queue (self, queue):
-			queue.append (UpdateDiscUsage (self.parent, False))
-			self.trapper = ErrorTrapper (self.window)
 		
-		def _finish_queue (self, queue):
-			queue.append (UpdateDiscUsage (self.parent, True))
-			queue.append (self.trapper)
-			del self.trapper
-		
-		def _prepare_add_file (self, add_file):
-			add_file.listeners.append (self.trapper)
+		class Handler:
+			def prepare_queue (self, gateway, queue):
+				queue.append (UpdateDiscUsage (gateway.parent, False))
+				self.trapper = ErrorTrapper (gateway.window)
+			
+			def finish_queue (self, gateway, queue):
+				queue.append (UpdateDiscUsage (gateway.parent, True))
+				queue.append (self.trapper)
+				del self.trapper
+			
+			def prepare_add_file (self, gateway, add_file):
+				add_file.listeners.append (self.trapper)
 		
 	
 	disc_sizes = [74 * 60, 80 * 60, 90 * 60]
