@@ -123,7 +123,7 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
 			l.on_finished (e)
 			
  
-class SetGraphicalUpdate (operations.Operation):
+class UpdateDiscUsage (operations.Operation):
 	def __init__ (self, masterer, update):
 		operations.Operation.__init__ (self)
 		self.__update = update
@@ -359,11 +359,109 @@ class HintsFilter (object):
 
 from gdkpiechart import SerpentineUsage
 
+class MusicListGateway:
+	"""This class wraps the MusicList interface in a friendlier one with a
+	method `add_files` easier to use then the `insert` method which expects
+	a hints `dict`. It also serves as a hints filter which is a list of client
+	objects which must provide the `filter_location` method.
+	"""
+	
+	def __init__ (self):
+		# Filters
+		self.__filters = []
+	
+	music_list = None
+	
+	def __filter_location (self, location):
+		for loc_filter in self.__filters:
+			hints = loc_filter.filter_location (location)
+			if hints is not None:
+				return hints
+		return None
+	
+	def add_files (self, filenames):
+		hints = [{'location':file} for file in filenames]
+		return self.add_hints (hints)
+
+	def _prepare_queue (self, queue):
+		"""Method called before the AddFile operations are added to the queue"""
+	
+	def _finish_queue (self, queue):
+		"""Method called after the AddFile operations are added to the queue"""
+	
+	def _prepare_add_file (self, add_file):
+		"""Method called before add_file object is added to queue"""
+	
+	def add_hints (self, hints_list, insert = None):
+		assert insert is None or isinstance (insert, IntType)
+
+		queue = OperationsQueue()
+		queue.abort_on_failure = False
+		
+		self._prepare_queue (queue)
+		
+		i = 0
+		for h in hints_list:
+			pls = self.__filter_location (h['location'])
+			if pls is not None:
+				self.add_hints(pls, insert)
+				continue
+				
+			ins = insert
+			if insert != None:
+				ins += i
+			
+			a = AddFile (self.music_list, h, ins)
+			self._prepare_add_file (a)
+			
+			queue.append (a)
+			
+			i += 1
+		
+		self._finish_queue (queue)
+		return queue
+
+	def add_hints_filter (self, location_filter):
+		self.__filters.append (location_filter)
+		# Sort filters priority
+		self.__filters.sort ()
+	
+	def remove_hints_filter (self, location_filter):
+		self.__filters.remove (location_filter)
+
 class AudioMastering (gtk.VBox, operations.Listenable):
 	SIZE_74 = 0
 	SIZE_80 = 1
 	SIZE_90 = 2
+	
+	class MusicListGateway (MusicListGateway):
+		def __init__ (self, parent):
+			MusicListGateway.__init__ (self)
+			self.parent = parent
+		
+		def music_list (self):
+			return self.parent.music_list
+			
+		music_list = property (music_list)
+		
+		def window (self):
+			return gtkutil.get_root_parent (self.parent)
+		
+		window = property (window)
 
+		def _prepare_queue (self, queue):
+			queue.append (UpdateDiscUsage (self.parent, False))
+			self.trapper = ErrorTrapper (self.window)
+		
+		def _finish_queue (self, queue):
+			queue.append (UpdateDiscUsage (self.parent, True))
+			queue.append (self.trapper)
+			del self.trapper
+		
+		def _prepare_add_file (self, add_file):
+			add_file.listeners.append (self.trapper)
+		
+	
 	disc_sizes = [74 * 60, 80 * 60, 90 * 60]
 	
 	DND_TARGETS = [
@@ -374,11 +472,15 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 	]
 	def __init__ (self):
 		gtk.VBox.__init__ (self)
+		
 		operations.Listenable.__init__ (self)
 		self.__disc_size = 74 * 60
 		self.update = True
 		self.source = GtkMusicList ()
 		self.source.listeners.append (AudioMasteringMusicListener(self))
+		
+		self.__gateway = AudioMastering.MusicListGateway (self)
+		
 		gtk.VBox.__init__ (self)
 		g = gtk.glade.XML (os.path.join (constants.data_dir, "serpentine.glade"),
 		                   "audio_container")
@@ -386,8 +488,6 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 		
 		self.__setup_track_list (g)
 		self.__setup_container_misc (g)
-		# Filters
-		self.__filters = []
 	
 	def __set_disc_size (self, size):
 		assert size in AudioMastering.disc_sizes
@@ -399,7 +499,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 			if hasattr (l, "on_disc_size_changed"):
 				l.on_disc_size_changed (e)
 		
-
+	music_list_gateway = property (lambda self: self.__gateway)
 	music_list = property (lambda self: self.source)
 	disc_size = property (
 			lambda self: self.__disc_size,
@@ -481,12 +581,6 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 	def __on_artist_edited (self, cell, path, new_text, user_data = None):
 		self.source[path]["artist"] = new_text
 	
-	def __on_pl_entry (self, parser, uri, title, genre, hints_list):
-		hints = {'location': uri}
-		if title is not None:
-			hints['title'] = title
-		hints_list.append(hints)
-	
 	def __on_dnd_drop (self, treeview, context, x, y, selection, info, timestamp, user_data = None):
 		data = selection.data
 		hints_list = []
@@ -534,7 +628,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 				
 			hint = {'location': line}
 			hints_list.append (hint)
-		self.add_files (hints_list, insert)
+		self.music_list_gateway.add_hints (hints_list, insert).start ()
 	
 	def __on_dnd_send (self, widget, context, selection, target_type, timestamp):
 		store, path_list = self.__selection.get_selected_rows ()
@@ -590,43 +684,6 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 		for l in self.listeners:
 			l.on_selection_changed (e)
 
-	def __filter_location (self, location):
-		for loc_filter in self.__filters:
-			hints = loc_filter.filter_location (location)
-			if hints is not None:
-				return hints
-		return None
-		
-	def add_files (self, hints_list, insert = None):
-		assert insert is None or isinstance (insert, IntType)
-		# Lock graphical updating on each request and
-		# only refresh the UI later
-		w = gtkutil.get_root_parent (self)
-		assert isinstance(w, gtk.Window), type(w)
-		
-		trapper = ErrorTrapper (w)
-		queue = OperationsQueue()
-		queue.abort_on_failure = False
-		queue.append (SetGraphicalUpdate (self, False))
-		i = 0
-
-		for h in hints_list:
-			pls = self.__filter_location (h['location'])
-			if pls is not None:
-				self.add_files(pls, insert)
-				continue
-				
-			ins = insert
-			if insert != None:
-				ins += i
-			a = AddFile (self.source, h, ins)
-			a.listeners.append (trapper)
-			queue.append (a)
-			i += 1
-			
-		queue.append (SetGraphicalUpdate (self, True))
-		queue.append (trapper)
-		queue.start()
 	
 	def get_selected (self):
 		"""Returns the selected indexes"""
@@ -646,14 +703,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 			
 	def count_selected (self):
 		return self.__selection.count_selected_rows()
-	
-	def add_hints_filter (self, location_filter):
-		self.__filters.append (location_filter)
-		# Sort filters priority
-		self.__filters.sort ()
-	
-	def remove_hints_filter (self, location_filter):
-		self.__filters.remove (location_filter)
+
 	
 if __name__ == '__main__':
 	import sys, os

@@ -34,7 +34,8 @@ lib_dir = os.path.join (prefix_dir, 'lib',
 if os.path.isdir (lib_dir) and lib_dir not in sys.path:
 	sys.path.append (lib_dir)
 
-from serpentine import SerpentineApplication, SerpentineError, operations, gtkutil, validate_music_list
+from serpentine import SerpentineApplication, SerpentineError, operations, gtkutil, validate_music_list, HeadlessApplication
+import serpentine
 
 class OurListener (operations.OperationListener):
 	def on_finished (self, event):
@@ -42,7 +43,11 @@ class OurListener (operations.OperationListener):
 		sys.exit (0)
 		
 listener = OurListener ()
-app = SerpentineApplication ()
+if options.write_files:
+	app = HeadlessApplication ()
+else:
+	app = SerpentineApplication ()
+
 app.listeners.append (listener)
 app.preferences.simulate = options.simulate
 gnome_app = gnome.init ('serpentine', app.preferences.version)
@@ -54,11 +59,7 @@ if app.preferences.simulate:
 
 # Check if we want to write files
 if options.write_files is not None:
-	filenames = []
-	for filename in options.write_files:
-		filenames.append ({"location": os.path.abspath(filename)})
-	app.add_files (filenames)
-	app.write_files ()
+	serpentine.write_files (app, options.write_files)
 
 # Show main window
 else:

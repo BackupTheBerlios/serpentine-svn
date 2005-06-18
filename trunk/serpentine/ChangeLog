@@ -1,3 +1,34 @@
+2005-06-17 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* mastering.py:
+	Started refactoring work. Extracted MusicListGateway class, a class
+	that manages and simplifies a MusicList. It also holds the music
+	filters.
+	
+	Removed some useless method '__on_pl_entry'
+	
+	* __init__.py:
+	A bit of refactoring in removing graphical dependencies from Application. Created
+	HeadlessApplication. RecordedPreferences still need that same work.
+	
+	* operations.py:
+	Added the method Operation._send_finish_event to simplify this common procedure.
+	
+	Added CallableOperation, usefull operation for calling a function after an operation.
+	
+	Added SubprocessOperation, depends on subprocess from python 2.4 (compatible with 2.3),
+	which converts the subprocess call to an operation.
+	
+	Added OperationsQueue.insert method for inserting operations in the queue.
+	
+	Changed OperationsQueue.__start_next to use hasattr to check if a listener contains the needed
+	method. This should be used in all listeners.
+	
+	Added OperationsQueue.__repr__
+	
+	
+	
+	
 2005-06-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 	* __init__.py:

@@ -206,6 +206,7 @@ class HigProgress (gtk.Window):
 		gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
 		self.set_border_width (6)
 		self.set_resizable (False)
+		self.set_title ('')
 		# defaults to center location
 		self.set_position (gtk.WIN_POS_CENTER)
 		self.connect ("delete-event", self.__on_close)
@@ -318,3 +319,39 @@ def get_root_parent (widget):
 	if not p:
 		return widget
 	return get_root_parent (p)
+
+import traceback
+def traceback_main_loop ():
+	idle_add = gobject.idle_add
+	
+	def tb_idle_add (callback, *args, **kwargs):
+		def wrapper (*args, **kwargs):
+			try:
+				return callback (*args, **kwargs)
+			except:
+				traceback.print_exc ()
+		
+		return idle_add (wrapper, *args, **kwargs)
+	gobject.idle_add = tb_idle_add
+	gobject.idle_add.idle_add = idle_add
+	
+	timeout_add = gobject.timeout_add
+	
+	def tb_timeout_add (interval, callback, *args, **kwargs):
+		def wrapper (*args, **kwargs):
+			try:
+				return callback (*args, **kwargs)
+			except:
+				traceback.print_exc ()
+		
+		return timeout_add (interval, wrapper, *args, **kwargs)
+		
+	gobject.timeout_add = tb_timeout_add
+	gobject.timeout_add.timeout_add = timeout_add
+
+def untraceback_main_loop ():
+	if hasattr (gobject.idle_add, "idle_add"):
+		gobject.idle_add = gobject.idle_add.idle_add
+		
+	if hasattr (gobject.timeout_add, "timeout_add"):
+		gobject.timeout_add = gobject.timeout_add.timeout_add

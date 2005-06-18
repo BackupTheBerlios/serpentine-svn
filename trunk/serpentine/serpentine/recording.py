@@ -157,6 +157,7 @@ class RecordMusicList (MeasurableOperation):
 		# If it's bigger then current eject media and ask for another one
 		self.__running = True
 		tracks = []
+
 		for m in self.music_list:
 			tracks.append (AudioTrack (filename = m["cache_location"]))
 		self.recorder.connect ('progress-changed', self.__on_progress)

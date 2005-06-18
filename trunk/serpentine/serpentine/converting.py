@@ -112,7 +112,7 @@ class MusicPool:
 # GStreamer implementation
 #
 
-import tempfile, os
+import tempfile, os, os.path
 import gst
 import audio
 
@@ -194,6 +194,8 @@ from urlparse import urlparse, urlunparse
 import gnomevfs
 
 class GvfsMusicPool (GstMusicPool):
+	use_gnomevfssrc = True
+		
 	def unique_music_id (self, uri):
 		"""
 		Provides a way of uniquely identifying URI's, in case of user sends:
@@ -232,8 +234,21 @@ class GvfsMusicPool (GstMusicPool):
 		return on_cache
 	
 	def get_source (self, music):
-		src = gst.element_factory_make ("gnomevfssrc", "source")
-		src.set_property ("location", music)
+		if self.use_gnomevfssrc:
+			src = gst.element_factory_make ("gnomevfssrc")
+			src.set_property ("location", music)
+		
+		else:
+			src = gst.element_factory_make ("filesrc", "source")
+			s = urlparse (music)
+			path = s[2]
+			scheme = s[1]
+			if scheme != '':
+				# Remove %20
+				path = urllib.unquote(path)
+			print path
+			src.set_property ("location", path)
+			
 		return src
 
 class FetchMusicListPriv (operations.OperationListener):
@@ -265,7 +280,8 @@ class FetchMusicListPriv (operations.OperationListener):
 			m["cache_location"] = filename
 		else:
 			assert False, "uri '%s' was not found in music list." % (uri)
-	
+		print "Converting done:", m["location"]
+		
 	def before_operation_starts (self, event, operation):
 		e = operations.Event (self.parent)
 		m = self.get_music_from_uri (operation.music)
@@ -274,7 +290,8 @@ class FetchMusicListPriv (operations.OperationListener):
 		for l in self.parent.listeners:
 			if isinstance (l, FetchMusicListListener):
 				l.before_music_fetched (e, m)
-
+		
+		print "Converting:", m["location"]
 
 class FetchMusicListListener (operations.OperationListener):
 	def before_music_fetched (self, event, music):
@@ -313,6 +330,8 @@ class FetchMusicList (operations.MeasurableOperation):
 
 if __name__ == '__main__':
 	import os.path, sys, gtk, gobject, gtkutil
+	gtkutil.traceback_main_loop ()
+	
 	def quit ():
 		#gtk.main_quit()
 		return False

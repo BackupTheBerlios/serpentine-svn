@@ -26,10 +26,12 @@ from xml.parsers.expat import ExpatError
 
 # Private modules
 import operations, nautilusburn, gtkutil
-from mastering import AudioMastering, GtkMusicList
+from mastering import AudioMastering, GtkMusicList, MusicListGateway
+from mastering import ErrorTrapper
 from recording import RecordMusicList, RecordingMedia
 from preferences import RecordingPreferences
-from operations import MapProxy, OperationListener
+from operations import MapProxy, OperationListener, OperationsQueue
+from operations import CallableOperation
 import constants
 
 from plugins import plugins
@@ -48,37 +50,127 @@ class SerpentineCacheError (SerpentineError):
 	def __str__ (self):
 		return "[Error %d] %s" % (self.error_id, self.error_message)
 
-class SerpentineApplication (operations.Operation):
+class Application (operations.Operation):
+	def __init__ (self):
+		operations.Operation.__init__ (self)
+		self.__preferences = RecordingPreferences ()
+		self.__operations = []
+	
+	def _load_plugins (self):
+		# Load Plugins
+		self.__plugins = []
+		for plug in plugins:
+			# TODO: Do not add plugins that throw exceptions calling this method
+			self.__plugins.append (plugins[plug].create_plugin (self))
+		
+
+	preferences = property (lambda self: self.__preferences)
+
+	operations = property (lambda self: self.__operations)
+
+	can_stop = property (lambda self: len (self.operations) == 0)
+	
+	# The window is only none when the operation has finished
+	can_start = property (lambda self: self.__window is not None)
+
+
+	def on_finished (self, event):
+		# We listen to operations we contain, when they are finished we remove them
+		self.operations.remove (event.source)
+		if self.can_stop:
+			self.stop ()
+
+	def stop (self):
+		assert self.can_stop, "Check if you can stop the operation first."
+		self.preferences.save_playlist (self.music_list)
+		self.preferences.pool.clear()
+		# Warn listeners
+		evt = operations.FinishedEvent (self, operations.SUCCESSFUL)
+		for listener in self.listeners:
+			listener.on_finished (evt)
+			
+		# Cleanup plugins
+		del self.__plugins
+
+
+	def write_files (self, window = None):
+		# TODO: we should add a confirmation dialog
+		r = RecordingMedia (self.music_list, self.preferences, window)
+		# Add this operation to the recording
+		self.operations.append (r)
+		r.listeners.append (self)
+		return r
+	
+	# TODO: should these be moved to MusicList object?
+	# TODO: have a better definition of a MusicList
+	def add_hints_filter (self, location_filter):
+		self.music_list_gw.add_hints_filter (location_filter)
+		
+	def remove_hints_filter (self, location_filter):
+		self.music_list_gw.remove_hints_filter (location_filter)
+	
+	# each file is a {'location':filename}
+	add_files = lambda self, files: self.music_list_gw.add_files (files)
+
+class HeadlessApplication (Application):
+	
+	class Gateway (MusicListGateway):
+		def __init__ (self):
+			MusicListGateway.__init__ (self)
+			self.music_list = GtkMusicList ()
+		
+		def _prepare_queue (self, queue):
+			self.trapper = ErrorTrapper (None)
+		
+		def _prepare_add_file (self, add_file):
+			add_file.listeners.append (self.trapper)
+			
+		def _finish_queue (self, queue):
+			queue.append (self.trapper)
+			del self.trapper
+		
+
+	def __init__ (self):
+		Application.__init__ (self)
+		self.music_list_gw = HeadlessApplication.Gateway ()
+		self._load_plugins ()
+
+	music_list = property (lambda self: self.music_list_gw.music_list)
+	
+
+def write_files (app, files):
+	"""Helper function that takes a Serpentine application adds the files
+	to the music list and writes them. When no `app` is provided a
+	HeadlessApplication is created."""
+	
+	files = map (os.path.abspath, files)
+	queue = OperationsQueue ()
+	queue.append (app.add_files (files))
+	queue.append (CallableOperation (lambda: app.write_files().start()))
+	queue.start ()
+
+class SerpentineApplication (Application):
 	"""When no operations are left in SerpentineApplication it will exit.
 	An operation can be writing the files to cd or showing the main window.
 	This enables us to close the main window and continue showing the progress
 	dialog. This object should be simple enough for D-Bus export.
 	"""
 	def __init__ (self):
-		operations.Operation.__init__ (self)
-		self.__preferences = RecordingPreferences ()
+		Application.__init__ (self)
 		self.__window = SerpentineWindow (self)
 		self.preferences.dialog.set_transient_for (self.window_widget)
 		self.__window.listeners.append (self)
-		# Load Plugins
-		self.__plugins = []
-		for plug in plugins:
-			# TODO: Do not add plugins that throw exceptions calling this method
-			self.__plugins.append (plugins[plug].create_plugin (self))
-		self.__operations = []
+		self._load_plugins ()
+
 
 	window_widget = property (lambda self: self.__window)
 	
-	operations = property (lambda self: self.__operations)
+	music_list = property (lambda self: self.window_widget.music_list)
+
+	music_list_gw = property (lambda self: self.window_widget.masterer.music_list_gateway)
 	
-	preferences = property (lambda self: self.__preferences)
-	
-	music_list = property (lambda self: self.__window.music_list)
-	
-	can_stop = property (lambda self: len (self.operations) == 0)
-	
-	# The window is only none when the operation has finished
-	can_start = property (lambda self: self.__window is not None)
+	def write_files (self):
+		Application.write_files (self, self.window_widget)
 	
 	# TODO: decouple the window from SerpentineApplication ?
 	def show_window (self):
@@ -91,47 +183,12 @@ class SerpentineApplication (operations.Operation):
 		if self.__window.running:
 			self.__window.stop ()
 	
-	def on_finished (self, event):
-		# We listen to operations we contain, when they are finished we remove them
-		self.operations.remove (event.source)
-		if self.can_stop:
-			self.stop ()
-		
 	def stop (self):
-		assert self.can_stop, "Check if you can stop the operation first."
-		self.preferences.save_playlist (self.music_list)
-		self.preferences.pool.clear()
-		# Warn listeners
-		evt = operations.FinishedEvent (self, operations.SUCCESSFUL)
-		for listener in self.listeners:
-			listener.on_finished (evt)
-			
 		# Clean window object
+		Application.stop (self)
 		self.__window.destroy ()
 		del self.__window
-		self.__window = None
 		
-		# Cleanup plugins
-		del self.__plugins
-	
-	def write_files (self):
-		# TODO: we should add a confirmation dialog
-		r = RecordingMedia (self.music_list, self.preferences, self.__window)
-		# Add this operation to the recording
-		self.operations.append (r)
-		r.listeners.append (self)
-		r.start()
-	
-	# TODO: should these be moved to MusicList object?
-	# TODO: have a better definition of a MusicList
-	def add_hints_filter (self, location_filter):
-		self.__window.music_list_widget.add_hints_filter (location_filter)
-		
-	def remove_hints_filter (self, location_filter):
-		self.__window.music_list_widget.remove_hints_filter (location_filter)
-	
-	# each file is a {'location':filename}
-	add_files = lambda self, files: self.__window.masterer.add_files (files)
 		
 class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 	# TODO: finish up implementing an Operation
@@ -252,10 +309,8 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 		# Triggered by add button
 		if self.__add_file.run () == gtk.RESPONSE_OK:
 			files = self.__add_file.get_uris()
-			hints_list = []
-			for uri in files:
-				hints_list.append({'location': uri})
-			self.music_list_widget.add_files (hints_list)
+			self.music_list_widget.music_list_gateway.add_files (files).start ()
+			
 		self.__add_file.unselect_all()
 		self.__add_file.hide()
 	
@@ -311,7 +366,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation):
 		if gtkutil.dialog_ok_cancel (title, msg, self, btn) != gtk.RESPONSE_OK:
 			return
 		
-		self.__application.write_files ()
+		self.__application.write_files ().start ()
 	
 	# Start is the same as showing a window, we do it every time
 	start = gtk.Window.show

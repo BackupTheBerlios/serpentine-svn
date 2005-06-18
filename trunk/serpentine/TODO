@@ -24,3 +24,5 @@ plugin since it depends on D-Bus
 - distutils serpentine?
 - gettext it
 - when it finishes the progressbar should stop and a text should appear advising the user it finished.
+* check if not having gnomevfssrc improves performance: No it doesn't
+* check if creating a separate process improves performance

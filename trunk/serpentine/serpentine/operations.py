@@ -70,6 +70,63 @@ class Operation (Listenable):
 	def stop (self):
 		pass
 
+	def _send_finished_event (self, status):
+		e = FinishedEvent (self, status)
+		for l in self.listeners:
+			if hasattr (l, "on_finished"):
+				l.on_finished (e)
+
+class CallableOperation (Operation):
+	"""Simple operations that takes a callable object (ie: function) and creates
+	an non-measurable Operation."""
+	
+	can_start = property (lambda: True)
+	can_stop = property (lambda: False)
+	running = property (lambda: False)
+	
+	def __init__ (self, callable):
+		self.callable = callable
+		Operation.__init__ (self)
+	
+	def start (self):
+		self.callable ()
+		self._send_finished_event (SUCCESSFUL)
+	
+import subprocess, os
+
+class SubprocessOperation (Operation):	
+	def __init__ (self, *args, **kwargs):
+		super (SubprocessOperation, self).__init__ ()
+		self.args = args
+		self.kwargs = kwargs
+	
+	pid = property (lambda self: self.__pid)
+	
+	can_start = property (lambda self: self.pid is not None)
+
+	can_stop = property (lambda self: self.pid is not None)
+
+	running = property (lambda self: self.pid is not None)
+	
+	def start (self):
+		try:
+			proc = subprocess.Popen (*self.args, **self.kwargs)
+			self.__pid = proc.pid
+			self.__id = gobject.child_watch_add (self.pid, self.__on_finish)
+		except Exception, e:
+			print "Error:", e
+	
+	def stop (self):
+		try:
+			os.kill (self.pid, 9)
+		except:
+			pass
+	
+	def __on_finish (self, pid, status):
+		self._send_finished_event (status == 0 and SUCCESSFUL or ERROR)
+		self.__pid = None
+		
+	
 class MeasurableOperation (Operation):
 	progress = property (doc = "Returns the operation's progress.")
 
@@ -137,6 +194,9 @@ class OperationsQueue (MeasurableOperation, OperationListener):
 	
 	def append (self, oper):
 		self.__operations.append (oper)
+	
+	def insert (self, index, oper):
+		self.__operations.insert (index, oper)
 		
 	# Private methods:
 	def __start_next (self):
@@ -145,7 +205,8 @@ class OperationsQueue (MeasurableOperation, OperationListener):
 			del self.__operations[0]
 			e = Event (self)
 			for l in self.listeners:
-				l.before_operation_starts (e, oper)
+				if hasattr (l, "before_operation_starts"):
+					l.before_operation_starts (e, oper)
 				
 			oper.listeners.append (self)
 			self.__curr_oper = oper
@@ -155,7 +216,10 @@ class OperationsQueue (MeasurableOperation, OperationListener):
 			self.__started = False
 			e = FinishedEvent (self, SUCCESSFUL)
 			for l in self.listeners:
-				l.on_finished (e)
+				if hasattr (l, "on_finished"):
+					l.on_finished (e)
+	
+	
 	
 	def on_finished (self, evt):
 		assert isinstance (evt, FinishedEvent), evt
@@ -183,6 +247,12 @@ class OperationsQueue (MeasurableOperation, OperationListener):
 		self.__curr_oper.stop ()
 	
 	__len__ = lambda self: len (self.__operations)
+	
+	def __repr__ (self):
+		return "{%s: %s}" % (
+			super(OperationsQueue, self).__repr__(),
+			self.__operations.__repr__()
+		)
 	
 class MapFunctor (object):
 	def __init__ (self, funcs):
@@ -223,3 +293,15 @@ class MapProxy (object):
 	
 	def has_key (self, key):
 		return self.__elements.has_key (key)
+
+if __name__ == '__main__':
+	import sys, gtk
+	class Listener:
+		def on_finished (self, evt):
+			gtk.main_quit ()
+			
+	oper = SubprocessOperation (sys.argv[1:])
+	oper.listeners.append (Listener())
+	oper.start ()
+	gtk.main ()
+	
