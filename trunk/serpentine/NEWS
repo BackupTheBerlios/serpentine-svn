@@ -1,0 +1,13 @@
+Changes from 0.5:
+ - New usage widget: progressbar should be used for progress. The new usage disc widget
+   improves the user experience by reflecting the disc contents in a disc like display.
+
+ - Integration friendly: special command line arguments make integration with other
+   applications easier.
+
+ - New Muine plugin: you can write your playlist to a CD directly from Muine.
+
+ - Save and load playlist: you can now open and save playlists inside Serpentine.
+
+ - User interface polish: the user interface was improved and made more similar to
+   nautilus-cd-burner.
