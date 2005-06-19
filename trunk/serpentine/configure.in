@@ -1,6 +1,6 @@
 AC_INIT(scripts/serpentine)
 
-AM_INIT_AUTOMAKE(serpentine, 0.5)
+AM_INIT_AUTOMAKE(serpentine, 0.6)
 
 AM_MAINTAINER_MODE
 

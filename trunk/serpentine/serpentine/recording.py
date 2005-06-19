@@ -23,6 +23,36 @@ import operations, gtkutil
 from operations import OperationsQueueListener, MeasurableOperation
 from converting import FetchMusicList
 
+class ConvertingError:
+	def __init__ (self, win):
+		self.win= win
+	
+	def on_finished (self, evt):
+		if evt.id != operations.ERROR:
+			return
+		
+		gtkutil.dialog_error (
+			"Converting files failed",
+			"Writing to disc didn't start so it is still usable.",
+			self.win
+		)
+
+class WritingError:
+	def __init__ (self, win):
+		self.win= win
+
+	def on_finished (self, evt):
+		if evt.id == operations.SUCCESSFUL:
+			return
+		
+		gtkutil.dialog_error (
+			evt.id == operations.ERROR and        \
+			          "Writing to disc failed" or \
+			          "Writing to disc canceled",
+			"Writing to disc has started and therefore the disc is unusable.",
+			self.win
+		)
+
 ################################################################################
 class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 	"""
@@ -36,9 +66,13 @@ class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 		self.__queue.listeners.append (self)
 		self.__parent = parent
 		self.__prog = gtkutil.HigProgress ()
-		self.__prog.primary_text = "Recording Audio Disc"
-		self.__prog.secondary_text = "The audio tracks are going to be written to a disc. This operation may take a long time, depending on data size and write speed."
-		self.__prog.connect ('destroy-event', self.__on_prog_destroyed)
+		self.__prog.primary_text = "Writing Audio Disc"
+		self.__prog.secondary_text = "The audio tracks are going to be "      \
+									 "written to a disc. This operation may " \
+									 "take a long time, depending on data "   \
+									 "size and write speed."
+		                             
+		self.__prog.connect ("destroy-event", self.__on_prog_destroyed)
 		self.__prog.cancel_button.connect ("clicked", self.__on_cancel)
 		self.__prog.close_button.connect ("clicked", self.__on_close)
 		self.__music_list = music_list
@@ -72,6 +106,8 @@ class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 		self.__blocked = False
 		self.preferences.pool.temporary_dir = self.preferences.temporary_dir
 		oper = FetchMusicList(self.__music_list, self.preferences.pool)
+		oper.listeners.append (ConvertingError(self.__prog))
+		
 		self.__fetching = oper
 		self.__queue.append (oper)
 		
@@ -79,11 +115,12 @@ class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 		                        self.preferences,
 		                        self.__prog)
 		                        
-		oper.recorder.connect ('progress-changed', self.__tick)
-		oper.recorder.connect ('action-changed', self.__on_action_changed)
+		oper.recorder.connect ("progress-changed", self.__tick)
+		oper.recorder.connect ("action-changed", self.__on_action_changed)
+		oper.listeners.append (WritingError(self.__prog))
+		
 		self.__queue.append (oper)
 		self.__recording = oper
-
 		self.__queue.start ()
 		self.__source = gobject.timeout_add (300, self.__tick)
 	
@@ -128,13 +165,23 @@ class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 			self.__blocked = True
 	
 	def on_finished (self, evt):
-		self.__prog.cancel_button.hide ()
-		self.__prog.close_button.show ()
+		# self.__prog.cancel_button.hide ()
+		# self.__prog.close_button.show ()
 		gobject.source_remove (self.__source)
+		
+		if evt.id == operations.SUCCESSFUL:
+			gtkutil.dialog_warn (
+				"Writing to disc finished",
+				"Disc writing was successful.",
+				self.__prog
+			)
+		
 		# Warn our listenrs
 		e = operations.FinishedEvent (self, evt.id)
 		for l in self.listeners:
 			l.on_finished (e)
+
+		self.__on_close ()
 
 ################################################################################
 class RecordMusicList (MeasurableOperation):
@@ -160,9 +207,9 @@ class RecordMusicList (MeasurableOperation):
 
 		for m in self.music_list:
 			tracks.append (AudioTrack (filename = m["cache_location"]))
-		self.recorder.connect ('progress-changed', self.__on_progress)
-		self.recorder.connect ('insert-media-request', self.__insert_cd)
-		self.recorder.connect ('warn-data-loss', self.__on_data_loss)
+		self.recorder.connect ("progress-changed", self.__on_progress)
+		self.recorder.connect ("insert-media-request", self.__insert_cd)
+		self.recorder.connect ("warn-data-loss", self.__on_data_loss)
 		gobject.idle_add (self.__thread, tracks)
 	
 	def __on_data_loss (self, recorder):
@@ -212,7 +259,8 @@ class RecordMusicList (MeasurableOperation):
 			msg = "Please put a blank disc into the drive."
 			title = "Insert blank disc"
 		elif can_rewrite:
-			msg = "Please replace the disc in the drive with a rewritable or blank disc."
+			msg = "Please replace the disc in the drive with a "\
+			      "rewritable or blank disc."
 			title = "Reload rewritable or blank disc"
 		else:
 			msg = "Please replace the disc in the drive a blank disc."

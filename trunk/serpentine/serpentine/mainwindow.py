@@ -357,19 +357,19 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
             msg = "You are about to record a media disc in overburn mode. " \
                   "This may not work on all drives and shouldn't give you " \
                   "more then a couple of minutes."
-            btn = "Overburn Disk"
+            btn = "Write to Disc (Overburning)"
             self.__application.preferences.overburn = True
         else:
             title = "Do you want to record your musics?"
             msg = "You are about to record a media disc. " \
                   "Canceling a writing operation will make your disc unusable."
-            btn = "Record Disk"
+            btn = "Write to Disc"
             self.__application.preferences.overburn = False
         
         if gtkutil.dialog_ok_cancel (title, msg, self, btn) != gtk.RESPONSE_OK:
             return
         
-        self.__application.write_files ().start ()
+        self.application.write_files ().start ()
     
     # Start is the same as showing a window, we do it every time
     start = gtk.Window.show

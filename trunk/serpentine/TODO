@@ -4,7 +4,6 @@
 - On nautilus, right click on a group of media files and "write to cd..."
 - Have a way to minimize to tray on progress dialog
 - The list of drives must be generated according to the ones not recording
-- Handle erros when we are recording
 - Lock the drive when converting audio
 - Before we start recording we check if the size of the media size fits in the
 medium and should show an appropriate dialog. We need to implement it as a

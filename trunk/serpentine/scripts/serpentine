@@ -34,8 +34,11 @@ lib_dir = os.path.join (prefix_dir, 'lib',
 if os.path.isdir (lib_dir) and lib_dir not in sys.path:
 	sys.path.append (lib_dir)
 
+
 from serpentine import SerpentineApplication, SerpentineError, operations, gtkutil, validate_music_list, HeadlessApplication
 import serpentine
+
+# gtkutil.traceback_main_loop ()
 
 class OurListener (operations.OperationListener):
 	def on_finished (self, event):

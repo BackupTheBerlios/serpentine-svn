@@ -193,8 +193,32 @@ import urllib
 from urlparse import urlparse, urlunparse
 import gnomevfs
 
+def get_path (uri_or_path):
+	"""Returns a path from a path or from a URI"""
+	
+	s = urlparse (uri_or_path)
+	path = s[2]
+	scheme = s[0]
+	if scheme != '':
+		# Remove %20
+		path = urllib.unquote(path)
+	return path
+
+def to_uri (uri_or_path):
+	"""Converts a path or a URI to a URI"""
+	
+	s = urlparse (uri_or_path)
+	s = list (s)
+	if s[0] == '':
+		s[0] = 'file'
+	
+	s[2] = urllib.quote (get_path (uri_or_path))
+	
+	return urlunparse (s)
+	
+
 class GvfsMusicPool (GstMusicPool):
-	use_gnomevfssrc = False
+	use_gnomevfssrc = True
 		
 	def unique_music_id (self, uri):
 		"""
@@ -204,19 +228,7 @@ class GvfsMusicPool (GstMusicPool):
 		/foo bar
 		Returns always a URL, even if the string was a file path.
 		"""
-		s = urlparse (uri)
-		scheme = s[1]
-		path = s[2]
-		# Just unparse in case we are handling a URL
-		if scheme != '':
-			# Remove %20
-			path = urllib.unquote(path)
-		s = list(s)
-		# If it was a file path convert it to a file scheme
-		if scheme == '':
-			s[1] = 'file'
-		s[2] = path
-		return urlunparse (s)
+		return to_uri (uri)
 		
 	def is_available (self, music):
 		on_cache = GstMusicPool.is_available (self, music)
@@ -240,12 +252,8 @@ class GvfsMusicPool (GstMusicPool):
 		
 		else:
 			src = gst.element_factory_make ("filesrc", "source")
-			s = urlparse (music)
-			path = s[2]
-			scheme = s[1]
-			if scheme != '':
-				# Remove %20
-				path = urllib.unquote(path)
+
+			path = get_path (music)
 
 			src.set_property ("location", path)
 			
@@ -276,6 +284,7 @@ class FetchMusicListPriv (operations.OperationListener):
 		pool = evt.source.pool
 		filename = pool.get_filename (uri)
 		m = self.get_music_from_uri (uri)
+
 		if m:
 			m["cache_location"] = filename
 		else:

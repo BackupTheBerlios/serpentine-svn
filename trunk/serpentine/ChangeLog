@@ -1,4 +1,11 @@
+=== 0.6 ===
+
 2005-06-19 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+	* recording.py:
+	Now a error dialog appears when something goes wrong during writing process.
+	Fixed label to uniform, changed all entries from 'Recording' to 'Writing'.
+	When operations finishes a dialog appears saying that writing was successful.
+	
 	
 	* mainwindow.py:
 	The menu item for saving playlists is implemented.
@@ -37,8 +44,7 @@
 	Added license disclaimer (LGPL).
 	
 	* converting.py:
-	Made converting base on 'filesrc' instead of 'gnomevfssrc' for performance
-	issues.
+	Corrected a bug when not using 'filesrc', now it gets the correct path.
 	
 	* operations.py:
 	Added some docs strings.
