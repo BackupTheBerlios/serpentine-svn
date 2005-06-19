@@ -100,6 +100,7 @@ class Playlist (_Struct):
 		self.tracks = []
 	
 	def toxml (self):
+		#TODO: http://docs.python.org/lib/module-xml.dom.minidom.html
 		ret = ""
 		for t in self.tracks:
 			ret += t.toxml()

@@ -15,6 +15,9 @@ serpentine_PYTHON = \
 	serpentine/services.py     \
 	serpentine/constants.py    \
 	serpentine/gdkpiechart.py  \
+	serpentine/components.py   \
+	serpentine/mainwindow.py   \
+	serpentine/common.py       \
 	serpentine/release.py
 
 serpentine_pluginsdir = $(pythondir)/serpentine/plugins

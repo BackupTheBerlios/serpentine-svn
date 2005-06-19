@@ -194,7 +194,7 @@ from urlparse import urlparse, urlunparse
 import gnomevfs
 
 class GvfsMusicPool (GstMusicPool):
-	use_gnomevfssrc = True
+	use_gnomevfssrc = False
 		
 	def unique_music_id (self, uri):
 		"""

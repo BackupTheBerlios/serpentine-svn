@@ -71,6 +71,8 @@ class Operation (Listenable):
 		pass
 
 	def _send_finished_event (self, status):
+		"""Broadcasts to all listeners the finished event. Simplifies the 
+		task of creating the event and iterating over listeners."""
 		e = FinishedEvent (self, status)
 		for l in self.listeners:
 			if hasattr (l, "on_finished"):

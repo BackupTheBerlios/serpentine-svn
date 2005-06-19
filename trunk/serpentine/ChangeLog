@@ -1,3 +1,23 @@
+2005-06-19 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* __init__.py:
+	Refactored SerpentineWindow code and moved some classes to new modules.
+	
+	Started implementing save playlist registry code. Not available on makefile
+	so it's not currently installed. No gui aswell.
+	
+	* plugfilter_xspf.py:
+	* plugfilter_plparser.py:
+	Added license disclaimer (LGPL).
+	
+	* converting.py:
+	Made converting base on 'filesrc' instead of 'gnomevfssrc' for performance
+	issues.
+	
+	* operations.py:
+	Added some docs strings.
+
+	
 2005-06-18 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 	* plugfilter_xspf.py:
