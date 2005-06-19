@@ -107,10 +107,99 @@ class PlaylistComponent (FileDialogComponent):
         playlist = self.file_dlg.get_uri()
         self.parent.music_list_widget.music_list_gateway.add_files ([playlist]).start ()
         self.parent.clear_files ()
+import tempfile
+
+class SavePlaylistComponent (SimpleComponent):
+    def _setup_glade (self, g):
+        g.get_widget ("save_playlist_mni").connect ("activate", self.run_dialog)
+        self.file_dlg = gtk.FileChooserDialog (
+            action = gtk.FILE_CHOOSER_ACTION_SAVE,
+            buttons = (
+                gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                gtk.STOCK_SAVE, gtk.RESPONSE_OK
+            )
+        )
+        self.file_dlg.set_title ("")
+        self.file_dlg.set_transient_for (self.parent)
+        app = self.parent.application
+        app.save_playlist.listeners.append (self)
+        self.__sync = True
+    
+    def on_registred (self, factory, extension, description):
+        self.__sync = True
+    
+    def on_finished (self, evt):
+        win = self.parent
+            
+        if evt.id == operations.SUCCESSFUL:
+            gtkutil.dialog_warn (
+                "Playlist Saved",
+                "Playlist was saved successfully.",
+                win
+            )
+        else:
+            gtkutil.dialog_error (
+                "Playlist Not Saved",
+                "There was an error while saving the playlist.",
+                win
+            )
+        
+    def __sync_file_filters (self):
+        if not self.__sync:
+            return
+        
+        app = self.parent.application
+        
+        # Remove old filters
+        for f in self.file_dlg.list_filters ():
+            self.file_dlg.remove_filter (f)
+        
+        # Now fill the real filters
+        for f in app.save_playlist.file_filters:
+            self.file_dlg.add_filter (f)
+        
+        # Sync is complete
+        self.__sync = False
+    
+    def run_dialog (self, *args):
+        app = self.parent.application
+        win = self.parent
+        
+        self.__sync_file_filters ()
+        
+        if self.file_dlg.run () == gtk.RESPONSE_OK:
+            filename = self.file_dlg.get_filename ()
+            basename = os.path.basename (filename)
+            if os.path.exists (filename) and gtkutil.dialog_ok_cancel (
+                "Replace existing file",
+                "A file named <i>%s</i> already exists. "\
+                "Do you want to replace it with the one "\
+                "you are saving?" % basename,
+                win
+            ) != gtk.RESPONSE_OK:
+                
+                self.file_dlg.unselect_all()
+                self.file_dlg.hide()
+                return
+                
+            try:
+                oper = app.save_playlist.save (filename)
+            except SerpentineNotSupportedError:
+                gtkutil.dialog_error (
+                    "Unsupported Format",
+                    "The playlist format you used (by the file extension) is " \
+                    "currently not supported.",
+                    win
+                )
+            oper.listeners.append (self)
+            oper.start ()
+        
+        self.file_dlg.unselect_all()
+        self.file_dlg.hide()
 
 class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, SimpleComponent):
     # TODO: finish up implementing an Operation
-    components = (AddFileComponent, PlaylistComponent)
+    components = (AddFileComponent, PlaylistComponent, SavePlaylistComponent)
     
     def __init__ (self, application):
         gtk.Window.__init__ (self, gtk.WINDOW_TOPLEVEL)

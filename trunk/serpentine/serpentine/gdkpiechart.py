@@ -30,6 +30,7 @@ class GdkPieChart (DrawingArea):
         self.height = 0
         self.selected = []
         self.total = 0
+        self.offset = 1
         self.getter = getter
         self.values = values
         self.connect ("size-allocate", self.__on_size_allocate)
@@ -37,17 +38,22 @@ class GdkPieChart (DrawingArea):
         self.connect ("realize", self.__on_realize)
     
     def __on_realize (self, widget):
-        self.gc = widget.window.new_gc ()
-        self.selected_color = self.get_colormap ().alloc_color ("#f7ca00")
-        self.default_color = self.get_colormap ().alloc_color ("#34609b")
+        # self.gc = widget.window.new_gc ()
+        
+        style = self.get_style ()
+        self.border_gc         = style.dark_gc[gtk.STATE_NORMAL]
+        self.transparent_gc    = style.bg_gc[gtk.STATE_NORMAL]
+        self.background_gc     = style.mid_gc[gtk.STATE_NORMAL]
+        self.slice_gc          = style.base_gc[gtk.STATE_NORMAL]
+        self.selected_slice_gc = style.base_gc[gtk.STATE_SELECTED]
     
     def __on_size_allocate (self, widget, allocation):
         self.width = allocation.width
         self.height = allocation.height
     
-    def draw_slice (self, offset, aperture):
+    def draw_slice (self, gc, offset, aperture):
         self.window.draw_arc (
-            self.gc,
+            gc,
             True,
             0, # x
             0, # y
@@ -56,6 +62,9 @@ class GdkPieChart (DrawingArea):
             offset,
             aperture,
         )
+    
+    def draw_circle (self, gc):
+        self.draw_slice (gc, 0, _CIRCLE)
         
     def __on_expose_event (self, widget, event):
         offset = 0
@@ -71,10 +80,9 @@ class GdkPieChart (DrawingArea):
         # Check if the gauge is filled    
         filled = total >= self.total
         
+        self.draw_circle (self.background_gc)
         
         ratio = _CIRCLE / float (self.total)
-        
-        self.gc.set_foreground (self.default_color)
         
         for value in self.values:
             # Get the angle aperture
@@ -85,36 +93,24 @@ class GdkPieChart (DrawingArea):
                 selected_slices.append ((offset, angle))
                 
             elif not filled:
-                color = self.default_color
-                self.gc.set_foreground (color)
-                self.draw_slice (offset, angle)
+                self.draw_slice (self.slice_gc, offset, angle)
                 
             offset += angle
             index += 1
         
-        # When it's filled we just paint a circle
+        # When everything is filled we just paint a slice circle
         if filled:
             # Draw the border
-            self.window.draw_arc (
-                self.gc,
-                True,
-                0,
-                0,
-                self.radius,
-                self.radius,
-                0,
-                _CIRCLE
-            )
-            
-        self.gc.set_foreground (self.selected_color)
+            self.draw_circle (self.slice_gc)
+        
         for offset, angle in selected_slices:
-            self.draw_slice (offset, angle)
+            self.draw_slice (self.selected_slice_gc, offset, angle)
         
         # Draw the little dial
         r = int (self.radius / 4)
         dx = self.radius/2 - r/2
         self.window.draw_arc (
-            self.get_style().bg_gc[gtk.STATE_NORMAL], 
+            self.transparent_gc,
             True,
             dx,    # x
             dx,    # y
@@ -125,7 +121,7 @@ class GdkPieChart (DrawingArea):
         )
         # Draw inner dial border
         self.window.draw_arc (
-            self.get_style().black_gc, 
+            self.border_gc,
             False,
             dx,    # x
             dx,    # y
@@ -138,7 +134,7 @@ class GdkPieChart (DrawingArea):
         
         # Draw the border
         self.window.draw_arc (
-            self.get_style().black_gc,
+            self.border_gc,
             False,
             0,
             0,
@@ -152,7 +148,7 @@ class GdkPieChart (DrawingArea):
         self.__on_expose_event (self, self, self)
     
     def radius (self):
-        return min (self.width, self.height)
+        return min (self.width, self.height) - self.offset
     radius = property (radius)
     
 

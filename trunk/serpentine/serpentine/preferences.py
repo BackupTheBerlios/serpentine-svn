@@ -22,7 +22,7 @@ from urlparse import urlparse
 
 import gaw, xspf, constants
 from converting import GvfsMusicPool
-
+from common import SafeFileWrite
 # For testing purposes we try to import it
 try:
 	import release
@@ -223,11 +223,18 @@ class RecordingPreferences (object):
 			os.makedirs (self.config_dir)
 		p = xspf.Playlist (title="Serpentine's playlist", creator="Serpentine " + self.version)
 		source.to_playlist (p)
-		doc = minidom.parseString (p.toxml())
-		out = open (os.path.join (self.config_dir, "playlist.xml"), "w")
-		doc.writexml (out, addindent = "\t", newl = "\n")
-		del p
-		out.close()
+		doc = p.toxml()
+		
+		out = SafeFileWrite (os.path.join (self.config_dir, "playlist.xml"))
+		try:
+			doc.writexml (out, addindent = "\t", newl = "\n")
+			del p
+			out.close()
+		except:
+			out.abort ()
+			return False
+			
+		return True
 	
 	def load_playlist (self, source):
 		if not os.path.exists (self.config_dir):

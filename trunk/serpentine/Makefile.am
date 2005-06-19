@@ -26,6 +26,7 @@ serpentine_plugins_PYTHON = \
 	serpentine/plugins/plugfilter_plparser.py \
 	serpentine/plugins/plugfilter_xspf.py     \
 	serpentine/plugins/plugfilter_dir.py      \
+	serpentine/plugins/plugfilter_plsave.py   \
 	serpentine/plugins/__init__.py
 
 # Launcher

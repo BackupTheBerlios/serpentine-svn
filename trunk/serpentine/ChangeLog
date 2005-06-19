@@ -1,7 +1,33 @@
 2005-06-19 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
-
+	
+	* mainwindow.py:
+	The menu item for saving playlists is implemented.
+	
+	* xspf.py:
+	Now correctly uses DOM objects to create the object serialization.
+	
+	* gtkutil.py:
+	Implemented `DictModelRow.get` and `DictModelRow.__contains__` methods.
+	
+	* gdkpiechart.py:
+	Added a border offset. Now uses system colors. Refactored code a little.
+	
+	* common.py:
+	Created a new class, SafeWriteFile, that makes writting changes to files safe and unduable. You can do an 'abort' and the
+	file target file (if it already exists) will not be altered.
+	
+	* plugfilter_plsave.py:
+	SavePlaylist now uses SafeWriteFile. Corrected the finshed event status to the correct one.
+	When there is an error saving the playlist the traceback is written to stdout. Corrected a bug in SavePLS with the file coutner.
+	SaveM3U had an incorrect header and a bug in writting rows. SaveXSPF now works.
+	
+	
 	* __init__.py:
 	Refactored SerpentineWindow code and moved some classes to new modules.
+	Application now has a 'save_playlist' attribute that points to an object of SavePlaylistRegistry.
+	
+	* preferences.py:
+	Now uses SafeWriteFile to save playlist.
 	
 	Started implementing save playlist registry code. Not available on makefile
 	so it's not currently installed. No gui aswell.

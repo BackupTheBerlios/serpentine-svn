@@ -90,8 +90,15 @@ class DictModelRow (object):
 	def keys(self):
 		return self.parent.cols
 	
+	def get (self, key, default):
+		if self.has_key (key):
+			return self[key]
+		return default
+	
 	def has_key (self, key):
 		return key in self.keys()
+
+	__contains__ = has_key
 
 class SimpleListWrapper:
 	def __init__ (self, store):

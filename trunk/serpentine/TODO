@@ -1,15 +1,8 @@
-- when u have a rw cd it doesn't ask if u want to clean it first (done but 
-  should be moved to ncb instead)
-- Make it possible to close serpentine main window without stopping a recording
-  operation (dbus.SessionBus).
-- emit to context when dnd has moved successfully, highlight TreeView
-- add export to playlist
 - When a list of files is added order the files which have the same album name 
   and track number
 - recent files support (?)
 - On nautilus, right click on a group of media files and "write to cd..."
 - Have a way to minimize to tray on progress dialog
-- Be able to close serpentine main window and run a progress dialog
 - The list of drives must be generated according to the ones not recording
 - Handle erros when we are recording
 - Lock the drive when converting audio
@@ -23,6 +16,7 @@ plugin since it depends on D-Bus
 - mc solaar oggs have the GST_ERROR? Progress > 1: 6651448.0 problem, thus affecting the progress bar (it gets back to zero).
 - distutils serpentine?
 - gettext it
-- when it finishes the progressbar should stop and a text should appear advising the user it finished.
-* check if not having gnomevfssrc improves performance: No it doesn't
-* check if creating a separate process improves performance
+- when recording finishes the progressbar should stop and a text should appear advising the user it finished.
+- when recording finishes the progressbar is not at 100%, why?
+- use replace button (what is this button?) instead of OK in replace file dialog, when saving playlists. move file replace dialog to gtkutil, maybe add SaveFileDialog
+- dist utils serpentine

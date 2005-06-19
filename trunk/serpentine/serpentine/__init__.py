@@ -35,7 +35,7 @@ from operations import CallableOperation
 import constants
 
 from components import SimpleComponent
-from mainwindow import SerpentineWindow, SerpentineError, SerpentineCacheError
+from mainwindow import SerpentineWindow
 from common import *
 from plugins import plugins
 
@@ -44,13 +44,14 @@ class SavePlaylistRegistry (SimpleComponent):
 		super (SavePlaylistRegistry, self).__init__ (parent)
 		
 		self.__global_filter = gtk.FileFilter()
+		self.__global_filter.set_name ("Playlists")
 		self.__file_filters = [self.__global_filter]
 		self.__factories = {}
 		self.listeners = []
 		
 	file_filters = property (lambda self: self.__file_filters)
 	
-	def register (factory, extension, description):
+	def register (self, factory, extension, description):
 		self.__global_filter.add_pattern ("*" + extension)
 		
 		filter = gtk.FileFilter ()
@@ -61,28 +62,26 @@ class SavePlaylistRegistry (SimpleComponent):
 		
 		for listener in self.listeners:
 			listener.on_registred (factory, extension, description)
+		
+		self.__factories[extension] = factory
 	
-	def save (filename):
+	def save (self, filename):
 		file, ext = os.path.splitext (filename)
+
 		if not self.__factories.has_key (ext):
-			return False
+			raise SerpentineNotSupportedError
 		
-		fact = self.__factories[ext]
-		try:
-			fact(self.parent.music_list, filename)
-		except:
-			return False
-		
-		return True
+		return  self.__factories[ext] (self.parent.music_list, filename)
 	
-class Application (operations.Operation):
-	components = (SavePlaylistRegistry,)
+class Application (operations.Operation, SimpleComponent):
+	components = ()
 	def __init__ (self):
 		operations.Operation.__init__ (self)
+		SimpleComponent.__init__ (self, None)
+		self.save_playlist = SavePlaylistRegistry (self)
+		
 		self.__preferences = RecordingPreferences ()
 		self.__operations = []
-		
-		
 		
 		self._music_file_patterns = {}
 		self._playlist_file_patterns = {}

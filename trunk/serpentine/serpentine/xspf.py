@@ -23,6 +23,8 @@ Basically it retrieves the playlist tracks' title, artist, location and duration
 """
 from xml.dom import minidom
 from xml.xpath import Evaluate
+from xml.dom.minidom import getDOMImplementation
+
 class _Field (object):
 	def __init__ (self, id = None, convert = None):
 		self.id = id
@@ -30,11 +32,11 @@ class _Field (object):
 		
 	data = None
 		
-	def toxml (self):
+	def toxml (self, doc, root):
 		if self.data is not None:
-			return "<%s>%s</%s>" % (self.id, str(self.data), self.id)
-		else:
-			return ""
+			node = doc.createElement (self.id)
+			node.appendChild (doc.createTextNode (str (self.data)))
+			root.appendChild (node)
 
 class _Struct (object):
 	_fields = {}
@@ -56,11 +58,10 @@ class _Struct (object):
 		else:
 			raise AttributeError, "Instance has no attribute '%s'" % (attr)
 	
-	def toxml (self):
-		ret = ""
+	def toxml (self, doc, root):
+		
 		for key in self._fields:
-			ret += self._fields[key].toxml()
-		return ret
+			self._fields[key].toxml(doc, root)
 	
 	def _parse_node (self, node):
 		for field in self._fields:
@@ -87,8 +88,10 @@ class Track (_Struct):
 		                "location": _Field("location")}
 		_Struct.__init__ (self, **kw)
 	           
-	def toxml (self):
-		return "<track>" + _Struct.toxml(self) + "</track>"
+	def toxml (self, doc, root):
+		node = doc.createElement ("track")
+		root.appendChild (node)
+		return _Struct.toxml(self, doc, node)
 
 class Playlist (_Struct):
 	def __init__ (self, **kw):
@@ -100,13 +103,21 @@ class Playlist (_Struct):
 		self.tracks = []
 	
 	def toxml (self):
+		"""Returns a xml.dom.Document representing the XSPF playlist"""
+		
 		#TODO: http://docs.python.org/lib/module-xml.dom.minidom.html
-		ret = ""
+		DOM = getDOMImplementation ()
+		doc = DOM.createDocument (None, "playlist", None)
+		root = doc.documentElement
+		root.setAttribute ("version", "0")
+		
+		trackList = doc.createElement ("trackList")
+		root.appendChild (trackList)
+		
 		for t in self.tracks:
-			ret += t.toxml()
-		ret = "<trackList>" + ret + "</trackList>"
-		ret = _Struct.toxml(self) + ret
-		return "<playlist version=\"0\">" + ret + "</playlist>"
+			t.toxml (doc, trackList)
+		
+		return doc
 
 	def parse (self, file_or_filename):
 		root = minidom.parse (file_or_filename)

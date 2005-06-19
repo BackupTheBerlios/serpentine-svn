@@ -19,8 +19,10 @@
 
 # PLS and M3U specs: http://www.scvi.net/pls.htm
 
-from serpenetine import operations, xspf
-
+from serpentine import operations, xspf
+from serpentine.common import SafeFileWrite
+from xml.dom import minidom
+import traceback
 
 class SavePlaylist (operations.Operation):
     def __init__ (self, music_list, filename):
@@ -30,41 +32,45 @@ class SavePlaylist (operations.Operation):
         self.filename = filename
 
     def start (self):
-        status = True
-        fp = open (self.filename, "w")
+        status = operations.SUCCESSFUL
+        fp = SafeFileWrite (self.filename)
         try:
             self._save (fp)
+            fp.close ()
             
         except:
-            status = False
+            traceback.print_exc()
+            status = operations.ERROR
+            # Abort changes
+            fp.abort ()
             
-        fp.close ()
         
         self._send_finished_event (status)
     
     def _save (fp):
         raise NotImplementedError
 
-class SavePLS (operations.Operation):
+class SavePLS (SavePlaylist):
     def _save (self, fp):
         fp.write ("[playlist]\n")
-        counter = 1
+        counter = 0
         for row in self.music_list:
+            counter += 1
             fp.write ("File%d=%s\n" % (counter, row["location"]))
             if row.has_key("title"):
                 fp.write ("Title%d=%s\n" % (counter, row["title"]))
                 
             fp.write ("Length%d=%d\n" % (counter, row.get ("duration", -1)))
         
-        fp.write ("NumberOfEntries=%d\n" % (counter - 1))
+        fp.write ("NumberOfEntries=%d\n" % counter)
         fp.write ("Version=2\n")
 
-class SaveM3U (operations.Operation):
+class SaveM3U (SavePlaylist):
     music_list = None
     filename = None
     
     def _save (self, fp):
-        fp.write ("#EXTM3U")
+        fp.write ("#EXTM3U\n")
         
         for row in self.music_list:
             fp.write (
@@ -73,21 +79,21 @@ class SaveM3U (operations.Operation):
                     row.get("title", "")
                 )
             )
-            fp.write ("%s\n", row["location"])
+            fp.write ("%s\n" % row["location"])
 
 class SaveXSPF (SavePlaylist):
     def _save (self, fp):
-        pls = xspf.Playlist ()
-        music_list.to_playlist (p)
+        p = xspf.Playlist ()
+        self.music_list.to_playlist (p)
         
         p = xspf.Playlist (creator="Serpentine")
         self.music_list.to_playlist (p)
-        doc = minidom.parseString (p.toxml())
+        doc = p.toxml()
         doc.writexml (fp, addindent = "\t", newl = "\n")
         del p
 
 def create_plugin (app):
     # Register factories
-    app.save_playlist_registry.register (extension = ".m3u", factory=SaveM3U, description = "MP3 Playlist File")
-    app.save_playlist_registry.register (extension = ".pls", factory=SavePLS, description = "PLS Audio Playlist")
-    app.save_playlist_registry.register (extension = ".xspf", factory=SaveXSPF, description = "XML Shareable Playlist Format")
+    app.save_playlist.register (factory=SaveM3U,  extension = ".m3u",  description = "MP3 Playlist File")
+    app.save_playlist.register (factory=SavePLS,  extension = ".pls",  description = "PLS Audio Playlist")
+    app.save_playlist.register (factory=SaveXSPF, extension = ".xspf", description = "XML Shareable Playlist Format")
