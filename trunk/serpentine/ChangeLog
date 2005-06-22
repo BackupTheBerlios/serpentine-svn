@@ -1,3 +1,37 @@
+2005-06-22 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* serpentine.glade:
+	Removed cache location. Added tooltips to toolbar buttons.
+	Added view toolbar item.
+	Renamed from "Save Playlist..." to "Save Playlist As..." to	better reflect it's usage.
+	Added a button to refresh writting speed.
+	
+	* Makefile.am:
+	Added Muine plugin so that it is distributed aswell.
+	
+	* common.py:
+	Corrected if there is no space left clears the cache location of
+	temporary files and tries again.
+	
+	* preferences.py:
+	Removed the cache location widget. Radio button now uses new gaw.RadioButtonData.
+	When speed is updated the remaining value still maintains.
+	
+	* mainwindow.py:
+	New component: ToolbarComponent, reacts to gnome system properties in
+	regards to toolbar style and detach visibility. It also reacts to the
+	menu item for hidding the toolbar.
+	Corrected a silly bug on loading playlist that made fresh systems not start
+	Serpentine.
+	
+	* gaw.py:
+	Now Data objects accept a default value that overrides Spec default value.
+	There are two new classes RadioButtonData, for radio button groups and
+	GConfValue for representing a GConf key, it decouples the graphical part of
+	gaw.Data therefore you can use it to monitor keys and get its correct value.
+	
+	
+
 === 0.6 ===
 
 2005-06-19 Tiago Cogumbreiro <cogumbreiro@users.sf.net>

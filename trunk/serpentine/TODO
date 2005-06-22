@@ -5,17 +5,12 @@
 - Have a way to minimize to tray on progress dialog
 - The list of drives must be generated according to the ones not recording
 - Lock the drive when converting audio
-- Before we start recording we check if the size of the media size fits in the
-medium and should show an appropriate dialog. We need to implement it as a
-plugin since it depends on D-Bus
-- plug mediasize blocks whith some drives, should be made async
-- Drives list and drive speed should be refreshed more often
+- plug mediasize: blocks whith some drives, should be made async
 - Add a Copy Disc feature
 - double clicking a music should 'gnome-open' it so that the user can have a playback (or start one on hover? a toggle button Preview below the disc capacity?)
 - mc solaar oggs have the GST_ERROR? Progress > 1: 6651448.0 problem, thus affecting the progress bar (it gets back to zero).
 - distutils serpentine?
 - gettext it
-- when recording finishes the progressbar should stop and a text should appear advising the user it finished.
-- when recording finishes the progressbar is not at 100%, why?
 - use replace button (what is this button?) instead of OK in replace file dialog, when saving playlists. move file replace dialog to gtkutil, maybe add SaveFileDialog
 - dist utils serpentine
+- when running serpentine -p the preferences should be a window instead of a dialog

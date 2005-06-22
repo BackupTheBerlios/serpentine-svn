@@ -42,16 +42,21 @@ ui_DATA = data/serpentine.glade
 # Executable
 bin_SCRIPTS = scripts/serpentine
 
-#DISTCLEANFILES =           \
+#DISTCLEANFILES =       \
 #	intltool-extract    \
 #	intltool-merge      \
 #	intltool-update     \
 #	$(desktop_DATA)
 
+muine_DATA = \
+	muine-plugin/Makefile \
+	muine-plugin/SerpentinePlugin.cs
+
 # Files to be packaged
-EXTRA_DIST =                \
+EXTRA_DIST =            \
 	$(ui_DATA)          \
 	$(bin_SCRIPTS)      \
-	$(desktop_DATA)     
+	$(desktop_DATA)     \
+	$(muine_DATA)
 
 #SUBDIRS = po

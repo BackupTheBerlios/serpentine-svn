@@ -43,9 +43,9 @@ class RecordingPreferences (object):
 		
 		# setup ui
 		g = gtk.glade.XML (os.path.join(constants.data_dir, 'serpentine.glade'),
-		                   'preferences_dialog')
+		                   "preferences_dialog")
 		self.__dialog = g.get_widget ("preferences_dialog")
-		self.dialog.connect ('destroy-event', self.__on_destroy)
+		self.dialog.connect ("destroy-event", self.__on_destroy)
 		
 		# Drive selection
 		drv = g.get_widget ("drive")
@@ -59,39 +59,58 @@ class RecordingPreferences (object):
 		
 		# Speed selection
 		self.__speed = gaw.data_spin_button (g.get_widget ("speed"),
-		                                     '/apps/serpentine/write_speed')
-		self.__specify_speed = gaw.data_toggle_button (g.get_widget ("specify_speed"),
-		                                               "/apps/serpentine/specify_speed")
-		self.__specify_speed.widget.connect ("toggled", self.__on_specify_speed)
+		                                     "/apps/serpentine/write_speed")
+		                                     
+		specify_speed = g.get_widget ("specify_speed")
+		
+		self.__speed_select = gaw.RadioButtonData (
+			widgets = dict (
+				specify_speed = specify_speed,
+				use_max_speed = g.get_widget ("use_max_speed")
+			),
+			
+			key = "/apps/serpentine/speed_select"
+		)
+		self.__speed_select.seleted_by_default = "use_max_speed"
+		
+		specify_speed.connect ("toggled", self.__on_specify_speed)
 		
 		# No default value set, set it to 99
 		if self.__speed.data == 0:
 			self.__speed.data = 99
-		self.__use_max_speed = gaw.data_toggle_button (g.get_widget ("use_max_speed"),
-		                                               '/apps/serpentine/use_max_speed')
+
 		self.__update_speed ()
 		self.__speed.sync_widget()
-		self.__speed.widget.set_sensitive (self.__specify_speed.widget.get_active ())
+		self.__speed.widget.set_sensitive (specify_speed.get_active ())
 	
 		# eject checkbox
 		self.__eject = gaw.data_toggle_button (g.get_widget ("eject"),
-		                                       '/apps/serpentine/eject')
+		                                       "/apps/serpentine/eject")
+		
+		g.get_widget ("refresh_speed").connect ("clicked", self.__on_refresh_speed)
 		
 		# temp
-		f = gtk.FileChooserButton ("")
-		f.set_action (gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-		self.__tmp = gaw.data_file_chooser (f, "/apps/serpentine/temporary_dir", True, True)
-		f.show()
-		g.get_widget("location_box").add(f)
+		self.__tmp = gaw.GConfValue (
+			key = "/apps/serpentine/temporary_dir",
+			data_spec = gaw.Spec.STRING
+		)
+#		f = gtk.FileChooserButton ("")
+#		f.set_action (gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+#		self.__tmp = gaw.data_file_chooser (f, "/apps/serpentine/temporary_dir", True, True)
+#		f.show()
+#		g.get_widget("location_box").add(f)
 		
 		# Pool
 		self.__pool = GvfsMusicPool ()
 		
 		# Close button
-		self.__close = g.get_widget ('close_btn')
+		self.__close = g.get_widget ("close_btn")
 	
-	__config_dir = os.path.join (os.path.expanduser ('~'), '.serpentine')
+	__config_dir = os.path.join (os.path.expanduser ("~"), ".serpentine")
 	config_dir = property (lambda self: self.__config_dir)
+	
+	def __on_refresh_speed (self, *args):
+		self.__update_speed ()
 
 	def __update_speed (self):
 		if not self.drive:
@@ -99,9 +118,12 @@ class RecordingPreferences (object):
 			return
 			
 		speed = self.drive.get_max_speed_write ()
-		assert speed > 0
-		self.__speed.widget.set_range (1, speed)
+		assert speed >= 0, speed
 
+		val = self.__speed.data
+
+		self.__speed.widget.set_range (1, speed)
+		self.__speed.data = val
 		
 	def __set_simulate (self, simulate):
 		assert isinstance (simulate, bool)
@@ -157,10 +179,10 @@ class RecordingPreferences (object):
 		s = urlparse (tmp)
 		scheme = s[0]
 		# in case it is a url
-		if scheme == 'file':
+		if scheme == "file":
 			tmp = urllib.unquote (s[2])
 		# in case it is a url but not file://
-		elif scheme != '':
+		elif scheme != "":
 			return None
 		return tmp
 		
@@ -170,7 +192,8 @@ class RecordingPreferences (object):
 	def __get_speed_write (self):
 		assert self.drive
 		self.__update_speed()
-		if self.__use_max_speed.data:
+		#if self.__use_max_speed.data:
+		if self.__speed_select.data == "use_max_speed":
 			return self.drive.get_max_speed_write ()
 		return self.__speed.data
 		

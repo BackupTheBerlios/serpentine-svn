@@ -121,6 +121,10 @@ def validate_music_list (music_list, preferences):
     
     size_avail = s[statvfs.F_BAVAIL] * long(s[statvfs.F_BSIZE])
     if (size_avail - size_needed) < 0:
+        preferences.pool.clear ()
+    
+    size_avail = size_avail = s[statvfs.F_BAVAIL] * long(s[statvfs.F_BSIZE])
+    if (size_avail - size_needed) < 0:
         raise SerpentineCacheError (SerpentineCacheError.NO_SPACE, "Remove "   \
                                     "some music tracks or make sure your "     \
                                     "cache location location has enough free " \

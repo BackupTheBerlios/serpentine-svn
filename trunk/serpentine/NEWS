@@ -1,3 +1,10 @@
+Changes from 0.6:
+ - HIG compliance fixes: toolbar buttons now have tooltips and react to system preferences
+   on toolbar style and detachable state.
+ - Fixed a bug that made new installations of serpentine not work (regretion introduced in 0.6).
+ - Removed cache location widgets, you can still set it in gconf key: "/apps/serpentine/temporary_dir"
+ - Muine plugin is now bundled in tarball
+
 Changes from 0.5:
  - New usage widget: progressbar should be used for progress. The new usage disc widget
    improves the user experience by reflecting the disc contents in a disc like display.

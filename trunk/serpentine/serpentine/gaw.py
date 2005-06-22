@@ -34,13 +34,13 @@ class Spec (object):
 	default = property (lambda self: self.__default)
 	name = property (lambda self: self.__name)
 
-Spec.STRING = Spec ('string', gconf.VALUE_STRING, str, '')
-Spec.FLOAT = Spec ('float', gconf.VALUE_FLOAT, float, 0.0)
-Spec.INT = Spec ('int', gconf.VALUE_INT, int, 0)
-Spec.BOOL = Spec ('bool', gconf.VALUE_BOOL, bool, True)
+Spec.STRING = Spec ("string", gconf.VALUE_STRING, str, '')
+Spec.FLOAT = Spec ("float", gconf.VALUE_FLOAT, float, 0.0)
+Spec.INT = Spec ("int", gconf.VALUE_INT, int, 0)
+Spec.BOOL = Spec ("bool", gconf.VALUE_BOOL, bool, True)
 
 
-def data_file_chooser (button, key, use_directory = False, use_uri = True,client = None):
+def data_file_chooser (button, key, use_directory = False, use_uri = True, default = None, client = None):
 	"""
 	Returns a gaw.Data.
 	
@@ -62,20 +62,181 @@ def data_file_chooser (button, key, use_directory = False, use_uri = True,client
 		getter = button.get_current_folder_uri
 		setter = button.set_current_folder_uri
 		
-	return Data (button, getter, setter, "selection-changed", key, Spec.STRING, client)
+	return Data (button, getter, setter, "selection-changed", GConfValue (key, Spec.STRING, default = default, client = client))
 
-def data_entry (entry, key, data_spec = Spec.STRING, client = None):
-	return Data (entry, entry.get_text, entry.set_text, "changed", key, data_spec, client)
+def data_entry (entry, key, data_spec = Spec.STRING, default = None, client = None):
+	return Data (entry, entry.get_text, entry.set_text, "changed", GConfValue (key, data_spec, default, client))
 
-def data_spin_button (spinbutton, key, use_int = True, client = None):
+def data_spin_button (spinbutton, key, use_int = True, default = None, client = None):
 	if use_int:
-		return Data (spinbutton, spinbutton.get_value_as_int, spinbutton.set_value, "value-changed", key, Spec.INT, client)
+		return Data (spinbutton, spinbutton.get_value_as_int, spinbutton.set_value, "value-changed", GConfValue (key, Spec.INT, default, client))
 	else:
-		return Data (spinbutton, spinbutton.get_value, spinbutton.set_value, 'value-changed', key, Spec.FLOAT, client)
+		return Data (spinbutton, spinbutton.get_value, spinbutton.set_value, "value-changed", GConfValue (key, Spec.FLOAT, default, client))
 
-def data_toggle_button (toggle, key, client = None):
-	return Data (toggle, toggle.get_active, toggle.set_active, 'toggled', key, Spec.BOOL, client)
+def data_toggle_button (toggle, key, default = None, client = None):
+	return Data (toggle, toggle.get_active, toggle.set_active, "toggled", GConfValue (key, Spec.BOOL, default, client))
 
+class GConfValue (object):
+	def __init__ (self, key, data_spec, default = None, client = None):
+		if not client:
+			client = gconf.client_get_default ()
+
+		self.client = client
+	
+		self.key = key
+		
+		self.data_spec = data_spec
+		
+		# init the source id
+		self.__notify_id = None
+		
+		if default is not None:
+			self.default = default
+
+	
+	# Returns the appropriate method which is bound to the GConfClient object
+	__setter = property (
+		# fget
+		lambda self: getattr (
+			self.client,
+			"set_" + self.data_spec.name
+		)
+	)
+	
+	def __get_data (self):
+		val = self.client.get (self.key)
+		if val is None:
+			return self.get_default ()
+		
+		return getattr (val, "get_" + self.data_spec.name)()
+	
+	
+	# The real getter and setter methods encapsulate the key
+	data = property (
+		fget = __get_data,#lambda self: self.__getter (self.key),
+		fset = lambda self, value: self.__setter (self.key, value)
+	)
+	
+	def set_callback (self, on_changed):
+		assert callable (on_changed)
+		
+		if self.__notify_id is not None:
+			self.client_notify_remove (self.__notify_id)
+			self.__notify_id = None
+		
+		if on_changed is not None:
+			self.__notify_id = self.client.notify_add (
+				self.key,
+				on_changed
+			)
+	
+	def __del__ (self):
+		self.set_callback (None)
+	
+	def reset_default (self):
+		self.data = self.data_spec.default
+
+	def get_default (self):
+		return getattr (self, "default", self.data_spec.default)
+
+class RadioButtonData:
+	"""A radio_group is a dictionary that associates a gconf boolean key
+	with a radio button.
+	data = RadioButtonData (
+		{
+			'cheese': cheese_btn,
+			'ham': ham_btn,
+			'fish': fish_btn
+		},
+	)
+	data.selected_by_default = 'ham'
+	
+	selected_value = data.data
+	data.data = 'fish'
+	"""
+	
+	selected_by_default = None
+	
+	def __init__ (self, widgets, key, client = None):
+		self.widgets = widgets
+		self.keys = {}
+		self.gconf_value = GConfValue (key, Spec.STRING, client)
+		self.gconf_value.set_callback (self.__on_gconf_changed)
+		
+		notify_widget = False
+		for key, widget in widgets.iteritems ():
+			if not notify_widget:
+				widget.connect ("toggled", self.__on_widget_changed)
+				notify_widget = True
+			widget.connect ("destroy", self.__on_destroy)
+
+			self.keys[widget] = key
+	
+	def __on_destroy (self, widget):
+		key = self.keys[widget]
+		del self.widgets[key]
+		# Set the widget to none so that the key still exists
+		self.keys[widget] = None
+		
+	def _get_active (self):
+		for radio in self.keys:
+			if radio is not None and radio.get_active ():
+				return radio
+		return None
+	
+	def __on_widget_changed (self, radio_button):
+		# Update gconf entries
+		self.sync_gconf ()
+		
+	def __on_gconf_changed (self, client, conn_id, entry, user_data = None):
+		
+		data_spec = self.gconf_value.data_spec
+
+		for widget in self.keys:
+			widget.set_sensitive (client.key_is_writable (self.gconf_value.key))
+			
+		if entry.value is None or entry.value.type != data_spec.gconf_type:
+			self.sync_gconf ()
+
+		else:
+			self.sync_widget ()
+			
+	def sync_widget (self):
+		key = self.gconf_value.data
+		
+		if key in self.widgets:
+			# value is in radio group
+			self.widgets[key].set_active (True)
+		
+		else:
+			# When there is a default value, set it
+			if self.selected_by_default is not None:
+				self.data = self.selected_by_default
+			
+			# Otherwise deselect all entries
+			active = self._get_active ()
+			if active is not None:
+				# Unset the active radio button
+				active.set_active (False)
+		self.sync_gconf ()
+	
+	def sync_gconf (self):
+		active = self._get_active ()
+		if active is not None:
+			self.gconf_value.data = self.keys[active]
+		else:
+			self.gconf_value.reset_default ()
+		
+	def __set_data (self, value):
+		self.sync_gconf ()
+		self.gconf_value = value
+		
+	def __get_data (self):
+		self.sync_gconf ()
+		return self.gconf_value.data
+	
+	data = property (__get_data, __set_data)
+	
 class Data (object):
 	"""
 	This utility class acts as a synchronizer between a widget and gconf entry.
@@ -84,84 +245,70 @@ class Data (object):
 	of both data source have failed then we return the default value.
 	"""
 	
-	def __init__ (self, widget, widget_getter, widget_setter, changed_signal, key, data_spec, client = None):
+	def __init__ (self, widget, widget_getter, widget_setter, changed_signal, gconf_value):
 		self.__widget = widget
-		self.__widget_getter = widget_getter
 		self.__widget_setter = widget_setter
-		self.__data_spec = data_spec
+		self.__widget_getter = widget_getter
+		self.__gconf_value = gconf_value
 		
-		if not client:
-			client = gconf.client_get_default ()
-			
-		self.client = client
-		
-		self.key = key
-		self.__gconf_getter = getattr (self.client, 'get_' + self.data_spec.name)
-		self.__gconf_setter = getattr (self.client, 'set_' + self.data_spec.name)
-		
+		gconf_value.set_callback (self.__on_gconf_changed)
+
 		widget.connect (changed_signal, self.__on_widget_changed)
-		widget.connect ('destroy', self.__on_destroy)
-		self.__notify_id = self.client.notify_add (key, self.__on_gconf_changed)
-		
-		self.sync_widget ()
-		
+		widget.connect ("destroy", self.__on_destroy)
+
+		if self.widget is not None:
+			self.sync_widget ()
+	
+	gconf_value = property (lambda self: self.__gconf_value)
 	widget = property (lambda self: self.__widget)
-	data_spec = property (lambda self: self.__data_spec)
-	
-	def __set_client (self, client):
-		assert isinstance (client, gconf.Client)
-		self.__client = client
-	
-	def __set_key (self, key):
-		assert isinstance (key, str), type(key)
-		self.__key = key
-		
-	key = property (lambda self: self.__key, __set_key, None, "Associated gconf key.")
 	
 	def __get_data (self):
-		if self.widget:
-			# policy is widget has the most up to date data
-			self.sync_gconf ()
+		# policy is widget has the most up to date data, so update gconf key
+		
 		try:
-			val = self.__gconf_getter (self.key)
-			return val == None and self.data_spec.default or val
+			# GConf is always our data resource, get data from there
+			return self.gconf_value.data
 		except gobject.GError:
-			if self.widget:
-				# gconf is broken, return widget data
+
+			if self.widget is not None:
+				# we had an error retrieving the error, return widget value
 				val = self.__widget_getter ()
 			else:
 				# no widget return default
-				return self.data_spec.default
+				return self.gconf_value.get_default ()
 	
 	def __set_data (self, data):
-		assert isinstance (data, self.data_spec.py_type)
+		assert isinstance (data, self.gconf_value.data_spec.py_type)
 		try:
-			self.__gconf_setter (self.key, data)
+			self.gconf_value.data = data
 		except gobject.GError:
 			# when something goes wrong there's nothing we can do about it
 			pass
 
 	data = property (__get_data, __set_data, None, "The data contained in this component.")
 
-	def __del__ (self):
-		self.client.notify_remove (self.__notify_id)
-		
 	def __on_destroy (self, widget):
 		self.__widget = None
 		
 	def __on_widget_changed (self, *args):
+		if self.widget is None:
+			return
 		self.sync_gconf ()
 			
 	def __on_gconf_changed (self, client, conn_id, entry, user_data = None):
-		if not self.widget:
+		if self.widget is None:
 			return
-			
-		self.widget.set_sensitive (client.key_is_writable (self.key))
-		if entry.value and entry.value.type == self.data_spec.gconf_type:
-			converter = getattr (entry.value, 'get_' + self.data_spec.name)
+		
+		data_spec = self.gconf_value.data_spec
+		
+		self.widget.set_sensitive (client.key_is_writable (self.gconf_value.key))
+		if entry.value and entry.value.type == data_spec.gconf_type:
+			converter = getattr (entry.value, 'get_' + data_spec.name)
 			self.__widget_setter (converter ())
+			
 		else:
-			self.__widget_setter (self.data_spec.default)
+			self.__widget_setter (self.gconf_value.get_default())
+			
 		# Because widgets can validate data, sync the gconf entry again
 		self.sync_gconf()
 	
@@ -172,14 +319,16 @@ class Data (object):
 		"""
 		assert self.widget, "Checking if there's a valid widget is a prerequisite."
 		try:
-			val = self.__gconf_getter (self.key)
+			val = self.gconf_value.data
+
 			if val:
 				self.__widget_setter (val)
+
 		except gobject.GError:
-			self.__widget_setter (self.data_spec.default)
+
+			self.__widget_setter (self.gconf_value.get_default ())
 		# Because some widgets change the value, update it to gconf again
 		self.sync_gconf ()
-		
 	
 	def sync_gconf (self):
 		"""
@@ -189,6 +338,8 @@ class Data (object):
 		assert self.widget, "Checking if there's a valid widget is a prerequisite."
 		val = self.__widget_getter ()
 		try:
-			self.__gconf_setter (self.key, val)
+			self.gconf_value.data = val
+			self.__widget_setter (self.gconf_value.data)
+			
 		except gobject.GError:
 			pass

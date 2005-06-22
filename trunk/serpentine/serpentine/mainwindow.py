@@ -16,7 +16,7 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
-import gtkutil, gtk, operations, os, os.path
+import gtkutil, gtk, operations, os, os.path, gaw
 
 import constants
 
@@ -109,7 +109,7 @@ class PlaylistComponent (FileDialogComponent):
         self.parent.clear_files ()
 import tempfile
 
-class SavePlaylistComponent (SimpleComponent):
+class SavePlaylistComponent (GladeComponent):
     def _setup_glade (self, g):
         g.get_widget ("save_playlist_mni").connect ("activate", self.run_dialog)
         self.file_dlg = gtk.FileChooserDialog (
@@ -197,9 +197,105 @@ class SavePlaylistComponent (SimpleComponent):
         self.file_dlg.unselect_all()
         self.file_dlg.hide()
 
+class ToolbarComponent (GladeComponent):
+    Style = {
+        "both": gtk.TOOLBAR_BOTH,
+        "both-horiz": gtk.TOOLBAR_BOTH_HORIZ,
+        "icons": gtk.TOOLBAR_ICONS,
+        "text": gtk.TOOLBAR_TEXT
+    }
+    
+    def _setup_glade (self, g):
+        # Toolbar style
+        self.__style = gaw.GConfValue (
+            key = "/desktop/gnome/interface/toolbar_style",
+            data_spec = gaw.Spec.STRING,
+        )
+        self.__style.set_callback (self.__on_style_change)
+        
+        # Detachable toolbar
+        self.__detachable = gaw.GConfValue (
+            key = "/desktop/gnome/interface/toolbar_detachable",
+            data_spec = gaw.Spec.BOOL
+        )
+        self.__detachable.set_callback (self.__on_detachable_change)
+        
+        self.toolbar = g.get_widget ("main_toolbar")
+        self.handle = g.get_widget ("main_handle")
+        self.wrapper = g.get_widget ("main_toolbar_wrapper")
+        
+        # Show hide toolbar
+        view_toolbar = g.get_widget ("view_toolbar_mni")
+        self.__visible = gaw.data_toggle_button (
+            toggle = view_toolbar,
+            key = "/apps/serpentine/view_toolbar",
+            default = True
+        )
+        view_toolbar.connect ("toggled", self.__on_toolbar_visible)
+        
+        # Update to current state
+        self.__on_style_change ()
+        self.__on_detachable_change ()
+        self.__on_toolbar_visible ()
+    
+    def __on_toolbar_visible (self, *args):
+        if self.__visible.data:
+            self.wrapper.show ()
+        else:
+            self.wrapper.hide ()
+        
+    def __on_detachable_change (self, *args):
+        widget = self.wrapper.get_children()[0]
+        
+        if self.detachable:
+            if widget == self.handle:
+                return
+            
+            self.wrapper.remove (widget)
+            self.wrapper.add (self.handle)
+            self.handle.add (self.toolbar)
+        else:
+            if widget == self.toolbar:
+                return
+            self.handle.remove (self.toolbar)
+            self.wrapper.remove (widget)
+            self.wrapper.add (self.toolbar)
+            
+    def __on_style_change (self, *args):
+        self.toolbar.set_style (self.style)
+    
+    def detachable (self):
+        try:
+            detachable = self.__detachable.data
+        except:
+            detachable = False
+        if not isinstance (detachable, bool):
+            detachable = False
+        
+        return detachable
+    detachable = property (detachable)
+    
+    def style (self):
+        try:
+            style = self.__style.data
+        except:
+            style = "both"
+        
+        if style in ToolbarComponent.Style:
+            return ToolbarComponent.Style[style]
+        else:
+            return ToolbarComponent.Style["both"]
+            
+    style = property (style)
+
 class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, SimpleComponent):
     # TODO: finish up implementing an Operation
-    components = (AddFileComponent, PlaylistComponent, SavePlaylistComponent)
+    components = (
+        AddFileComponent,
+        PlaylistComponent,
+        SavePlaylistComponent,
+        ToolbarComponent
+    )
     
     def __init__ (self, application):
         gtk.Window.__init__ (self, gtk.WINDOW_TOPLEVEL)
@@ -296,10 +392,9 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
         """Private method for loading the internal playlist."""
         try:
             self.__application.preferences.load_playlist (self.music_list_widget.source)
-        except ExpatError:
-            pass
-        except IOError:
-            pass
+        except:
+            import traceback
+            traceback.print_exc()
             
     def on_selection_changed (self, *args):
         self.remove.set_sensitive (self.music_list_widget.count_selected() > 0)
@@ -337,7 +432,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
         # TODO: move this to SerpentineApplication.write_files ?
         try:
             # Try to validate music list
-            validate_music_list (self.music_list_widget.source, self.__application.preferences)
+            validate_music_list (self.music_list_widget.source, self.application.preferences)
         except SerpentineCacheError, err:
             show_prefs = False
             
