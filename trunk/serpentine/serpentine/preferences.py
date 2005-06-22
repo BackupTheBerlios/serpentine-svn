@@ -50,6 +50,7 @@ class RecordingPreferences (object):
 		# Drive selection
 		drv = g.get_widget ("drive")
 		cmb_drv = nautilusburn.DriveSelection ()
+		cmb_drv.set_property ("show-recorders-only", True)
 		cmb_drv.show ()
 		cmb_drv.connect ("device-changed", self.__on_drive_changed)
 		
@@ -94,11 +95,6 @@ class RecordingPreferences (object):
 			key = "/apps/serpentine/temporary_dir",
 			data_spec = gaw.Spec.STRING
 		)
-#		f = gtk.FileChooserButton ("")
-#		f.set_action (gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-#		self.__tmp = gaw.data_file_chooser (f, "/apps/serpentine/temporary_dir", True, True)
-#		f.show()
-#		g.get_widget("location_box").add(f)
 		
 		# Pool
 		self.__pool = GvfsMusicPool ()

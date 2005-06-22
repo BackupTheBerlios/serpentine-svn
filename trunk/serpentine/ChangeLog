@@ -16,6 +16,7 @@
 	* preferences.py:
 	Removed the cache location widget. Radio button now uses new gaw.RadioButtonData.
 	When speed is updated the remaining value still maintains.
+	Closes bug #003939
 	
 	* mainwindow.py:
 	New component: ToolbarComponent, reacts to gnome system properties in

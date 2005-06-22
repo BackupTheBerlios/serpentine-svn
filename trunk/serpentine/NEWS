@@ -4,6 +4,7 @@ Changes from 0.6:
  - Fixed a bug that made new installations of serpentine not work (regretion introduced in 0.6).
  - Removed cache location widgets, you can still set it in gconf key: "/apps/serpentine/temporary_dir"
  - Muine plugin is now bundled in tarball
+ - Added a button in the preferences to refresh maximum speed
 
 Changes from 0.5:
  - New usage widget: progressbar should be used for progress. The new usage disc widget
