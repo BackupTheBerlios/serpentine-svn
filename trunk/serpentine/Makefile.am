@@ -48,15 +48,12 @@ bin_SCRIPTS = scripts/serpentine
 #	intltool-update     \
 #	$(desktop_DATA)
 
-muine_DATA = \
-	muine-plugin/Makefile \
-	muine-plugin/SerpentinePlugin.cs
-
 # Files to be packaged
-EXTRA_DIST =            \
-	$(ui_DATA)          \
-	$(bin_SCRIPTS)      \
-	$(desktop_DATA)     \
-	$(muine_DATA)
+EXTRA_DIST =                   \
+	$(ui_DATA)             \
+	$(bin_SCRIPTS)         \
+	$(desktop_DATA)        \
+        muine-plugin/Makefile  \
+        muine-plugin/SerpentinePlugin.cs
 
 #SUBDIRS = po

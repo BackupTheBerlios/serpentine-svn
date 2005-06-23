@@ -93,41 +93,43 @@ class CallableOperation (Operation):
 	def start (self):
 		self.callable ()
 		self._send_finished_event (SUCCESSFUL)
-	
-import subprocess, os
 
-class SubprocessOperation (Operation):	
-	def __init__ (self, *args, **kwargs):
-		super (SubprocessOperation, self).__init__ ()
-		self.args = args
-		self.kwargs = kwargs
+try:
+	import subprocess, os
 	
-	pid = property (lambda self: self.__pid)
-	
-	can_start = property (lambda self: self.pid is not None)
-
-	can_stop = property (lambda self: self.pid is not None)
-
-	running = property (lambda self: self.pid is not None)
-	
-	def start (self):
-		try:
-			proc = subprocess.Popen (*self.args, **self.kwargs)
-			self.__pid = proc.pid
-			self.__id = gobject.child_watch_add (self.pid, self.__on_finish)
-		except Exception, e:
-			print "Error:", e
-	
-	def stop (self):
-		try:
-			os.kill (self.pid, 9)
-		except:
-			pass
-	
-	def __on_finish (self, pid, status):
-		self._send_finished_event (status == 0 and SUCCESSFUL or ERROR)
-		self.__pid = None
+	class SubprocessOperation (Operation):	
+		def __init__ (self, *args, **kwargs):
+			super (SubprocessOperation, self).__init__ ()
+			self.args = args
+			self.kwargs = kwargs
 		
+		pid = property (lambda self: self.__pid)
+		
+		can_start = property (lambda self: self.pid is not None)
+	
+		can_stop = property (lambda self: self.pid is not None)
+	
+		running = property (lambda self: self.pid is not None)
+		
+		def start (self):
+			try:
+				proc = subprocess.Popen (*self.args, **self.kwargs)
+				self.__pid = proc.pid
+				self.__id = gobject.child_watch_add (self.pid, self.__on_finish)
+			except Exception, e:
+				print "Error:", e
+		
+		def stop (self):
+			try:
+				os.kill (self.pid, 9)
+			except:
+				pass
+		
+		def __on_finish (self, pid, status):
+			self._send_finished_event (status == 0 and SUCCESSFUL or ERROR)
+			self.__pid = None
+except ImportError:
+	pass		
 	
 class MeasurableOperation (Operation):
 	progress = property (doc = "Returns the operation's progress.")

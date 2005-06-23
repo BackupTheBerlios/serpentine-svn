@@ -1,3 +1,10 @@
+2005-06-23 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* operations.py:
+	Closes Bug #4356
+	
+=== 0.6.1 ===
+
 2005-06-22 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 	* serpentine.glade:
@@ -30,8 +37,6 @@
 	There are two new classes RadioButtonData, for radio button groups and
 	GConfValue for representing a GConf key, it decouples the graphical part of
 	gaw.Data therefore you can use it to monitor keys and get its correct value.
-	
-	
 
 === 0.6 ===
 

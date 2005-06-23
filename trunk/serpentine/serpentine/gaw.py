@@ -296,6 +296,7 @@ class Data (object):
 		self.sync_gconf ()
 			
 	def __on_gconf_changed (self, client, conn_id, entry, user_data = None):
+
 		if self.widget is None:
 			return
 		
