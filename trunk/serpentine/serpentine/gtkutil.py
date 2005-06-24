@@ -320,8 +320,47 @@ class HigProgress (gtk.Window):
 		
 gobject.type_register (HigProgress)
 
+def find_widget_up (widget, name):
+	"""Finds a widget by name upwards the tree, by searching self and its
+	parents"""
+	
+	assert widget is not None
+	
+	if widget.get_name () == name:
+		return widget
+	
+	parent = widget.get_parent ()
+	if parent is not None:
+		return find_widget (parent, name)
+	
+	return None
+
+def find_widget (widget, name):
+	"""Finds the widget by name downwards the tree, by searching self and its
+	children."""
+	
+	assert widget is not None
+
+	if widget.get_name () == name:
+		return widget
+		
+	get_children = getattr (widget, "get_children", None)
+	if get_children is None:
+		get_child = getattr (widget, "get_child", None)
+		if get_child is None:
+			return None
+			
+		return find_widget (get_child(), name)
+	
+	for child in get_children ():
+		widget = find_widget (child, name)
+		if widget is not None:
+			return widget
+	
+	return None
+
 def get_root_parent (widget):
-	assert widget != None
+	assert widget is not None
 	p = widget.get_parent ()
 	if not p:
 		return widget

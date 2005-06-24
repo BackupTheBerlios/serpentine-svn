@@ -171,7 +171,9 @@ class RadioButtonData:
 			widget.connect ("destroy", self.__on_destroy)
 
 			self.keys[widget] = key
-	
+			
+		self.sync_widget ()
+		
 	def __on_destroy (self, widget):
 		key = self.keys[widget]
 		del self.widgets[key]

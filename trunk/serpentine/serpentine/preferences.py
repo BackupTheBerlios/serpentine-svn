@@ -20,7 +20,7 @@ import gtk.glade, nautilusburn, gtk, gobject, os, os.path, gconf, gtk.gdk, urlli
 from xml.dom import minidom
 from urlparse import urlparse
 
-import gaw, xspf, constants
+import gaw, xspf, constants, gtkutil
 from converting import GvfsMusicPool
 from common import SafeFileWrite
 # For testing purposes we try to import it
@@ -31,6 +31,38 @@ except Exception:
 	
 gconf.client_get_default ().add_dir ("/apps/serpentine", gconf.CLIENT_PRELOAD_NONE)
 
+def recording_preferences_window (preferences):
+	prefs_widget = gtkutil.find_widget (preferences.dialog, "preferences")
+	prefs_widget.show ()
+	
+	assert prefs_widget is not None
+	parent = prefs_widget.get_parent ()
+	parent.remove (prefs_widget)
+	
+	win = gtk.Window (gtk.WINDOW_TOPLEVEL)
+	win.set_border_width (12)
+	win.set_title ("Serpentine Preferences")
+	
+	vbox = gtk.VBox ()
+	vbox.set_spacing (18)
+	vbox.show ()
+	win.add (vbox)
+	
+	vbox.pack_start (prefs_widget)
+	
+	# Add a close button
+	bbox = gtk.HButtonBox ()
+	bbox.set_layout (gtk.BUTTONBOX_END)
+	bbox.show ()
+	vbox.add (bbox)
+	
+	close_btn = gtk.Button (stock = "gtk-close")
+	close_btn.show ()
+	close_btn.connect ("clicked", gtk.main_quit)
+	bbox.add (close_btn)
+	
+	return win
+	
 class RecordingPreferences (object):
 	def __init__ (self):
 		# By default use burnproof

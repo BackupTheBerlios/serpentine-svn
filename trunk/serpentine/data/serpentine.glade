@@ -682,7 +682,7 @@
 	  <property name="spacing">18</property>
 
 	  <child>
-	    <widget class="GtkFrame" id="frame1">
+	    <widget class="GtkFrame" id="preferences">
 	      <property name="visible">True</property>
 	      <property name="label_xalign">0</property>
 	      <property name="label_yalign">0.5</property>

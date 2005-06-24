@@ -67,9 +67,11 @@ if options.write_files is not None:
 # Show main window
 else:
 	if options.preferences:
-		app.preferences.dialog.set_transient_for (None)
-		app.preferences.dialog.run ()
-		app.preferences.dialog.hide ()
+		from serpentine.preferences import recording_preferences_window
+		win = recording_preferences_window (app.preferences)
+		win.show ()
+		win.connect ("delete-event", gtk.main_quit)
+		gtk.main ()
 		sys.exit (0)
 		
 	else:

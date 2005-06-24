@@ -23,8 +23,9 @@ class SerpentineError (StandardError): pass
 class SerpentineCacheError (SerpentineError):
     INVALID = 1
     NO_SPACE = 2
-    def __init__ (self, args):
-        self.__error_id, self.__error_message = args
+    def __init__ (self, error_id, error_message):
+        self.__error_id = error_id
+        self.__error_message = error_message
     
     error_id = property (lambda self: self.__error_id)
     error_message = property (lambda self: self.__error_message)

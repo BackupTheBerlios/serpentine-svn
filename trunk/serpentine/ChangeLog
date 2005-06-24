@@ -1,5 +1,19 @@
+2005-06-24 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+	* gtkutil.py:
+	New functions "find_widget" and "find_widget_up" to find widgets by name.
+	
+	* preferences.py:
+	* serpentine:
+	"serpentine -p" now shows a gtk.Window instead of a gtk.Dialog
+	
+	* gaw.py:
+	Closes Bug #4380
+	
+	* commom.py:
+	Closes Bug #4378
+	
 2005-06-23 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
-
+	
 	* operations.py:
 	Closes Bug #4356
 	
