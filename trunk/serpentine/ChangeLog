@@ -1,4 +1,70 @@
+2005-06-29 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* serpentine/mastering.py:
+	Changed to LGPL since it doesn't depend on any GPL module.
+	When a hints filter return an empty list treat it as if it didn't support it.
+	
+	* serpentine/plugins/plugcopycd.py:
+	New plugin to copy cd's, not functional yet.
+	
+	* serpentine/plugins/plugfilter_dir.py:
+	Added LGPL license
+	
+	* serpentine/plugins/plugfilter_k3b.py:
+	Added new K3B filter.
+	
+	* serpentine/plugins/__init__.py:
+	Added LGPL license, plugins have to be at least LGPL compatible.
+	When it can't load the module it is printed to the stderr, instead of stdout.
+	A traceback is printed too.
+	
+	* serpeninte/__init__.py:
+	Added a gtk.FileFilter for all files.
+	
+	* serpentine/__init__.py:
+	* serpentine/recording.py:
+	Renamed from RecordingMedia to ConvertAndWrite
+	
+	* serpentine/urlutil.py:
+	* serpentine/converting.py:
+	New utility module handling URL's.
+	
+	* serpentine/audio.py:
+	New function to extract an audio-cd track: 'extract_audio_track'
+	
+	* serpentine/preferences.py:
+	The "Refresh Speed" button also gets insensitive, along with the spinbox.
+	
+	* serpentine/recording.py:
+	RecordMusicList was renamed to WriteAudioDisc.
+	WriteAudioDisc now recieves a list of string representing the WAV filenames,
+	instead of a MusicList.
+	
+	* serpentine/mainwindow.py:
+	Removed unecessary imports.
+	"Write to files" menu entry now gets insensitive along with the toolbar button.
+	
+	* serpentine/xspf.py:
+	The copyright date was wrong.
+	
+	* serpentine/operations.py:
+	OperationsQueue's constructor optionally accepts a list as it's content.
+	
+	* serpentine/gtkutil.py:
+	Removed unnecessary 'get_child' call in 'find_widget' function.
+	Added support for gtk.Menu's in 'find_widget' function.
+	
+	* serpentine/gdkpiechart.py:
+	Corrected copyright year.
+	
+2005-06-28 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+	* data/serpentine.desktop:
+	Changed the title and description to conform with Nautilus/Places
+	menu entry.
+
 2005-06-24 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
 	* gtkutil.py:
 	New functions "find_widget" and "find_widget_up" to find widgets by name.
 	

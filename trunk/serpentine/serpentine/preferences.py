@@ -93,6 +93,8 @@ class RecordingPreferences (object):
 		# Speed selection
 		self.__speed = gaw.data_spin_button (g.get_widget ("speed"),
 		                                     "/apps/serpentine/write_speed")
+		
+		self.__specify_speed = g.get_widget ("specify_speed_wrapper")
 		                                     
 		specify_speed = g.get_widget ("specify_speed")
 		
@@ -107,6 +109,8 @@ class RecordingPreferences (object):
 		self.__speed_select.seleted_by_default = "use_max_speed"
 		
 		specify_speed.connect ("toggled", self.__on_specify_speed)
+		# init specify speed box sensitivity
+		self.__on_specify_speed (specify_speed)
 		
 		# No default value set, set it to 99
 		if self.__speed.data == 0:
@@ -267,7 +271,7 @@ class RecordingPreferences (object):
 		self.__close.set_sensitive (is_ok)
 		
 	def __on_specify_speed (self, widget, *args):
-		self.__speed.widget.set_sensitive (widget.get_active ())
+		self.__specify_speed.set_sensitive (widget.get_active ())
 	
 	def save_playlist (self, source):
 		if not os.path.exists (self.config_dir):

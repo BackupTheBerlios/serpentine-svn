@@ -1,4 +1,6 @@
-# Copyright (C) 2004 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+# LGPL License
+#
+# Copyright (C) 2005 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
@@ -105,7 +107,6 @@ class Playlist (_Struct):
 	def toxml (self):
 		"""Returns a xml.dom.Document representing the XSPF playlist"""
 		
-		#TODO: http://docs.python.org/lib/module-xml.dom.minidom.html
 		DOM = getDOMImplementation ()
 		doc = DOM.createDocument (None, "playlist", None)
 		root = doc.documentElement

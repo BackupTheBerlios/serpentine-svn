@@ -60,6 +60,9 @@ class Operation (Listenable):
 	listeners when this operation is finished.
 	"""
 	
+	title = None
+	description = None
+	
 	can_start = property (lambda self: not self.running, doc = "Checks if the operation can start. By default you can start an operation when it's not running.")
 	can_stop = property (lambda self: self.running, doc = "Checks if this operation can stop. By default you can stop operations that are running.")
 	running = property (doc = "Tests if the operation is running.")
@@ -148,9 +151,13 @@ class OperationsQueue (MeasurableOperation, OperationListener):
 	removed.
 	"""
 	
-	def __init__ (self):
+	def __init__ (self, operations = None):
 		Operation.__init__ (self)
-		self.__operations = []
+		
+		if operations is None:
+			operations = []
+			
+		self.__operations = operations
 		self.__done = 0
 		self.__curr_oper = None
 		self.__progress = 0.0

@@ -1,3 +1,6 @@
+Changes from 0.6.1:
+ - Support for K3B audio projects
+
 Changes from 0.6:
  - HIG compliance fixes: toolbar buttons now have tooltips and react to system preferences
    on toolbar style and detachable state.

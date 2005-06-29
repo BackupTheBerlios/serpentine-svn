@@ -282,6 +282,47 @@ except:
 	pass
 
 ################################################################################
+
+def extract_audio_track (device, track_number, sink, extra = None):
+	"""
+	Exctracts an audio track from a certain device. The 'extra' field is used
+	to send extra properties to the 'cdparanoia' element.
+	"""
+	
+	bin = gst.parse_launch ("cdparanoia ! wavenc")
+	bin.set_state (gst.STATE_PAUSED)
+	
+	TRACK_FORMAT = gst.format_get_by_nick ("track")
+	assert TRACK_FORMAT != 0
+	PLAY_TRACK = TRACK_FORMAT | gst.SEEK_METHOD_SET | gst.SEEK_FLAG_FLUSH
+
+	
+	elements = bin.get_list ()
+	cdparanoia = elements[0]
+	wavenc = elements[-1]
+	
+	cdparanoia.set_property ("device", device)
+	
+	if extra is not None:
+		for key, value in extra.iteritems ():
+			cdparanoia.set_property (key, value)
+			
+	src = cdparanoia.get_pad ("src")
+	evt = gst.event_new_segment_seek (PLAY_TRACK, track_number, track_number + 1)
+	src.send_event (evt)
+	
+	bin.add (sink)
+	wavenc.link (sink)
+	
+	return GstOperation(sink, bin)
+
+def extract_audio_track_file (device, track_number, filename, extra = None):
+	sink = gst.element_factory_make ("filesink")
+	sink.set_property ("location", filename)
+	
+	return extract_audio_track (device, track_number, sink, extra)
+	
+################################################################################
 if __name__ == '__main__':
 	import sys
 	class L (operations.OperationListener):
@@ -297,8 +338,9 @@ if __name__ == '__main__':
 			gst.main_quit()
 	
 	l = L()
-	f = file_to_wav (sys.argv[1], sys.argv[2])
+	#f = file_to_wav (sys.argv[1], sys.argv[2])
 	#f = file_audio_metadata (sys.argv[1])
+	f = extract_audio_track_file ("/dev/cdrom", int(sys.argv[1]) + 1, sys.argv[2])
 	f.listeners.append (l)
 	f.start()
 	l.finished = False

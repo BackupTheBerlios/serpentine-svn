@@ -18,6 +18,7 @@ serpentine_PYTHON = \
 	serpentine/components.py   \
 	serpentine/mainwindow.py   \
 	serpentine/common.py       \
+	serpentine/urlutil.py      \
 	serpentine/release.py
 
 serpentine_pluginsdir = $(pythondir)/serpentine/plugins
@@ -27,6 +28,8 @@ serpentine_plugins_PYTHON = \
 	serpentine/plugins/plugfilter_xspf.py     \
 	serpentine/plugins/plugfilter_dir.py      \
 	serpentine/plugins/plugfilter_plsave.py   \
+	serpentine/plugins/plugfilter_k3b.py      \
+	serpentine/plugins/plugcopycd.py          \
 	serpentine/plugins/__init__.py
 
 # Launcher

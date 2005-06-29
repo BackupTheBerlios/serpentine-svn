@@ -1,18 +1,19 @@
-# Copyright (C) 2004 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+# Copyright (C) 2005 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful,
+# This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# You should have received a copy of the GNU Library General Public
+# License along with this library; if not, write to the
+# Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+# Boston, MA 02111-1307, USA.
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
@@ -393,7 +394,7 @@ class MusicListGateway:
 		return None
 	
 	def add_files (self, filenames):
-		hints = [{'location':file} for file in filenames]
+		hints = [{"location":file} for file in filenames]
 		return self.add_hints (hints)
 
 	def add_hints (self, hints_list, insert = None):
@@ -408,8 +409,8 @@ class MusicListGateway:
 		
 		i = 0
 		for h in hints_list:
-			pls = self.__filter_location (h['location'])
-			if pls is not None:
+			pls = self.__filter_location (h["location"])
+			if pls is not None and len (pls) > 0:
 				# We add this to the queue so it is
 				# processed before the next file on the list
 				queue.append (self.add_hints(pls, insert))

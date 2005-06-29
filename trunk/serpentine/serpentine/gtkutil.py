@@ -340,22 +340,29 @@ def find_widget (widget, name):
 	children."""
 	
 	assert widget is not None
-
+	
 	if widget.get_name () == name:
 		return widget
 		
 	get_children = getattr (widget, "get_children", None)
+
 	if get_children is None:
-		get_child = getattr (widget, "get_child", None)
-		if get_child is None:
-			return None
-			
-		return find_widget (get_child(), name)
+		return None
 	
 	for child in get_children ():
-		widget = find_widget (child, name)
-		if widget is not None:
-			return widget
+		w = find_widget (child, name)
+		if w is not None:
+			return w
+	
+	get_submenu = getattr (widget, "get_submenu", None)
+	
+	if get_submenu is None:
+		return None
+	
+	sub_menu = get_submenu ()
+	
+	if sub_menu is not None:
+		return find_widget (sub_menu, name)
 	
 	return None
 

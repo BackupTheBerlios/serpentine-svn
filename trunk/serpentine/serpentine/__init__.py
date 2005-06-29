@@ -28,7 +28,7 @@ from xml.parsers.expat import ExpatError
 import operations, nautilusburn, gtkutil
 from mastering import AudioMastering, GtkMusicList, MusicListGateway
 from mastering import ErrorTrapper
-from recording import RecordMusicList, RecordingMedia
+from recording import ConvertAndWrite
 from preferences import RecordingPreferences
 from operations import MapProxy, OperationListener, OperationsQueue
 from operations import CallableOperation
@@ -43,9 +43,14 @@ class SavePlaylistRegistry (SimpleComponent):
 	def __init__ (self, parent):
 		super (SavePlaylistRegistry, self).__init__ (parent)
 		
+		# all files filter
+		all_files = gtk.FileFilter ()
+		all_files.set_name ("All files")
+		all_files.add_pattern ("*.*")
+		
 		self.__global_filter = gtk.FileFilter()
 		self.__global_filter.set_name ("Playlists")
-		self.__file_filters = [self.__global_filter]
+		self.__file_filters = [self.__global_filter, all_files]
 		self.__factories = {}
 		self.listeners = []
 		
@@ -87,9 +92,12 @@ class Application (operations.Operation, SimpleComponent):
 		self._playlist_file_patterns = {}
 		self._music_file_filters = None
 		self._playlist_file_filters = None
+		self.register_music_file_pattern ("All files", "*.*")
 		self.register_music_file_pattern ("MPEG Audio Stream, Layer III", "*.mp3")
 		self.register_music_file_pattern ("Ogg Vorbis Codec Compressed WAV File", "*.ogg")
 		self.register_music_file_pattern ("Free Lossless Audio Codec", "*.flac")
+		self.register_music_file_pattern ("PCM Wave audio", "*.wav")
+		self.register_playlist_file_pattern ("All files", "*.*")
 	
 	def _load_plugins (self):
 		# Load Plugins
@@ -130,7 +138,8 @@ class Application (operations.Operation, SimpleComponent):
 
 	def write_files (self, window = None):
 		# TODO: we should add a confirmation dialog
-		r = RecordingMedia (self.music_list, self.preferences, window)
+
+		r = ConvertAndWrite (self.music_list, self.preferences, window)
 		# Add this operation to the recording
 		self.operations.append (r)
 		r.listeners.append (self)

@@ -37,7 +37,7 @@ class XspfFilter (HintsFilter):
 				s = urlparse (location)
 				scheme = s[0]
 				# TODO: handle more urls
-				if scheme == 'file':
+				if scheme == "file":
 					location = urllib.unquote (s[2])
 				else:
 					return None

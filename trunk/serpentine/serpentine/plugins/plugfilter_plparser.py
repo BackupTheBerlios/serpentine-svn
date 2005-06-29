@@ -45,7 +45,7 @@ class PlparserFilter (HintsFilter):
 			p = plparser.Parser()
 			p.connect("entry", self.__on_pl_entry, hints_list)
 			p.parse(location, False)
-			print hints_list
+
 			return hints_list
 			
 		return None

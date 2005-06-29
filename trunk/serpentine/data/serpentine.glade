@@ -26,7 +26,7 @@
       <property name="spacing">0</property>
 
       <child>
-	<widget class="GtkMenuBar" id="menubar1">
+	<widget class="GtkMenuBar" id="main_menu">
 	  <property name="visible">True</property>
 
 	  <child>
@@ -36,7 +36,7 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="menuitem1_menu">
+		<widget class="GtkMenu" id="file_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="write_to_disc_mni">
@@ -136,7 +136,7 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="edit1_menu">
+		<widget class="GtkMenu" id="edit_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="add_mni">
@@ -192,7 +192,7 @@
 	      <signal name="activate" handler="on_view1_activate" last_modification_time="Wed, 22 Jun 2005 15:34:58 GMT"/>
 
 	      <child>
-		<widget class="GtkMenu" id="view1_menu">
+		<widget class="GtkMenu" id="view_menu">
 
 		  <child>
 		    <widget class="GtkCheckMenuItem" id="view_toolbar_mni">
@@ -216,7 +216,7 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="menuitem4_menu">
+		<widget class="GtkMenu" id="about_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="about_mni">
@@ -317,7 +317,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkToolButton" id="burn">
+		    <widget class="GtkToolButton" id="write_to_disc">
 		      <property name="visible">True</property>
 		      <property name="tooltip" translatable="yes">Write playlist to disc</property>
 		      <property name="label" translatable="yes">Write to Disc</property>
@@ -782,7 +782,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkHBox" id="hbox11">
+			<widget class="GtkHBox" id="specify_speed_hbox">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
 			  <property name="spacing">6</property>
@@ -808,39 +808,52 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkSpinButton" id="speed">
+			    <widget class="GtkHBox" id="specify_speed_wrapper">
 			      <property name="visible">True</property>
-			      <property name="sensitive">False</property>
-			      <property name="can_focus">True</property>
-			      <property name="climb_rate">1</property>
-			      <property name="digits">0</property>
-			      <property name="numeric">True</property>
-			      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
-			      <property name="snap_to_ticks">False</property>
-			      <property name="wrap">False</property>
-			      <property name="adjustment">0 0 100 1 10 10</property>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">False</property>
-			    </packing>
-			  </child>
+			      <property name="homogeneous">False</property>
+			      <property name="spacing">6</property>
 
-			  <child>
-			    <widget class="GtkButton" id="refresh_speed">
-			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Refreshes the max writing speed</property>
-			      <property name="can_focus">True</property>
-			      <property name="label">gtk-refresh</property>
-			      <property name="use_stock">True</property>
-			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
+			      <child>
+				<widget class="GtkSpinButton" id="speed">
+				  <property name="visible">True</property>
+				  <property name="sensitive">False</property>
+				  <property name="can_focus">True</property>
+				  <property name="climb_rate">1</property>
+				  <property name="digits">0</property>
+				  <property name="numeric">True</property>
+				  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+				  <property name="snap_to_ticks">False</property>
+				  <property name="wrap">False</property>
+				  <property name="adjustment">0 0 100 1 10 10</property>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">True</property>
+				  <property name="fill">True</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkButton" id="refresh_speed">
+				  <property name="visible">True</property>
+				  <property name="tooltip" translatable="yes">Refreshes the max writing speed</property>
+				  <property name="can_focus">True</property>
+				  <property name="label">gtk-refresh</property>
+				  <property name="use_stock">True</property>
+				  <property name="relief">GTK_RELIEF_NORMAL</property>
+				  <property name="focus_on_click">True</property>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">False</property>
+				</packing>
+			      </child>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">False</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
 			    </packing>
 			  </child>
 			</widget>

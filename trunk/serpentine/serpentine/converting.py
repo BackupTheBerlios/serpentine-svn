@@ -189,33 +189,9 @@ class GstMusicPool (MusicPool):
 	def unique_music_id (self, music):
 		pass
 	
-import urllib
-from urlparse import urlparse, urlunparse
 import gnomevfs
 
-def get_path (uri_or_path):
-	"""Returns a path from a path or from a URI"""
-	
-	s = urlparse (uri_or_path)
-	path = s[2]
-	scheme = s[0]
-	if scheme != '':
-		# Remove %20
-		path = urllib.unquote(path)
-	return path
-
-def to_uri (uri_or_path):
-	"""Converts a path or a URI to a URI"""
-	
-	s = urlparse (uri_or_path)
-	s = list (s)
-	if s[0] == '':
-		s[0] = 'file'
-	
-	s[2] = urllib.quote (get_path (uri_or_path))
-	
-	return urlunparse (s)
-	
+import urlutil	
 
 class GvfsMusicPool (GstMusicPool):
 	use_gnomevfssrc = True
@@ -228,19 +204,19 @@ class GvfsMusicPool (GstMusicPool):
 		/foo bar
 		Returns always a URL, even if the string was a file path.
 		"""
-		return to_uri (uri)
+		return urlutil.normalize (uri)
 		
 	def is_available (self, music):
 		on_cache = GstMusicPool.is_available (self, music)
 		uri = gnomevfs.URI (music)
 		if not on_cache and \
 					uri.is_local and \
-					gnomevfs.get_mime_type (music) == 'audio/x-wav':
+					gnomevfs.get_mime_type (music) == "audio/x-wav":
 			# convert to native filename
+			s = UrlParse (unique_id)
 			unique_id = self.unique_music_id (music)
-			s = urlparse (unique_id)
-			filename = s[2]
-			self.cache[unique_id] = GstCacheEntry (filename, False)
+			filename = s.path
+			self.cache[unique_id] = GstCacheEntry (s.path, False)
 			on_cache = True
 		del uri
 		return on_cache

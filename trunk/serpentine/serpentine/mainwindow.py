@@ -25,7 +25,6 @@ from operations import MapProxy, OperationListener, OperationsQueue
 from operations import CallableOperation
 from mastering import AudioMastering, GtkMusicList, MusicListGateway
 from mastering import ErrorTrapper
-from recording import RecordMusicList, RecordingMedia
 
 from serpentine.common import *
 
@@ -324,8 +323,15 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
         
         
         # record button
-        g.get_widget("burn").connect ("clicked", self.__on_write_files)
-        g.get_widget ("write_to_disc_mni").connect ("activate", self.__on_write_files)
+        # setup record button
+        self.__write_to_disc = MapProxy (dict(
+            button = g.get_widget ("write_to_disc"),
+            menu   = g.get_widget ("write_to_disc_mni")
+        ))
+        
+        self.__write_to_disc.set_sensitive (False)
+        self.__write_to_disc["button"].connect ("clicked", self.__on_write_files)
+        self.__write_to_disc["menu"].connect ("activate", self.__on_write_files)
         
         # masterer widget
         box = self.get_child()
@@ -336,22 +342,18 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
         g.get_widget ("preferences_mni").connect ("activate", self.__on_preferences)
         
         # setup remove buttons
-        self.remove = MapProxy ({'menu': g.get_widget ("remove_mni"),
-                                 'button': g.get_widget ("remove")})
+        self.remove = MapProxy ({"menu": g.get_widget ("remove_mni"),
+                                 "button": g.get_widget ("remove")})
 
         self.remove["menu"].connect ("activate", self.__on_remove_file)
         self.remove["button"].connect ("clicked", self.__on_remove_file)
         self.remove.set_sensitive (False)
         
-        # setup record button
-        self.__on_write_files = g.get_widget ("burn")
-        self.__on_write_files.set_sensitive (False)
-        
         # setup clear buttons
-        self.clear = MapProxy ({'menu': g.get_widget ("clear_mni"),
-                                'button': g.get_widget ("clear")})
-        self.clear['button'].connect ("clicked", self.clear_files)
-        self.clear['menu'].connect ("activate", self.clear_files)
+        self.clear = MapProxy ({"menu": g.get_widget ("clear_mni"),
+                                "button": g.get_widget ("clear")})
+        self.clear["button"].connect ("clicked", self.clear_files)
+        self.clear["menu"].connect ("activate", self.clear_files)
         self.clear.set_sensitive (False)
         
         # setup quit menu item
@@ -367,7 +369,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
         if self.__application.preferences.drive is None:
             gtkutil.dialog_warn ("No recording drive found", "No recording drive found on your system, therefore some of Serpentine's functionalities will be disabled.", self)
             g.get_widget ("preferences_mni").set_sensitive (False)
-            self.__on_write_files.set_sensitive (False)
+            self.__write_to_disc.set_sensitive (False)
     
         # Load internal XSPF playlist
         self.__load_playlist()
@@ -404,7 +406,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
         self.clear.set_sensitive (is_sensitive)
         # Only set it sentitive if the drive is available and is not recording
         if self.__application.preferences.drive is not None:
-            self.__on_write_files.set_sensitive (is_sensitive)
+            self.__write_to_disc.set_sensitive (is_sensitive)
 
     def __on_remove_file (self, *args):
         self.music_list_widget.remove_selected()

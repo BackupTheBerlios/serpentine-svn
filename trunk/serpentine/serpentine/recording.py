@@ -54,9 +54,10 @@ class WritingError:
 		)
 
 ################################################################################
-class RecordingMedia (MeasurableOperation, OperationsQueueListener):
+
+class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
 	"""
-	RecordingMedia class is yet another operation. When this operation is
+	ConvertAndWrite class is yet another operation. When this operation is
 	started it will show the user the dialog for the recording operation.
 	It is supposed to be a one time operation.
 	"""
@@ -111,7 +112,12 @@ class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 		self.__fetching = oper
 		self.__queue.append (oper)
 		
-		oper = RecordMusicList (self.__music_list,
+		# Convert a music list into a list of filenames
+		filenames = []
+		for row in self.__music_list:
+			filenames.append (m["cache_location"])
+		
+		oper = WriteAudioDisc (filenames,
 		                        self.preferences,
 		                        self.__prog)
 		                        
@@ -184,7 +190,8 @@ class RecordingMedia (MeasurableOperation, OperationsQueueListener):
 		self.__on_close ()
 
 ################################################################################
-class RecordMusicList (MeasurableOperation):
+class WriteAudioDisc (MeasurableOperation):
+	
 	def __init__ (self, music_list, preferences, parent = None):
 		MeasurableOperation.__init__(self)
 		self.music_list = music_list
@@ -194,6 +201,8 @@ class RecordMusicList (MeasurableOperation):
 		self.__recorder = nautilusburn.Recorder()
 		self.__preferences = preferences
 	
+	title = "Writing Files to Disc"
+
 	progress = property (lambda self: self.__progress)
 	running = property (lambda self: self.__running)
 	recorder = property (lambda self: self.__recorder)
@@ -205,8 +214,9 @@ class RecordMusicList (MeasurableOperation):
 		self.__running = True
 		tracks = []
 
-		for m in self.music_list:
-			tracks.append (AudioTrack (filename = m["cache_location"]))
+		for filename in self.music_list:
+			tracks.append (AudioTrack (filename))
+			
 		self.recorder.connect ("progress-changed", self.__on_progress)
 		self.recorder.connect ("insert-media-request", self.__insert_cd)
 		self.recorder.connect ("warn-data-loss", self.__on_data_loss)
