@@ -59,11 +59,14 @@ class CopyCD (object):
         return extract_queue, filenames
     
     def copy_cd (self):
+        # TODO: add error reporting
         # extract the cd contents
         extract_cd, filenames = self.extract_audio_cd ()
         
         # Write them to a CD
         write_cd = WriteAudioDisc (music_list, self.app.preferences)
+        
+        extract_and_write = operations.OperationsQueue ((extract_cd, write_cd))
         
         # Remove the temporary files
         remove_files = operations.OperationQueue ()
@@ -75,7 +78,9 @@ class CopyCD (object):
             )
             remove_files.append (oper)
         
-        return operations.OperationsQueue ([extract_cd, write_cd, remove_files])
+        oper = operations.OperationsQueue ((extract_and_write, remove_files))
+        oper.abort_on_failure = False
+        return oper
         
     def on_activate (*args):
         self.copy_cd.start ()

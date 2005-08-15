@@ -1,3 +1,15 @@
+2005-08-15 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * Makefile.am:
+    Removed copycd plugin since it's a feature of GNOME 2.12
+    
+    * serpentine/recording.py:
+    Changed from tabs to spaces indentation.
+    Corrected how extraction/writing is done.
+    
+    * serpentine/components.py:
+    Added to repository.
+    
 2005-06-29 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 	* serpentine/mastering.py:

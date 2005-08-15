@@ -66,7 +66,10 @@ def recording_preferences_window (preferences):
 class RecordingPreferences (object):
 	def __init__ (self):
 		# By default use burnproof
-		self.__write_flags = nautilusburn.RECORDER_WRITE_BURNPROOF
+		self.__write_flags  = nautilusburn.RECORDER_WRITE_BURNPROOF
+#		self.__write_flags |= nautilusburn.RECORDER_WRITE_DISC_AT_ONCE
+#		self.__write_flags |= nautilusburn.RECORDER_WRITE_DEBUG
+
 		# Sets up data dir and version
 		if release:
 			self.version = release.version
