@@ -1,5 +1,16 @@
 2005-08-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
-
+    
+    * data/serpentine.glade:
+    Corrected preferences' HIG'iness by setting the border to 12.
+    Added a new checkbox for using the two seconds gap. Put that checkbox
+    and the "eject disc" checkbox into a new frame called "Writing Options".
+    
+    * serpentine/preferences.py:
+    Added suport for the two seconds gap, located in gconf key "use_gap", with
+    a default value of True (which means writing in TAO mode).
+    Added a default value of "file:///tmp" to the "temporary_dir" key so that
+    it doesn't fail on new systems.
+    
     * serpentine/plugfilter_dir.py:
     Added some assertions to try to nail:
     http://bugzilla.ubuntu.com/show_bug.cgi?id=11447

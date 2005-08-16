@@ -67,8 +67,6 @@ class RecordingPreferences (object):
     def __init__ (self):
         # By default use burnproof
         self.__write_flags  = nautilusburn.RECORDER_WRITE_BURNPROOF
-#        self.__write_flags |= nautilusburn.RECORDER_WRITE_DISC_AT_ONCE
-#        self.__write_flags |= nautilusburn.RECORDER_WRITE_DEBUG
 
         # Sets up data dir and version
         if release:
@@ -129,10 +127,18 @@ class RecordingPreferences (object):
         
         g.get_widget ("refresh_speed").connect ("clicked", self.__on_refresh_speed)
         
+        # use gap checkbox
+        self.__use_gap = gaw.data_toggle_button (
+            g.get_widget ("use_gap"),
+            "/apps/serpentine/use_gap",
+            default = True
+        )
+        
         # temp
         self.__tmp = gaw.GConfValue (
             key = "/apps/serpentine/temporary_dir",
-            data_spec = gaw.Spec.STRING
+            data_spec = gaw.Spec.STRING,
+            default = "file:///tmp"
         )
         
         # Pool
