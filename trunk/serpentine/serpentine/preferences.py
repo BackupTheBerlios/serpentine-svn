@@ -66,7 +66,7 @@ def recording_preferences_window (preferences):
 class RecordingPreferences (object):
     def __init__ (self):
         # By default use burnproof
-        self.__write_flags  = nautilusburn.RECORDER_WRITE_BURNPROOF
+        self.__write_flags = nautilusburn.RECORDER_WRITE_BURNPROOF
 
         # Sets up data dir and version
         if release:
@@ -139,6 +139,13 @@ class RecordingPreferences (object):
             key = "/apps/serpentine/temporary_dir",
             data_spec = gaw.Spec.STRING,
             default = "file:///tmp"
+        )
+        
+        # debug
+        self.__debug = gaw.GConfValue (
+            key = "/apps/serpentine/debug_mode",
+            data_spec = gaw.Spec.BOOLEAN,
+            default = False
         )
         
         # Pool
@@ -242,7 +249,9 @@ class RecordingPreferences (object):
     
     def __get_write_flags (self):
         ret = self.__write_flags
-        if self.__eject.data:
+        if self.__use_gap.data:
+            ret |= nautilusburn.RECORDER_WRITE_DISC_AT_ONCE
+        if not self.__eject.data:
             ret |= nautilusburn.RECORDER_WRITE_EJECT
         return ret
         

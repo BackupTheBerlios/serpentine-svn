@@ -10,6 +10,7 @@
     a default value of True (which means writing in TAO mode).
     Added a default value of "file:///tmp" to the "temporary_dir" key so that
     it doesn't fail on new systems.
+    Added an option in gconf to run serpentine in debug mode: "use_debug"
     
     * serpentine/plugfilter_dir.py:
     Added some assertions to try to nail:
