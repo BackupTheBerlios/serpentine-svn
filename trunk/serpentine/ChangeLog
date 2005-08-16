@@ -1,3 +1,15 @@
+2005-08-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/plugfilter_dir.py:
+    Added some assertions to try to nail:
+    http://bugzilla.ubuntu.com/show_bug.cgi?id=11447
+    
+    * serpentine/preferences.py:
+    Fixed bug 309520
+    
+    * serpentine/mainwindow.py:
+    Fixed http://bugzilla.ubuntu.com/show_bug.cgi?id=13428
+    
 2005-08-15 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * Makefile.am:

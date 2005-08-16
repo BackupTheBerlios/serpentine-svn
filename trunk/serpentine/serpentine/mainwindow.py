@@ -457,7 +457,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
             btn = "Write to Disc (Overburning)"
             self.__application.preferences.overburn = True
         else:
-            title = "Do you want to record your musics?"
+            title = "Do you want to record your music?"
             msg = "You are about to record a media disc. " \
                   "Canceling a writing operation will make your disc unusable."
             btn = "Write to Disc"

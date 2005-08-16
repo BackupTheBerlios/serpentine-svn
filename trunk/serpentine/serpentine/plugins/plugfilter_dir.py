@@ -24,32 +24,38 @@ import gnomevfs, urllib, os.path
 from urlparse import urlparse
 from glob import glob
 from serpentine.mastering import HintsFilter
+from types import StringType
 
 class DirectoryFilter (HintsFilter):
-	def filter_location (self, location):
-
-		try:
-			mime = gnomevfs.get_mime_type (location)
-		except RuntimeError:
-			return None
-			
-		if mime != "x-directory/normal":
-			return None
-			
-		s = urlparse (location)
-		scheme = s[0]
-		# TODO: handle more urls
-		if scheme == "file":
-			location = urllib.unquote (s[2])
-		elif scheme == "":
-			location = s[2]
-		else:
-			return None
-		hints_list = []
-		for location in glob (os.path.join (location, "*")):
-			hints_list.append ({"location": location})
-		return hints_list
+    def filter_location (self, location):
+        assert isinstance (location, StringType), "Location cannot be null"
+        # TypeError is thrown when there is a problem with the supplied
+        # location. See http://bugzilla.ubuntu.com/show_bug.cgi?id=11447
+        assert "\0" not in location, "Malformed string ocation: %s" % location
+        
+        try:
+            mime = gnomevfs.get_mime_type (location)
+        except RuntimeError:
+            # RuntimeError is thrown when there is an error reading the file
+            return None
+            
+        if mime != "x-directory/normal":
+            return None
+            
+        s = urlparse (location)
+        scheme = s[0]
+        # TODO: handle more urls
+        if scheme == "file":
+            location = urllib.unquote (s[2])
+        elif scheme == "":
+            location = s[2]
+        else:
+            return None
+        hints_list = []
+        for location in glob (os.path.join (location, "*")):
+            hints_list.append ({"location": location})
+        return hints_list
 
 
 def create_plugin (app):
-	app.add_hints_filter (DirectoryFilter ())
+    app.add_hints_filter (DirectoryFilter ())
