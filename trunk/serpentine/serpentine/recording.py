@@ -105,7 +105,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
                                  "preserve it's contents.",
                                  self.__prog)
         self.__blocked = False
-        self.preferences.pool.temporary_dir = self.preferences.temporary_dir
+        self.preferences.pool.temporaryDir = self.preferences.temporaryDir
         oper = FetchMusicList(self.__music_list, self.preferences.pool)
         # Fill filenames after retrieving stuff
         self.__filenames = []
@@ -223,7 +223,7 @@ class WriteAudioDisc (MeasurableOperation):
         # If it's bigger then current eject media and ask for another one
         self.__running = True
         tracks = []
-        print "Writing:", self.music_list
+
         for filename in self.music_list:
             tracks.append (AudioTrack (filename))
             
@@ -248,8 +248,8 @@ class WriteAudioDisc (MeasurableOperation):
     def __thread (self, tracks):
         result = self.recorder.write_tracks (self.preferences.drive,
                                              tracks,
-                                             self.preferences.speed_write,
-                                             self.preferences.write_flags)
+                                             self.preferences.speedWrite,
+                                             self.preferences.writeFlags)
 
         if result == nautilusburn.RECORDER_RESULT_FINISHED:
             result = operations.SUCCESSFUL

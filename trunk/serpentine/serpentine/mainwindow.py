@@ -20,7 +20,7 @@ import gtkutil, gtk, operations, os, os.path, gaw
 
 import constants
 
-from components import SimpleComponent
+from components import Component
 from operations import MapProxy, OperationListener, OperationsQueue
 from operations import CallableOperation
 from mastering import AudioMastering, GtkMusicList, MusicListGateway
@@ -28,7 +28,7 @@ from mastering import ErrorTrapper
 
 from serpentine.common import *
 
-class GladeComponent (SimpleComponent):
+class GladeComponent (Component):
 
     def _setup_glade (self, g):
         """This method is called when the SerpentineWindow object is created."""
@@ -121,7 +121,7 @@ class SavePlaylistComponent (GladeComponent):
         self.file_dlg.set_title ("")
         self.file_dlg.set_transient_for (self.parent)
         app = self.parent.application
-        app.save_playlist.listeners.append (self)
+        app.savePlaylist.listeners.append (self)
         self.__sync = True
     
     def on_registred (self, factory, extension, description):
@@ -154,7 +154,7 @@ class SavePlaylistComponent (GladeComponent):
             self.file_dlg.remove_filter (f)
         
         # Now fill the real filters
-        for f in app.save_playlist.file_filters:
+        for f in app.savePlaylist.file_filters:
             self.file_dlg.add_filter (f)
         
         # Sync is complete
@@ -182,7 +182,7 @@ class SavePlaylistComponent (GladeComponent):
                 return
                 
             try:
-                oper = app.save_playlist.save (filename)
+                oper = app.savePlaylist.save (filename)
             except SerpentineNotSupportedError:
                 gtkutil.dialog_error (
                     "Unsupported Format",
@@ -287,7 +287,7 @@ class ToolbarComponent (GladeComponent):
             
     style = property (style)
 
-class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, SimpleComponent):
+class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Component):
     # TODO: finish up implementing an Operation
     components = (
         AddFileComponent,
@@ -299,7 +299,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
     def __init__ (self, application):
         gtk.Window.__init__ (self, gtk.WINDOW_TOPLEVEL)
         operations.Operation.__init__ (self)
-        SimpleComponent.__init__ (self, application)
+        Component.__init__ (self, application)
             
         self.__application = application
         self.__masterer = AudioMastering ()
@@ -393,7 +393,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Sim
         #TODO: move it to SerpentineApplication ?
         """Private method for loading the internal playlist."""
         try:
-            self.__application.preferences.load_playlist (self.music_list_widget.source)
+            self.__application.preferences.loadPlaylist (self.music_list_widget.source)
         except:
             import traceback
             traceback.print_exc()

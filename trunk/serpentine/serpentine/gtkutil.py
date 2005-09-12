@@ -203,7 +203,29 @@ def hig_alert (primary_text, secondary_text, parent = None, flags = 0, buttons =
 	reply = dlg.run()
 	dlg.destroy()
 	return reply
-	
+
+def hig_dialog (dialog):
+    """
+    Creates a gtk.Dialog and adds a gtk.Alignment has it's child.
+    Returns the gtk.Alignment instance.
+    """
+    dialog.set_border_width (7)
+    dialog.set_has_separator (False)
+    dialog.set_title ("")
+    dialog.set_resizable (False)
+    
+    align = gtk.Alignment ()
+    align.set_alignment (
+        padding_top = 0,
+        padding_bottom = 7,
+        padding_left = 0,
+        padding_right = 0
+    )
+    align.set_border_width (5)
+    align.show ()
+    dialog.vbox.add (align)
+    return align
+    
 class HigProgress (gtk.Window):
 	"""
 	HigProgress returns a window that contains a number of properties to

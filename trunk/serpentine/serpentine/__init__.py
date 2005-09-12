@@ -34,12 +34,12 @@ from operations import MapProxy, OperationListener, OperationsQueue
 from operations import CallableOperation
 import constants
 
-from components import SimpleComponent
+from components import Component
 from mainwindow import SerpentineWindow
 from common import *
 from plugins import plugins
 
-class SavePlaylistRegistry (SimpleComponent):
+class SavePlaylistRegistry (Component):
 	def __init__ (self, parent):
 		super (SavePlaylistRegistry, self).__init__ (parent)
 		
@@ -78,12 +78,12 @@ class SavePlaylistRegistry (SimpleComponent):
 		
 		return  self.__factories[ext] (self.parent.music_list, filename)
 	
-class Application (operations.Operation, SimpleComponent):
+class Application (operations.Operation, Component):
 	components = ()
 	def __init__ (self):
 		operations.Operation.__init__ (self)
-		SimpleComponent.__init__ (self, None)
-		self.save_playlist = SavePlaylistRegistry (self)
+		Component.__init__ (self, None)
+		self.savePlaylist = SavePlaylistRegistry (self)
 		
 		self.__preferences = RecordingPreferences ()
 		self.__operations = []
@@ -125,7 +125,7 @@ class Application (operations.Operation, SimpleComponent):
 
 	def stop (self):
 		assert self.can_stop, "Check if you can stop the operation first."
-		self.preferences.save_playlist (self.music_list)
+		self.preferences.savePlaylist (self.music_list)
 		self.preferences.pool.clear()
 		# Warn listeners
 		evt = operations.FinishedEvent (self, operations.SUCCESSFUL)

@@ -88,7 +88,7 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
 		self.insert = insert
 	
 	def start (self):
-		oper = audio.gvfs_audio_metadata (self.hints['location'])
+		oper = audio.gvfsAudioMetadata (self.hints['location'])
 		oper.listeners.append (self)
 		oper.start()
 	
@@ -661,15 +661,11 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 		if not self.update:
 			return
 		if self.source.total_duration > self.disc_size:
-			#self.__usage_bar.set_fraction (1)
-			
-			#self.__new_usage.overflow = True
 			self.__capacity_exceeded.show ()
 			
 		else:
-			#self.__usage_bar.set_fraction (self.source.total_duration / float (self.disc_size))
-			#self.__new_usage.overflow = False
 			self.__capacity_exceeded.hide ()
+
 		# Flush events so progressbar redrawing gets done
 		while gtk.events_pending():
 			gtk.main_iteration(True)

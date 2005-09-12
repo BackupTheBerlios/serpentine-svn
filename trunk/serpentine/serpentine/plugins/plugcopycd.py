@@ -53,7 +53,7 @@ class CopyCD (object):
         for track_num in range (self.count_tracks):
             handle, filename = tempfile.mkstemp(suffix = ".wav", dir = self.temporary_dir)
             os.close (handle)
-            extract_queue.append (audio.extract_audio_track_file (self.device, track_num, filename))
+            extract_queue.append (audio.extractAudioTrackFile (self.device, track_num, filename))
             filenames.append (filename)
         
         return extract_queue, filenames

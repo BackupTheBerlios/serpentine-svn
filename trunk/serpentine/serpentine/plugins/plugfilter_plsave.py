@@ -94,6 +94,6 @@ class SaveXSPF (SavePlaylist):
 
 def create_plugin (app):
     # Register factories
-    app.save_playlist.register (factory=SaveM3U,  extension = ".m3u",  description = "MP3 Playlist File")
-    app.save_playlist.register (factory=SavePLS,  extension = ".pls",  description = "PLS Audio Playlist")
-    app.save_playlist.register (factory=SaveXSPF, extension = ".xspf", description = "XML Shareable Playlist Format")
+    app.savePlaylist.register (factory=SaveM3U,  extension = ".m3u",  description = "MP3 Playlist File")
+    app.savePlaylist.register (factory=SavePLS,  extension = ".pls",  description = "PLS Audio Playlist")
+    app.savePlaylist.register (factory=SaveXSPF, extension = ".xspf", description = "XML Shareable Playlist Format")

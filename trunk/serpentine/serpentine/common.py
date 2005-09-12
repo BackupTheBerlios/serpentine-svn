@@ -112,9 +112,9 @@ def validate_music_list (music_list, preferences):
     
     # Now check if cache location is ok
     try:
-        s = os.statvfs (preferences.temporary_dir)
+        s = os.statvfs (preferences.temporaryDir)
         # Raise exception if temporary dir is not ok
-        assert preferences.temporary_dir_is_ok
+        assert preferences.temporaryDirIsOk
     except OSError, AssertionError:
         raise SerpentineCacheError (SerpentineCacheError.INVALID, "Please "    \
                                     "check if the cache location exists and "  \

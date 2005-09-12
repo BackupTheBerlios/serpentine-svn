@@ -22,91 +22,96 @@ This module is used to convert audio data to local WAV files. These files
 are cached in the local filesystem and can be used by the recording module.
 """
 import operations
+from types import StringType
 
 class GetMusic (operations.MeasurableOperation, operations.OperationListener):
-	""""
-	A Measurable Operation that finishes when the filename is available in the 
-	music pool.
-	"""
-	def __init__ (self, pool, music):
-		operations.MeasurableOperation.__init__ (self)
-		self.__music = music
-		self.__pool = pool
-		self.__oper = None
-		
-	progress = property (lambda self: self.__oper and self.__oper.progress)
-	running = property (lambda self: self.__oper and self.__oper.running)
-	
-	can_stop = property (lambda self: self.__oper and self.__oper.can_stop)
-	
-	music = property (lambda self: self.__music)
-	
-	pool = property (lambda self: self.__pool)
-	
-	def start (self):
-		if self.__pool.is_available (self.__music):
-			self.__done ()
-			self.__oper = None
-		else:
-			try:
-				self.__oper = self.__pool.fetch_music (self.__music)
-				self.__oper.listeners.append (self)
-				self.__oper.start()
-			except Exception, e:
-				evt = operations.FinishedEvent (self, operations.ERROR)
-				evt.error = e
-				for l in self.listeners:
-					l.on_finished (evt)
-	
-	def __done (self, success = operations.SUCCESSFUL):
-		e = operations.FinishedEvent (self, success)
-		for l in self.listeners:
-			l.on_finished (e)
-	
-	def on_finished (self, event):
-		self.__done (event.id)
-		self.__oper = None
-	
-	def stop (self):
-		assert self.__oper
-		self.__oper.stop ()
+    """"
+    A Measurable Operation that finishes when the filename is available in the 
+    music pool.
+    """
+    def __init__ (self, pool, music):
+        operations.MeasurableOperation.__init__ (self)
+        self.__music = music
+        self.__pool = pool
+        self.__oper = None
+        
+    progress = property (lambda self: self.__oper and self.__oper.progress)
+    running = property (lambda self: self.__oper and self.__oper.running)
+    
+    can_stop = property (lambda self: self.__oper and self.__oper.can_stop)
+    
+    music = property (lambda self: self.__music)
+    
+    pool = property (lambda self: self.__pool)
+    
+    def start (self):
+        #import pdb
+        #pdb.set_trace()
+        if self.__pool.is_available (self.__music):
+            self.__done ()
+            self.__oper = None
+        else:
+            try:
+                self.__oper = self.__pool.fetch_music (self.__music)
+                self.__oper.listeners.append (self)
+                self.__oper.start()
+            except Exception, e:
+                import traceback
+                traceback.print_exc()
+                evt = operations.FinishedEvent (self, operations.ERROR)
+                evt.error = e
+                for l in self.listeners:
+                    l.on_finished (evt)
+    
+    def __done (self, success = operations.SUCCESSFUL):
+        e = operations.FinishedEvent (self, success)
+        for l in self.listeners:
+            l.on_finished (e)
+    
+    def on_finished (self, event):
+        self.__done (event.id)
+        self.__oper = None
+    
+    def stop (self):
+        assert self.__oper
+        self.__oper.stop ()
 
 class MusicPool:
-	"""
-	A music pool is basically a place where you put your music to convert it
-	to local WAV files which will then be used to create audio CDs.
-	"""
-	def __init__ (self):
-		raise NotImplementedError
-		
-	def fetch_music (self, music):
-		"""
-		Returns a operations.MeasurableOperation that correspondes the user
-		can use to monitor it's progress.
-		"""
-		raise NotImplementedError
-	
-	def fetch_musics (self, musics):
-		return FetchMusics (self, musics)
-	
-	def is_available (self, music):
-		"""
-		Returns if a certain music is on cache.
-		"""
-		raise NotImplementedError
-	
-	def get_filename (self, music):
-		"""
-		Returns the filename associated with a certain music in cache. The user
-		must be sure that the file is in cache.
-		"""
-		raise NotImplementedError
-	
-	def clear (self):
-		"""
-		Clears the pool of it's elements.
-		"""
-		raise NotImplementedError
+    """
+    A music pool is basically a place where you put your music to convert it
+    to local WAV files which will then be used to create audio CDs.
+    """
+    def __init__ (self):
+        raise NotImplementedError
+        
+    def fetch_music (self, music):
+        """
+        Returns a operations.MeasurableOperation that correspondes the user
+        can use to monitor it's progress.
+        """
+        raise NotImplementedError
+    
+    def fetch_musics (self, musics):
+        return FetchMusics (self, musics)
+    
+    def is_available (self, music):
+        """
+        Returns if a certain music is on cache.
+        """
+        raise NotImplementedError
+    
+    def get_filename (self, music):
+        """
+        Returns the filename associated with a certain music in cache. The user
+        must be sure that the file is in cache.
+        """
+        raise NotImplementedError
+    
+    def clear (self):
+        """
+        Clears the pool of it's elements.
+        """
+        raise NotImplementedError
 
 ################################################################################
 # GStreamer implementation
@@ -117,264 +122,271 @@ import gst
 import audio
 
 class GstCacheEntry:
-	def __init__ (self, filename, is_temp):
-		self.is_temp = is_temp
-		self.filename = filename
+    def __init__ (self, filename, is_temp):
+        self.is_temp = is_temp
+        self.filename = filename
 
 class GstSourceToWavListener (operations.OperationListener):
-	def __init__ (self, parent, filename, music):
-		self.__filename = filename
-		self.__music = music
-		self.__parent = parent
-	
-	def on_finished (self, event):
-		if event.id == operations.SUCCESSFUL:
-			self.__parent.cache[self.__parent.unique_music_id (self.__music)] = GstCacheEntry (self.__filename, True)
-		else:
-			os.unlink (self.__filename)
-		
+    def __init__ (self, parent, filename, music):
+        self.__filename = filename
+        self.__music = music
+        self.__parent = parent
+    
+    def on_finished (self, event):
+        if event.id == operations.SUCCESSFUL:
+            self.__parent.cache[self.__parent.unique_music_id (self.__music)] = GstCacheEntry (self.__filename, True)
+        else:
+            os.unlink (self.__filename)
+        
 class GstMusicPool (MusicPool):
-	def __init__ (self):
-		self.__cache = {}
-		self.__temp_dir = None
+    def __init__ (self):
+        self.__cache = {}
+        self.__temp_dir = None
+    ############################################################################
+    # Properties
+    
+    # read-only
+    cache = property (lambda self: self.__cache)
+    
+    # temporaryDir
+    def setTemporaryDir (self, temp_dir):
+        assert temp_dir == None or isinstance (temp_dir, StringType),\
+               "Directory must be a string. Or None for default."
+        self.__temp_dir = temp_dir
+    
+    def getTemporaryDir (self):
+        return self.__temp_dir
+    
+    temporaryDir = property (getTemporaryDir, setTemporaryDir)
+    ############################################################################
+    
+    def is_available (self, music):
+        return self.cache.has_key (self.unique_music_id (music))
+    
+    def get_filename (self, music):
+        assert self.is_available (music)
+        return self.cache[self.unique_music_id (music)].filename
+        
+    def get_source (self, music):
+        raise NotImplementedError
+    
+    def fetch_music (self, music):
+        """
+        Can throw a OSError exception in case of the provided temporary dir being
+        invalid.
+        """
+        assert not self.is_available (music)
+        source = self.get_source (music)
+        sink = gst.element_factory_make ("filesink", "destination")
+        
+        handle, filename = tempfile.mkstemp(suffix = ".wav", dir = self.temporaryDir)
+        os.close (handle)
+        sink.set_property ("location", filename)
+        
+        our_listener = GstSourceToWavListener (self, filename, music)
+        oper = audio.sourceToWav (source, sink)
+        oper.listeners.append (our_listener)
+        return oper
 
-	# read-only
-	cache = property (lambda self: self.__cache)
-	
-	def __set_temp_dir (self, temp_dir):
-		assert temp_dir == None or isinstance (temp_dir, str), "Directory must be a string. Or None for default."
-		self.__temp_dir = temp_dir
-		
-	
-	temporary_dir = property (lambda self: self.__temp_dir, __set_temp_dir)
-	
-	def is_available (self, music):
-		return self.cache.has_key (self.unique_music_id (music))
-	
-	def get_filename (self, music):
-		assert self.is_available (music)
-		return self.cache[self.unique_music_id (music)].filename
-		
-	def get_source (self, music):
-		raise NotImplementedError
-	
-	def fetch_music (self, music):
-		"""
-		Can throw a OSError exception in case of the provided temporary dir being
-		invalid.
-		"""
-		assert not self.is_available (music)
-		source = self.get_source (music)
-		sink = gst.element_factory_make ("filesink", "destination")
-		
-		handle, filename = tempfile.mkstemp(suffix = '.wav', dir = self.temporary_dir)
-		os.close (handle)
-		sink.set_property ("location", filename)
-		
-		our_listener = GstSourceToWavListener (self, filename, music)
-		oper = audio.source_to_wav (source, sink)
-		oper.listeners.append (our_listener)
-		return oper
-
-	def clear (self):
-		for key in self.cache:
-			entry = self.cache[key]
-			if entry.is_temp:
-				os.unlink (entry.filename)
-		self.__cache = {}
-		
-	def __del__ (self):
-		self.clear()
-	
-	def unique_music_id (self, music):
-		pass
-	
+    def clear (self):
+        for key in self.cache:
+            entry = self.cache[key]
+            if entry.is_temp:
+                os.unlink (entry.filename)
+        self.__cache = {}
+        
+    def __del__ (self):
+        self.clear()
+    
+    def unique_music_id (self, music):
+        pass
+    
 import gnomevfs
 
-import urlutil	
+import urlutil    
 
 class GvfsMusicPool (GstMusicPool):
-	use_gnomevfssrc = True
-		
-	def unique_music_id (self, uri):
-		"""
-		Provides a way of uniquely identifying URI's, in case of user sends:
-		file:///foo%20bar
-		file:///foo bar
-		/foo bar
-		Returns always a URL, even if the string was a file path.
-		"""
-		return urlutil.normalize (uri)
-		
-	def is_available (self, music):
-		on_cache = GstMusicPool.is_available (self, music)
-		uri = gnomevfs.URI (music)
-		if not on_cache and \
-					uri.is_local and \
-					gnomevfs.get_mime_type (music) == "audio/x-wav":
-			# convert to native filename
-			s = UrlParse (unique_id)
-			unique_id = self.unique_music_id (music)
-			filename = s.path
-			self.cache[unique_id] = GstCacheEntry (s.path, False)
-			on_cache = True
-		del uri
-		return on_cache
-	
-	def get_source (self, music):
-		if self.use_gnomevfssrc:
-			src = gst.element_factory_make ("gnomevfssrc")
-			src.set_property ("location", music)
-		
-		else:
-			src = gst.element_factory_make ("filesrc", "source")
+    use_gnomevfssrc = True
+        
+    def unique_music_id (self, uri):
+        """
+        Provides a way of uniquely identifying URI's, in case of user sends:
+        file:///foo%20bar
+        file:///foo bar
+        /foo bar
+        Returns always a URL, even if the string was a file path.
+        """
+        return urlutil.normalize (uri)
+        
+    def is_available (self, music):
+        on_cache = GstMusicPool.is_available (self, music)
+        uri = gnomevfs.URI (music)
+        if not on_cache and \
+                    uri.is_local and \
+                    gnomevfs.get_mime_type (music) == "audio/x-wav":
+            # convert to native filename
+            s = UrlParse (unique_id)
+            unique_id = self.unique_music_id (music)
+            filename = s.path
+            self.cache[unique_id] = GstCacheEntry (s.path, False)
+            on_cache = True
+        del uri
+        return on_cache
+    
+    def get_source (self, music):
+        if self.use_gnomevfssrc:
+            src = gst.element_factory_make ("gnomevfssrc")
+            src.set_property ("location", music)
+        
+        else:
+            src = gst.element_factory_make ("filesrc", "source")
 
-			path = get_path (music)
+            path = get_path (music)
 
-			src.set_property ("location", path)
-			
-		return src
+            src.set_property ("location", path)
+            
+        return src
 
 class FetchMusicListPriv (operations.OperationListener):
-	def __init__ (self, parent, music_list):
-		self.music_list = music_list
-		self.parent = parent
-	
-	def get_music_from_uri (self, uri):
-		for m in self.music_list:
-			if m["location"] == uri:
-				return m
-		return None
-	
-	def on_finished (self, evt):
-		if isinstance (evt.source, operations.OperationsQueue):
-			e = operations.FinishedEvent (self.parent, evt.id)
-			for l in self.parent.listeners:
-				l.on_finished (e)
-			return
-		assert isinstance (evt.source, GetMusic)
-		if evt.id != operations.SUCCESSFUL:
-			return
-			
-		uri = evt.source.music
-		pool = evt.source.pool
-		filename = pool.get_filename (uri)
-		m = self.get_music_from_uri (uri)
+    def __init__ (self, parent, music_list):
+        self.music_list = music_list
+        self.parent = parent
+    
+    def get_music_from_uri (self, uri):
+        for m in self.music_list:
+            if m["location"] == uri:
+                return m
+        return None
+    
+    def on_finished (self, evt):
+        if isinstance (evt.source, operations.OperationsQueue):
+            e = operations.FinishedEvent (self.parent, evt.id)
+            for l in self.parent.listeners:
+                l.on_finished (e)
+            return
+        assert isinstance (evt.source, GetMusic)
+        if evt.id != operations.SUCCESSFUL:
+            return
+            
+        uri = evt.source.music
+        pool = evt.source.pool
+        filename = pool.get_filename (uri)
+        m = self.get_music_from_uri (uri)
 
-		if m:
-			m["cache_location"] = filename
-		else:
-			assert False, "uri '%s' was not found in music list." % (uri)
-		
-	def before_operation_starts (self, event, operation):
-		e = operations.Event (self.parent)
-		m = self.get_music_from_uri (operation.music)
-		assert m
-		
-		for l in self.parent.listeners:
-			if isinstance (l, FetchMusicListListener):
-				l.before_music_fetched (e, m)
-		
+        if m:
+            m["cache_location"] = filename
+        else:
+            assert False, "uri '%s' was not found in music list." % (uri)
+        
+    def before_operation_starts (self, event, operation):
+        e = operations.Event (self.parent)
+        m = self.get_music_from_uri (operation.music)
+        assert m
+        
+        for l in self.parent.listeners:
+            if isinstance (l, FetchMusicListListener):
+                l.before_music_fetched (e, m)
+        
 class FetchMusicListListener (operations.OperationListener):
-	def before_music_fetched (self, event, music):
-		pass
-	
+    def before_music_fetched (self, event, music):
+        pass
+    
 
 class FetchMusicList (operations.MeasurableOperation):
-	"""
-	Fetches a music list which contains the field 'uri' and replaces it by a
-	local filename located inside the pool. When the filename is fetched it
-	updates the 'filename' field inside each music entry of the music list.
-	"""
-	
-	def __init__ (self, music_list, pool):
-		operations.MeasurableOperation.__init__(self)
-		self.__music_list = music_list
-		self.__queue = operations.OperationsQueue ()
-		self.__pool = pool
-		self.__listener = FetchMusicListPriv (self, music_list)
-		self.__queue.listeners.append (self.__listener)
-		
-	progress = property (lambda self: self.__queue.progress)
-	running = property (lambda self: self.__queue.running)
-	
-	def start (self):
-		for m in self.__music_list:
-			get = GetMusic (self.__pool, m["location"])
-			get.listeners.append (self.__listener)
-			self.__queue.append (get)
-		self.__queue.start ()
-	
-	can_stop = property (lambda self: self.__queue.can_stop)
-	
-	def stop (self):
-		self.__queue.stop ()
+    """
+    Fetches a music list which contains the field 'uri' and replaces it by a
+    local filename located inside the pool. When the filename is fetched it
+    updates the 'filename' field inside each music entry of the music list.
+    """
+    
+    def __init__ (self, music_list, pool):
+        operations.MeasurableOperation.__init__(self)
+        self.__music_list = music_list
+        self.__queue = operations.OperationsQueue ()
+        self.__pool = pool
+        self.__listener = FetchMusicListPriv (self, music_list)
+        self.__queue.listeners.append (self.__listener)
+        
+    progress = property (lambda self: self.__queue.progress)
+    running = property (lambda self: self.__queue.running)
+    
+    def start (self):
+        for m in self.__music_list:
+            get = GetMusic (self.__pool, m["location"])
+            get.listeners.append (self.__listener)
+            self.__queue.append (get)
+        self.__queue.start ()
+    
+    can_stop = property (lambda self: self.__queue.can_stop)
+    
+    def stop (self):
+        self.__queue.stop ()
 
 if __name__ == '__main__':
-	import os.path, sys, gtk, gobject, gtkutil
-	gtkutil.traceback_main_loop ()
-	
-	def quit ():
-		#gtk.main_quit()
-		return False
-	
-	def pp (oper):
-		p = oper.get_progress()
-		print p
-		if p == 1:
-			gtk.main_quit()
-		return True
-		
-	class MyListener (FetchMusicListListener):
-		def __init__ (self, prog, oper):
-			FetchMusicListListener.__init__(self)
-			self.music = None
-			self.prog = prog
-			self.oper = oper
-			
-		def before_music_fetched (self, evt, music):
-			print music
-			prog_txt = "Converting "
-			prog_txt += gnomevfs.URI (music['location']).short_path_name
-			
-			self.prog.sub_progress_text = prog_txt
-			self.prog.progress_fraction = self.oper.progress
-			
-			if self.music:
-				print "Fetched", self.music['cache_location']
-				
-			print "Fetching", music['location']
-			self.music = music
-			
-		def on_finished (self, e):
-			if self.music:
-				print "Fetched", self.music['cache_location']
-			print self.oper.progress
-			#self.prog.set_progress_fraction (self.oper.progress)
-			gtk.main_quit()
-		
-		def tick (self):
-			self.prog.progress_fraction = self.oper.progress
-			return True
-	
-#	win = gtk.Window (gtk.WINDOW_TOPLEVEL)
-	prog = gtkutil.HigProgress ()
-	prog.primary_text = "Recording Audio Disc"
-	prog.secondary_text = "Selected files are to be written to a CD or DVD "   \
-	                      "disc. This operation may take a long time, "        \
-	                      "depending on data size and write speed."
-	prog.show()
-#	win.add (prog)
-#	win.set_border_width (6)
-#	win.show()
-	pool = GvfsMusicPool ()
-	#f = os.path.abspath (sys.argv[1])
-	music_list = [{'location': os.path.abspath (sys.argv[1])}]
-	fetcher = FetchMusicList (music_list, pool)
-	l = MyListener (prog, fetcher)
-	fetcher.listeners.append (l)
-	gobject.timeout_add (200, l.tick)
-	fetcher.start()
-	
-	gtk.main()
-	pool.clear()
+    import os.path, sys, gtk, gobject, gtkutil
+    gtkutil.traceback_main_loop ()
+    
+    def quit ():
+        #gtk.main_quit()
+        return False
+    
+    def pp (oper):
+        p = oper.get_progress()
+        print p
+        if p == 1:
+            gtk.main_quit()
+        return True
+        
+    class MyListener (FetchMusicListListener):
+        def __init__ (self, prog, oper):
+            FetchMusicListListener.__init__(self)
+            self.music = None
+            self.prog = prog
+            self.oper = oper
+            
+        def before_music_fetched (self, evt, music):
+            print music
+            prog_txt = "Converting "
+            prog_txt += gnomevfs.URI (music['location']).short_path_name
+            
+            self.prog.sub_progress_text = prog_txt
+            self.prog.progress_fraction = self.oper.progress
+            
+            if self.music:
+                print "Fetched", self.music['cache_location']
+                
+            print "Fetching", music['location']
+            self.music = music
+            
+        def on_finished (self, e):
+            if self.music:
+                print "Fetched", self.music
+            print self.oper.progress
+            #self.prog.set_progress_fraction (self.oper.progress)
+            gtk.main_quit()
+        
+        def tick (self):
+            self.prog.progress_fraction = self.oper.progress
+            return True
+    
+#    win = gtk.Window (gtk.WINDOW_TOPLEVEL)
+    prog = gtkutil.HigProgress ()
+    prog.primary_text = "Recording Audio Disc"
+    prog.secondary_text = "Selected files are to be written to a CD or DVD "   \
+                          "disc. This operation may take a long time, "        \
+                          "depending on data size and write speed."
+    prog.show()
+#    win.add (prog)
+#    win.set_border_width (6)
+#    win.show()
+    pool = GvfsMusicPool ()
+    #f = os.path.abspath (sys.argv[1])
+    music_list = [{'location': os.path.abspath (sys.argv[1])}]
+    fetcher = FetchMusicList (music_list, pool)
+    l = MyListener (prog, fetcher)
+    fetcher.listeners.append (l)
+    gobject.timeout_add (200, l.tick)
+    fetcher.start()
+    
+    gtk.main()
+    pool.clear()

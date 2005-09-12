@@ -16,6 +16,7 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+from types import *
 import gtk.glade, nautilusburn, gtk, gobject, os, os.path, gconf, gtk.gdk, urllib
 from xml.dom import minidom
 from urlparse import urlparse
@@ -23,15 +24,18 @@ from urlparse import urlparse
 import gaw, xspf, constants, gtkutil
 from converting import GvfsMusicPool
 from common import SafeFileWrite
+
+from types import BooleanType
 # For testing purposes we try to import it
 try:
     import release
 except Exception:
     release = None
-    
-gconf.client_get_default ().add_dir ("/apps/serpentine", gconf.CLIENT_PRELOAD_NONE)
 
-def recording_preferences_window (preferences):
+GCONF_DIR = "/apps/serpentine"
+gconf.client_get_default ().add_dir (GCONF_DIR, gconf.CLIENT_PRELOAD_NONE)
+
+def recordingPreferencesWindow (preferences):
     prefs_widget = gtkutil.find_widget (preferences.dialog, "preferences")
     prefs_widget.show ()
     
@@ -75,7 +79,7 @@ class RecordingPreferences (object):
             self.version = "testing"
         
         # setup ui
-        g = gtk.glade.XML (os.path.join(constants.data_dir, 'serpentine.glade'),
+        g = gtk.glade.XML (os.path.join(constants.data_dir, "serpentine.glade"),
                            "preferences_dialog")
         self.__dialog = g.get_widget ("preferences_dialog")
         self.dialog.connect ("destroy-event", self.__on_destroy)
@@ -85,15 +89,13 @@ class RecordingPreferences (object):
         cmb_drv = nautilusburn.DriveSelection ()
         cmb_drv.set_property ("show-recorders-only", True)
         cmb_drv.show ()
-        cmb_drv.connect ("device-changed", self.__on_drive_changed)
         
         self.__drive_selection = cmb_drv
         drv.pack_start (cmb_drv, False, False)
-        self.__drive_listeners = []
         
         # Speed selection
         self.__speed = gaw.data_spin_button (g.get_widget ("speed"),
-                                             "/apps/serpentine/write_speed")
+                                             GCONF_DIR + "/write_speed")
         
         self.__specify_speed = g.get_widget ("specify_speed_wrapper")
                                              
@@ -105,7 +107,7 @@ class RecordingPreferences (object):
                 use_max_speed = g.get_widget ("use_max_speed")
             ),
             
-            key = "/apps/serpentine/speed_select"
+            key = GCONF_DIR + "/speed_select"
         )
         self.__speed_select.seleted_by_default = "use_max_speed"
         
@@ -123,28 +125,28 @@ class RecordingPreferences (object):
     
         # eject checkbox
         self.__eject = gaw.data_toggle_button (g.get_widget ("eject"),
-                                               "/apps/serpentine/eject")
+                                               GCONF_DIR + "/eject")
         
         g.get_widget ("refresh_speed").connect ("clicked", self.__on_refresh_speed)
         
         # use gap checkbox
         self.__use_gap = gaw.data_toggle_button (
             g.get_widget ("use_gap"),
-            "/apps/serpentine/use_gap",
+            GCONF_DIR + "/use_gap",
             default = True
         )
         
         # temp
         self.__tmp = gaw.GConfValue (
-            key = "/apps/serpentine/temporary_dir",
+            key = GCONF_DIR + "/temporary_dir",
             data_spec = gaw.Spec.STRING,
             default = "file:///tmp"
         )
         
         # debug
         self.__debug = gaw.GConfValue (
-            key = "/apps/serpentine/debug_mode",
-            data_spec = gaw.Spec.BOOLEAN,
+            key = GCONF_DIR + "/debug_mode",
+            data_spec = gaw.Spec.BOOL,
             default = False
         )
         
@@ -154,9 +156,108 @@ class RecordingPreferences (object):
         # Close button
         self.__close = g.get_widget ("close_btn")
     
-    __config_dir = os.path.join (os.path.expanduser ("~"), ".serpentine")
-    config_dir = property (lambda self: self.__config_dir)
+    ############################################################################
+    # Properties
     
+    # configDir
+    __config_dir = os.path.join (os.path.expanduser ("~"), ".serpentine")
+    def getConfigDir (self):
+        return self.__config_dir
+        
+    configDir = property (lambda self: self.__config_dir)
+    
+    # simulate
+    def setSimulate (self, simulate):
+        assert isinstance (simulate, BooleanType)
+        if simulate:
+            self.__write_flags |= nautilusburn.RECORDER_WRITE_DUMMY_WRITE
+        else:
+            self.__write_flags &= ~nautilusburn.RECORDER_WRITE_DUMMY_WRITE
+    
+    def getSimulate (self):
+        return (self.__write_flags & nautilusburn.RECORDER_WRITE_DUMMY_WRITE) == nautilusburn.RECORDER_WRITE_DUMMY_WRITE
+    
+    simulate = property (getSimulate, setSimulate)
+    
+    # overburn
+    def setOverburn (self, overburn):
+        assert isinstance (overburn, bool)
+        if overburn:
+            self.__write_flags |= nautilusburn.RECORDER_WRITE_OVERBURN
+        else:
+            self.__write_flags &= ~nautilusburn.RECORDER_WRITE_OVERBURN
+    
+    def getOverburn (self):
+        return (self.__write_flags & nautilusburn.RECORDER_WRITE_OVERBURN) == nautilusburn.RECORDER_WRITE_OVERBURN
+    
+    overburn = property (getOverburn, setOverburn)
+    
+    # dialog
+    def getDialog (self):
+        return self.__dialog
+        
+    dialog = property (getDialog)
+    
+    # version
+    def setVersion (self, version):
+        assert isinstance (version, StringType)
+        self.__version = version
+        
+    def getVersion (self):
+        return self.__version
+        
+    version = property (getVersion, setVersion)
+    
+    # drive
+    def getDrive (self):
+        return self.__drive_selection.get_drive()
+        
+    drive = property (getDrive)
+    
+    # temporaryDir
+    def getTemporaryDir (self):
+        tmp = self.__tmp.data
+        # tmp can be a url or a filename
+        s = urlparse (tmp)
+        scheme = s[0]
+        # in case it is a url
+        if scheme == "file":
+            tmp = urllib.unquote (s[2])
+        # in case it is a url but not file://
+        elif scheme != "":
+            return None
+        return tmp
+        
+    temporaryDir = property (getTemporaryDir)
+    
+    # pool
+    def getPool (self):
+        return self.__pool
+        
+    pool = property (getPool)
+
+    # speedWrite
+    def getSpeedWrite (self):
+        assert self.drive is not None
+        self.__update_speed()
+
+        if self.__speed_select.data == "use_max_speed":
+            return self.drive.get_max_speed_write ()
+        return self.__speed.data
+        
+    speedWrite = property (getSpeedWrite)
+    
+    def getWriteFlags (self):
+        ret = self.__write_flags
+        if self.__use_gap.data:
+            ret |= nautilusburn.RECORDER_WRITE_DISC_AT_ONCE
+        if not self.__eject.data:
+            ret |= nautilusburn.RECORDER_WRITE_EJECT
+        return ret
+        
+    writeFlags = property (getWriteFlags)
+
+    ############################################################################
     def __on_refresh_speed (self, *args):
         self.__update_speed ()
 
@@ -173,93 +274,9 @@ class RecordingPreferences (object):
         self.__speed.widget.set_range (1, speed)
         self.__speed.data = val
         
-    def __set_simulate (self, simulate):
-        assert isinstance (simulate, bool)
-        if simulate:
-            self.__write_flags |= nautilusburn.RECORDER_WRITE_DUMMY_WRITE
-        else:
-            self.__write_flags &= ~nautilusburn.RECORDER_WRITE_DUMMY_WRITE
-    
-    def __get_simulate (self):
-        return (self.__write_flags & nautilusburn.RECORDER_WRITE_DUMMY_WRITE) == nautilusburn.RECORDER_WRITE_DUMMY_WRITE
-    
-    simulate = property (__get_simulate, __set_simulate)
-
-    def __set_overburn (self, overburn):
-        assert isinstance (overburn, bool)
-        if overburn:
-            self.__write_flags |= nautilusburn.RECORDER_WRITE_OVERBURN
-        else:
-            self.__write_flags &= ~nautilusburn.RECORDER_WRITE_OVERBURN
-    
-    def __get_overburn (self):
-        return (self.__write_flags & nautilusburn.RECORDER_WRITE_OVERBURN) == nautilusburn.RECORDER_WRITE_OVERBURN
-    
-    overburn = property (__get_overburn, __set_overburn)
-
-    dialog = property (lambda self: self.__dialog)
-    
-    def __set_version (self, version):
-        assert isinstance (version, str)
-        self.__version = version
-        
-    version = property (lambda self: self.__version, __set_version)
-    
-    drive = property (lambda self: self.__drive_selection.get_drive())
-    
-    drive_listeners = property (lambda self: self.__drive_listeners, 
-    doc = """"Drive listeners should register a callback function which is 
-    called when the drive is changed. This can be done in the following form:
-    
-    prefs = Preferences ()
-    
-    def on_changed (event, drive):
-        global prefs
-        print "Object holder:", event.source, \
-            "changed to the following drive:", drive
-        assert event.source = prefs
-    prefs.drive_listeners.append (on_changed)
-    """)
-    
-    def temporary_dir (self):
-        tmp = self.__tmp.data
-        # tmp can be a url or a filename
-        s = urlparse (tmp)
-        scheme = s[0]
-        # in case it is a url
-        if scheme == "file":
-            tmp = urllib.unquote (s[2])
-        # in case it is a url but not file://
-        elif scheme != "":
-            return None
-        return tmp
-        
-    temporary_dir = property (temporary_dir)
-    pool = property (lambda self: self.__pool)
-    
-    def __get_speed_write (self):
-        assert self.drive
-        self.__update_speed()
-        #if self.__use_max_speed.data:
-        if self.__speed_select.data == "use_max_speed":
-            return self.drive.get_max_speed_write ()
-        return self.__speed.data
-        
-    speed_write = property (__get_speed_write)
-    
-    def __get_write_flags (self):
-        ret = self.__write_flags
-        if self.__use_gap.data:
-            ret |= nautilusburn.RECORDER_WRITE_DISC_AT_ONCE
-        if not self.__eject.data:
-            ret |= nautilusburn.RECORDER_WRITE_EJECT
-        return ret
-        
-    write_flags = property (__get_write_flags)
-    
     # Read only variable
-    def temporary_dir_is_ok (self):
-        tmp = self.temporary_dir
+    def getTemporaryDirIsOk (self):
+        tmp = self.temporaryDir
         # Try to open the local file
         try:
             is_ok = os.path.isdir (tmp) and os.access (tmp, os.W_OK)
@@ -267,7 +284,7 @@ class RecordingPreferences (object):
             print err
             is_ok = False
         return is_ok
-    temporary_dir_is_ok = property (temporary_dir_is_ok,
+    temporaryDirIsOk = property (getTemporaryDirIsOk,
                                     doc="Tests if temporary directory exists " \
                                     "and has write permissions.")
     
@@ -281,7 +298,7 @@ class RecordingPreferences (object):
         return False
 
     def __on_tmp_changed (self, *args):
-        is_ok = self.temporary_dir_is_ok ()
+        is_ok = self.temporaryDirIsOk ()
         if is_ok:
             self.__tmp.widget.modify_base (gtk.STATE_NORMAL, gtk.gdk.color_parse ("#FFF"))
         else:
@@ -291,14 +308,14 @@ class RecordingPreferences (object):
     def __on_specify_speed (self, widget, *args):
         self.__specify_speed.set_sensitive (widget.get_active ())
     
-    def save_playlist (self, source):
-        if not os.path.exists (self.config_dir):
-            os.makedirs (self.config_dir)
+    def savePlaylist (self, source):
+        if not os.path.exists (self.configDir):
+            os.makedirs (self.configDir)
         p = xspf.Playlist (title="Serpentine's playlist", creator="Serpentine " + self.version)
         source.to_playlist (p)
         doc = p.toxml()
         
-        out = SafeFileWrite (os.path.join (self.config_dir, "playlist.xml"))
+        out = SafeFileWrite (os.path.join (self.configDir, "playlist.xml"))
         try:
             doc.writexml (out, addindent = "\t", newl = "\n")
             del p
@@ -309,19 +326,14 @@ class RecordingPreferences (object):
             
         return True
     
-    def load_playlist (self, source):
-        if not os.path.exists (self.config_dir):
-            os.makedirs (self.config_dir)
+    def loadPlaylist (self, source):
+        if not os.path.exists (self.configDir):
+            os.makedirs (self.configDir)
         p = xspf.Playlist (title="Serpentine's playlist", creator="Serpentine " + self.version)
         
         try:
-            p.parse (os.path.join (self.config_dir, "playlist.xml"))
+            p.parse (os.path.join (self.configDir, "playlist.xml"))
         except IOError:
             return
             
         source.from_playlist (p)
-    
-    def __on_drive_changed (self, device):
-        event = operations.Event (self)
-        for listener in self.drive_listeners:
-            listener (event, self.drive)

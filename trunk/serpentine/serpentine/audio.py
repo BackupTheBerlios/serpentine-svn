@@ -211,7 +211,7 @@ class AudioMetadata (operations.Operation, operations.OperationListener):
 			return
 		self.__oper.stop ()
 	
-def file_audio_metadata (filename):
+def fileAudioMetadata (filename):
 	"""
 	Returns the audio metadata from a file.
 	"""
@@ -222,7 +222,7 @@ def file_audio_metadata (filename):
 
 try:
 	import gnomevfs
-	def gvfs_audio_metadata (uri):
+	def gvfsAudioMetadata (uri):
 		"""
 		Returns the audio metadata from an URI.
 		"""
@@ -235,14 +235,18 @@ except:
 
 	
 ################################################################################
-def source_to_wav (source, sink):
+def sourceToWav (source, sink):
 	"""
 	Converts a given source element to wav format and sends it to sink element.
 	
 	To convert a media file to a wav using gst-launch:
-	source ! decodebin ! audioconvert ! audioscale ! wavenc ! sink
+	source ! decodebin ! audioconvert ! audioscale !
+	         audio/x-raw-int, channels=2, rate=44100, width=16 ! wavenc
 	"""
-	bin = gst.parse_launch ("decodebin ! audioconvert ! audioscale ! wavenc")
+	bin = gst.parse_launch (
+	    "decodebin ! audioconvert ! audioscale ! "
+	    "audio/x-raw-int, channels=2,rate=44100, width=16 ! wavenc"
+    )
 	oper = GstOperation(sink, bin)
 	
 	elements = bin.get_list ()
@@ -256,7 +260,7 @@ def source_to_wav (source, sink):
 	return oper
 
 
-def file_to_wav (src_filename, sink_filename):
+def fileToWav (src_filename, sink_filename):
 	"""
 	Utility function that given a source filename it converts it to a wav
 	with sink_filename.
@@ -265,25 +269,25 @@ def file_to_wav (src_filename, sink_filename):
 	src.set_property ("location", src_filename)
 	sink = gst.element_factory_make ("filesink")
 	sink.set_property ("location", sink_filename)
-	return source_to_wav (src, sink)
+	return sourceToWav (src, sink)
 
 # We don't export the gvfs function if there is no gnomevfs avail
 try:
 	import gnomevfs
-	def gvfs_to_wav (src_uri, sink_uri):
+	def gvfsToWav (src_uri, sink_uri):
 		"Converts a given source URI to a wav located in sink URI."
 		src = gst.element_factory_make ("gnomevfssrc")
 		src.set_property ("location", src_uri)
 		handle = gnomevfs.Handle (sink_uri)
 		sink = gst.element_factory_make ("gnomevfssink")
 		sink.set_property ("handle", handle)
-		return source_to_wav (src, sink)
+		return sourceToWav (src, sink)
 except:
 	pass
 
 ################################################################################
 
-def extract_audio_track (device, track_number, sink, extra = None):
+def extractAudioTrack (device, track_number, sink, extra = None):
 	"""
 	Exctracts an audio track from a certain device. The 'extra' field is used
 	to send extra properties to the 'cdparanoia' element.
@@ -316,11 +320,11 @@ def extract_audio_track (device, track_number, sink, extra = None):
 	
 	return GstOperation(sink, bin)
 
-def extract_audio_track_file (device, track_number, filename, extra = None):
+def extractAudioTrackFile (device, track_number, filename, extra = None):
 	sink = gst.element_factory_make ("filesink")
 	sink.set_property ("location", filename)
 	
-	return extract_audio_track (device, track_number, sink, extra)
+	return extractAudioTrack (device, track_number, sink, extra)
 	
 ################################################################################
 if __name__ == '__main__':
@@ -338,9 +342,9 @@ if __name__ == '__main__':
 			gst.main_quit()
 	
 	l = L()
-	#f = file_to_wav (sys.argv[1], sys.argv[2])
-	#f = file_audio_metadata (sys.argv[1])
-	f = extract_audio_track_file ("/dev/cdrom", int(sys.argv[1]) + 1, sys.argv[2])
+	f = fileToWav (sys.argv[1], sys.argv[2])
+	#f = fileAudioMetadata (sys.argv[1])
+	#f = extractAudioTrackFile ("/dev/cdrom", int(sys.argv[1]) + 1, sys.argv[2])
 	f.listeners.append (l)
 	f.start()
 	l.finished = False
