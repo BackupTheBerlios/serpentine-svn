@@ -123,6 +123,20 @@ class PropertyWrapper (object):
         obj = self.getVariable (obj)
         getattr (obj, self.setter) (value)
 
+class LazyComponent (object):
+    """
+    A 'LazyComponent' is created only when it's needed.
+    """
+    
+    def __init__ (self, componentFactory):
+        self.componentFactory = componentFactory
+        
+    def __get__ (self, obj, type = None):
+        if hasattr (self, "component"):
+            return self.component
+        
+        self.component = self.componentFactory (obj)
+        return self.component
 
 class Component (object):
     """
@@ -141,7 +155,9 @@ class Component (object):
         self._components = []
         for component in self.components:
             self._components.append (component(self))
-            
+        
+        for attr, component in self.namedComponents.iteritems ():
+            setattr (self, attr, component(self))
         self._init ()
     
     def _init (self):
@@ -153,4 +169,5 @@ class Component (object):
     parent = property (getParent)
     
     components = ()
+    namedComponents = {}
 

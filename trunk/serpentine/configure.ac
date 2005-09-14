@@ -1,9 +1,8 @@
 AC_PREREQ(2.53)
-AC_INIT(scripts/serpentine)
+AC_INIT(serpentine, 0.6.2, http://s1x.homelinux.net/projects/serpentine)
+AC_CONFIG_SRCDIR(scripts/serpentine)
 AM_INIT_AUTOMAKE([1.7])
 
-dnl AM_INIT_AUTOMAKE(serpentine, 0.6.1)
-AC_INIT(serpentine, 0.6.2, http://s1x.homelinux.net/projects/serpentine)
 AM_MAINTAINER_MODE
 
 
@@ -35,6 +34,7 @@ dnl -===- </gconf> -===-
 AC_CONFIG_FILES([
 Makefile
 serpentine/release.py
+po/Makefile.in
 ])
 
 AC_OUTPUT

@@ -1,4 +1,14 @@
+SUBDIRS = po
+
 # Source files
+EXTRA_DIST =
+CLEAN_DIST =
+CLEANFILES =
+
+EXTRA_DIST += intltool-extract.in intltool-merge.in intltool-update.in
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update
+
+
 serpentinedir = $(pythondir)/serpentine
 serpentine_PYTHON = \
 	serpentine/audio.py        \
@@ -31,12 +41,17 @@ serpentine_plugins_PYTHON = \
 	serpentine/plugins/plugfilter_k3b.py      \
 	serpentine/plugins/__init__.py
 
+#################################################################
 # Launcher
-desktopdir = $(datadir)/applications
-desktop_DATA = data/serpentine.desktop
-#desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-#INTLTOOL_DESKTOP_RULE
+@INTLTOOL_DESKTOP_RULE@
 
+desktopdir = $(datadir)/applications
+desktop_in_files = data/serpentine.desktop.in
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+EXTRA_DIST += $(desktop_in_files)
+CLEANFILES += $(desktop_DATA)
+
+#################################################################
 # Glade files
 uidir= $(datadir)/serpentine
 ui_DATA = data/serpentine.glade
@@ -51,10 +66,9 @@ bin_SCRIPTS = scripts/serpentine
 #	$(desktop_DATA)
 
 # Files to be packaged
-EXTRA_DIST =                   \
+EXTRA_DIST +=                  \
 	$(ui_DATA)             \
 	$(bin_SCRIPTS)         \
-	$(desktop_DATA)        \
         muine-plugin/Makefile  \
         muine-plugin/SerpentinePlugin.cs
 

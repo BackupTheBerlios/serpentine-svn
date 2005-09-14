@@ -1,0 +1,177 @@
+# Portuguese translation of PACKAGE.
+# Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Tiago Cogumbreiro <cogumbreiro@users.sf.net>, 2005.
+# , fuzzy
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-09-14 15:08+0000\n"
+"PO-Revision-Date: 2005-09-14 15:16+0000\n"
+"Last-Translator: Tiago Cogumbreiro <cogumbreiro@users.sf.net>\n"
+"Language-Team: Portuguese <pt@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: ../data/serpentine.desktop.in.h:1
+msgid "Create Audio-CD's from music files and playlists"
+msgstr ""
+
+#: ../data/serpentine.desktop.in.h:2
+msgid "Serpentine Audio-CD Creator"
+msgstr ""
+
+#: ../data/serpentine.glade.h:1
+msgid ""
+"74 minutes\n"
+"80 minutes\n"
+"90 minutes"
+msgstr ""
+
+#: ../data/serpentine.glade.h:4
+msgid "<b>Disc capacity exceeded!</b>"
+msgstr "<b>Capacidade do disco excedida!</b>"
+
+#: ../data/serpentine.glade.h:5
+msgid "<b>Writing Device</b>"
+msgstr "<b>Dispositivos de Gravação</b>"
+
+#: ../data/serpentine.glade.h:6
+msgid "<b>Writing Options</b>"
+msgstr "<b>Opções de Gravação</b>"
+
+#: ../data/serpentine.glade.h:7
+msgid "Add tracks to playlist"
+msgstr "Adicionar pistas para a lista de reprodução"
+
+#: ../data/serpentine.glade.h:8
+msgid "Add two seconds gap between tracks"
+msgstr "Adicionar um silêncio dois segundos entre pistas"
+
+#: ../data/serpentine.glade.h:9
+msgid "Audio Widget Wrapper"
+msgstr ""
+
+#: ../data/serpentine.glade.h:10
+msgid "Choose writing speed"
+msgstr "Escolher velocidade de gravação"
+
+#: ../data/serpentine.glade.h:11
+msgid "Clear playlist"
+msgstr "Limpar a lista de reprodução"
+
+#: ../data/serpentine.glade.h:12
+msgid "Device:"
+msgstr "Dispositivo:"
+
+#: ../data/serpentine.glade.h:13
+msgid "Disc Capacity:"
+msgstr "Capacidade do Disco"
+
+#: ../data/serpentine.glade.h:14
+msgid "Disc Usage:"
+msgstr "Utilização do Disco:"
+
+#: ../data/serpentine.glade.h:15
+msgid "Edit"
+msgstr "Editar"
+
+#: ../data/serpentine.glade.h:16
+msgid "Eject disk after writing"
+msgstr "Ejectar o disco depois da gravação"
+
+#: ../data/serpentine.glade.h:17
+msgid "Open Playlist..."
+msgstr "Abrir Lista de Reprodução..."
+
+#: ../data/serpentine.glade.h:18
+msgid "Refreshes the max writing speed"
+msgstr "Refresca a velocidade máxima de gravação"
+
+#: ../data/serpentine.glade.h:19
+msgid "Remove selected tracks from playlist"
+msgstr "Apaga as pistas selecionadas da lista de reprodução"
+
+#: ../data/serpentine.glade.h:20
+msgid "Save Playlist As..."
+msgstr "Gravar Lista de Reprodução Como..."
+
+#: ../data/serpentine.glade.h:21
+msgid "Serpentine Audio Mastering"
+msgstr ""
+
+#: ../data/serpentine.glade.h:22
+msgid "Serpentine Preferences"
+msgstr "Preferências de Serpentine"
+
+#: ../data/serpentine.glade.h:23
+msgid "Use maximum writing speed"
+msgstr "Utilizar velocidade máxima de gravação"
+
+#: ../data/serpentine.glade.h:24
+msgid "Write playlist to disc"
+msgstr "Gravar lista de reprodução para o disco"
+
+#: ../data/serpentine.glade.h:25
+msgid "Write to Disc"
+msgstr "Gravar para o Disco"
+
+#: ../data/serpentine.glade.h:26
+msgid "_File"
+msgstr "_Ficheiro"
+
+#: ../data/serpentine.glade.h:27
+msgid "_Help"
+msgstr "_Ajuda"
+
+#: ../data/serpentine.glade.h:28
+msgid "_Toolbar"
+msgstr ""
+
+#: ../data/serpentine.glade.h:29
+msgid "_View"
+msgstr "_Vêr"
+
+#: ../serpentine/common.py:42
+msgid "GByte"
+msgstr ""
+
+#: ../serpentine/common.py:42
+msgid "GBytes"
+msgstr ""
+
+#: ../serpentine/common.py:43
+msgid "MByte"
+msgstr ""
+
+#: ../serpentine/common.py:43
+msgid "MBytes"
+msgstr ""
+
+#: ../serpentine/common.py:44
+msgid "KByte"
+msgstr ""
+
+#: ../serpentine/common.py:45
+msgid "byte"
+msgstr ""
+
+#: ../serpentine/common.py:45
+msgid "bytes"
+msgstr ""
+
+#: ../serpentine/common.py:122
+msgid "Please check if the cache location exists and has writable permissions."
+msgstr "Por favor verifique se a localização de cache existe e tem permições de escrita."
+
+#: ../serpentine/common.py:132
+#, python-format
+msgid ""
+"Remove some music tracks or make sure your cache location location has "
+"enough free space (about %s)."
+msgstr "Remova algumas pistas de áudio ou verifique que a sua localização de cache tem espaço livre suficiente (cerca de %s)."
+

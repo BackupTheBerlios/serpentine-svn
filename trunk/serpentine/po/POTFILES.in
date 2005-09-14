@@ -1,2 +1,4 @@
 # alphabetically
 data/serpentine.desktop.in
+data/serpentine.glade
+serpentine/common.py

@@ -1,3 +1,18 @@
+2005-09-14 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * acinclude.m4:
+    * po/pt.po:
+    * po/serpentine.pot:
+    * serpentine/common.py:
+    * scripts/serpentine:
+    * po/POTFILES.in:
+    * autogen.sh:
+    * Makefile.am:
+    Started the process of internationalization.
+    
+    * serpentine/components.py:
+    Added support for lazy components and named components.
+    
 2005-09-09 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
     * serpentine/audio.py:

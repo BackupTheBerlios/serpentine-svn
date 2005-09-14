@@ -16,7 +16,10 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
-import os, statvfs
+import os
+import statvfs
+
+from gettext import gettext as _
 
 class SerpentineError (StandardError): pass
 
@@ -36,10 +39,10 @@ class SerpentineCacheError (SerpentineError):
 class SerpentineNotSupportedError (SerpentineError): pass
 
 def __hig_bytes (bytes):
-    hig_desc = [("GByte", "GBytes"),
-                ("MByte", "MBytes"),
-                ("KByte", "KByte" ),
-                ("byte" , "bytes" )]
+    hig_desc = [(_("GByte"), _("GBytes")),
+                (_("MByte"), _("MBytes")),
+                (_("KByte"), _("KByte") ),
+                (_("byte") , _("bytes") )]
     value, strings = __decompose_bytes (bytes, 30, hig_desc)
     return "%.1f %s" % (value, __plural (value, strings))
 
@@ -116,9 +119,9 @@ def validate_music_list (music_list, preferences):
         # Raise exception if temporary dir is not ok
         assert preferences.temporaryDirIsOk
     except OSError, AssertionError:
-        raise SerpentineCacheError (SerpentineCacheError.INVALID, "Please "    \
-                                    "check if the cache location exists and "  \
-                                    "has writable permissions.")
+        raise SerpentineCacheError (SerpentineCacheError.INVALID, _("Please "
+                                    "check if the cache location exists and "
+                                    "has writable permissions."))
     
     size_avail = s[statvfs.F_BAVAIL] * long(s[statvfs.F_BSIZE])
     if (size_avail - size_needed) < 0:
@@ -126,8 +129,8 @@ def validate_music_list (music_list, preferences):
     
     size_avail = size_avail = s[statvfs.F_BAVAIL] * long(s[statvfs.F_BSIZE])
     if (size_avail - size_needed) < 0:
-        raise SerpentineCacheError (SerpentineCacheError.NO_SPACE, "Remove "   \
-                                    "some music tracks or make sure your "     \
-                                    "cache location location has enough free " \
-                                    "space (about %s)." \
+        raise SerpentineCacheError (SerpentineCacheError.NO_SPACE, _("Remove " 
+                                    "some music tracks or make sure your "     
+                                    "cache location location has enough free " 
+                                    "space (about %s).")
                                     % __hig_bytes(size_needed - size_avail))

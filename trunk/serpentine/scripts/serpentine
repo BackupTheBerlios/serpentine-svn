@@ -1,6 +1,35 @@
 #!/usr/bin/env python
-import gtk, sys, gobject, gnome, os
+import gtk
+import gtk.glade
+import sys
+import gobject
+import gnome
+import os
+import gettext
 from optparse import OptionParser
+
+# Clean up argv before we load gst
+sys.argv = sys.argv[:1]
+
+# Data dir:
+import os.path
+
+bins_dir = os.path.dirname (os.path.abspath (sys.argv[0]))
+prefix_dir = os.path.dirname (bins_dir)
+lib_dir = os.path.join (prefix_dir, 'lib',
+                        "python%d.%d" % sys.version_info[0:2],
+                        'site-packages')
+locale_dir = os.path.join (prefix_dir, 'share', 'locale')
+
+# Add our default lib dir to the path
+if os.path.isdir (lib_dir) and lib_dir not in sys.path:
+	sys.path.append (lib_dir)
+
+
+gtk.glade.bindtextdomain("serpentine", locale_dir)
+gtk.glade.textdomain("serpentine")
+gettext.install("serpentine", locale_dir)
+
 # TODO: put the window operation here
 def parse_args (option, opt_str, value, parser):
 	setattr (parser.values, option.dest,  list (parser.rargs))
@@ -19,20 +48,6 @@ parser.add_option ("-w", "--write", action="callback", callback=parse_args,
                    
 (options, args) = parser.parse_args()
 
-# Clean up argv before we load gst
-sys.argv = sys.argv[:1]
-
-# Data dir:
-import os.path
-
-bins_dir = os.path.dirname (os.path.abspath (sys.argv[0]))
-prefix_dir = os.path.dirname (bins_dir)
-lib_dir = os.path.join (prefix_dir, 'lib',
-                        "python%d.%d" % sys.version_info[0:2],
-                        'site-packages')
-# Add our default lib dir to the path
-if os.path.isdir (lib_dir) and lib_dir not in sys.path:
-	sys.path.append (lib_dir)
 
 
 from serpentine import SerpentineApplication, SerpentineError, operations, gtkutil, validate_music_list, HeadlessApplication

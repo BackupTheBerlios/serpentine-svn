@@ -1,0 +1,175 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-09-14 15:08+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/serpentine.desktop.in.h:1
+msgid "Create Audio-CD's from music files and playlists"
+msgstr ""
+
+#: ../data/serpentine.desktop.in.h:2
+msgid "Serpentine Audio-CD Creator"
+msgstr ""
+
+#: ../data/serpentine.glade.h:1
+msgid ""
+"74 minutes\n"
+"80 minutes\n"
+"90 minutes"
+msgstr ""
+
+#: ../data/serpentine.glade.h:4
+msgid "<b>Disc capacity exceeded!</b>"
+msgstr ""
+
+#: ../data/serpentine.glade.h:5
+msgid "<b>Writing Device</b>"
+msgstr ""
+
+#: ../data/serpentine.glade.h:6
+msgid "<b>Writing Options</b>"
+msgstr ""
+
+#: ../data/serpentine.glade.h:7
+msgid "Add tracks to playlist"
+msgstr ""
+
+#: ../data/serpentine.glade.h:8
+msgid "Add two seconds gap between tracks"
+msgstr ""
+
+#: ../data/serpentine.glade.h:9
+msgid "Audio Widget Wrapper"
+msgstr ""
+
+#: ../data/serpentine.glade.h:10
+msgid "Choose writing speed"
+msgstr ""
+
+#: ../data/serpentine.glade.h:11
+msgid "Clear playlist"
+msgstr ""
+
+#: ../data/serpentine.glade.h:12
+msgid "Device:"
+msgstr ""
+
+#: ../data/serpentine.glade.h:13
+msgid "Disc Capacity:"
+msgstr ""
+
+#: ../data/serpentine.glade.h:14
+msgid "Disc Usage:"
+msgstr ""
+
+#: ../data/serpentine.glade.h:15
+msgid "Edit"
+msgstr ""
+
+#: ../data/serpentine.glade.h:16
+msgid "Eject disk after writing"
+msgstr ""
+
+#: ../data/serpentine.glade.h:17
+msgid "Open Playlist..."
+msgstr ""
+
+#: ../data/serpentine.glade.h:18
+msgid "Refreshes the max writing speed"
+msgstr ""
+
+#: ../data/serpentine.glade.h:19
+msgid "Remove selected tracks from playlist"
+msgstr ""
+
+#: ../data/serpentine.glade.h:20
+msgid "Save Playlist As..."
+msgstr ""
+
+#: ../data/serpentine.glade.h:21
+msgid "Serpentine Audio Mastering"
+msgstr ""
+
+#: ../data/serpentine.glade.h:22
+msgid "Serpentine Preferences"
+msgstr ""
+
+#: ../data/serpentine.glade.h:23
+msgid "Use maximum writing speed"
+msgstr ""
+
+#: ../data/serpentine.glade.h:24
+msgid "Write playlist to disc"
+msgstr ""
+
+#: ../data/serpentine.glade.h:25
+msgid "Write to Disc"
+msgstr ""
+
+#: ../data/serpentine.glade.h:26
+msgid "_File"
+msgstr ""
+
+#: ../data/serpentine.glade.h:27
+msgid "_Help"
+msgstr ""
+
+#: ../data/serpentine.glade.h:28
+msgid "_Toolbar"
+msgstr ""
+
+#: ../data/serpentine.glade.h:29
+msgid "_View"
+msgstr ""
+
+#: ../serpentine/common.py:42
+msgid "GByte"
+msgstr ""
+
+#: ../serpentine/common.py:42
+msgid "GBytes"
+msgstr ""
+
+#: ../serpentine/common.py:43
+msgid "MByte"
+msgstr ""
+
+#: ../serpentine/common.py:43
+msgid "MBytes"
+msgstr ""
+
+#: ../serpentine/common.py:44
+msgid "KByte"
+msgstr ""
+
+#: ../serpentine/common.py:45
+msgid "byte"
+msgstr ""
+
+#: ../serpentine/common.py:45
+msgid "bytes"
+msgstr ""
+
+#: ../serpentine/common.py:122
+msgid "Please check if the cache location exists and has writable permissions."
+msgstr ""
+
+#: ../serpentine/common.py:132
+#, python-format
+msgid ""
+"Remove some music tracks or make sure your cache location location has "
+"enough free space (about %s)."
+msgstr ""
