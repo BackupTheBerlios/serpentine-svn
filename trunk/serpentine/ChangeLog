@@ -1,3 +1,30 @@
+2005-09-15 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/mainwindow.py:
+    Fixes http://bugzilla.ubuntu.com/show_bug.cgi?id=15400
+    
+    * serpentine/recording.py:
+    Fixes http://bugzilla.ubuntu.com/show_bug.cgi?id=14317
+    Closes bug 314385.
+    
+    * scripts/serpentine:
+    * serpentine/common.py:
+    * serpentine/mastering.py:
+    * serpentine/__init__.py:
+    * serpentine/preferences.py:
+    * serpentine/recording.py:
+    * serpentine/mainwindow.py:
+    * po/serpentine.pot:
+    * po/pt.po:
+    Added internationalization.
+    Added complete Portuguese ('pt') translation.
+    Closes bug 315165.
+    Fixes bug http://bugzilla.ubuntu.com/show_bug.cgi?id=15387
+    
+    
+    * serpentine/components.py:
+    Added better docs to 'LazyComponent'
+    
 2005-09-14 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * acinclude.m4:

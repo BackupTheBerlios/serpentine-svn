@@ -16,8 +16,14 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
-import gtkutil, gtk, operations, os, os.path, gaw
+import gtkutil
+import gtk
+import os
+import os.path
 
+# Local imports
+import operations
+import gaw
 import constants
 
 from components import Component
@@ -27,6 +33,7 @@ from mastering import AudioMastering, GtkMusicList, MusicListGateway
 from mastering import ErrorTrapper
 
 from serpentine.common import *
+from gettext import gettext as _
 
 class GladeComponent (Component):
 
@@ -132,14 +139,14 @@ class SavePlaylistComponent (GladeComponent):
             
         if evt.id == operations.SUCCESSFUL:
             gtkutil.dialog_warn (
-                "Playlist Saved",
-                "Playlist was saved successfully.",
+                _("Playlist Saved"),
+                _("Playlist was saved successfully."),
                 win
             )
         else:
             gtkutil.dialog_error (
-                "Playlist Not Saved",
-                "There was an error while saving the playlist.",
+                _("Playlist Not Saved"),
+                _("There was an error while saving the playlist."),
                 win
             )
         
@@ -170,10 +177,10 @@ class SavePlaylistComponent (GladeComponent):
             filename = self.file_dlg.get_filename ()
             basename = os.path.basename (filename)
             if os.path.exists (filename) and gtkutil.dialog_ok_cancel (
-                "Replace existing file",
-                "A file named <i>%s</i> already exists. "\
-                "Do you want to replace it with the one "\
-                "you are saving?" % basename,
+                _("Replace existing file"),
+                _("A file named <i>%s</i> already exists. "
+                "Do you want to replace it with the one "
+                "you are saving?") % basename,
                 win
             ) != gtk.RESPONSE_OK:
                 
@@ -185,9 +192,9 @@ class SavePlaylistComponent (GladeComponent):
                 oper = app.savePlaylist.save (filename)
             except SerpentineNotSupportedError:
                 gtkutil.dialog_error (
-                    "Unsupported Format",
-                    "The playlist format you used (by the file extension) is " \
-                    "currently not supported.",
+                    _("Unsupported Format"),
+                    _("The playlist format you used (by the file extension) is "
+                    "currently not supported."),
                     win
                 )
             oper.listeners.append (self)
@@ -320,6 +327,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         self.add (g.get_widget ("main_window_container"))
         self.set_title ("Serpentine")
         self.set_default_size (450, 350)
+        self.set_icon_name ("gnome-dev-cdrom-audio")
         
         
         # record button
@@ -367,7 +375,12 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         self.on_contents_changed()
         
         if self.__application.preferences.drive is None:
-            gtkutil.dialog_warn ("No recording drive found", "No recording drive found on your system, therefore some of Serpentine's functionalities will be disabled.", self)
+            gtkutil.dialog_warn (
+                _("No recording drive found"),
+                _("No recording drive found on your system, therefore some of "
+                  "Serpentine's functionalities will be disabled."),
+                self
+            )
             g.get_widget ("preferences_mni").set_sensitive (False)
             self.__write_to_disc.set_sensitive (False)
     
@@ -439,28 +452,30 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
             show_prefs = False
             
             if err.error_id == SerpentineCacheError.INVALID:
-                title = "Cache directory location unavailable"
+                title = _("Cache directory location unavailable")
                 show_prefs = True
                 
             elif err.error_id == SerpentineCacheError.NO_SPACE:
-                title = "Not enough space on cache directory"
+                title = _("Not enough space on cache directory")
             
             gtkutil.dialog_warn (title, err.error_message)
             return
 
         # TODO: move this to recording module?
         if self.music_list_widget.source.total_duration > self.music_list_widget.disc_size:
-            title = "Do you want to overburn your disc?"
-            msg = "You are about to record a media disc in overburn mode. " \
-                  "This may not work on all drives and shouldn't give you " \
-                  "more then a couple of minutes."
-            btn = "Write to Disc (Overburning)"
+            title = _("Do you want to overburn your disc?")
+            msg = _("You are about to record a media disc in overburn mode. "
+                    "This may not work on all drives and shouldn't give you "
+                    "more then a couple of minutes.")
+            btn = _("Write to Disc (Overburning)")
             self.__application.preferences.overburn = True
         else:
-            title = "Do you want to record your music?"
-            msg = "You are about to record a media disc. " \
-                  "Canceling a writing operation will make your disc unusable."
-            btn = "Write to Disc"
+            title = _("Do you want to record your music?")
+            msg = _("You are about to record a media disc. "
+                    "Canceling a writing operation will make "
+                    "your disc unusable.")
+                    
+            btn = _("Write to Disc")
             self.__application.preferences.overburn = False
         
         if gtkutil.dialog_ok_cancel (title, msg, self, btn) != gtk.RESPONSE_OK:

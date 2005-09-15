@@ -45,7 +45,7 @@ class SavePlaylistRegistry (Component):
 		
 		# all files filter
 		all_files = gtk.FileFilter ()
-		all_files.set_name ("All files")
+		all_files.set_name (_("All files"))
 		all_files.add_pattern ("*.*")
 		
 		self.__global_filter = gtk.FileFilter()
@@ -92,12 +92,12 @@ class Application (operations.Operation, Component):
 		self._playlist_file_patterns = {}
 		self._music_file_filters = None
 		self._playlist_file_filters = None
-		self.register_music_file_pattern ("All files", "*.*")
+		self.register_music_file_pattern (_("All files"), "*.*")
 		self.register_music_file_pattern ("MPEG Audio Stream, Layer III", "*.mp3")
 		self.register_music_file_pattern ("Ogg Vorbis Codec Compressed WAV File", "*.ogg")
 		self.register_music_file_pattern ("Free Lossless Audio Codec", "*.flac")
 		self.register_music_file_pattern ("PCM Wave audio", "*.wav")
-		self.register_playlist_file_pattern ("All files", "*.*")
+		self.register_playlist_file_pattern (_("All files"), "*.*")
 	
 	def _load_plugins (self):
 		# Load Plugins
@@ -202,7 +202,7 @@ class Application (operations.Operation, Component):
 		lambda self: self.__get_file_filter (
 			"_music_file_filters",
 			"_music_file_patterns",
-			"Supported files"
+			_("Supported files")
 		)
 	)
 
@@ -210,7 +210,7 @@ class Application (operations.Operation, Component):
 		lambda self: self.__get_file_filter (
 			"_playlist_file_filters",
 			"_playlist_file_patterns",
-			"Playlists"
+			_("Playlists")
 		)
 	)
 

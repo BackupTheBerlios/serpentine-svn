@@ -17,11 +17,15 @@
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 import nautilusburn
+import gtk
+import gobject
+import operations
+import gtkutil
+
 from nautilusburn import AudioTrack
-import gtk, gobject
-import operations, gtkutil
 from operations import OperationsQueueListener, MeasurableOperation
 from converting import FetchMusicList
+from gettext import gettext as _
 
 class ConvertingError:
     def __init__ (self, win):
@@ -32,8 +36,8 @@ class ConvertingError:
             return
         
         gtkutil.dialog_error (
-            "Converting files failed",
-            "Writing to disc didn't start so it is still usable.",
+            _("Converting files failed"),
+            _("Writing to disc didn't start so it is still usable."),
             self.win
         )
 
@@ -47,9 +51,9 @@ class WritingError:
         
         gtkutil.dialog_error (
             evt.id == operations.ERROR and        \
-                      "Writing to disc failed" or \
-                      "Writing to disc canceled",
-            "Writing to disc has started and therefore the disc is unusable.",
+                      _("Writing to disc failed") or \
+                      _("Writing to disc canceled"),
+            _("The writing operation as started so the disc might be unusable."),
             self.win
         )
 
@@ -67,11 +71,11 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
         self.__queue.listeners.append (self)
         self.__parent = parent
         self.__prog = gtkutil.HigProgress ()
-        self.__prog.primary_text = "Writing Audio Disc"
-        self.__prog.secondary_text = "The audio tracks are going to be "      \
-                                     "written to a disc. This operation may " \
-                                     "take a long time, depending on data "   \
-                                     "size and write speed."
+        self.__prog.primary_text = _("Writing Audio Disc")
+        self.__prog.secondary_text = _("The audio tracks are going to be "
+                                       "written to a disc. This operation may "
+                                       "take a long time, depending on data "
+                                       "size and write speed.")
                                      
         self.__prog.connect ("destroy-event", self.__on_prog_destroyed)
         self.__prog.cancel_button.connect ("clicked", self.__on_cancel)
@@ -100,9 +104,9 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
         self.__can_start = False
         self.__prog.show ()
         if self.preferences.drive.get_media_type () == nautilusburn.MEDIA_TYPE_CDRW:
-            gtkutil.dialog_warn ("CD-RW disc will be erased",
-                                 "Please remove your disc if you want to "\
-                                 "preserve it's contents.",
+            gtkutil.dialog_warn (_("CD-RW disc will be erased"),
+                                 _("Please remove your disc if you want to "
+                                   "preserve it's contents."),
                                  self.__prog)
         self.__blocked = False
         self.preferences.pool.temporaryDir = self.preferences.temporaryDir
@@ -150,11 +154,11 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
     
     def __on_action_changed (self, recorder, action, media):
         if action == nautilusburn.RECORDER_ACTION_PREPARING_WRITE:
-            self.__prog.sub_progress_text = "Preparing recorder"
+            self.__prog.sub_progress_text = _("Preparing recorder")
         elif action == nautilusburn.RECORDER_ACTION_WRITING:
-            self.__prog.sub_progress_text = "Writing media files to disc"
+            self.__prog.sub_progress_text = _("Writing media files to disc")
         elif action == nautilusburn.RECORDER_ACTION_FIXATING:
-            self.__prog.sub_progress_text = "Fixating disc"
+            self.__prog.sub_progress_text = _("Fixating disc")
     
     def before_operation_starts (self, evt, oper):
         # There can be only to operations starting
@@ -162,7 +166,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
         
         # We are converting
         if oper == self.__fetching:
-            self.__prog.sub_progress_text = "Preparing media files"
+            self.__prog.sub_progress_text = _("Preparing media files")
         
         # We are recording
         else:
@@ -177,8 +181,8 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
         
         if evt.id == operations.SUCCESSFUL:
             gtkutil.dialog_warn (
-                "Writing to disc finished",
-                "Disc writing was successful.",
+                _("Writing to disc finished"),
+                _("Disc writing was successful."),
                 self.__prog
             )
         
@@ -211,7 +215,7 @@ class WriteAudioDisc (MeasurableOperation):
         self.__recorder = nautilusburn.Recorder()
         self.__preferences = preferences
     
-    title = "Writing Files to Disc"
+    title = _("Writing Files to Disc")
 
     progress = property (lambda self: self.__progress)
     running = property (lambda self: self.__running)
@@ -242,7 +246,7 @@ class WriteAudioDisc (MeasurableOperation):
         # To cancel you have to send False, sending True just checks
         self.recorder.cancel (False)
         
-    def __on_progress (self, source, progress):
+    def __on_progress (self, source, progress, seconds = None):
         self.__progress = progress
     
     def __thread (self, tracks):
@@ -270,21 +274,22 @@ class WriteAudioDisc (MeasurableOperation):
     def __insert_cd (self, rec, reload_media, can_rewrite, busy_cd):
         # messages from nautilus-burner-cd.c
         if busy_cd:
-            msg = "Please make sure another application is not using the drive."
-            title = "Drive is busy"
+            msg = _("Please make sure another application is not using the drive.")
+            title = _("Drive is busy")
         elif not reload_media and can_rewrite:
-            msg = "Please put a rewritable or blank disc into the drive."
-            title = "Insert rewritable or blank disc"
+            msg = _("Please put a rewritable or blank disc into the drive.")
+            title = _("Insert rewritable or blank disc")
         elif not reload_media and not can_rewrite:
-            msg = "Please put a blank disc into the drive."
-            title = "Insert blank disc"
+            msg = _("Please put a blank disc into the drive.")
+            title = _("Insert blank disc")
         elif can_rewrite:
-            msg = "Please replace the disc in the drive with a "\
-                  "rewritable or blank disc."
-            title = "Reload rewritable or blank disc"
+            msg = _("Please replace the disc in the drive with a "
+                    "rewritable or blank disc.")
+                    
+            title = _("Reload rewritable or blank disc")
         else:
-            msg = "Please replace the disc in the drive a blank disc."
-            title = "Reload blank disc"
+            msg = _("Please replace the disc in the drive a blank disc.")
+            title = _("Reload blank disc")
         return gtkutil.dialog_ok_cancel (title, msg, self.parent) == gtk.RESPONSE_OK
 
 

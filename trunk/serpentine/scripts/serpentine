@@ -8,8 +8,6 @@ import os
 import gettext
 from optparse import OptionParser
 
-# Clean up argv before we load gst
-sys.argv = sys.argv[:1]
 
 # Data dir:
 import os.path
@@ -25,10 +23,12 @@ locale_dir = os.path.join (prefix_dir, 'share', 'locale')
 if os.path.isdir (lib_dir) and lib_dir not in sys.path:
 	sys.path.append (lib_dir)
 
-
+gettext.bindtextdomain("serpentine", locale_dir)
+gettext.textdomain("serpentine")
 gtk.glade.bindtextdomain("serpentine", locale_dir)
 gtk.glade.textdomain("serpentine")
-gettext.install("serpentine", locale_dir)
+
+from gettext import gettext as _
 
 # TODO: put the window operation here
 def parse_args (option, opt_str, value, parser):
@@ -36,22 +36,21 @@ def parse_args (option, opt_str, value, parser):
 
 parser = OptionParser()
 parser.add_option ("-s", "--simulate", action="store_true", dest="simulate",
-                   help="Recording operations will be done in simulation mode.",
+                   help=_("Recording operations will be done in simulation mode."),
                    default=False)
 parser.add_option ("-p", "--preferences", action="store_true", dest="preferences",
-                   help="Show preferences dialog and exit.", default = False)
+                   help=_("Show preferences dialog and exit."), default = False)
                    
 parser.add_option ("-w", "--write", action="callback", callback=parse_args,
-                   help="Writes the filenames after this option to a CD. This "\
-                   "will show a dialog suitable for embedding in other "\
-                   "applications.", dest="write_files", default=None)
+                   help=_("Writes the filenames after this option to a CD. "
+                   "This will show a dialog suitable for embedding in other "
+                   "applications."), dest="write_files", default=None)
                    
 (options, args) = parser.parse_args()
 
-
-
 from serpentine import SerpentineApplication, SerpentineError, operations, gtkutil, validate_music_list, HeadlessApplication
 import serpentine
+
 
 # gtkutil.traceback_main_loop ()
 
@@ -71,9 +70,9 @@ app.preferences.simulate = options.simulate
 gnome_app = gnome.init ('serpentine', app.preferences.version)
 
 if app.preferences.simulate:
-	gtkutil.dialog_warn ("Simulation mode", 
-	                     "Serpentine is on simulation mode, no "\
-	                     "actual writing will be done on inserted media.")
+	gtkutil.dialog_warn (_("Simulation mode"), 
+	                     _("Serpentine is on simulation mode, no "
+	                       "actual writing will be done on inserted media."))
 
 # Check if we want to write files
 if options.write_files is not None:

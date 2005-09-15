@@ -16,16 +16,30 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
-from types import *
-import gtk.glade, nautilusburn, gtk, gobject, os, os.path, gconf, gtk.gdk, urllib
+import gtk.glade
+import nautilusburn
+import gtk
+import gobject
+import os
+import os.path
+import gconf
+import gtk.gdk
+import urllib
+
 from xml.dom import minidom
 from urlparse import urlparse
+from types import *
+from gettext import gettext as _
 
-import gaw, xspf, constants, gtkutil
+# Local imports
+import gaw
+import xspf
+import constants
+import gtkutil
+
 from converting import GvfsMusicPool
 from common import SafeFileWrite
 
-from types import BooleanType
 # For testing purposes we try to import it
 try:
     import release
@@ -45,7 +59,7 @@ def recordingPreferencesWindow (preferences):
     
     win = gtk.Window (gtk.WINDOW_TOPLEVEL)
     win.set_border_width (12)
-    win.set_title ("Serpentine Preferences")
+    win.set_title (_("Serpentine Preferences"))
     
     vbox = gtk.VBox ()
     vbox.set_spacing (18)
@@ -285,8 +299,8 @@ class RecordingPreferences (object):
             is_ok = False
         return is_ok
     temporaryDirIsOk = property (getTemporaryDirIsOk,
-                                    doc="Tests if temporary directory exists " \
-                                    "and has write permissions.")
+                                    doc=_("Tests if temporary directory exists "
+                                    "and has write permissions."))
     
     def __on_tmp_choose (self, *args):
         if self.__tmp_dlg.run () == gtk.RESPONSE_OK:
@@ -311,7 +325,7 @@ class RecordingPreferences (object):
     def savePlaylist (self, source):
         if not os.path.exists (self.configDir):
             os.makedirs (self.configDir)
-        p = xspf.Playlist (title="Serpentine's playlist", creator="Serpentine " + self.version)
+        p = xspf.Playlist (title=_("Serpentine's playlist"), creator="Serpentine " + self.version)
         source.to_playlist (p)
         doc = p.toxml()
         
@@ -329,7 +343,7 @@ class RecordingPreferences (object):
     def loadPlaylist (self, source):
         if not os.path.exists (self.configDir):
             os.makedirs (self.configDir)
-        p = xspf.Playlist (title="Serpentine's playlist", creator="Serpentine " + self.version)
+        p = xspf.Playlist (title=_("Serpentine's playlist"), creator="Serpentine " + self.version)
         
         try:
             p.parse (os.path.join (self.configDir, "playlist.xml"))

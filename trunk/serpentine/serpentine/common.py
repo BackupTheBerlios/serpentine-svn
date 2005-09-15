@@ -18,6 +18,12 @@
 
 import os
 import statvfs
+import os.path
+
+lib_dir    = os.path.abspath (os.path.dirname (__file__))
+prefix_dir = os.path.abspath (os.path.join (lib_dir, "..", "..", ".."))
+data_dir   = os.path.join (prefix_dir, "share", "serpentine")
+locale_dir = os.path.join (prefix_dir, "share", "locale")
 
 from gettext import gettext as _
 

@@ -125,7 +125,19 @@ class PropertyWrapper (object):
 
 class LazyComponent (object):
     """
-    A 'LazyComponent' is created only when it's needed.
+    A 'LazyComponent' is created only when it's needed. It should wrap the
+    component that you want to make lazy.
+    
+    Usage example:
+    
+    class Bar (Component):
+        pass
+    
+    class Foo (Component):
+        bar = LazyComponent (Bar)
+    
+    When you create an instance of 'Foo', the 'bar' instance will only be
+    created when you access it the first time.    
     """
     
     def __init__ (self, componentFactory):

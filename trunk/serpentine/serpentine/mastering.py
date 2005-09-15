@@ -17,14 +17,30 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
-import gtk, gtk.glade, gobject, os.path, urllib, gnomevfs
+import gtk
+import gtk.glade
+import gobject
+import os.path
+import urllib
+import gnomevfs
+import gettext
+
+# Local modules
+import operations
+import audio
+import xspf
+import constants
+import gtkutil
+import serpentine.common
+
 from xml.dom import minidom
 from types import IntType, TupleType
 from urlparse import urlparse, urlunparse
 
-import operations, audio, xspf, constants, gtkutil
 from gtkutil import DictStore
 from operations import OperationsQueue
+
+from gettext import gettext as _
 
 ################################################################################
 # Operations used on AudioMastering
@@ -52,9 +68,9 @@ class ErrorTrapper (operations.Operation, operations.OperationListener):
             return
                 
         elif len (self.errors) > 1:
-            title = "Unsupported file types"
+            title = _("Unsupported file types")
         else:
-            title = "Unsupported file type"
+            title = _("Unsupported file type")
             
         filenames = []
         for e in self.errors:
@@ -62,9 +78,9 @@ class ErrorTrapper (operations.Operation, operations.OperationListener):
         del self.__errors
         
         if len (filenames) == 1:
-            msg = "The following files were not added:" + "\n"
+            msg = _("The following files were not added:") + "\n"
         else:
-            msg = "The following files were not added:" + "\n"
+            msg = _("The following files were not added:") + "\n"
         
         msg +=  " " + filenames[0]
         
@@ -97,8 +113,8 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
         row = {
             "location": self.hints['location'],
             "cache_location": "",
-            "title": gnomevfs.URI(self.hints['location'][:-4]).short_name or "Unknown",
-            "artist": "Unknow Artist",
+            "title": gnomevfs.URI(self.hints['location'][:-4]).short_name or _("Unknown"),
+            "artist": _("Unknow Artist"),
             "duration": int(metadata['duration']),
         }
         
@@ -548,7 +564,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         lst.set_model (self.source.model)
         # Track value is dynamicly calculated
         r = gtk.CellRendererText()
-        col = gtk.TreeViewColumn ("Track", r)
+        col = gtk.TreeViewColumn (_("Track"), r)
         col.set_cell_data_func (r, self.__generate_track)
         
         r = gtk.CellRendererText()
@@ -561,10 +577,10 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         r = gtk.CellRendererText()
         r.set_property ('editable', True)
         r.connect ('edited', self.__on_artist_edited)
-        col = gtk.TreeViewColumn ("Artist", r, text = self.source.model.index_of("artist"))
+        col = gtk.TreeViewColumn (_("Artist"), r, text = self.source.model.index_of("artist"))
         lst.append_column (col)
         r = gtk.CellRendererText()
-        col = gtk.TreeViewColumn ("Duration", r, text = self.source.model.index_of("time"))
+        col = gtk.TreeViewColumn (_("Duration"), r, text = self.source.model.index_of("time"))
         lst.append_column (col)
         
         # TreeView Selection
@@ -663,11 +679,13 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         hig_duration = ""
         minutes = duration / 60
         if minutes:
-            hig_duration = ("%s %s") %(minutes, minutes == 1 and "minute" or "minutes")
+            # To translators: I know this is ugly for you
+            hig_duration = ("%s %s") %(minutes, minutes == 1 and _("minute") or _("minutes"))
         seconds = duration % 60
         if seconds:
-            hig_secs = ("%s %s") %(seconds, seconds == 1 and "second" or "seconds")
-            hig_duration += (len (hig_duration) and " and ") + hig_secs
+            # To translators: I know this is ugly for you
+            hig_secs = ("%s %s") %(seconds, seconds == 1 and _("second") or _("seconds"))
+            hig_duration += (len (hig_duration) and _(" and ")) + hig_secs
         return hig_duration
     
     def update_disc_usage (self):
@@ -686,11 +704,11 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         if self.source.total_duration > 0:
             duration = self.__disc_size - self.source.total_duration
             if duration > 0:
-                dur = "%s remaining"  % self.__hig_duration (duration)
+                dur = _("%s remaining")  % self.__hig_duration (duration)
             else:
-                dur = "%s overlaping" % self.__hig_duration (abs (duration))
+                dur = _("%s overlaping") % self.__hig_duration (abs (duration))
         else:
-            dur = "Empty"
+            dur = _("Empty")
         
         self.__usage_label.set_text (dur)
             
