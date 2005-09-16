@@ -1,11 +1,9 @@
 AC_PREREQ(2.53)
-AC_INIT(serpentine, 0.6.2, http://bugzilla.gnome.org/enter_bug.cgi?product=serpentine)
+AC_INIT(serpentine, 0.6.3, http://bugzilla.gnome.org/enter_bug.cgi?product=serpentine)
 AC_CONFIG_SRCDIR(scripts/serpentine)
 AM_INIT_AUTOMAKE([1.7])
 
 AM_MAINTAINER_MODE
-
-
 
 dnl put the ACLOCAL flags in the makefile
 ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
