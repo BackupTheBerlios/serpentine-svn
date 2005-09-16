@@ -1,5 +1,9 @@
 SUBDIRS = po
 
+if MUINE
+SUBDIRS += muine-plugin
+endif
+
 # Source files
 EXTRA_DIST =
 CLEAN_DIST =

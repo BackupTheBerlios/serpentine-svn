@@ -1,5 +1,5 @@
 AC_PREREQ(2.53)
-AC_INIT(serpentine, 0.6.2, http://s1x.homelinux.net/projects/serpentine)
+AC_INIT(serpentine, 0.6.2, http://bugzilla.gnome.org/enter_bug.cgi?product=serpentine)
 AC_CONFIG_SRCDIR(scripts/serpentine)
 AM_INIT_AUTOMAKE([1.7])
 
@@ -30,6 +30,15 @@ fi
 AM_GCONF_SOURCE_2
 dnl -===- </gconf> -===-
 
+dnl Enable/Disable muine installation
+AC_ARG_ENABLE(muine,
+[  --enable-muine Build the Muine plguin],
+[case "${enableval}" in
+  yes) muine=true ;;
+  no)  muine=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-muine) ;;
+esac],[debug=false])
+AM_CONDITIONAL(MUINE, test x$muine = xtrue)
 
 AC_CONFIG_FILES([
 Makefile

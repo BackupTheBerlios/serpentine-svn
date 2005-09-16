@@ -1,3 +1,10 @@
+=== 0.6.2 ===
+
+2005-09-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+    * configure.ac:
+    * Makefile.am:
+    Added support for condition compilation of muine plugin.
+
 2005-09-15 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/mainwindow.py:

@@ -1,6 +1,8 @@
 Changes from 0.6.1:
  - Support for K3B audio projects
  - Possibility to choose to add 2 seconds silence gap between tracks
+ - i18n enabled and Portuguese translation
+ - Lots of bugfixes
 
 Changes from 0.6:
  - HIG compliance fixes: toolbar buttons now have tooltips and react to system preferences
