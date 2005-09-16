@@ -31,7 +31,7 @@ msgstr ""
 
 #: ../data/serpentine.glade.h:4
 msgid "<b>Disc capacity exceeded!</b>"
-msgstr "<b>Capacidade do disco escedida!</b>"
+msgstr "<b>Capacidade do disco excedida!</b>"
 
 #: ../data/serpentine.glade.h:5
 msgid "<b>Writing Device</b>"
@@ -133,7 +133,7 @@ msgstr "_Barra de Ferramentas"
 
 #: ../data/serpentine.glade.h:29
 msgid "_View"
-msgstr "_Vêr"
+msgstr "_Ver"
 
 #: ../scripts/serpentine:41
 msgid "Recording operations will be done in simulation mode."

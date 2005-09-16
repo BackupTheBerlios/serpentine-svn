@@ -1,3 +1,15 @@
+2005-09-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/mastering.py:
+    Corrected a bug introduced by i18n which would only appear when
+    the disc capacity was exceeded.
+    
+    * serpentine/converting.py:
+    Corrected a bug when using WAV files.
+    
+    * po/pt.po:
+    Corrected two mistakes in Portuguese translation.
+    
 === 0.6.2 ===
 
 2005-09-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>

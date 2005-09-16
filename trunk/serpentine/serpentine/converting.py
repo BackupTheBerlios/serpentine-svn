@@ -21,8 +21,19 @@
 This module is used to convert audio data to local WAV files. These files
 are cached in the local filesystem and can be used by the recording module.
 """
-import operations
+import gnomevfs
+import tempfile
+import os
+import os.path
+import gst
+
 from types import StringType
+
+# Local imports
+import urlutil    
+import operations
+import audio
+
 
 class GetMusic (operations.MeasurableOperation, operations.OperationListener):
     """"
@@ -117,10 +128,6 @@ class MusicPool:
 # GStreamer implementation
 #
 
-import tempfile, os, os.path
-import gst
-import audio
-
 class GstCacheEntry:
     def __init__ (self, filename, is_temp):
         self.is_temp = is_temp
@@ -200,10 +207,6 @@ class GstMusicPool (MusicPool):
     
     def unique_music_id (self, music):
         pass
-    
-import gnomevfs
-
-import urlutil    
 
 class GvfsMusicPool (GstMusicPool):
     use_gnomevfssrc = True
@@ -225,10 +228,9 @@ class GvfsMusicPool (GstMusicPool):
                     uri.is_local and \
                     gnomevfs.get_mime_type (music) == "audio/x-wav":
             # convert to native filename
-            s = UrlParse (unique_id)
             unique_id = self.unique_music_id (music)
-            filename = s.path
-            self.cache[unique_id] = GstCacheEntry (s.path, False)
+            filename = urlutil.get_path (unique_id)
+            self.cache[unique_id] = GstCacheEntry (filename, False)
             on_cache = True
         del uri
         return on_cache

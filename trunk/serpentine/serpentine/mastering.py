@@ -685,7 +685,10 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         if seconds:
             # To translators: I know this is ugly for you
             hig_secs = ("%s %s") %(seconds, seconds == 1 and _("second") or _("seconds"))
-            hig_duration += (len (hig_duration) and _(" and ")) + hig_secs
+            if len (hig_duration):
+                hig_duration += _(" and ")
+                
+            hig_duration += hig_secs
         return hig_duration
     
     def update_disc_usage (self):
