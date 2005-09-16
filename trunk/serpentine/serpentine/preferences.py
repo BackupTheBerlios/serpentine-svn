@@ -265,7 +265,7 @@ class RecordingPreferences (object):
         ret = self.__write_flags
         if self.__use_gap.data:
             ret |= nautilusburn.RECORDER_WRITE_DISC_AT_ONCE
-        if not self.__eject.data:
+        if self.__eject.data:
             ret |= nautilusburn.RECORDER_WRITE_EJECT
         return ret
         

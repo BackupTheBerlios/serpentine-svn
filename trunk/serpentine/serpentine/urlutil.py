@@ -23,7 +23,18 @@ import urllib
 
 from urlparse import urlparse, urlunparse
 
-__all__ = ["UrlParsed", "get_path", "to_uri"]
+__all__ = ("UrlParsed", "get_path", "to_uri")
+
+class PropertyGen (object):
+    def __init__ (self, index):
+        self.index = index
+    
+    def __get__ (self, obj, type = None):
+        return obj.data[self.index]
+    
+    def __set__ (self, obj, value):
+        obj.data[self.index] = value
+    
 
 class UrlParse (object):
     """UrlParse objects represent a wrapper above urlparse.urlparse with some
@@ -47,7 +58,6 @@ class UrlParse (object):
     
     def parse (self, data):
         self.data = urlparse (data)
-        
         # We a
         if self.scheme == "":
             # quoted path is actually not quoted
@@ -55,30 +65,23 @@ class UrlParse (object):
             self.quoted_path = urllib.quote (self.quoted_path)
             self.scheme = "file"
     
-    def __setter (self, index, value):
-        self.data[index] = value
+    scheme      = PropertyGen (0)
+    netloc      = PropertyGen (1)
+    quoted_path = PropertyGen (2)
+    params      = PropertyGen (3)
+    query       = PropertyGen (4)
+    fragment    = PropertyGen (5)
     
-    def _property_gen (index):
-        """This is for internal usage only"""
-        return property (lambda self: self.data[index], lambda self, value: self.__setter(index, value))
-        
-    scheme = _property_gen (0)
-    netloc = _property_gen (1)
-    quoted_path = _property_gen (2)
-    params = _property_gen (3)
-    query = _property_gen (4)
-    fragment = _property_gen (5)
-    
-    # We don't need property_gen anymore
-    del _property_gen
-
     is_local = property (lambda self: self.scheme == "file" or self.scheme == "")
     is_writable = property (lambda self: isinstance (self.data, list))
     
-    def path (self, value):
+    def get_path (self):
+        return urllib.unquote(self.quoted_path)
+    
+    def set_path (self, value):
         self.quoted_path = urllib.quote (value)
-        
-    path = property (lambda self: urllib.unquote(self.quoted_path), path)
+
+    path = property (get_path, set_path)
     
     # Methods
     
@@ -102,7 +105,6 @@ def get_path (uri_or_path):
 
 def normalize (uri_or_path):
     """Converts a path or a URI to a URI"""
-    
     return UrlParse (uri_or_path).unparse ()
 
 def is_local (uri_or_path):

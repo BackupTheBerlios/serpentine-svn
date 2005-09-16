@@ -16,15 +16,16 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
-import gtkutil
 import gtk
 import os
 import os.path
+import tempfile
 
 # Local imports
 import operations
 import gaw
 import constants
+import gtkutil
 
 from components import Component
 from operations import MapProxy, OperationListener, OperationsQueue
@@ -113,7 +114,6 @@ class PlaylistComponent (FileDialogComponent):
         playlist = self.file_dlg.get_uri()
         self.parent.music_list_widget.music_list_gateway.add_files ([playlist]).start ()
         self.parent.clear_files ()
-import tempfile
 
 class SavePlaylistComponent (GladeComponent):
     def _setup_glade (self, g):

@@ -21,7 +21,7 @@ locale_dir = os.path.join (prefix_dir, 'share', 'locale')
 
 # Add our default lib dir to the path
 if os.path.isdir (lib_dir) and lib_dir not in sys.path:
-	sys.path.append (lib_dir)
+    sys.path.append (lib_dir)
 
 gettext.bindtextdomain("serpentine", locale_dir)
 gettext.textdomain("serpentine")
@@ -32,7 +32,7 @@ from gettext import gettext as _
 
 # TODO: put the window operation here
 def parse_args (option, opt_str, value, parser):
-	setattr (parser.values, option.dest,  list (parser.rargs))
+    setattr (parser.values, option.dest,  list (parser.rargs))
 
 parser = OptionParser()
 parser.add_option ("-s", "--simulate", action="store_true", dest="simulate",
@@ -55,47 +55,47 @@ import serpentine
 # gtkutil.traceback_main_loop ()
 
 class OurListener (operations.OperationListener):
-	def on_finished (self, event):
-		gtk.main_quit ()
-		sys.exit (0)
-		
+    def on_finished (self, event):
+        gtk.main_quit ()
+        sys.exit (0)
+        
 listener = OurListener ()
 if options.write_files:
-	app = HeadlessApplication ()
+    app = HeadlessApplication ()
 else:
-	app = SerpentineApplication ()
+    app = SerpentineApplication ()
 
 app.listeners.append (listener)
 app.preferences.simulate = options.simulate
 gnome_app = gnome.init ('serpentine', app.preferences.version)
 
 if app.preferences.simulate:
-	gtkutil.dialog_warn (_("Simulation mode"), 
-	                     _("Serpentine is on simulation mode, no "
-	                       "actual writing will be done on inserted media."))
+    gtkutil.dialog_warn (_("Simulation mode"), 
+                         _("Serpentine is on simulation mode, no "
+                           "actual writing will be done on inserted media."))
 
 # Check if we want to write files
 if options.write_files is not None:
-	serpentine.write_files (app, options.write_files)
+    serpentine.write_files (app, options.write_files)
 
 # Show main window
 else:
-	if options.preferences:
-		from serpentine.preferences import recordingPreferencesWindow
-		win = recordingPreferencesWindow (app.preferences)
-		win.show ()
-		win.connect ("delete-event", gtk.main_quit)
-		gtk.main ()
-		sys.exit (0)
-		
-	else:
-		app.show_window ()
+    if options.preferences:
+        from serpentine.preferences import recordingPreferencesWindow
+        win = recordingPreferencesWindow (app.preferences)
+        win.show ()
+        win.connect ("delete-event", gtk.main_quit)
+        gtk.main ()
+        sys.exit (0)
+        
+    else:
+        app.show_window ()
 
 
 try:
-	app.start ()
+    app.start ()
 except SerpentineError, e:
-	print >> sys.stderr, e
-	sys.exit (1)
+    print >> sys.stderr, e
+    sys.exit (1)
 
 gtk.main()

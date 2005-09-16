@@ -1,6 +1,26 @@
 === 0.6.2 ===
 
 2005-09-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * configure.ac:
+    * muine-plugin/Makefile.am
+    Added option to enable Muine compilation through 'configure' script
+    
+    * serpentine/plugins/plugfilter_k3b.py:
+    Removed unneeded traceback.
+    
+    * serpentine/__init__.py:
+    Made 'write_files' use URI's, Serpentine should use only URI's internally
+    and 'write_files' was sending a filename.
+    
+    * serpentine/urlutil.py:
+    Created 'PropertyGen' descriptor object instead of using evil anonymous
+    functions.
+    
+    * serpentine/preferences.py:
+    Serpentine was acting the oposite of the eject media option.
+    
+2005-09-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     * configure.ac:
     * Makefile.am:
     Added support for condition compilation of muine plugin.

@@ -40,8 +40,40 @@ AC_ARG_ENABLE(muine,
 esac],[debug=false])
 AM_CONDITIONAL(MUINE, test x$muine = xtrue)
 
+dnl When we want to compile muine we need to make sure mono exists
+if test x"$muine" = xtrue; then
+    PKG_CHECK_MODULES(MUINE_PLUGIN, muine-plugin)
+    
+    dnl pkg-config
+    AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+    if test "x$PKG_CONFIG" = "xno"; then
+            AC_MSG_ERROR([You need to install pkg-config])
+    fi
+    
+    dnl C# compiler
+    AC_PATH_PROG(CSC, csc, no)
+    AC_PATH_PROG(MCS, mcs, no)
+    AC_PATH_PROG(MONO, mono, no)
+
+    CS="C#"
+    if test "x$CSC" = "xno" -a "x$MCS" = "xno"  ; then
+            dnl AC_MSG_ERROR([You need to install a C# compiler])
+            AC_MSG_ERROR([No $CS compiler found])
+    fi
+
+    if test "x$MCS" = "xno" ; then
+            MCS=$CSC
+    fi
+
+    if test "x$MONO" = "xno"; then
+            AC_MSG_ERROR([No mono runtime found])
+    fi
+    AC_SUBST(MCS)
+fi
+
 AC_CONFIG_FILES([
 Makefile
+muine-plugin/Makefile
 serpentine/release.py
 po/Makefile.in
 ])

@@ -58,6 +58,8 @@ class K3BFilter (HintsFilter):
         try:
             zfile = zipfile.ZipFile (fd)
         except zipfile.BadZipfile:
+            return
+        except IOError:
             # it's not a file
             return
         
