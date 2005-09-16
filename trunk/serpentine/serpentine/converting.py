@@ -45,8 +45,15 @@ class GetMusic (operations.MeasurableOperation, operations.OperationListener):
         self.__music = music
         self.__pool = pool
         self.__oper = None
+    
+    def getProgress (self):
+        if self.__oper is not None:
+            return self.__oper.progress
         
-    progress = property (lambda self: self.__oper and self.__oper.progress)
+        return 0.0
+            
+    progress = property (getProgress)
+    
     running = property (lambda self: self.__oper and self.__oper.running)
     
     can_stop = property (lambda self: self.__oper and self.__oper.can_stop)
@@ -56,10 +63,8 @@ class GetMusic (operations.MeasurableOperation, operations.OperationListener):
     pool = property (lambda self: self.__pool)
     
     def start (self):
-        #import pdb
-        #pdb.set_trace()
         if self.__pool.is_available (self.__music):
-            self.__done ()
+            self._send_finished_event (success = operations.SUCCESSFUL)
             self.__oper = None
         else:
             try:
@@ -73,14 +78,9 @@ class GetMusic (operations.MeasurableOperation, operations.OperationListener):
                 evt.error = e
                 for l in self.listeners:
                     l.on_finished (evt)
-    
-    def __done (self, success = operations.SUCCESSFUL):
-        e = operations.FinishedEvent (self, success)
-        for l in self.listeners:
-            l.on_finished (e)
-    
+
     def on_finished (self, event):
-        self.__done (event.id)
+        self._send_finished_event (event.id)
         self.__oper = None
     
     def stop (self):
@@ -224,15 +224,23 @@ class GvfsMusicPool (GstMusicPool):
     def is_available (self, music):
         on_cache = GstMusicPool.is_available (self, music)
         uri = gnomevfs.URI (music)
+        
+        # XXX: when there is no gnomevfdssrc we have a problem because
+        #      we are using URI's
+        unique_id = self.unique_music_id (music)
+        is_pcm = audio.IsWavPcm (self.get_source (unique_id))
+        
         if not on_cache and \
                     uri.is_local and \
-                    gnomevfs.get_mime_type (music) == "audio/x-wav":
+                    gnomevfs.get_mime_type (music) == "audio/x-wav" and \
+                    operations.syncOperation (is_pcm).id == operations.SUCCESSFUL:
+
             # convert to native filename
-            unique_id = self.unique_music_id (music)
             filename = urlutil.get_path (unique_id)
             self.cache[unique_id] = GstCacheEntry (filename, False)
             on_cache = True
         del uri
+
         return on_cache
     
     def get_source (self, music):
@@ -308,8 +316,11 @@ class FetchMusicList (operations.MeasurableOperation):
         self.__pool = pool
         self.__listener = FetchMusicListPriv (self, music_list)
         self.__queue.listeners.append (self.__listener)
+    
+    def getProgress (self):
+        return self.__queue.progress
         
-    progress = property (lambda self: self.__queue.progress)
+    progress = property (getProgress)
     running = property (lambda self: self.__queue.running)
     
     def start (self):

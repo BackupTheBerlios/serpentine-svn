@@ -80,6 +80,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
         self.__prog.connect ("destroy-event", self.__on_prog_destroyed)
         self.__prog.cancel_button.connect ("clicked", self.__on_cancel)
         self.__prog.close_button.connect ("clicked", self.__on_close)
+        self.__prog.set_icon_name ("gnome-dev-cdrom-audio")
         self.__music_list = music_list
         self.__preferences = preferences
         self.__drive = preferences.drive

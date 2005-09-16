@@ -1,5 +1,22 @@
 2005-09-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * serpentine/operations.py:
+    Added a function for making operations synchronous.
+    Now FinishedEvent's also accept an optional keyword for the error object.
+    
+    
+    * serpentine/audio.py:
+    Added a class and a function to check if a certain file is a WAV PCM file.
+
+    * serpentine/recording.py:
+    Now the progress window also uses the application icon.
+    
+    * serpentine/converting.py:
+    Closes bug #316488
+    
+    
+2005-09-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
     * serpentine/mastering.py:
     Corrected a bug introduced by i18n which would only appear when
     the disc capacity was exceeded.
@@ -8,7 +25,7 @@
     Corrected a bug when using WAV files.
     
     * po/pt.po:
-    Corrected two mistakes in Portuguese translation.
+    Corrected two mistakes in the Portuguese translation.
     
 === 0.6.2 ===
 

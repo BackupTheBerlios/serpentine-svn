@@ -41,9 +41,10 @@ class Event (object):
         self.source = source
     
 class FinishedEvent (Event):
-    def __init__ (self, source, id):
+    def __init__ (self, source, id, error = None):
         Event.__init__ (self, source)
         self.id = id
+        self.error = error
 
 class Listenable (object):
     def __init__ (self):
@@ -73,10 +74,12 @@ class Operation (Listenable):
     def stop (self):
         pass
 
-    def _send_finished_event (self, status):
+    def _send_finished_event (self, status, error = None):
         """Broadcasts to all listeners the finished event. Simplifies the 
         task of creating the event and iterating over listeners."""
         e = FinishedEvent (self, status)
+        if status == ERROR:
+            e.error = error
         for l in self.listeners:
             if hasattr (l, "on_finished"):
                 l.on_finished (e)
@@ -180,6 +183,7 @@ class OperationsQueue (MeasurableOperation, OperationListener):
         partial = 0.0
         if isinstance(self.__curr_oper, MeasurableOperation):
             partial = self.__curr_oper.progress
+            assert partial is not None, (self.__curr_oper, self.__curr_oper.progress)
         return (self.__done + partial) / total
         
     progress = property (__get_progress)
@@ -264,7 +268,29 @@ class OperationsQueue (MeasurableOperation, OperationListener):
             super(OperationsQueue, self).__repr__(),
             self.__operations.__repr__()
         )
+
+class SyncListener (OperationListener):
+    def __init__ (self, mainloop):
+        self.mainloop = mainloop
+        
+    def on_finished (self, event):
+        self.result = event
+        self.mainloop.quit ()
+        
+def syncOperation (oper):
+    """
+    This function can run an operation synchronously and returns the event
+    object. This only affects GObject related operations.
+    """
     
+    mainloop = gobject.MainLoop ()
+    
+    listener = SyncListener (mainloop)
+    oper.listeners.append (listener)
+    oper.start ()
+    mainloop.run ()
+    return listener.result
+
 class MapFunctor (object):
     def __init__ (self, funcs):
         self.__funcs = funcs
