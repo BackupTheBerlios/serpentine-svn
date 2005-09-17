@@ -17,8 +17,13 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 """
-GConf Aware Widgets is a module for wrapping gtk widgets and keeping them in
-sync with gconf keys.
+GConf Widget Persistency is a module for maintaining persistency between your
+existing widgets and the GConf keys. Not only it forces the schema you've
+defined for the key but also preserves the widget state, for example making it
+insensitive when the GConf key is insensitive.
+
+It also implements a representation of a gconf key (GConfValue) that handles
+the repetitive hassles of a maintaining its integrity. 
 """
 import gconf, gobject
 
@@ -77,6 +82,32 @@ def data_toggle_button (toggle, key, default = None, client = None):
 	return Data (toggle, toggle.get_active, toggle.set_active, "toggled", GConfValue (key, Spec.BOOL, default, client))
 
 class GConfValue (object):
+    """
+    The GConfValue represents the GConf key's data. You define a certain schema
+    (or type of data) and GConfValue keeps track of its integrity. It adds the
+    possibility to define a default value to be used when the key is inexistent
+    or contains an invalid data type. You can also define callbacks that notify
+    you when the key is altered.
+    
+    Taken from http://s1x.homelinux.net/documents/gaw_intro :
+        import gaw, gconf, gtk
+        gconf.client_get_default ().add_dir ("/apps/gaw", gconf.CLIENT_PRELOAD_NONE)
+
+        key_str = gaw.GConfValue (
+          key = "/apps/gaw/key_str",
+          data_spec = gaw.Spec.STRING
+        )
+
+        def on_changed (*args):
+          global key_str
+          print key_str.key, "=", key_str.data
+          gtk.main_quit ()
+          
+        tmp.set_callback (on_changed)
+        tmp.data = "Hello world"
+
+        gtk.main ()
+    """
 	def __init__ (self, key, data_spec, default = None, client = None):
 		if not client:
 			client = gconf.client_get_default ()
@@ -243,8 +274,15 @@ class Data (object):
 	"""
 	This utility class acts as a synchronizer between a widget and gconf entry.
 	This data is considered to have problematic backends, since widgets can be
-	destroyed and gconf can have problems (for example permissions). So in case
-	of both data source have failed then we return the default value.
+	destroyed and gconf can have integrity problems (for example permissions or
+	schema change).
+	
+	To use the gaw.Data object you just need to specify it's associated type
+	(the schema) and optionally a default value.
+	
+	Here's a simple example on how to use it (taken from http://s1x.homelinux.net/documents/gaw_intro): 
+	
+        	
 	"""
 	
 	def __init__ (self, widget, widget_getter, widget_setter, changed_signal, gconf_value):

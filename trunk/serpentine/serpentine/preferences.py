@@ -152,7 +152,7 @@ class RecordingPreferences (object):
         
         # temp
         self.__tmp = gaw.GConfValue (
-            key = GCONF_DIR + "/temporary_dir",
+            key = "/apps/nautilus-cd-burner/temp_iso_dir",
             data_spec = gaw.Spec.STRING,
             default = "file:///tmp"
         )

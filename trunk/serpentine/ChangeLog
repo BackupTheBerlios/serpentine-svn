@@ -1,3 +1,18 @@
+2005-09-17 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+    
+    * data/serpentine.glade:
+    * mastering.py:
+    Added support for 21 minutes discs.
+    
+    * serpentine/preferences.py:
+    Now uses the same temporary dir key as nautilus-cd-burner.
+    
+    * serpentine/gaw.py:
+    Added better documentation on this module.
+    
+    * po/pt.po:
+    Corrected a few things in the Portuguese translation.
+
 2005-09-16 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/operations.py:

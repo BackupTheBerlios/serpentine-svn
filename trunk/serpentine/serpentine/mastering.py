@@ -463,9 +463,10 @@ class MusicListGateway:
         self.__filters.remove (location_filter)
 
 class AudioMastering (gtk.VBox, operations.Listenable):
-    SIZE_74 = 0
-    SIZE_80 = 1
-    SIZE_90 = 2
+    SIZE_21 = 0
+    SIZE_74 = 1
+    SIZE_80 = 2
+    SIZE_90 = 3
     
     class MusicListGateway (MusicListGateway):
         def __init__ (self, parent):
@@ -496,7 +497,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
                 add_file.listeners.append (self.trapper)
         
     
-    disc_sizes = [74 * 60, 80 * 60, 90 * 60]
+    disc_sizes = [21 * 60, 74 * 60, 80 * 60, 90 * 60]
     
     DND_TARGETS = [
         ('SERPENTINE_ROW', gtk.TARGET_SAME_WIDGET, 0),
@@ -552,8 +553,6 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         hbox = g.get_widget ("disc_details")
         hbox.pack_start (self.__usage_gauge.widget, expand = False, fill = False)
         
-        #self.__usage_bar = g.get_widget ("usage_bar")
-        #self.__usage_bar.hide ()
         self.__capacity_exceeded = g.get_widget ("capacity_exceeded")
         
         self.__size_list.connect ("changed", self.__on_size_changed)
