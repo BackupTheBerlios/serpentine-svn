@@ -1,0 +1,12 @@
+- When a list of files is added order the files which have the same album name 
+  and track number
+- recent files support (?)
+- On nautilus, right click on a group of media files and "write to cd..."
+- Have a way to minimize to tray on progress dialog
+- The list of drives must be generated according to the ones not recording
+- Lock the drive when converting audio
+- plug mediasize: blocks whith some drives, should be made async
+- double clicking a music should 'gnome-open' it so that the user can have a playback (or start one on hover? a toggle button Preview below the disc capacity?)
+- mc solaar oggs have the GST_ERROR? Progress > 1: 6651448.0 problem, thus affecting the progress bar (it gets back to zero).
+- use replace button (what is this button?) instead of OK in replace file dialog, when saving playlists. move file replace dialog to gtkutil, maybe add SaveFileDialog
+- dist utils serpentine (?)
