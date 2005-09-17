@@ -1,5 +1,13 @@
 2005-09-17 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
+    * serpentine/preferences.py:
+    Uses tempfile.gettempdir() when the key is empty.
+    
+    * serpentine/gaw.py:
+    Changed indentation to 4 spaces.
+
+2005-09-17 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+    
     * data/serpentine.glade:
     * mastering.py:
     Added support for 21 minutes discs.

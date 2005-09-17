@@ -25,6 +25,7 @@ import os.path
 import gconf
 import gtk.gdk
 import urllib
+import tempfile
 
 from xml.dom import minidom
 from urlparse import urlparse
@@ -151,8 +152,10 @@ class RecordingPreferences (object):
         )
         
         # temp
+        ncb_temp_dir = "/apps/nautilus-cd-burner/temp_iso_dir"
+        gconf.client_get_default ().add_dir (ncb_temp_dir, gconf.CLIENT_PRELOAD_NONE)
         self.__tmp = gaw.GConfValue (
-            key = "/apps/nautilus-cd-burner/temp_iso_dir",
+            key = ncb_temp_dir,
             data_spec = gaw.Spec.STRING,
             default = "file:///tmp"
         )
@@ -231,6 +234,8 @@ class RecordingPreferences (object):
     # temporaryDir
     def getTemporaryDir (self):
         tmp = self.__tmp.data
+        if tmp == "":
+            tmp = tempfile.gettempdir ()
         # tmp can be a url or a filename
         s = urlparse (tmp)
         scheme = s[0]
