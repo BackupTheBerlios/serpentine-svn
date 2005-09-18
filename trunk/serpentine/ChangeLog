@@ -1,3 +1,9 @@
+2005-09-18 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * configure.ac:
+    * po/es.po:
+    Added Spanish translation.
+
 === 0.6.3 ===
 
 2005-09-17 Tiago Cogumbreiro <cogumbreiro@users.sf.net>

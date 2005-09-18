@@ -24,6 +24,12 @@ import os.path
 import urllib
 import gnomevfs
 import gettext
+import sys
+
+from xml.dom import minidom
+from types import IntType, TupleType
+from urlparse import urlparse, urlunparse
+from gettext import gettext as _
 
 # Local modules
 import operations
@@ -33,14 +39,9 @@ import constants
 import gtkutil
 import serpentine.common
 
-from xml.dom import minidom
-from types import IntType, TupleType
-from urlparse import urlparse, urlunparse
-
 from gtkutil import DictStore
 from operations import OperationsQueue
-
-from gettext import gettext as _
+from gdkpiechart import SerpentineUsage
 
 ################################################################################
 # Operations used on AudioMastering
@@ -82,10 +83,9 @@ class ErrorTrapper (operations.Operation, operations.OperationListener):
         else:
             msg = _("The following files were not added:") + "\n"
         
-        msg +=  " " + filenames[0]
-        
-        for f in filenames[1:]:
-            msg += ", " + f
+        msg += " "
+        msg += ", ".join (filenames)
+
         gtkutil.dialog_error (title, msg, self.parent)
         
         e = operations.FinishedEvent (self, operations.SUCCESSFUL)
@@ -346,7 +346,6 @@ class GtkMusicList (MusicList):
 ################################################################################
 # Audio Mastering widget
 #    
-import sys, os.path
 
 class AudioMasteringMusicListener (MusicListListener):
     def __init__ (self, audio_mastering):
@@ -381,8 +380,6 @@ class HintsFilter (object):
     def __cmp__ (self, value):
         assert isinstance (value, HintsFilter)
         return self.priority - value.priority
-
-from gdkpiechart import SerpentineUsage
 
 class MusicListGateway:
     """This class wraps the MusicList interface in a friendlier one with a
