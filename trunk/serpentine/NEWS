@@ -1,3 +1,14 @@
+Changes from 0.6.3:
+ - Spanish (es) translation by Rafael Bermúdez <rafaelbermudez@gmail.com>
+ - German (de) translation by Julian Turner <julian.turner@gmx.de>
+ - Finish (fi) translation by Timo Jyrinki <timo.jyrinki@iki.fi>
+ - French (fr) translation by Guillaume Hoffmann <guillaume.h@ifrance.com> and
+   Nicolas Velin <nsv@fr.st>
+ - Hungarian (hu) translation by Gabor Kelemen <kelemeng@gnome.hu>
+ - Dutch (nl) translation by Eric Spierings <ericspierings@netscape.net>
+ - Brazillian (pt_BR) translation by Carlos Santiviago <segfault@ubuntu.com> and
+   Rafael Peregrino <rperegrino@linuxmagazine.com.br>
+   
 Changes from 0.6.2:
  - Bug fixes release.
 

@@ -1,5 +1,5 @@
 AC_PREREQ(2.53)
-AC_INIT(serpentine, 0.6.3-cvs, http://bugzilla.gnome.org/enter_bug.cgi?product=serpentine)
+AC_INIT(serpentine, 0.6.3-svn, http://bugzilla.gnome.org/enter_bug.cgi?product=serpentine)
 AC_CONFIG_SRCDIR(scripts/serpentine)
 AM_INIT_AUTOMAKE([1.7])
 
@@ -13,7 +13,7 @@ dnl check for python
 AM_PATH_PYTHON(2.3)
 
 dnl Translation
-ALL_LINGUAS="pt es"
+ALL_LINGUAS="de es fi fr hu nl pt_BR pt ru"
 GETTEXT_PACKAGE=serpentine
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package])

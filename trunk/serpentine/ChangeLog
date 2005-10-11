@@ -1,3 +1,39 @@
+2005-10-11 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+    * po/de.po:
+    German (de) translation by Julian Turner <julian.turner@gmx.de>
+
+    * po/fi.po:
+    Finish (fi) translation by Timo Jyrinki <timo.jyrinki@iki.fi>
+
+    * po/fr.po:
+    French (fr) translation by Guillaume Hoffmann <guillaume.h@ifrance.com> and
+    Nicolas Velin <nsv@fr.st>
+
+    * po/hu.po:
+    Hungarian (hu) translation by Gabor Kelemen <kelemeng@gnome.hu>
+
+    * po/nl.po:
+    Dutch (nl) translation by Eric Spierings <ericspierings@netscape.net>
+
+    * po/pt_BR:
+    Brazillian (pt_BR) translation by Carlos Santiviago <segfault@ubuntu.com> and
+    Rafael Peregrino <rperegrino@linuxmagazine.com.br>
+    
+    * scripts/serpentine:
+    Now the simulation window has a title and an icon.
+    
+    * serpentine/plugins/plugfilter_dir.py:
+    Closes #316711
+    
+    * serpentine/gtkutil.py:
+    * serpentine/recording.py:
+    * serpentine/mastering.py:
+    * serpentine/mainwindow.py:
+    Preparing for the migration of 'rat'
+    
+    * serpentine/recording.py:
+    Fixes ubuntu bug #16860    	
+    
 2005-09-18 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * configure.ac:

@@ -1,28 +1,30 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Dutch translation for serpentine
+# Copyright (c) (c) 2005 Canonical Ltd, and Rosetta Contributors 2005
+# This file is distributed under the same license as the serpentine package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2005.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-10 21:52+0000\n"
+"Project-Id-Version: serpentine\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2005-09-24 15:30:18.048530+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Rosetta-Version: 0.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 
 #: ../data/serpentine.desktop.in.h:1
 msgid "Create Audio-CD's from music files and playlists"
-msgstr ""
+msgstr "Creëer Muziek CDs van muziekbestanden en lijsten"
 
 #: ../data/serpentine.desktop.in.h:2
 msgid "Serpentine Audio-CD Creator"
-msgstr ""
+msgstr "Serpentine Muziek-CD generator"
 
 #: ../data/serpentine.glade.h:1
 msgid ""
@@ -31,26 +33,30 @@ msgid ""
 "80 minutes\n"
 "90 minutes"
 msgstr ""
+"21 minuten\n"
+"74 minuten\n"
+"80 minuten\n"
+"90 minuten"
 
 #: ../data/serpentine.glade.h:5
 msgid "<b>Disc capacity exceeded!</b>"
-msgstr ""
+msgstr "<b>Capaciteit van de schijf overschreden!</b>"
 
 #: ../data/serpentine.glade.h:6
 msgid "<b>Writing Device</b>"
-msgstr ""
+msgstr "<b>Beschrijfapparaat</b>"
 
 #: ../data/serpentine.glade.h:7
 msgid "<b>Writing Options</b>"
-msgstr ""
+msgstr "<b>Beschrijfopties</b>"
 
 #: ../data/serpentine.glade.h:8
 msgid "Add tracks to playlist"
-msgstr ""
+msgstr "Voeg nummers toe aan speellijst"
 
 #: ../data/serpentine.glade.h:9
 msgid "Add two seconds gap between tracks"
-msgstr ""
+msgstr "Voeg twee seconden stilte toe tussen nummers"
 
 #: ../data/serpentine.glade.h:10
 msgid "Audio Widget Wrapper"
@@ -58,152 +64,157 @@ msgstr ""
 
 #: ../data/serpentine.glade.h:11
 msgid "Choose writing speed"
-msgstr ""
+msgstr "Kies beschrijfsnelheid"
 
 #: ../data/serpentine.glade.h:12
 msgid "Clear playlist"
-msgstr ""
+msgstr "Speellijst leegmaken"
 
 #: ../data/serpentine.glade.h:13
 msgid "Device:"
-msgstr ""
+msgstr "Apparaat:"
 
 #: ../data/serpentine.glade.h:14
 msgid "Disc Capacity:"
-msgstr ""
+msgstr "Schijfcapaciteit"
 
 #: ../data/serpentine.glade.h:15
 msgid "Disc Usage:"
-msgstr ""
+msgstr "Schijfgebruik:"
 
 #: ../data/serpentine.glade.h:16
 msgid "Edit"
-msgstr ""
+msgstr "Bewerken"
 
 #: ../data/serpentine.glade.h:17
 msgid "Eject disk after writing"
-msgstr ""
+msgstr "Schijf uitwerpen na beschrijven"
 
 #: ../data/serpentine.glade.h:18
 msgid "Open Playlist..."
-msgstr ""
+msgstr "Speellijst openen..."
 
 #: ../data/serpentine.glade.h:19
 msgid "Refreshes the max writing speed"
-msgstr ""
+msgstr "Ververs de maximum beschrijfsnelheid"
 
 #: ../data/serpentine.glade.h:20
 msgid "Remove selected tracks from playlist"
-msgstr ""
+msgstr "Verwijder geselecteerde nummers van de speellijst"
 
 #: ../data/serpentine.glade.h:21
 msgid "Save Playlist As..."
-msgstr ""
+msgstr "Bewaar Speellijst Als..."
 
 #: ../data/serpentine.glade.h:22
 msgid "Serpentine Audio Mastering"
 msgstr ""
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:63
+#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:62
 msgid "Serpentine Preferences"
-msgstr ""
+msgstr "Serpentine Voorkeuren"
 
 #: ../data/serpentine.glade.h:24
 msgid "Use maximum writing speed"
-msgstr ""
+msgstr "Gebruyik maximum beschrijfsnelheid"
 
 #: ../data/serpentine.glade.h:25
 msgid "Write playlist to disc"
-msgstr ""
+msgstr "Schrijf speellijst naar schijf"
 
 #: ../data/serpentine.glade.h:26 ../serpentine/mainwindow.py:478
 msgid "Write to Disc"
-msgstr ""
+msgstr "Naar schijf schrijven"
 
 #: ../data/serpentine.glade.h:27
 msgid "_File"
-msgstr ""
+msgstr "_Bestand"
 
 #: ../data/serpentine.glade.h:28
 msgid "_Help"
-msgstr ""
+msgstr "_Hulp"
 
 #: ../data/serpentine.glade.h:29
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Werkbalk"
 
 #: ../data/serpentine.glade.h:30
 msgid "_View"
-msgstr ""
+msgstr "_Weergave"
 
 #: ../scripts/serpentine:39
 msgid "Recording operations will be done in simulation mode."
-msgstr ""
+msgstr "Opname zal uitgevoerd worden in simulatie modus."
 
 #: ../scripts/serpentine:42
 msgid "Show preferences dialog and exit."
-msgstr ""
+msgstr "Toon voorkeurendialoog en sluit af."
 
 #: ../scripts/serpentine:45
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
 msgstr ""
+"Schrijft de bestandsnamen na deze optie naar een CD. Dit toont een dialoog "
+"die geschikt is voor inbedding in andere toepassingen."
 
 #: ../scripts/serpentine:73
 msgid "Simulation mode"
-msgstr ""
+msgstr "Simulatie modus"
 
 #: ../scripts/serpentine:74
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
 msgstr ""
+"Serpentine staat in de simulatiemodus, de ingevoerde schijf zal niet "
+"beschreven worden."
 
 #: ../serpentine/__init__.py:59 ../serpentine/__init__.py:106
 #: ../serpentine/__init__.py:111
 msgid "All files"
-msgstr ""
+msgstr "Alle bestanden"
 
 #: ../serpentine/__init__.py:216
 msgid "Supported files"
-msgstr ""
+msgstr "Ondersteunde bestanden"
 
 #: ../serpentine/__init__.py:224
 msgid "Playlists"
-msgstr ""
+msgstr "Afspeellijsten"
 
 #: ../serpentine/common.py:48
 msgid "GByte"
-msgstr ""
+msgstr "GByte"
 
 #: ../serpentine/common.py:48
 msgid "GBytes"
-msgstr ""
+msgstr "GBytes"
 
 #: ../serpentine/common.py:49
 msgid "MByte"
-msgstr ""
+msgstr "MByte"
 
 #: ../serpentine/common.py:49
 msgid "MBytes"
-msgstr ""
+msgstr "MBytes"
 
 #: ../serpentine/common.py:50
 msgid "KByte"
-msgstr ""
+msgstr "KByte"
 
 #: ../serpentine/common.py:51
 msgid "byte"
-msgstr ""
+msgstr "byte"
 
 #: ../serpentine/common.py:51
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 #: ../serpentine/common.py:128
-msgid "Please check if the cache location exists and has writable permissions."
-msgstr ""
+msgid ""
+"Please check if the cache location exists and has writable permissions."
+msgstr "Controleer of de cachefolder bestaat en of deze beschrijfbaar is."
 
 #: ../serpentine/common.py:138
 #, python-format
@@ -211,26 +222,29 @@ msgid ""
 "Remove some music tracks or make sure your cache location location has "
 "enough free space (about %s)."
 msgstr ""
+"Verwijder enkele muzieknummers en controleer of uw cachefolder voldoende "
+"ruimte heeft (over %s)."
 
 #: ../serpentine/mainwindow.py:142
 msgid "Playlist Saved"
-msgstr ""
+msgstr "Afspeellijst Opgeslagen"
 
 #: ../serpentine/mainwindow.py:143
 msgid "Playlist was saved successfully."
-msgstr ""
+msgstr "Afspeellijst is succesvol opgeslagen"
 
 #: ../serpentine/mainwindow.py:148
 msgid "Playlist Not Saved"
-msgstr ""
+msgstr "Afspeellijst Niet Opgeslagen"
 
 #: ../serpentine/mainwindow.py:149
 msgid "There was an error while saving the playlist."
 msgstr ""
+"Er heeft zich een fout voorgedaan tijdens het opslaan van de afspeellijst."
 
 #: ../serpentine/mainwindow.py:180
 msgid "Replace existing file"
-msgstr ""
+msgstr "Vervang bestaande bestand"
 
 #: ../serpentine/mainwindow.py:181
 #, python-format
@@ -238,237 +252,261 @@ msgid ""
 "A file named <i>%s</i> already exists. Do you want to replace it with the "
 "one you are saving?"
 msgstr ""
+"Er bestaat al een bestand met de naam <i>%s</i>. Wilt u dit bestand "
+"overschrijven met het huidige bestand?"
 
 #: ../serpentine/mainwindow.py:195
 msgid "Unsupported Format"
-msgstr ""
+msgstr "Niet ondersteund bestandsformaat"
 
 #: ../serpentine/mainwindow.py:196
 msgid ""
 "The playlist format you used (by the file extension) is currently not "
 "supported."
 msgstr ""
+"Het bestandsformaat van de afspeellijst dat u gekozen heeft (volgens de "
+"extensie) wordt nog niet ondersteund."
 
 #: ../serpentine/mainwindow.py:379
 msgid "No recording drive found"
-msgstr ""
+msgstr "Geen CD-schrijver gevonden"
 
 #: ../serpentine/mainwindow.py:380
 msgid ""
 "No recording drive found on your system, therefore some of Serpentine's "
 "functionalities will be disabled."
 msgstr ""
+"Geen CD-schrijver gevonden. Daarom zal een gedeelte van de functionaliteit "
+"van Serpentine niet werken."
 
 #: ../serpentine/mainwindow.py:455
 msgid "Cache directory location unavailable"
-msgstr ""
+msgstr "Lokatie van de cache folder is niet beschikbaar"
 
 #: ../serpentine/mainwindow.py:459
 msgid "Not enough space on cache directory"
-msgstr ""
+msgstr "Niet voldoende ruimte in de cache folder"
 
 #: ../serpentine/mainwindow.py:466
 msgid "Do you want to overburn your disc?"
-msgstr ""
+msgstr "Wilt u proberen uw schijfcapaciteit te overschreiden?"
 
 #: ../serpentine/mainwindow.py:467
 msgid ""
 "You are about to record a media disc in overburn mode. This may not work on "
 "all drives and shouldn't give you more then a couple of minutes."
 msgstr ""
+"U staat op het punt een mediaschijf op te nemen in de overschreidingsmodus. "
+"Dit werkt mogelijk niet op alle CD-schrijvers en levert slechts een paar "
+"minuten extra  op."
 
 #: ../serpentine/mainwindow.py:470
 msgid "Write to Disc (Overburning)"
-msgstr ""
+msgstr "Schrijf naar schijf (Overschreidingsmodus)"
 
 #: ../serpentine/mainwindow.py:473
 msgid "Do you want to record your music?"
-msgstr ""
+msgstr "Wilt u uw muziek opnemen?"
 
 #: ../serpentine/mainwindow.py:474
 msgid ""
 "You are about to record a media disc. Canceling a writing operation will "
 "make your disc unusable."
 msgstr ""
+"U staat op het punt een schijf op te nemen. Afbreken van deze actie maakt uw "
+"schijf onbruikbaar."
 
-#: ../serpentine/mastering.py:72
+#: ../serpentine/mastering.py:71
 msgid "Unsupported file types"
-msgstr ""
+msgstr "Niet-ondersteunde bestandstypes"
 
-#: ../serpentine/mastering.py:74
+#: ../serpentine/mastering.py:73
 msgid "Unsupported file type"
-msgstr ""
+msgstr "Niet-ondersteund bestandstype"
 
-#: ../serpentine/mastering.py:82 ../serpentine/mastering.py:84
+#: ../serpentine/mastering.py:81 ../serpentine/mastering.py:83
 msgid "The following files were not added:"
-msgstr ""
+msgstr "De volgende bestanden zijn niet toegevoegd:"
 
 #: ../serpentine/mastering.py:116
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
 #: ../serpentine/mastering.py:117
-msgid "Unknown Artist"
-msgstr ""
+msgid "Unknow Artist"
+msgstr "Onbekende Artiest"
 
-#: ../serpentine/mastering.py:563
+#: ../serpentine/mastering.py:566
 msgid "Track"
-msgstr ""
-
-#: ../serpentine/mastering.py:576
-msgid "Artist"
-msgstr ""
+msgstr "Spoor"
 
 #: ../serpentine/mastering.py:579
+msgid "Artist"
+msgstr "Artiest"
+
+#: ../serpentine/mastering.py:582
 msgid "Duration"
-msgstr ""
+msgstr "Speelduur"
 
-#. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:679
+#: ../serpentine/mastering.py:682
 msgid "minute"
-msgstr ""
+msgstr "minuut"
 
-#: ../serpentine/mastering.py:679
+#: ../serpentine/mastering.py:682
 msgid "minutes"
-msgstr ""
+msgstr "minuten"
 
-#. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:683
+#: ../serpentine/mastering.py:686
 msgid "second"
-msgstr ""
+msgstr "seconde"
 
-#: ../serpentine/mastering.py:683
+#: ../serpentine/mastering.py:686
 msgid "seconds"
-msgstr ""
+msgstr "seconden"
 
-#: ../serpentine/mastering.py:685
+#: ../serpentine/mastering.py:688
 msgid " and "
-msgstr ""
+msgstr " en "
 
-#: ../serpentine/mastering.py:706
+#: ../serpentine/mastering.py:709
 #, python-format
 msgid "%s remaining"
-msgstr ""
+msgstr "nog %s"
 
-#: ../serpentine/mastering.py:708
+#: ../serpentine/mastering.py:711
 #, python-format
 msgid "%s overlaping"
-msgstr ""
+msgstr "%s overlappend"
 
-#: ../serpentine/mastering.py:710
+#: ../serpentine/mastering.py:713
 msgid "Empty"
-msgstr ""
+msgstr "Leeg"
 
-#: ../serpentine/preferences.py:307
+#: ../serpentine/preferences.py:302
 msgid "Tests if temporary directory exists and has write permissions."
 msgstr ""
+"Controleert of de tijdelijke folder bestaat en schrijfbevoegdheid heeft."
 
-#: ../serpentine/preferences.py:333 ../serpentine/preferences.py:351
+#: ../serpentine/preferences.py:328 ../serpentine/preferences.py:346
 msgid "Serpentine's playlist"
-msgstr ""
+msgstr "Serpentine's afspeellijst"
 
 #: ../serpentine/recording.py:39
 msgid "Converting files failed"
-msgstr ""
+msgstr "Converteren van bestanden mislukt"
 
 #: ../serpentine/recording.py:40
 msgid "Writing to disc didn't start so it is still usable."
 msgstr ""
+"Het beschrijven van de schijf is mislukt dus de schijf is nog bruikbaar."
 
 #: ../serpentine/recording.py:54
 msgid "Writing to disc failed"
-msgstr ""
+msgstr "Het beschrijven van de schijf is mislukt."
 
 #: ../serpentine/recording.py:55
 msgid "Writing to disc canceled"
-msgstr ""
+msgstr "Het beschrijven van de schijf is afgebroken"
 
 #: ../serpentine/recording.py:56
 msgid "The writing operation as started so the disc might be unusable."
 msgstr ""
+"Het beschrijven van de schijf is gestart dus de schijf is mogelijk "
+"onbruikbaar."
 
 #: ../serpentine/recording.py:74
 msgid "Writing Audio Disc"
-msgstr ""
+msgstr "Muziek CD beschrijven"
 
 #: ../serpentine/recording.py:75
 msgid ""
 "The audio tracks are going to be written to a disc. This operation may take "
 "a long time, depending on data size and write speed."
 msgstr ""
+"De muziekstukken zullen naar een schijf geschreven worden. Deze actie kan "
+"even duren, afhankelijk van de hoeveelheid data en de schrijfsnelheid."
 
 #: ../serpentine/recording.py:108
 msgid "CD-RW disc will be erased"
-msgstr ""
+msgstr "CD-RW schijf zal gewist worden"
 
 #: ../serpentine/recording.py:109
 msgid "Please remove your disc if you want to preserve it's contents."
-msgstr ""
+msgstr "Verwijder uw schijf als u de inhoud wilt bewaren."
 
 #: ../serpentine/recording.py:158
 msgid "Preparing recorder"
-msgstr ""
+msgstr "CD-schrijver voorbereiden"
 
 #: ../serpentine/recording.py:160
 msgid "Writing media files to disc"
-msgstr ""
+msgstr "Mediabestanden naar schijf schrijven"
 
 #: ../serpentine/recording.py:162
 msgid "Fixating disc"
-msgstr ""
+msgstr "Schijf fixeren"
 
 #: ../serpentine/recording.py:170
 msgid "Preparing media files"
-msgstr ""
+msgstr "Mediabestanden voorbereiden"
 
 #: ../serpentine/recording.py:185
 msgid "Writing to disc finished"
-msgstr ""
+msgstr "Schrijven naar schijf voltooid"
 
 #: ../serpentine/recording.py:186
 msgid "Disc writing was successful."
-msgstr ""
+msgstr "Schrijven naar schijf is geslaagd"
 
 #: ../serpentine/recording.py:219
 msgid "Writing Files to Disc"
-msgstr ""
+msgstr "Bestanden naar Schijf Wegschrijven"
 
-#: ../serpentine/recording.py:284
+#: ../serpentine/recording.py:278
 msgid "Please make sure another application is not using the drive."
 msgstr ""
+"Vergewis u er van dat andere toepassingen het apparaat in gebruik heeft."
+
+#: ../serpentine/recording.py:279
+msgid "Drive is busy"
+msgstr "Apparaat is bezig"
+
+#: ../serpentine/recording.py:281
+msgid "Please put a rewritable or blank disc into the drive."
+msgstr "Voer een herschrijfbare of lege schijf in de schrijver."
+
+#: ../serpentine/recording.py:282
+msgid "Insert rewritable or blank disc"
+msgstr "Plaats herschrijfbare of lege schijf."
+
+#: ../serpentine/recording.py:284
+msgid "Please put a blank disc into the drive."
+msgstr "Plaats een lege schijf in de schrijver."
 
 #: ../serpentine/recording.py:285
-msgid "Drive is busy"
-msgstr ""
+msgid "Insert blank disc"
+msgstr "Plaats lege schijf."
 
 #: ../serpentine/recording.py:287
-msgid "Please put a rewritable or blank disc into the drive."
-msgstr ""
-
-#: ../serpentine/recording.py:288
-msgid "Insert rewritable or blank disc"
-msgstr ""
-
-#: ../serpentine/recording.py:290
-msgid "Please put a blank disc into the drive."
-msgstr ""
-
-#: ../serpentine/recording.py:291
-msgid "Insert blank disc"
-msgstr ""
-
-#: ../serpentine/recording.py:293
 msgid "Please replace the disc in the drive with a rewritable or blank disc."
 msgstr ""
+"Vervang de schijf in de schrijver door een herschrijfbare of een lege schijf."
 
-#: ../serpentine/recording.py:296
+#: ../serpentine/recording.py:290
 msgid "Reload rewritable or blank disc"
-msgstr ""
+msgstr "Herschrijfbare of lege schijf herladen."
 
-#: ../serpentine/recording.py:298
+#: ../serpentine/recording.py:292
 msgid "Please replace the disc in the drive a blank disc."
-msgstr ""
+msgstr "Vervang de schijf in de schrijver door een lege schijf."
 
-#: ../serpentine/recording.py:299
+#: ../serpentine/recording.py:293
 msgid "Reload blank disc"
-msgstr ""
+msgstr "Lege schijf herladen"
+
+#: ../data/serpentine.glade.h:1
+#~ msgid ""
+#~ "74 minutes\n"
+#~ "80 minutes\n"
+#~ "90 minutes"
+#~ msgstr ""

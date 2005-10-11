@@ -38,7 +38,7 @@ class ConvertingError:
         gtkutil.dialog_error (
             _("Converting files failed"),
             _("Writing to disc didn't start so it is still usable."),
-            self.win
+            parent = self.win
         )
 
 class WritingError:
@@ -54,7 +54,7 @@ class WritingError:
                       _("Writing to disc failed") or \
                       _("Writing to disc canceled"),
             _("The writing operation as started so the disc might be unusable."),
-            self.win
+            parent = self.win
         )
 
 ################################################################################
@@ -108,7 +108,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
             gtkutil.dialog_warn (_("CD-RW disc will be erased"),
                                  _("Please remove your disc if you want to "
                                    "preserve it's contents."),
-                                 self.__prog)
+                                 parent = self.__prog)
         self.__blocked = False
         self.preferences.pool.temporaryDir = self.preferences.temporaryDir
         oper = FetchMusicList(self.__music_list, self.preferences.pool)
@@ -184,7 +184,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
             gtkutil.dialog_warn (
                 _("Writing to disc finished"),
                 _("Disc writing was successful."),
-                self.__prog
+                parent = self.__prog
             )
         
         # Warn our listenrs
@@ -251,11 +251,17 @@ class WriteAudioDisc (MeasurableOperation):
         self.__progress = progress
     
     def __thread (self, tracks):
-        result = self.recorder.write_tracks (self.preferences.drive,
-                                             tracks,
-                                             self.preferences.speedWrite,
-                                             self.preferences.writeFlags)
-
+        error = None
+        try:
+            result = self.recorder.write_tracks (self.preferences.drive,
+                                                 tracks,
+                                                 self.preferences.speedWrite,
+                                                 self.preferences.writeFlags)
+        except gobject.GError, err:
+            result = nautilusburn.RECORDER_RESULT_ERROR
+            # Grab the error message
+            error = str(err)
+            
         if result == nautilusburn.RECORDER_RESULT_FINISHED:
             result = operations.SUCCESSFUL
         elif result == nautilusburn.RECORDER_RESULT_ERROR:
@@ -266,7 +272,7 @@ class WriteAudioDisc (MeasurableOperation):
             #TODO: hanlde this
             result == operations.ERROR
             
-        e = operations.FinishedEvent(self, result)
+        e = operations.FinishedEvent(self, result, error)
         
         self.__running = False
         for l in self.listeners:
@@ -291,7 +297,7 @@ class WriteAudioDisc (MeasurableOperation):
         else:
             msg = _("Please replace the disc in the drive a blank disc.")
             title = _("Reload blank disc")
-        return gtkutil.dialog_ok_cancel (title, msg, self.parent) == gtk.RESPONSE_OK
+        return gtkutil.dialog_ok_cancel (title, msg, parent = self.parent) == gtk.RESPONSE_OK
 
 
 if __name__ == '__main__':

@@ -70,10 +70,15 @@ app.preferences.simulate = options.simulate
 gnome_app = gnome.init ('serpentine', app.preferences.version)
 
 if app.preferences.simulate:
-    gtkutil.dialog_warn (_("Simulation mode"), 
-                         _("Serpentine is on simulation mode, no "
-                           "actual writing will be done on inserted media."))
-
+    primary_text = _("Simulation mode")
+    secondary_text = _("Serpentine is on simulation mode, no actual writing "
+                       "will be done on inserted media.")
+                       
+    dlg = gtkutil.gen_warn (primary_text, secondary_text, title = "Serpentine")
+    dlg.set_icon_name ("gnome-dev-cdrom-audio")
+    dlg.run ()
+    dlg.destroy ()
+    
 # Check if we want to write files
 if options.write_files is not None:
     serpentine.write_files (app, options.write_files)

@@ -141,13 +141,13 @@ class SavePlaylistComponent (GladeComponent):
             gtkutil.dialog_warn (
                 _("Playlist Saved"),
                 _("Playlist was saved successfully."),
-                win
+                parent = win
             )
         else:
             gtkutil.dialog_error (
                 _("Playlist Not Saved"),
                 _("There was an error while saving the playlist."),
-                win
+                parent = win
             )
         
     def __sync_file_filters (self):
@@ -181,7 +181,7 @@ class SavePlaylistComponent (GladeComponent):
                 _("A file named <i>%s</i> already exists. "
                 "Do you want to replace it with the one "
                 "you are saving?") % basename,
-                win
+                parent = win
             ) != gtk.RESPONSE_OK:
                 
                 self.file_dlg.unselect_all()
@@ -195,7 +195,7 @@ class SavePlaylistComponent (GladeComponent):
                     _("Unsupported Format"),
                     _("The playlist format you used (by the file extension) is "
                     "currently not supported."),
-                    win
+                    parent = win
                 )
             oper.listeners.append (self)
             oper.start ()
@@ -379,7 +379,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
                 _("No recording drive found"),
                 _("No recording drive found on your system, therefore some of "
                   "Serpentine's functionalities will be disabled."),
-                self
+                parent = self
             )
             g.get_widget ("preferences_mni").set_sensitive (False)
             self.__write_to_disc.set_sensitive (False)
@@ -458,7 +458,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
             elif err.error_id == SerpentineCacheError.NO_SPACE:
                 title = _("Not enough space on cache directory")
             
-            gtkutil.dialog_warn (title, err.error_message)
+            gtkutil.dialog_warn (title, err.error_message, parent = self)
             return
 
         # TODO: move this to recording module?
@@ -478,7 +478,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
             btn = _("Write to Disc")
             self.__application.preferences.overburn = False
         
-        if gtkutil.dialog_ok_cancel (title, msg, self, btn) != gtk.RESPONSE_OK:
+        if gtkutil.dialog_ok_cancel (title, msg, parent = self, ok_button = btn) != gtk.RESPONSE_OK:
             return
         
         self.application.write_files ().start ()

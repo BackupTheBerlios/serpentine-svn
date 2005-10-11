@@ -52,7 +52,9 @@ class DirectoryFilter (HintsFilter):
         else:
             return None
         hints_list = []
-        for location in glob (os.path.join (location, "*")):
+        files = glob (os.path.join (location, "*"))
+        files.sort ()
+        for location in files:
             hints_list.append ({"location": location})
         return hints_list
 

@@ -86,7 +86,7 @@ class ErrorTrapper (operations.Operation, operations.OperationListener):
         msg += " "
         msg += ", ".join (filenames)
 
-        gtkutil.dialog_error (title, msg, self.parent)
+        gtkutil.dialog_error (title, msg, parent = self.parent)
         
         e = operations.FinishedEvent (self, operations.SUCCESSFUL)
         for l in self.listeners:
@@ -114,7 +114,7 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
             "location": self.hints['location'],
             "cache_location": "",
             "title": gnomevfs.URI(self.hints['location'][:-4]).short_name or _("Unknown"),
-            "artist": _("Unknow Artist"),
+            "artist": _("Unknown Artist"),
             "duration": int(metadata['duration']),
         }
         

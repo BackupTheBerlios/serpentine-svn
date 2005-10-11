@@ -1,0 +1,463 @@
+# Russian translation of Serpentine
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: serpentine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-10-05 02:19+0200\n"
+"Last-Translator: Paul Chavard <polo@tchak.net>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: ../data/serpentine.desktop.in.h:1
+msgid "Create Audio-CD's from music files and playlists"
+msgstr "Ð¡Ð¾Ð·Ð´Ð°ÑÑ ÐÑÐ´Ð¸Ð¾ CD Ð¸Ð· Ð°ÑÐ´Ð¸Ð¾ ÑÐ°Ð¹Ð»Ð¾Ð² Ð¸ ÑÐ¿Ð¸ÑÐºÐ¾Ð² Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ"
+
+#: ../data/serpentine.desktop.in.h:2
+msgid "Serpentine Audio-CD Creator"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ ÐÑÐ´Ð¸Ð¾ CD Ð¡ÐµÑÐ¿Ð°Ð½ÑÐ¸Ð½"
+
+#: ../data/serpentine.glade.h:1
+msgid ""
+"21 minutes\n"
+"74 minutes\n"
+"80 minutes\n"
+"90 minutes"
+msgstr ""
+"21 Ð¼Ð¸Ð½ÑÑÐ°\n"
+"74 Ð¼Ð¸Ð½ÑÑÑ\n"
+"80 Ð¼Ð¸Ð½ÑÑ\n"
+"90 Ð¼Ð¸Ð½ÑÑ"
+
+#: ../data/serpentine.glade.h:5
+msgid "<b>Disc capacity exceeded!</b>"
+msgstr "<b>ÐÐ¼ÐµÑÑÐ¸Ð¼Ð¾ÑÑÑ Ð½Ð¾ÑÐ¸ÑÐµÐ»Ñ Ð¿ÑÐµÐ²ÑÑÐµÐ½Ð°!</b>"
+
+#: ../data/serpentine.glade.h:6
+msgid "<b>Writing Device</b>"
+msgstr "<b>ÐÐ°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐµÐµ ÑÑÑÑÐ¾Ð¹ÑÑÐ²Ð¾</b>"
+
+#: ../data/serpentine.glade.h:7
+msgid "<b>Writing Options</b>"
+msgstr "<b>ÐÐ°ÑÑÑÐ¾Ð¹ÐºÐ¸ Ð·Ð°Ð¿Ð¸ÑÐ¸</b>"
+
+#: ../data/serpentine.glade.h:8
+msgid "Add tracks to playlist"
+msgstr "ÐÐ¾Ð±Ð°Ð²Ð¸ÑÑ Ð´Ð¾ÑÐ¾Ð¶ÐºÐ¸ Ðº ÑÐ¿Ð¸ÑÐºÑ Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ"
+
+#: ../data/serpentine.glade.h:9
+msgid "Add two seconds gap between tracks"
+msgstr "ÐÐ¾Ð±Ð°Ð²Ð»ÑÑÑ Ð´Ð²ÑÑ ÑÐµÐºÑÐ½Ð´Ð½ÑÑ Ð¿Ð°ÑÐ·Ñ Ð¼ÐµÐ¶Ð´Ñ Ð´Ð¾ÑÐ¾Ð¶ÐºÐ°Ð¼Ð¸"
+
+#: ../data/serpentine.glade.h:10
+msgid "Audio Widget Wrapper"
+msgstr "AudioÂ·WidgetÂ·Wrapper"
+
+#: ../data/serpentine.glade.h:11
+msgid "Choose writing speed"
+msgstr "ÐÑÐ±ÐµÑÐµÑÐµ ÑÐºÐ¾ÑÐ¾ÑÑÑ Ð·Ð°Ð¿Ð¸ÑÐ¸"
+
+#: ../data/serpentine.glade.h:12
+msgid "Clear playlist"
+msgstr "ÐÑÐ¸ÑÑÐ¸ÑÑ ÑÐ¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ"
+
+#: ../data/serpentine.glade.h:13
+msgid "Device:"
+msgstr "Ð£ÑÑÑÐ¾Ð¹ÑÑÐ²Ð¾:"
+
+#: ../data/serpentine.glade.h:14
+msgid "Disc Capacity:"
+msgstr "ÐÐ¼ÐµÑÑÐ¸Ð¼Ð¾ÑÑÑ Ð½Ð¾ÑÐ¸ÑÐµÐ»Ñ:"
+
+#: ../data/serpentine.glade.h:15
+msgid "Disc Usage:"
+msgstr "ÐÑÐ¿Ð¾Ð»ÑÐ·ÑÐµÐ¼Ð¾Ðµ Ð¿ÑÐ¾ÑÑÑÐ°Ð½ÑÑÐ²Ð¾ Ð½Ð° Ð½Ð¾ÑÐ¸ÑÐµÐ»Ðµ:"
+
+#: ../data/serpentine.glade.h:16
+msgid "Edit"
+msgstr "ÐÑÐ°Ð²ÐºÐ°"
+
+#: ../data/serpentine.glade.h:17
+msgid "Eject disk after writing"
+msgstr "ÐÐ·Ð²Ð»ÐµÐºÐ°ÑÑ Ð½Ð¾ÑÐ¸ÑÐµÐ»Ñ Ð¿Ð¾ÑÐ»Ðµ Ð·Ð°Ð²ÐµÑÑÐµÐ½Ð¸Ñ Ð·Ð°Ð¿Ð¸ÑÐ¸"
+
+#: ../data/serpentine.glade.h:18
+msgid "Open Playlist..."
+msgstr "ÐÑÐºÑÑÑÑ ÑÐ¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ..."
+
+#: ../data/serpentine.glade.h:19
+msgid "Refreshes the max writing speed"
+msgstr "ÐÐ±Ð½Ð¾Ð²Ð¸ÑÑ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑÐ½ÑÑ ÑÐºÐ¾ÑÐ¾ÑÑÑ Ð·Ð°Ð¿Ð¸ÑÐ¸"
+
+#: ../data/serpentine.glade.h:20
+msgid "Remove selected tracks from playlist"
+msgstr "Ð£Ð±ÑÐ°ÑÑ Ð²ÑÐ´ÐµÐ»ÐµÐ½Ð½ÑÐµ Ð´Ð¾ÑÐ¾Ð¶ÐºÐ¸ Ð¸Ð· ÑÐ¿Ð¸ÑÐºÐ° Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ"
+
+#: ../data/serpentine.glade.h:21
+msgid "Save Playlist As..."
+msgstr "Ð¡Ð¾ÑÑÐ°Ð½Ð¸ÑÑ ÑÐ¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ ÐºÐ°Ðº..."
+
+#: ../data/serpentine.glade.h:22
+msgid "Serpentine Audio Mastering"
+msgstr "Ð¡ÐµÑÐ¿Ð°Ð½ÑÐ¸Ð½ ÐÑÐ´Ð¸Ð¾ ÐÐ¾Ð½ÑÐ°Ð¶"
+
+#: ../data/serpentine.glade.h:23
+#: ../serpentine/preferences.py:62
+msgid "Serpentine Preferences"
+msgstr "ÐÐ°ÑÑÑÐ¾Ð¹ÐºÐ¸ Ð¡ÐµÑÐ¿Ð°Ð½ÑÐ¸Ð½Ð°"
+
+#: ../data/serpentine.glade.h:24
+msgid "Use maximum writing speed"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑÐ²Ð°ÑÑ Ð½Ð° Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑÐ½Ð¾Ð¹ ÑÐºÐ¾ÑÐ¾ÑÑÐ¸"
+
+#: ../data/serpentine.glade.h:25
+msgid "Write playlist to disc"
+msgstr "ÐÐ°Ð¿Ð¸ÑÐ°ÑÑ ÑÐ¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ Ð½Ð° Ð´Ð¸ÑÐº"
+
+#: ../data/serpentine.glade.h:26
+#: ../serpentine/mainwindow.py:478
+msgid "Write to Disc"
+msgstr "ÐÐ°Ð¿Ð¸ÑÐ°ÑÑ Ð½Ð° Ð´Ð¸ÑÐº"
+
+#: ../data/serpentine.glade.h:27
+msgid "_File"
+msgstr "_Ð¤Ð°Ð¹Ð»"
+
+#: ../data/serpentine.glade.h:28
+msgid "_Help"
+msgstr "_Ð¡Ð¿ÑÐ°Ð²ÐºÐ°"
+
+#: ../data/serpentine.glade.h:29
+msgid "_Toolbar"
+msgstr "_ÐÐ°Ð½ÐµÐ»Ð¸ Ð¸Ð½ÑÑÑÑÐ¼ÐµÐ½ÑÐ¾Ð²"
+
+#: ../data/serpentine.glade.h:30
+msgid "_View"
+msgstr "_ÐÐ¸Ð´"
+
+#: ../scripts/serpentine:39
+msgid "Recording operations will be done in simulation mode."
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ Ð±ÑÐ´ÐµÑ Ð²ÑÐ¿Ð¾Ð»Ð½ÐµÐ½Ð° Ð² ÑÐ¸Ð¼ÑÐ»Ð¸ÑÑÑÑÐµÐ¼ ÑÐµÐ¶Ð¸Ð¼Ðµ."
+
+#: ../scripts/serpentine:42
+msgid "Show preferences dialog and exit."
+msgstr "ÐÑÑÐ°Ð·Ð¸ÑÑ Ð¾ÐºÐ½Ð¾ Ð½Ð°ÑÑÑÐ¾ÐµÐº Ð¸ Ð²ÑÐ¹ÑÐ¸."
+
+#: ../scripts/serpentine:45
+msgid "Writes the filenames after this option to a CD. This will show a dialog suitable for embedding in other applications."
+msgstr "Ð¤Ð°Ð¹Ð»Ñ ÑÐ»ÐµÐ´ÑÑÑÐ¸Ðµ Ð·Ð° ÑÑÐ¾Ð¹ Ð¾Ð¿ÑÐ¸ÐµÐ¹ Ð±ÑÐ´ÑÑ Ð·Ð°Ð¿Ð¸ÑÐ°Ð½Ñ Ð½Ð° CD. ÐÑÐ´ÐµÑ Ð¾ÑÑÐ°Ð¶ÐµÐ½Ð¾ Ð¾ÐºÐ½Ð¾, ÑÐ´Ð¾Ð±Ð½Ð¾Ðµ Ð´Ð»Ñ Ð¸ÑÐ¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ Ð² Ð´ÑÑÐ³Ð¸Ñ Ð¿ÑÐ¾Ð³ÑÐ°Ð¼Ð¼Ð°Ñ."
+
+#: ../scripts/serpentine:73
+msgid "Simulation mode"
+msgstr "Ð¡Ð¸Ð¼ÑÐ»Ð¸ÑÑÑÑÐ¸Ð¹ ÑÐµÐ¶Ð¸Ð¼"
+
+#: ../scripts/serpentine:74
+msgid "Serpentine is on simulation mode, no actual writing will be done on inserted media."
+msgstr "Ð¡ÐµÑÐ¿Ð°Ð½ÑÐ¸Ð½ ÑÐ°Ð±Ð¾ÑÐ°ÐµÑ Ð² ÑÐ¸Ð¼ÑÐ»Ð¸ÑÑÑÑÐµÐ¼ ÑÐµÐ¶Ð¸Ð¼Ðµ, Ð·Ð°Ð¿Ð¸ÑÑ Ð½Ðµ Ð±ÑÐ´ÐµÑ Ð¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð° Ð½Ð° Ð²ÑÑÐ°Ð²Ð»ÐµÐ½Ð½Ð¾Ð¼ Ð½Ð¾ÑÐ¸ÑÐµÐ»Ðµ."
+
+#: ../serpentine/__init__.py:59
+#: ../serpentine/__init__.py:106
+#: ../serpentine/__init__.py:111
+msgid "All files"
+msgstr "ÐÑÐµ ÑÐ°Ð¹Ð»Ñ"
+
+#: ../serpentine/__init__.py:216
+msgid "Supported files"
+msgstr "ÐÐ¾Ð´Ð´ÐµÑÐ¶Ð¸Ð²Ð°ÐµÐ¼ÑÐµ ÑÐ¾ÑÐ¼Ð°ÑÑ ÑÐ°Ð¹Ð»Ð¾Ð²"
+
+#: ../serpentine/__init__.py:224
+msgid "Playlists"
+msgstr "Ð¡Ð¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ"
+
+#: ../serpentine/common.py:48
+msgid "GByte"
+msgstr "GByte"
+
+#: ../serpentine/common.py:48
+msgid "GBytes"
+msgstr "GBytes"
+
+#: ../serpentine/common.py:49
+msgid "MByte"
+msgstr "MByte"
+
+#: ../serpentine/common.py:49
+msgid "MBytes"
+msgstr "MBytes"
+
+#: ../serpentine/common.py:50
+msgid "KByte"
+msgstr "KByte"
+
+#: ../serpentine/common.py:51
+msgid "byte"
+msgstr "byte"
+
+#: ../serpentine/common.py:51
+msgid "bytes"
+msgstr "bytes"
+
+#: ../serpentine/common.py:128
+msgid "Please check if the cache location exists and has writable permissions."
+msgstr "ÐÐ¾Ð¶Ð°Ð»ÑÑÑÐ°, Ð¿ÑÐ¾Ð²ÐµÑÑÑÐµ ÑÑÑÐµÑÑÐ²ÑÐµÑ-Ð»Ð¸ Ð°Ð´ÑÐµÑ Ð¿Ð°Ð¿ÐºÐ¸ ÐºÑÑÐ° Ð¸ Ð¿ÑÐ¾Ð²ÐµÑÑÑÐµ Ð¿ÑÐ°Ð²Ð° Ð½Ð° Ð·Ð°Ð¿Ð¸ÑÑ."
+
+#: ../serpentine/common.py:138
+#, python-format
+msgid "Remove some music tracks or make sure your cache location location has enough free space (about %s)."
+msgstr "Ð£Ð´Ð°Ð»Ð¸ÑÐµ Ð½ÐµÑÐºÐ¾Ð»ÑÐºÐ¾ Ð´Ð¾ÑÐ¾Ð¶ÐµÐº Ð¸Ð»Ð¸ ÑÐ±ÐµÐ´Ð¸ÑÐµÑÑ, ÑÑÐ¾ Ð¿Ð¾ Ð°Ð´ÑÐµÑÑ Ð²Ð°ÑÐµÐ¹ ÐºÑÑ Ð¿Ð°Ð¿ÐºÐ¸ Ð´Ð¾ÑÑÐ°ÑÐ¾ÑÐ½Ð¾ ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ð¼ÐµÑÑÐ° (Ð¾ÐºÐ¾Ð»Ð¾ %s)."
+
+#: ../serpentine/mainwindow.py:142
+msgid "Playlist Saved"
+msgstr "Ð¡Ð¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ ÑÐ¾ÑÑÐ°Ð½ÐµÐ½"
+
+#: ../serpentine/mainwindow.py:143
+msgid "Playlist was saved successfully."
+msgstr "Ð¡Ð¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ ÑÑÐ¿ÐµÑÐ½Ð¾ ÑÐ¾ÑÑÐ°Ð½ÐµÐ½."
+
+#: ../serpentine/mainwindow.py:148
+msgid "Playlist Not Saved"
+msgstr "Ð¡Ð¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ Ð½Ðµ ÑÐ¾ÑÑÐ°Ð½ÐµÐ½"
+
+#: ../serpentine/mainwindow.py:149
+msgid "There was an error while saving the playlist."
+msgstr "ÐÐ¾ Ð²ÑÐµÐ¼Ñ Ð·Ð°Ð¿Ð¸ÑÐ¸ Ð¿ÑÐ¾Ð¸Ð·Ð¾ÑÐ»Ð° Ð¾ÑÐ¸Ð±ÐºÐ°."
+
+#: ../serpentine/mainwindow.py:180
+msgid "Replace existing file"
+msgstr "ÐÐ°Ð¼ÐµÐ½Ð¸ÑÑ ÑÑÑÐµÑÑÐ²ÑÑÑÐ¸Ð¹ ÑÐ°Ð¹Ð»"
+
+#: ../serpentine/mainwindow.py:181
+#, python-format
+msgid "A file named <i>%s</i> already exists. Do you want to replace it with the one you are saving?"
+msgstr "Ð¤Ð°Ð¹Ð» Ñ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸ÐµÐ¼ <i>%s</i> ÑÐ¶Ðµ ÑÑÑÐµÑÑÐ²ÑÐµÑ. ÐÑ ÑÐ¾ÑÐ¸ÑÐµ Ð·Ð°Ð¼ÐµÐ½Ð¸ÑÑ ÐµÐ³Ð¾ Ð½Ð¾Ð²ÑÐ¼ ÑÐ°Ð¹Ð»Ð¾Ð¼?"
+
+#: ../serpentine/mainwindow.py:195
+msgid "Unsupported Format"
+msgstr "ÐÐµÐ¿Ð¾Ð´Ð´ÐµÑÐ¶Ð¸Ð²Ð°ÐµÐ¼ÑÐ¹ ÑÐ¾ÑÐ¼Ð°Ñ"
+
+#: ../serpentine/mainwindow.py:196
+msgid "The playlist format you used (by the file extension) is currently not supported."
+msgstr "Ð¤Ð¾ÑÐ¼Ð°Ñ ÑÐ¿Ð¸ÑÐºÐ° Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ ÐºÐ¾ÑÐ¾ÑÑÐ¹ Ð²Ñ Ð¸ÑÐ¿Ð¾Ð»ÑÐ·ÑÐµÑÐµ (Ð¾Ð¿ÑÐµÐ´ÐµÐ»ÐµÐ½ Ð¿Ð¾ ÑÐ°ÑÑÐ¸ÑÐµÐ½Ð¸Ñ ÑÐ°Ð¹Ð»Ð°) Ð² Ð½Ð°ÑÑÐ¾ÑÑÐµÐµ Ð²ÑÐµÐ¼Ñ Ð½Ðµ Ð¿Ð¾Ð´Ð´ÐµÑÐ¶Ð¸Ð²Ð°ÐµÑÑÑ."
+
+#: ../serpentine/mainwindow.py:379
+msgid "No recording drive found"
+msgstr "ÐÐµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ Ð·Ð°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐµÐµ ÑÑÑÑÐ¾Ð¹ÑÑÐ²Ð¾"
+
+#: ../serpentine/mainwindow.py:380
+msgid "No recording drive found on your system, therefore some of Serpentine's functionalities will be disabled."
+msgstr "ÐÐ°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐµÐµ ÑÑÑÑÐ¾Ð¹ÑÑÐ²Ð¾ Ð½Ðµ Ð±ÑÐ»Ð¾ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ Ð² Ð²Ð°ÑÐµÐ¹ ÑÐ¸ÑÑÐµÐ¼Ðµ, Ð½ÐµÐºÐ¾ÑÐ¾ÑÑÐµ ÑÑÐ½ÐºÑÐ¸Ð¸ Ð¡ÐµÑÐ¿Ð°Ð½ÑÐ¸Ð½Ð° Ð±ÑÐ´ÑÑ Ð¾ÑÐºÐ»ÑÑÐµÐ½Ñ."
+
+#: ../serpentine/mainwindow.py:455
+msgid "Cache directory location unavailable"
+msgstr "ÐÐ´ÑÐµÑ Ð¿Ð°Ð¿ÐºÐ¸ ÐºÑÑÐ° Ð½Ðµ Ð´Ð¾ÑÑÑÐ¿ÐµÐ½"
+
+#: ../serpentine/mainwindow.py:459
+msgid "Not enough space on cache directory"
+msgstr "ÐÐµÐ´Ð¾ÑÑÐ°ÑÐ¾ÑÐ½Ð¾ Ð¼ÐµÑÑÐ° Ð² Ð¿Ð°Ð¿ÐºÐµ ÐºÑÑÐ°"
+
+#: ../serpentine/mainwindow.py:466
+msgid "Do you want to overburn your disc?"
+msgstr "Ð¥Ð¾ÑÐ¸ÑÐµ \"overburn\" Ð²Ð°Ñ Ð´Ð¸ÑÐº?"
+
+#: ../serpentine/mainwindow.py:467
+msgid "You are about to record a media disc in overburn mode. This may not work on all drives and shouldn't give you more then a couple of minutes."
+msgstr "ÐÑ ÑÐ¾Ð±Ð¸ÑÐ°ÐµÑÐµÑÑ Ð·Ð°Ð¿Ð¸ÑÐ°ÑÑ Ð´Ð¸ÑÐº Ð² ÑÐµÐ¶Ð¸Ð¼Ðµ \"overburn\". Ð­ÑÐ¾Ñ Ð¿ÑÐ¸ÐµÐ¼ ÑÐ°Ð±Ð¾ÑÐ°ÐµÑ Ð½Ðµ Ð½Ð° Ð²ÑÐµÑ Ð·Ð°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐ¸Ñ ÑÑÑÑÐ¾Ð¹ÑÑÐ²Ð°Ñ, Ð¸ Ð½Ðµ Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ Ð²Ð°Ð¼ Ð±Ð¾Ð»ÐµÐµ Ð±Ð¾Ð»ÐµÐµ Ð´Ð²ÑÑ Ð¼Ð¸Ð½ÑÑ."
+
+#: ../serpentine/mainwindow.py:470
+msgid "Write to Disc (Overburning)"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ Ð½Ð° Ð´Ð¸ÑÐº (Overburning)"
+
+#: ../serpentine/mainwindow.py:473
+msgid "Do you want to record your music?"
+msgstr "Ð¥Ð¾ÑÐ¸ÑÐµ Ð·Ð°Ð¿Ð¸ÑÐ°ÑÑ Ð¼ÑÐ·ÑÐºÑ?"
+
+#: ../serpentine/mainwindow.py:474
+msgid "You are about to record a media disc. Canceling a writing operation will make your disc unusable."
+msgstr "ÐÑ ÑÐ¾Ð±Ð¸ÑÐ°ÐµÑÐµÑÑ Ð·Ð°Ð¿Ð¸ÑÐ°ÑÑ Ð´Ð¸ÑÐº Ñ Ð´Ð°Ð½Ð½ÑÐ¼Ð¸. Ð ÑÐ»ÑÑÐ°Ðµ Ð¿ÑÐµÑÑÐ²Ð° ÑÑÐ¾Ð¹ Ð¾Ð¿ÐµÑÐ°ÑÐ¸Ð¸, Ð½Ð¾ÑÐ¸ÑÐµÐ»Ñ Ð±ÑÐ´ÐµÑ Ð¸ÑÐ¿Ð¾ÑÑÐµÐ½."
+
+#: ../serpentine/mastering.py:71
+msgid "Unsupported file types"
+msgstr "ÐÐµÐ¿Ð¾Ð´Ð´ÐµÑÐ¶Ð¸Ð²Ð°ÐµÐ¼ÑÐµ ÑÐ¾ÑÐ¼Ð°ÑÑ ÑÐ°Ð¹Ð»Ð°"
+
+#: ../serpentine/mastering.py:73
+msgid "Unsupported file type"
+msgstr "ÐÐµÐ¿Ð¾Ð´Ð´ÐµÑÐ¶Ð¸Ð²Ð°ÐµÐ¼ÑÐ¹ ÑÐ¾ÑÐ¼Ð°Ñ ÑÐ°Ð¹Ð»Ð°"
+
+#: ../serpentine/mastering.py:81
+#: ../serpentine/mastering.py:83
+msgid "The following files were not added:"
+msgstr "Ð¡Ð»ÐµÐ´ÑÑÑÐ¸Ðµ ÑÐ°Ð¹Ð»Ñ Ð½Ðµ Ð±ÑÐ»Ð¸ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ñ:"
+
+#: ../serpentine/mastering.py:116
+msgid "Unknown"
+msgstr "ÐÐµÐ¸Ð·Ð²ÐµÑÑÐ½Ð¾"
+
+#: ../serpentine/mastering.py:117
+msgid "Unknow Artist"
+msgstr "ÐÐµÐ¸Ð·Ð²ÐµÑÑÐ½ÑÐ¹ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸ÑÐµÐ»Ñ"
+
+#: ../serpentine/mastering.py:566
+msgid "Track"
+msgstr "ÐÐ¾ÑÐ¾Ð¶ÐºÐ°"
+
+#: ../serpentine/mastering.py:579
+msgid "Artist"
+msgstr "ÐÑÐ¿Ð¾Ð»Ð½Ð¸ÑÐµÐ»Ñ"
+
+#: ../serpentine/mastering.py:582
+msgid "Duration"
+msgstr "ÐÑÐ¾Ð´Ð¾Ð»Ð¶Ð¸ÑÐµÐ»ÑÐ½Ð¾ÑÑÑ"
+
+#. To translators: I know this is ugly for you
+#: ../serpentine/mastering.py:682
+msgid "minute"
+msgstr "Ð¼Ð¸Ð½ÑÑÐ°"
+
+#: ../serpentine/mastering.py:682
+msgid "minutes"
+msgstr "Ð¼Ð¸Ð½ÑÑ"
+
+#. To translators: I know this is ugly for you
+#: ../serpentine/mastering.py:686
+msgid "second"
+msgstr "ÑÐµÐºÑÐ½Ð´Ð°"
+
+#: ../serpentine/mastering.py:686
+msgid "seconds"
+msgstr "ÑÐµÐºÑÐ½Ð´"
+
+#: ../serpentine/mastering.py:688
+msgid " and "
+msgstr " Ð¸ "
+
+#: ../serpentine/mastering.py:709
+#, python-format
+msgid "%s remaining"
+msgstr "%s Ð¾ÑÑÐ°Ð»Ð¾ÑÑ"
+
+#: ../serpentine/mastering.py:711
+#, python-format
+msgid "%s overlaping"
+msgstr "%s Ð¿Ð¾Ð»Ð¸ÑÐ¾Ð²ÐºÐ°"
+
+#: ../serpentine/mastering.py:713
+msgid "Empty"
+msgstr "ÐÑÑÑÐ¾Ð¹"
+
+#: ../serpentine/preferences.py:302
+msgid "Tests if temporary directory exists and has write permissions."
+msgstr "ÐÑÐ¾Ð²ÐµÑÐºÐ° Ð½Ð° ÑÑÑÐµÑÑÐ²Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð²ÑÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹ Ð¿Ð°Ð¿ÐºÐ¸ Ð¸ ÑÐ°Ð·ÑÐµÑÐµÐ½Ð¸Ð¹ Ð½Ð° Ð·Ð°Ð¿Ð¸ÑÑ."
+
+#: ../serpentine/preferences.py:328
+#: ../serpentine/preferences.py:346
+msgid "Serpentine's playlist"
+msgstr "Ð¡Ð¿Ð¸ÑÐ¾Ðº Ð²Ð¾ÑÐ¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ð¸Ñ Ð¡ÐµÑÐ¿Ð°Ð½ÑÐ¸Ð½Ð°"
+
+#: ../serpentine/recording.py:39
+msgid "Converting files failed"
+msgstr "ÐÑÐµÐ¾Ð±ÑÐ°Ð·Ð¾Ð²Ð°Ð½Ð¸Ðµ ÑÐ°Ð¹Ð»Ð¾Ð² Ð½Ðµ ÑÐ´Ð°Ð»Ð¾ÑÑ"
+
+#: ../serpentine/recording.py:40
+msgid "Writing to disc didn't start so it is still usable."
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ Ð½Ð° Ð´Ð¸ÑÐº Ð½Ðµ Ð½Ð°ÑÐ°Ð»Ð°ÑÑ, ÑÐ°ÐºÑÑÐ¾ Ð´Ð¸ÑÐº Ð¼Ð¾Ð¶ÐµÑ Ð±ÑÑÑ ÑÐ½Ð¾Ð²Ð° Ð¸ÑÐ¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°Ð½."
+
+#: ../serpentine/recording.py:54
+msgid "Writing to disc failed"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ Ð½Ð° Ð´Ð¸ÑÐº Ð½Ðµ ÑÐ´Ð°Ð»Ð°ÑÑ"
+
+#: ../serpentine/recording.py:55
+msgid "Writing to disc canceled"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ Ð½Ð° Ð´Ð¸ÑÐº Ð¿ÑÐµÑÐ²Ð°Ð½Ð°"
+
+#: ../serpentine/recording.py:56
+msgid "The writing operation as started so the disc might be unusable."
+msgstr "Ð¢Ð°Ðº ÐºÐ°Ðº Ð·Ð°Ð¿Ð¸ÑÑ Ð½Ð°ÑÐ°Ð»Ð°ÑÑ, Ð½Ð¾ÑÐ¸ÑÐµÐ»Ñ Ð¼Ð¾Ð¶ÐµÑ Ð¾ÐºÐ°Ð·Ð°ÑÑÑÑ Ð½ÐµÐ¿ÑÐ¸Ð³Ð¾Ð´Ð½ÑÐ¼ Ðº Ð½Ð¾Ð²Ð¾Ð¼Ñ Ð¸ÑÐ¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ."
+
+#: ../serpentine/recording.py:74
+msgid "Writing Audio Disc"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑÐ²Ð°ÐµÑÑÑ ÐÑÐ´Ð¸Ð¾ ÐÐ¸ÑÐº"
+
+#: ../serpentine/recording.py:75
+msgid "The audio tracks are going to be written to a disc. This operation may take a long time, depending on data size and write speed."
+msgstr "ÐÑÐ´Ð¸Ð¾ Ð´Ð¾ÑÐ¾Ð¶ÐºÐ¸ Ð±ÑÐ´ÑÑ Ð·Ð°Ð¿Ð¸ÑÐ°Ð½Ñ Ð½Ð° Ð´Ð¸ÑÐº. Ð­ÑÐ° Ð¾Ð¿ÐµÑÐ°ÑÐ¸Ñ Ð¼Ð¾Ð¶ÐµÑ Ð·Ð°Ð½ÑÑÑ Ð¼Ð½Ð¾Ð³Ð¾ Ð²ÑÐµÐ¼ÐµÐ½Ð¸, Ð² Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐ¸ Ð¾Ñ Ð¾Ð±ÑÐµÐ¼Ð° Ð´Ð°Ð½Ð½ÑÑ Ð¸ ÑÐºÐ¾ÑÐ¾ÑÑÐ¸ Ð·Ð°Ð¿Ð¸ÑÐ¸."
+
+#: ../serpentine/recording.py:108
+msgid "CD-RW disc will be erased"
+msgstr "ÐÑÑ Ð¸Ð½ÑÐ¾ÑÐ¼Ð°ÑÐ¸Ñ Ð½Ð° CD-RW Ð´Ð¸ÑÐºÐµ Ð±ÑÐ´ÐµÑ ÑÑÐµÑÑÐ°"
+
+#: ../serpentine/recording.py:109
+msgid "Please remove your disc if you want to preserve it's contents."
+msgstr "ÐÐ¾Ð¶Ð°Ð»ÑÑÑÐ°, Ð¸Ð·Ð²Ð»ÐµÐºÐ¸ÑÐµ Ð´Ð¸ÑÐº ÐµÑÐ»Ð¸ Ð²Ñ ÑÐ¾ÑÐ¸ÑÐµ ÑÐ¾ÑÑÐ°Ð½Ð¸ÑÑ Ð´Ð°Ð½Ð½ÑÐµ Ð·Ð°Ð¿Ð¸ÑÐ°Ð½Ð½ÑÐµ Ð½Ð° Ð½ÐµÐ¼."
+
+#: ../serpentine/recording.py:158
+msgid "Preparing recorder"
+msgstr "ÐÐ¾Ð´Ð³Ð¾ÑÐ¾Ð²ÐºÐ° Ð·Ð°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐµÐ³Ð¾ ÑÑÑÑÐ¾Ð¹ÑÑÐ²Ð°"
+
+#: ../serpentine/recording.py:160
+msgid "Writing media files to disc"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ Ð¼ÐµÐ´Ð¸Ð° ÑÐ°Ð¹Ð»Ð¾Ð² Ð½Ð° Ð´Ð¸ÑÐº"
+
+#: ../serpentine/recording.py:162
+msgid "Fixating disc"
+msgstr "ÐÐ°ÐºÑÐµÐ¿Ð»ÐµÐ½Ð¸Ðµ Ð´Ð¸ÑÐºÐ°"
+
+#: ../serpentine/recording.py:170
+msgid "Preparing media files"
+msgstr "ÐÐ¾Ð´Ð³Ð¾ÑÐ¾Ð²ÐºÐ° Ð¼ÐµÐ´Ð¸Ð° ÑÐ°Ð¹Ð»Ð¾Ð²"
+
+#: ../serpentine/recording.py:185
+msgid "Writing to disc finished"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ Ð½Ð° Ð´Ð¸ÑÐº Ð·Ð°Ð²ÐµÑÑÐµÐ½Ð°"
+
+#: ../serpentine/recording.py:186
+msgid "Disc writing was successful."
+msgstr "ÐÐ°Ð¿Ð¸ÑÑ Ð´Ð¸ÑÐºÐ° Ð¿ÑÐ¾ÑÐ»Ð° ÑÑÐ¿ÐµÑÐ½Ð¾."
+
+#: ../serpentine/recording.py:219
+msgid "Writing Files to Disc"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑÐ²Ð°Ñ Ð¤Ð°Ð¹Ð»Ñ Ð½Ð° ÐÐ¸ÑÐº"
+
+#: ../serpentine/recording.py:278
+msgid "Please make sure another application is not using the drive."
+msgstr "ÐÐ¾Ð¶Ð°Ð»ÑÑÑÐ°, ÑÐ±ÐµÐ´Ð¸ÑÐµÑÑ, ÑÑÐ¾ Ð´ÑÑÐ³Ð°Ñ Ð¿ÑÐ¾Ð³ÑÐ°Ð¼Ð¼Ð° Ð½Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑÐ·ÑÐµÑ Ð´Ð¸ÑÐºÐ¾Ð²Ð¾Ð´."
+
+#: ../serpentine/recording.py:279
+msgid "Drive is busy"
+msgstr "ÐÐ°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐµÐµ ÑÑÑÑÐ¾Ð¹ÑÑÐ²Ð¾ Ð·Ð°Ð½ÑÑÐ¾"
+
+#: ../serpentine/recording.py:281
+msgid "Please put a rewritable or blank disc into the drive."
+msgstr "ÐÐ¾Ð¶Ð°Ð»ÑÑÑÐ°, Ð²ÑÑÐ°Ð²ÑÑÐµ ÑÐ¸ÑÑÑÐ¹ Ð¸Ð»Ð¸ Ð¿ÐµÑÐµÐ·Ð°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐ¸Ð¹ÑÑ Ð´Ð¸ÑÐº Ð² Ð´Ð¸ÑÐºÐ¾Ð²Ð¾Ð´."
+
+#: ../serpentine/recording.py:282
+msgid "Insert rewritable or blank disc"
+msgstr "ÐÑÑÐ°Ð²ÑÑÐµ Ð¿ÐµÑÐµÐ·Ð°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐ¸Ð¹ÑÑ Ð¸Ð»Ð¸ ÑÐ¸ÑÑÑÐ¹ Ð´Ð¸ÑÐº"
+
+#: ../serpentine/recording.py:284
+msgid "Please put a blank disc into the drive."
+msgstr "ÐÐ¾Ð¶Ð°Ð»ÑÑÑÐ°, Ð²ÑÑÐ°Ð²ÑÑÐµ ÑÐ¸ÑÑÑÐ¹ Ð´Ð¸ÑÐº Ð² Ð´Ð¸ÑÐºÐ¾Ð²Ð¾Ð´."
+
+#: ../serpentine/recording.py:285
+msgid "Insert blank disc"
+msgstr "ÐÑÑÐ°Ð²ÑÑÐµ Ð¿ÑÑÑÐ¾Ð¹ Ð´Ð¸ÑÐº"
+
+#: ../serpentine/recording.py:287
+msgid "Please replace the disc in the drive with a rewritable or blank disc."
+msgstr "ÐÐ¾Ð¶Ð°Ð»ÑÑÑÐ°, ÑÐ¼ÐµÐ½Ð¸ÑÐµ Ð´Ð¸ÑÐº Ð² Ð´Ð¸ÑÐºÐ¾Ð²Ð¾Ð´Ðµ Ð½Ð° ÑÐ¸ÑÑÑÐ¹ Ð¸Ð»Ð¸ Ð¿ÐµÑÐµÐ·Ð°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐ¸Ð¹ÑÑ Ð´Ð¸ÑÐº."
+
+#: ../serpentine/recording.py:290
+msgid "Reload rewritable or blank disc"
+msgstr "ÐÑÐ½ÑÑÐµ Ð¸ Ð²ÑÑÐ°Ð²ÑÑÐµ ÑÐ½Ð¾Ð²Ð° ÑÐ¸ÑÑÑÐ¹ Ð¸Ð»Ð¸ Ð¿ÐµÑÐµÐ·Ð°Ð¿Ð¸ÑÑÐ²Ð°ÑÑÐ¸Ð¹ÑÑ Ð´Ð¸ÑÐº"
+
+#: ../serpentine/recording.py:292
+msgid "Please replace the disc in the drive a blank disc."
+msgstr "ÐÐ¾Ð¶Ð°Ð»ÑÑÑÐ°, ÑÐ¼ÐµÐ½Ð¸ÑÐµ Ð´Ð¸ÑÐº Ð² Ð´Ð¸ÑÐºÐ¾Ð²Ð¾Ð´Ðµ Ð½Ð° ÑÐ¸ÑÑÑÐ¹ Ð´Ð¸ÑÐº."
+
+#: ../serpentine/recording.py:293
+msgid "Reload blank disc"
+msgstr "ÐÑÐ½ÑÑÐµ Ð¸ Ð²ÑÑÐ°Ð²ÑÑÐµ ÑÐ½Ð¾Ð²Ð° ÑÐ¸ÑÑÑÐ¹ Ð´Ð¸ÑÐº"
+
