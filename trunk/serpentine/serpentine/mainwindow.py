@@ -173,7 +173,7 @@ class SavePlaylistComponent (GladeComponent):
         
         self.__sync_file_filters ()
         
-        if self.file_dlg.run () == gtk.RESPONSE_OK:
+        while self.file_dlg.run () == gtk.RESPONSE_OK:
             filename = self.file_dlg.get_filename ()
             basename = os.path.basename (filename)
             if os.path.exists (filename) and gtkutil.dialog_ok_cancel (
@@ -187,11 +187,12 @@ class SavePlaylistComponent (GladeComponent):
                 self.file_dlg.unselect_all()
                 self.file_dlg.hide()
                 return
-                
+            
             try:
                 oper = app.savePlaylist.save (filename)
                 oper.listeners.append (self)
                 oper.start ()
+                break
 
             except SerpentineNotSupportedError:
                 gtkutil.dialog_error (
@@ -200,7 +201,7 @@ class SavePlaylistComponent (GladeComponent):
                     "currently not supported."),
                     parent = win
                 )
-        
+            
         self.file_dlg.unselect_all()
         self.file_dlg.hide()
 
