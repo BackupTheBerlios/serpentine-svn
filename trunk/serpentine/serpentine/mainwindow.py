@@ -190,6 +190,9 @@ class SavePlaylistComponent (GladeComponent):
                 
             try:
                 oper = app.savePlaylist.save (filename)
+                oper.listeners.append (self)
+                oper.start ()
+
             except SerpentineNotSupportedError:
                 gtkutil.dialog_error (
                     _("Unsupported Format"),
@@ -197,8 +200,6 @@ class SavePlaylistComponent (GladeComponent):
                     "currently not supported."),
                     parent = win
                 )
-            oper.listeners.append (self)
-            oper.start ()
         
         self.file_dlg.unselect_all()
         self.file_dlg.hide()

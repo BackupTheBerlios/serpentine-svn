@@ -64,7 +64,7 @@ class GetMusic (operations.MeasurableOperation, operations.OperationListener):
     
     def start (self):
         if self.__pool.is_available (self.__music):
-            self._send_finished_event (success = operations.SUCCESSFUL)
+            self._send_finished_event (status = operations.SUCCESSFUL)
             self.__oper = None
         else:
             try:

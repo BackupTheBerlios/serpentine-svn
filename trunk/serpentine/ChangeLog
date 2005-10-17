@@ -1,11 +1,15 @@
 2005-10-17 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * serpentine/mainwindow.py:
+    Fixed a bug when the playlist format is not recognized (bug #318964).
+
     * serpentine/converting.py:
     * serpentine/preferences.py:
     Corrected a bug in converting music files and a bug where the 2 seconds
     silence was doing the opposite as it should (bug #318961).
     
 2005-10-11 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
     * po/de.po:
     German (de) translation by Julian Turner <julian.turner@gmx.de>
 
