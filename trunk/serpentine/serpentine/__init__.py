@@ -260,13 +260,16 @@ class HeadlessApplication (Application):
 def write_files (app, files):
     """Helper function that takes a Serpentine application adds the files
     to the music list and writes them. When no `app` is provided a
-    HeadlessApplication is created."""
+    HeadlessApplication is created.
+    Returns the operation ID.
+    """
     files = map (os.path.abspath, files)
     files = map (urlutil.normalize, files)
     queue = OperationsQueue ()
     queue.append (app.add_files (files))
     queue.append (CallableOperation (lambda: app.write_files().start()))
     queue.start ()
+    return operations.syncOperation (queue)
 
 class SerpentineApplication (Application):
     """When no operations are left in SerpentineApplication it will exit.

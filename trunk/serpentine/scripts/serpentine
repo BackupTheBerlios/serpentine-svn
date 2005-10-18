@@ -6,6 +6,7 @@ import gobject
 import gnome
 import os
 import gettext
+import operations
 from optparse import OptionParser
 
 
@@ -81,7 +82,19 @@ if app.preferences.simulate:
     
 # Check if we want to write files
 if options.write_files is not None:
-    serpentine.write_files (app, options.write_files)
+    if len (options.write_files) == 0:
+        print >> sys.stderr, "Choose at least one valid filename"
+        sys.exit (1)
+    try:
+        # Check if the operation was successful
+        error =  serpentine.write_files (app, options.write_files).id == operations.ERROR
+        if error:
+            sys.exit (1)
+            
+    except SerpentineError, e:
+        print >> sys.stderr, e
+        sys.exit (1)
+    
 
 # Show main window
 else:

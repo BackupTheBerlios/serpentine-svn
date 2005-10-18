@@ -1,5 +1,17 @@
 2005-10-18 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
-
+    
+    * serpentine/__init__.py:
+    Now 'write_files' returns the event.
+    
+    * serpentine/recording.py:
+    Now when an error is thrown during writing it is shown to the user.
+    When no files are selected an error dialog is shown.
+    
+    * scripts/serpentine:
+    When no arguments after "-w" are provided an error message is shown.
+    When the operation fails the serpentine application no longer returns "0"
+    but returns "1". This is better for integrating it with other applications.
+    
     * data/serpentine.glade:
     Now "serpentine -p" shows the same preferences as Serpentine itself.
     

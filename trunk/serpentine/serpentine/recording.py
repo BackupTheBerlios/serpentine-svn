@@ -49,13 +49,18 @@ class WritingError:
         if evt.id == operations.SUCCESSFUL:
             return
         
-        gtkutil.dialog_error (
-            evt.id == operations.ERROR and        \
-                      _("Writing to disc failed") or \
-                      _("Writing to disc canceled"),
-            _("The writing operation as started so the disc might be unusable."),
-            parent = self.win
-        )
+        if evt.id == operations.ERROR:
+            title = _("Writing to disc failed")
+        else:
+            title = _("Writing to disc canceled")
+        
+        if evt.error is None:
+            msg = _("The writing operation as started so the disc might be "
+                    "unusable.")
+        else:
+            msg = str (evt.error)
+        
+        gtkutil.dialog_error (title, str(msg), parent = self.win)
 
 ################################################################################
 
@@ -231,7 +236,15 @@ class WriteAudioDisc (MeasurableOperation):
 
         for filename in self.music_list:
             tracks.append (AudioTrack (filename))
-            
+        
+        if len (tracks) == 0:
+            self._send_finished_event (
+                operations.ERROR,
+                _("There were no valid files for writing. "
+                  "Please select at least one.")
+            )
+            return
+        
         self.recorder.connect ("progress-changed", self.__on_progress)
         self.recorder.connect ("insert-media-request", self.__insert_cd)
         self.recorder.connect ("warn-data-loss", self.__on_data_loss)
