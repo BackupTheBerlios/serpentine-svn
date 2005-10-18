@@ -74,10 +74,7 @@ class GetMusic (operations.MeasurableOperation, operations.OperationListener):
             except Exception, e:
                 import traceback
                 traceback.print_exc()
-                evt = operations.FinishedEvent (self, operations.ERROR)
-                evt.error = e
-                for l in self.listeners:
-                    l.on_finished (evt)
+                self._send_finished_event (operations.ERROR, str(e))
 
     def on_finished (self, event):
         self._send_finished_event (event.id)
@@ -270,9 +267,7 @@ class FetchMusicListPriv (operations.OperationListener):
     
     def on_finished (self, evt):
         if isinstance (evt.source, operations.OperationsQueue):
-            e = operations.FinishedEvent (self.parent, evt.id)
-            for l in self.parent.listeners:
-                l.on_finished (e)
+            self.parent._propagate (evt)
             return
         assert isinstance (evt.source, GetMusic)
         if evt.id != operations.SUCCESSFUL:

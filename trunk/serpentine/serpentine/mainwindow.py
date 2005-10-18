@@ -491,7 +491,5 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
     start = gtk.Window.show
 
     def stop (self, *args):
-        evt = operations.FinishedEvent (self, operations.SUCCESSFUL)
-        for listener in self.listeners:
-            listener.on_finished (evt)
+        self._send_finished_event (operations.SUCCESSFUL)
         self.hide ()

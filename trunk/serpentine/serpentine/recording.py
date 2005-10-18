@@ -127,9 +127,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
         self.__queue.append (oper)
         
         # Convert a music list into a list of filenames
-        oper = WriteAudioDisc (self.__filenames,
-                                self.preferences,
-                                self.__prog)
+        oper = WriteAudioDisc (self.__filenames, self.preferences, self.__prog)
                                 
         oper.recorder.connect ("progress-changed", self.__tick)
         oper.recorder.connect ("action-changed", self.__on_action_changed)
@@ -193,9 +191,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
             )
         
         # Warn our listenrs
-        e = operations.FinishedEvent (self, evt.id)
-        for l in self.listeners:
-            l.on_finished (e)
+        self._propagate (evt)
 
         self.__on_close ()
 
@@ -284,12 +280,8 @@ class WriteAudioDisc (MeasurableOperation):
         elif result == nautilusburn.RECORDER_RESULT_RETRY:
             #TODO: hanlde this
             result == operations.ERROR
-            
-        e = operations.FinishedEvent(self, result, error)
         
-        self.__running = False
-        for l in self.listeners:
-            l.on_finished (e)
+        self._send_finished_event (result, error)
     
     def __insert_cd (self, rec, reload_media, can_rewrite, busy_cd):
         # messages from nautilus-burner-cd.c

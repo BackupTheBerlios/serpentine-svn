@@ -74,15 +74,23 @@ class Operation (Listenable):
     def stop (self):
         pass
 
-    def _send_finished_event (self, status, error = None):
-        """Broadcasts to all listeners the finished event. Simplifies the 
-        task of creating the event and iterating over listeners."""
-        e = FinishedEvent (self, status)
-        if status == ERROR:
-            e.error = error
+    def _send_finished_event (self, status, error = None, source = None):
+        """
+        Broadcasts to all listeners the finished event. Simplifies the 
+        task of creating the event and iterating over listeners.
+        """
+        
+        if source is None:
+            source = self
+            
+        e = FinishedEvent (source, status, error)
+
         for l in self.listeners:
             if hasattr (l, "on_finished"):
                 l.on_finished (e)
+                
+    def _propagate (self, evt, source = None):
+        self._send_finished_event (evt.id, evt.error, source)
 
 class CallableOperation (Operation):
     """Simple operations that takes a callable object (ie: function) and creates

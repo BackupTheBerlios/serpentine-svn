@@ -139,9 +139,7 @@ class Application (operations.Operation, Component):
         self.preferences.savePlaylist (self.music_list)
         self.preferences.pool.clear()
         # Warn listeners
-        evt = operations.FinishedEvent (self, operations.SUCCESSFUL)
-        for listener in self.listeners:
-            listener.on_finished (evt)
+        self._send_finished_event (operations.SUCCESSFUL)
             
         # Cleanup plugins
         del self.__plugins

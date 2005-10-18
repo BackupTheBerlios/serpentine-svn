@@ -81,20 +81,14 @@ class GstOperation (operations.MeasurableOperation):
     
     def __on_eos (self, element, user_data = None):
         self.__finalize ()
-        evt = operations.FinishedEvent (self, operations.SUCCESSFUL)
-        for l in self.listeners:
-            assert isinstance (l, operations.OperationListener), l
-            l.on_finished (evt)
+        self._send_finished_event (operations.SUCCESSFUL)
     
     def __on_error (self, pipeline, element, error, user_data = None):
         # Do not continue processing it
         if self.__source:
             gobject.source_remove (self.__source)
         self.__finalize ()
-        evt = operations.FinishedEvent (self, operations.ERROR)
-        evt.error = error
-        for l in self.listeners:
-            l.on_finished (evt)
+        self._send_finished_event (operations.ERROR, error)
 
     def __finalize (self):
         self.__bin.set_state (gst.STATE_NULL)
@@ -108,9 +102,7 @@ class GstOperation (operations.MeasurableOperation):
         gobject.source_remove (self.__source)
         self.__source = None
         # Finish the event
-        evt = operations.FinishedEvent(self, operations.ABORTED)
-        for l in self.listeners:
-            l.on_finished (evt)
+        self._send_finished_event (operations.ABORTED)
 
 ################################################################################
 
@@ -193,10 +185,8 @@ class AudioMetadata (operations.Operation, operations.OperationListener):
             success = operations.SUCCESSFUL
         else:
             success = operations.ERROR
-            
-        event = operations.FinishedEvent (self, success)
-        for l in self.listeners:
-            l.on_finished (event)
+        
+        self._send_finished_event (success)
     
     def __on_handoff (self, *args):
         # Ask the gobject main context to stop our pipe
