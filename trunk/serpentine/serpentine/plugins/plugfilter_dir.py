@@ -28,7 +28,6 @@ from types import StringType
 
 class DirectoryFilter (HintsFilter):
     def filter_location (self, location):
-        assert isinstance (location, StringType), "Location cannot be null"
         # TypeError is thrown when there is a problem with the supplied
         # location. See http://bugzilla.ubuntu.com/show_bug.cgi?id=11447
         assert "\0" not in location, "Malformed string ocation: %s" % location

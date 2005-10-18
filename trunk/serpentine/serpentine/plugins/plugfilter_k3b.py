@@ -53,7 +53,11 @@ class K3BFilter (HintsFilter):
                 return buff
             fd.read = read_all
         else:
-            fd = open (url.path)
+            try:
+                fd = open (url.path)
+            except IOError:
+                # Could not open the filename
+                return
 
         try:
             zfile = zipfile.ZipFile (fd)
@@ -67,14 +71,17 @@ class K3BFilter (HintsFilter):
             buff = zfile.read ("maindata.xml")
         except KeyError:
             # zip file does not contain the file
+            fd.close ()
             return
+        
+        fd.close ()
         
         try:
             root = minidom.parseString (buff)
         except ExpatError:
             # Malformed xml
             return
-            
+        
         # Iterate over tracks
         hints_list = []
         for node in Evaluate ("/k3b_audio_project/contents/track", root):
@@ -84,6 +91,16 @@ class K3BFilter (HintsFilter):
                 # skip elements with not 'url' attribute set
                 pass
         
+        # New versions of K3B changed the internal structure
+        # since there's no version present for the file format we'll just
+        # try both
+        for node in Evaluate ("/k3b_audio_project/contents/track/sources/file", root):
+            try:
+                hints_list.append ({"location": node.attributes["url"].value})
+            except KeyError:
+                # skip elements with not 'url' attribute set
+                pass
+
         return hints_list
     
     filter_location = safe_method (filter_location)

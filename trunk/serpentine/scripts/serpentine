@@ -88,6 +88,7 @@ else:
     if options.preferences:
         from serpentine.preferences import recordingPreferencesWindow
         win = recordingPreferencesWindow (app.preferences)
+        win.set_icon_name ("gnome-dev-cdrom-audio")
         win.show ()
         win.connect ("delete-event", gtk.main_quit)
         gtk.main ()

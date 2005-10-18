@@ -49,6 +49,7 @@ class FileDialogComponent (GladeComponent):
         self.file_dlg = gtk.FileChooserDialog (buttons = (gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
         self.file_dlg.set_title ("")
         self.file_dlg.set_transient_for (self.parent)
+        self.file_dlg.set_current_folder (os.path.expanduser("~"))
         self.__file_filters = None
     
     def run_dialog (self, *args):
@@ -127,6 +128,7 @@ class SavePlaylistComponent (GladeComponent):
         )
         self.file_dlg.set_title ("")
         self.file_dlg.set_transient_for (self.parent)
+        self.file_dlg.set_current_folder (os.path.expanduser("~"))
         app = self.parent.application
         app.savePlaylist.listeners.append (self)
         self.__sync = True

@@ -1,3 +1,22 @@
+2005-10-18 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * data/serpentine.glade:
+    Now "serpentine -p" shows the same preferences as Serpentine itself.
+    
+    * scripts/serpentine:
+    Now the preferences window (on "serpentine -p") uses the application's icon.
+    
+    * serpentine/plugins/plugfilter_dir.py:
+    Removed assertion because sometimes you get unicode strings instead of
+    plain strings.
+    
+    * serpentine/plugins/plugfilter_k3b.py:
+    Forgot to close the file descriptor.
+    Now handles newest version of K3B file format.
+    
+    * serpentine/mainwindow.py:
+    File dialogs should always start on the home folder.
+
 2005-10-17 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/mainwindow.py:
