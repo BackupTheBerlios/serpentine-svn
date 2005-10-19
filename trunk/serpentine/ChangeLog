@@ -1,6 +1,16 @@
 2005-10-18 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
     * serpentine/__init__.py:
+    * serpentine/audio.py:
+    * serpentine/converting.py:
+    * serpentine/mainwindow.py:
+    * serpentine/operations.py:
+    * serpentine/recording.py:
+    Refactored propagation to 'Operation._propagate'. Added a 'source' argument
+    to 'Operation._send_finished_event' to change the event source.
+    Removed all references to directly creating and distributing FinishedEvent.
+    
+    * serpentine/__init__.py:
     Now 'write_files' returns the event.
     
     * serpentine/recording.py:
