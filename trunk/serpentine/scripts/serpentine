@@ -6,12 +6,14 @@ import gobject
 import gnome
 import os
 import gettext
-import operations
-from optparse import OptionParser
-
-
-# Data dir:
 import os.path
+
+from optparse import OptionParser
+from gettext import gettext as _
+
+
+# Start threads subsystem
+gobject.threads_init ()
 
 bins_dir = os.path.dirname (os.path.abspath (sys.argv[0]))
 prefix_dir = os.path.dirname (bins_dir)
@@ -29,7 +31,6 @@ gettext.textdomain("serpentine")
 gtk.glade.bindtextdomain("serpentine", locale_dir)
 gtk.glade.textdomain("serpentine")
 
-from gettext import gettext as _
 
 # TODO: put the window operation here
 def parse_args (option, opt_str, value, parser):

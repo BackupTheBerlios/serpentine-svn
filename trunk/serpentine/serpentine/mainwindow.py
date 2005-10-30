@@ -20,6 +20,7 @@ import gtk
 import os
 import os.path
 import tempfile
+import gobject
 
 # Local imports
 import operations
@@ -46,7 +47,13 @@ class FileDialogComponent (GladeComponent):
         super (FileDialogComponent, self).__init__ (parent)
         
         # Open playlist file dialog
-        self.file_dlg = gtk.FileChooserDialog (buttons = (gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+        self.file_dlg = gtk.FileChooserDialog (
+            parent = self.parent,
+            buttons = (
+                gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                gtk.STOCK_OPEN, gtk.RESPONSE_OK
+            )
+        )
         self.file_dlg.set_title ("")
         self.file_dlg.set_transient_for (self.parent)
         self.file_dlg.set_current_folder (os.path.expanduser("~"))
@@ -129,12 +136,34 @@ class SavePlaylistComponent (GladeComponent):
         self.file_dlg.set_title ("")
         self.file_dlg.set_transient_for (self.parent)
         self.file_dlg.set_current_folder (os.path.expanduser("~"))
+        hbox = gtk.HBox (spacing = 6)
+        hbox.show ()
+        
+        lbl = gtk.Label(_("Save playlist in format")+":")
+        lbl.show ()
+        hbox.pack_start (lbl, False, False)
+        
+        store = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_STRING)
+        cmb = gtk.ComboBox (store)
+        cmb.show ()
+        cell = gtk.CellRendererText()
+        cmb.pack_start(cell, True)
+        cmb.add_attribute(cell, 'text', 0)
+        self.combo = cmb
+        hbox.pack_start (cmb, False, False)
+
+        self.store = store
+        store.append ((_("Detect by extension"), ""))
+        cmb.set_active (0)
+        
+        self.file_dlg.set_extra_widget (hbox)
         app = self.parent.application
         app.savePlaylist.listeners.append (self)
         self.__sync = True
     
     def on_registred (self, factory, extension, description):
         self.__sync = True
+        self.store.append (("%s (%s)" % (description, extension), extension))
     
     def on_finished (self, evt):
         win = self.parent
@@ -178,6 +207,12 @@ class SavePlaylistComponent (GladeComponent):
         while self.file_dlg.run () == gtk.RESPONSE_OK:
             filename = self.file_dlg.get_filename ()
             basename = os.path.basename (filename)
+            index = self.combo.get_active ()
+            if index == 0:
+                extension = None
+            else:
+                extension = self.store[index][1]
+                
             if os.path.exists (filename) and gtkutil.dialog_ok_cancel (
                 _("Replace existing file"),
                 _("A file named <i>%s</i> already exists. "
@@ -191,7 +226,7 @@ class SavePlaylistComponent (GladeComponent):
                 return
             
             try:
-                oper = app.savePlaylist.save (filename)
+                oper = app.savePlaylist.save (filename, extension)
                 oper.listeners.append (self)
                 oper.start ()
                 break

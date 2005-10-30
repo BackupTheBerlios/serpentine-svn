@@ -22,7 +22,8 @@ This module contains operations to convert sound files to WAV and to
 retrieve a their metadata.
 """
 
-import gst, gobject
+import gst
+import gobject
 import operations
 
 ################################################################################
@@ -51,14 +52,22 @@ class GstOperation (operations.MeasurableOperation):
     
     def __get_progress (self):
         "Returns the progress of the convertion operation."
+        total = float(self.query_element.query(gst.QUERY_TOTAL, gst.FORMAT_BYTES))
+        if total != 0:
+            print self.query_element.query (gst.QUERY_POSITION, gst.FORMAT_BYTES) / total
         
         if self.query_element and self.__progress < 1:
+        
             total = float(self.query_element.query(gst.QUERY_TOTAL, gst.FORMAT_BYTES))
             # when total is zero return zero
-            progress = (total and self.query_element.query (gst.QUERY_POSITION, gst.FORMAT_BYTES) / total) or total
+            if total == 0:
+                progress = 0
+            else:
+                progress = self.query_element.query (gst.QUERY_POSITION, gst.FORMAT_BYTES) / total
+                
             if progress > 1:
                 print "GST_ERROR? Progress > 1:", progress
-                progress = 1
+                return self.__progress
             
             self.__progress = max (self.__progress, progress)
             assert 0 <= self.__progress <= 1, self.__progress
@@ -413,8 +422,11 @@ if __name__ == '__main__':
     import sys
     import gobject
     
-#    mainloop = gobject.MainLoop ()
+    mainloop = gobject.MainLoop ()
     class L (operations.OperationListener):
+        def __init__(self, foo):
+            self.foo = foo
+            
         def on_metadata (self, event, metadata):
             print metadata
             
@@ -426,18 +438,25 @@ if __name__ == '__main__':
                 print "Error:", event.error
             #gst.main_quit()
             mainloop.quit ()
+
+        def on_progress (self):
+            #print
+            self.foo.progress
+            return True
     
-    l = L()
-    #f = fileToWav (sys.argv[1], sys.argv[2])
-    f = fileIsPcmWav (sys.argv[1])
-    print operations.syncOperation (f).id == operations.SUCCESSFUL
+    f = fileToWav (sys.argv[1], sys.argv[2])
+    #f = fileIsPcmWav (sys.argv[1])
+    #print operations.syncOperation (f).id == operations.SUCCESSFUL
     #f = fileAudioMetadata (sys.argv[1])
     #f = extractAudioTrackFile ("/dev/cdrom", int(sys.argv[1]) + 1, sys.argv[2])
-    #f.listeners.append (l)
-    #f.start()
-    #l.finished = False
+    l = L(f)
+    #gobject.timeout_add (200, l.on_progress)
+    f.listeners.append (l)
+    f.start()
+    l.finished = False
     #gst.main()
-#    mainloop.run ()
+
+    mainloop.run ()
 #    while not l.finished:
 #        pass
     

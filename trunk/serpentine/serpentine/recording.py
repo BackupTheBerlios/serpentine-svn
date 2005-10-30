@@ -55,8 +55,8 @@ class WritingError:
             title = _("Writing to disc canceled")
         
         if evt.error is None:
-            msg = _("The writing operation as started so the disc might be "
-                    "unusable.")
+            msg = _("The writing operation has started. The disc may "
+                    "be unusable.")
         else:
             msg = str (evt.error)
         

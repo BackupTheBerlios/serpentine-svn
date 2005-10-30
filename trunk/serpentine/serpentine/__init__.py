@@ -60,7 +60,7 @@ class SavePlaylistRegistry (Component):
         all_files.add_pattern ("*.*")
         
         self.__global_filter = gtk.FileFilter()
-        self.__global_filter.set_name ("Playlists")
+        self.__global_filter.set_name (_("Supported files"))
         self.__file_filters = [self.__global_filter, all_files]
         self.__factories = {}
         self.listeners = []
@@ -80,14 +80,16 @@ class SavePlaylistRegistry (Component):
             listener.on_registred (factory, extension, description)
         
         self.__factories[extension] = factory
+        self.__global_filter.add_pattern ("*" + extension)
     
-    def save (self, filename):
-        file, ext = os.path.splitext (filename)
+    def save (self, filename, extension = None):
+        if extension is None:
+            fname, extension = os.path.splitext (filename)
 
-        if not self.__factories.has_key (ext):
-            raise SerpentineNotSupportedError
+        if not self.__factories.has_key (extension):
+            raise SerpentineNotSupportedError (extension)
         
-        return  self.__factories[ext] (self.parent.music_list, filename)
+        return  self.__factories[extension] (self.parent.music_list, filename)
     
 class Application (operations.Operation, Component):
     components = ()
@@ -103,12 +105,10 @@ class Application (operations.Operation, Component):
         self._playlist_file_patterns = {}
         self._music_file_filters = None
         self._playlist_file_filters = None
-        self.register_music_file_pattern (_("All files"), "*.*")
         self.register_music_file_pattern ("MPEG Audio Stream, Layer III", "*.mp3")
         self.register_music_file_pattern ("Ogg Vorbis Codec Compressed WAV File", "*.ogg")
         self.register_music_file_pattern ("Free Lossless Audio Codec", "*.flac")
         self.register_music_file_pattern ("PCM Wave audio", "*.wav")
-        self.register_playlist_file_pattern (_("All files"), "*.*")
     
     def _load_plugins (self):
         # Load Plugins
@@ -163,8 +163,10 @@ class Application (operations.Operation, Component):
         self.music_list_gw.remove_hints_filter (location_filter)
     
     def register_music_file_pattern (self, name, pattern):
-        """Music patterns are meant to be used in the file dialog for adding
-        musics to the playlist."""
+        """
+        Music patterns are meant to be used in the file dialog for adding
+        musics to the playlist.
+        """
         self._music_file_patterns[pattern] = name
         self._music_file_filters = None
 
@@ -175,6 +177,10 @@ class Application (operations.Operation, Component):
         self._playlist_file_filters = None
     
     def __gen_file_filters (self, patterns, all_filters_name):
+        all_files = gtk.FileFilter ()
+        all_files.set_name (_("All files"))
+        all_files.add_pattern ("*.*")
+        
         all_musics = gtk.FileFilter ()
         all_musics.set_name (all_filters_name)
         
@@ -189,6 +195,7 @@ class Application (operations.Operation, Component):
             
             filters.append (filter)
         
+        filters.append (all_files)
         return filters
     
     def __get_file_filter (self, filter_attr, pattern_attr, name):
@@ -219,7 +226,7 @@ class Application (operations.Operation, Component):
         lambda self: self.__get_file_filter (
             "_playlist_file_filters",
             "_playlist_file_patterns",
-            _("Playlists")
+            _("Supported files")
         )
     )
 

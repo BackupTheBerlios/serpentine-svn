@@ -1,3 +1,32 @@
+2005-10-30 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * po/serpentine.pot:
+    * po/pt.po:
+    Updated translation and portuguese translation.
+    
+    * serpentine/__init__.py:
+    SavePlaylistRegistry.save now accepts an "extension" argument that skips
+    extension auto detection.
+    Corrected a bug in the file dialog filters.
+    
+    * serpentine/mainwindow.py:
+    The save playlist dialog now displays the save format (closes ubuntu bug
+    #18643)
+    
+    * serpentine/audio.py:
+    Corrected a long standing bug. Where total == 0 was not be respected.
+    
+2005-10-29 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/operations.py:
+    Made it more readable.
+    
+    * scripts/serpentine:
+    Initialize threads subsystem.
+    
+    * serpentine/converting.py:
+    Removed keyword argument.   
+    
 2005-10-18 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
     * serpentine/__init__.py:

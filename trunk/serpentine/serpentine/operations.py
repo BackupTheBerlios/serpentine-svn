@@ -140,7 +140,12 @@ try:
                 pass
         
         def __on_finish (self, pid, status):
-            self._send_finished_event (status == 0 and SUCCESSFUL or ERROR)
+            if status == 0:
+                status = SUCCESSFUL
+            else:
+                status = ERROR
+                
+            self._send_finished_event (status)
             self.__pid = None
 except ImportError:
     pass        
