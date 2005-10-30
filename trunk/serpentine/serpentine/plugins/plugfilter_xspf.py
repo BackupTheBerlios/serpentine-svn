@@ -18,7 +18,9 @@
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 """Loads XSPF filters."""
-import gnomevfs, urllib, os.path
+import gnomevfs
+import urllib
+import os.path
 from urlparse import urlparse
 
 from serpentine.mastering import HintsFilter

@@ -1,5 +1,5 @@
 AC_PREREQ(2.53)
-AC_INIT(serpentine, 0.6.3-svn, http://bugzilla.gnome.org/enter_bug.cgi?product=serpentine)
+AC_INIT(serpentine, 0.6.4, http://bugzilla.gnome.org/enter_bug.cgi?product=serpentine)
 AC_CONFIG_SRCDIR(scripts/serpentine)
 AM_INIT_AUTOMAKE([1.7])
 

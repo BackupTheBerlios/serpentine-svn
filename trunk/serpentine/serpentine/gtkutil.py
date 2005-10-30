@@ -216,7 +216,7 @@ class DialogCreator (WidgetCostumizer):
         dialog = gtk.Dialog (**self._kwargs)
         return dialog, dialog.vbox
 
-def iterate_all_children (widget):
+def _iterate_widget_children (widget):
         
     get_children = getattr (widget, "get_children", None)
 
@@ -236,10 +236,103 @@ def iterate_all_children (widget):
     if sub_menu is not None:
         yield sub_menu
 
+class IteratorList:
+    def __init__ (self, iterators):
+        self.iterators = iter (iterators)
+        self.curr_iterator = None
+    
+    def next (self):
+        if self.curr_iterator is None:
+            self.curr_iterator = iter (self.iterators.next ())
+        
+        try:
+            return self.curr_iterator.next ()
+        except StopIteration:
+            self.curr_iterator = None
+            return self.next ()
+    
+    def __iter__ (self):
+        return self
+
+class IterateWidgetChildren:
+    def __init__ (self, widget):
+        self.widget = widget
+        self.children_widgets = iter (_iterate_widget_children (self.widget))
+        self.next_iter = None
+        
+    def next (self):
+        if self.next_iter is None:
+            widget = self.children_widgets.next ()
+            self.next_iter = IterateWidgetChildren (widget)
+            return widget
+            
+        else:
+            try:
+                return self.next_iter.next ()
+            except StopIteration:
+                self.next_iter = None
+                return self.next ()
+
+    def __iter__ (self):
+        return self
+        
+def iterate_widget_children (widget, recurse_children = False):
+    if recurse_children:
+        return IterateWidgetChildren (widget)
+    else:
+        return iter (_iterate_widget_children (widget))
+
+def iterate_widget_parents (widget):
+    widget = widget.get_parent ()
+    while widget is not None:
+        yield widget
+        widget = widget.get_parent ()
+
+def find_widget_up (widget, name):
+    """
+    Finds a widget by name upwards the tree, by searching self and its parents
+    """
+    
+    assert widget is not None
+
+    if widget.get_name () == name:
+        return widget
+
+    for w in iterate_widget_parents (widget):
+        if w.get_name () == name:
+            return w
+
+    return None
+
+def find_widget (widget, name):
+    """
+    Finds the widget by name downwards the tree, by searching self and its
+    children.
+    """
+    
+    assert widget is not None
+    
+    if widget.get_name () == name:
+        return widget
+    
+    for w in iterate_widget_children (widget, True):
+
+        if name == w.get_name ():
+            return w
+    
+    return None
+
+def get_root_parent (widget):
+    for w in iterate_widget_parents (widget):
+        pass
+    else:
+        return widget
+
+    return w
 
 def print_widget_tree (widget, depth = 0):
 
-    for child in iterate_all_children (widget):
+    for child in iterate_widget_children (widget):
         print ("  " * depth) + child.get_name ()
         print_widget_tree (child, depth + 1)
 
@@ -494,59 +587,6 @@ class HigProgress (gtk.Window):
         return True
         
 gobject.type_register (HigProgress)
-
-def find_widget_up (widget, name):
-    """Finds a widget by name upwards the tree, by searching self and its
-    parents"""
-    
-    assert widget is not None
-    
-    if widget.get_name () == name:
-        return widget
-    
-    parent = widget.get_parent ()
-    if parent is not None:
-        return find_widget (parent, name)
-    
-    return None
-
-def find_widget (widget, name):
-    """Finds the widget by name downwards the tree, by searching self and its
-    children."""
-    
-    assert widget is not None
-    
-    if widget.get_name () == name:
-        return widget
-        
-    get_children = getattr (widget, "get_children", None)
-
-    if get_children is None:
-        return None
-    
-    for child in get_children ():
-        w = find_widget (child, name)
-        if w is not None:
-            return w
-    
-    get_submenu = getattr (widget, "get_submenu", None)
-    
-    if get_submenu is None:
-        return None
-    
-    sub_menu = get_submenu ()
-    
-    if sub_menu is not None:
-        return find_widget (sub_menu, name)
-    
-    return None
-
-def get_root_parent (widget):
-    assert widget is not None
-    p = widget.get_parent ()
-    if not p:
-        return widget
-    return get_root_parent (p)
 
 import traceback
 def traceback_main_loop ():

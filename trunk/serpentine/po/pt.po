@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-30 13:53-0100\n"
+"PO-Revision-Date: 2005-10-30 22:22-0100\n"
 "Last-Translator: Tiago Cogumbreiro <cogumbreiro@users.sf.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -350,6 +350,14 @@ msgstr "%s a mais"
 #: ../serpentine/mastering.py:710
 msgid "Empty"
 msgstr "Vazio"
+
+#: ../serpentine/plugins/plugrhythmbox.py:47
+msgid "Select playlist"
+msgstr "Escolher lista de reprodução"
+
+#: ../serpentine/plugins/plugrhythmbox.py:84
+msgid "Open Rhythmbox Playlist..."
+msgstr "Abrir Lista de Reprodução de Rhythmbox..."
 
 #: ../serpentine/preferences.py:307
 msgid "Tests if temporary directory exists and has write permissions."

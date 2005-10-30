@@ -52,10 +52,6 @@ class GstOperation (operations.MeasurableOperation):
     
     def __get_progress (self):
         "Returns the progress of the convertion operation."
-        total = float(self.query_element.query(gst.QUERY_TOTAL, gst.FORMAT_BYTES))
-        if total != 0:
-            print self.query_element.query (gst.QUERY_POSITION, gst.FORMAT_BYTES) / total
-        
         if self.query_element and self.__progress < 1:
         
             total = float(self.query_element.query(gst.QUERY_TOTAL, gst.FORMAT_BYTES))

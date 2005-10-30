@@ -43,6 +43,7 @@ serpentine_plugins_PYTHON = \
 	serpentine/plugins/plugfilter_dir.py      \
 	serpentine/plugins/plugfilter_plsave.py   \
 	serpentine/plugins/plugfilter_k3b.py      \
+	serpentine/plugins/plugrhythmbox.py       \
 	serpentine/plugins/__init__.py
 
 #################################################################

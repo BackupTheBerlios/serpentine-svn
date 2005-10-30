@@ -1,4 +1,5 @@
 Changes from 0.6.3:
+ - Added the possibility to add Rhythmbox playlists.
  - Spanish (es) translation by Rafael Bermúdez <rafaelbermudez@gmail.com>
  - German (de) translation by Julian Turner <julian.turner@gmx.de>
  - Finish (fi) translation by Timo Jyrinki <timo.jyrinki@iki.fi>
@@ -8,6 +9,7 @@ Changes from 0.6.3:
  - Dutch (nl) translation by Eric Spierings <ericspierings@netscape.net>
  - Brazillian (pt_BR) translation by Carlos Santiviago <segfault@ubuntu.com> and
    Rafael Peregrino <rperegrino@linuxmagazine.com.br>
+ - Bug fixes
    
 Changes from 0.6.2:
  - Bug fixes release.
