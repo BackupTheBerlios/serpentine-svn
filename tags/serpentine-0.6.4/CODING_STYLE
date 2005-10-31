@@ -1,0 +1,37 @@
+Public fields should have camelCase private, local and protected fields should have unix_style, example:
+
+class Foo:
+	def _do_something (self, obj):
+		pass
+	
+	def doSomething (self):
+		a = AnotherClass ()
+		local_var = self._do_something (a)
+	
+	aVariable = 12
+	
+	_a_private_variable = "This variable is for internal use only!"
+
+Constants in CAPS, module names must not contain underscores.
+
+Spaces should be used after parenthisis, including functions with no arguments.
+
+Use 4 spaces for identation, do *not* use tabs.
+
+On properties always define getFoo instead of private methods, this gives a hint on the
+class user what operations he can do over that property. Like this example:
+
+class Bar (object):
+	def getSomething (self):
+		return self.__something
+	def setSomething (self, something):
+		self.__something = something
+	def unsetSomething (self):
+		defl self.__something
+	something = property (getSomething, setSomething, unsetSomething)
+
+	# Now an example on a read-only field
+	def getAge (self):
+		return 12
+	age = property (getAge)
+

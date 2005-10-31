@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+_Name=Serpentine Audio-CD Creator
+_Comment=Create Audio-CD's from music files and playlists
+Type=Application
+Exec=serpentine
+Icon=gnome-dev-cdrom-audio.png
+Terminal=False
+Categories=GNOME;Application;AudioVideo;X-Ximian-Main;X-Red-Hat-Base;
+StartupNotify=true
