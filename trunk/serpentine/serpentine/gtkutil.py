@@ -323,12 +323,11 @@ def find_widget (widget, name):
     return None
 
 def get_root_parent (widget):
-    for w in iterate_widget_parents (widget):
-        pass
+    parents = list(iterate_widget_parents (widget))
+    if len (parents) == 0:
+        return None
     else:
-        return widget
-
-    return w
+        return parents[-1]
 
 def print_widget_tree (widget, depth = 0):
 

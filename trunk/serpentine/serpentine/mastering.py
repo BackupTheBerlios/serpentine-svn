@@ -52,10 +52,10 @@ class ErrorTrapper (operations.Operation, operations.OperationListener):
     def __init__ (self, parent = None):
         operations.Operation.__init__ (self)
         self.__errors = []
-        self.__parent = parent
+        self._parent = parent
     
     errors = property (lambda self: self.__errors)
-    parent = property (lambda self: self.__parent)
+    parent = property (lambda self: self._parent)
     
     def on_finished (self, event):
         if event.id == operations.ERROR:
