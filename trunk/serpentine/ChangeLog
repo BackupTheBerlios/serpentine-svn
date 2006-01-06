@@ -1,5 +1,10 @@
 2006-01-06 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * serpentine/recording.py:
+    * serpentine/gtkutil.py:
+    Use 'gtk.STOCK_DIALOG_INFO' instead of 'gtk.STOCK_DIALOG_WARN', closes
+    bug #324386.
+
     * po/pt.po:
     Fixed a typo.
     
@@ -35,8 +40,6 @@
     
     * serpentine/recording.py:
     Now handles missing files gracefully.
-    
-    
 
 2005-11-06 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 

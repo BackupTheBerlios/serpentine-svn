@@ -157,6 +157,13 @@ dialog_warn = \
                    stock = gtk.STOCK_DIALOG_WARNING,
                    buttons = (gtk.STOCK_CLOSE, gtk.RESPONSE_OK), **kwargs)
 
+dialog_info = \
+    lambda primary_text, secondary_text, **kwargs:\
+        hig_alert (primary_text,
+                   secondary_text,
+                   stock = gtk.STOCK_DIALOG_INFO,
+                   buttons = (gtk.STOCK_CLOSE, gtk.RESPONSE_OK), **kwargs)
+
 dialog_ok_cancel = \
     lambda primary_text, secondary_text, ok_button = gtk.STOCK_OK, **kwargs: \
         hig_alert (primary_text,

@@ -195,7 +195,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
         gobject.source_remove (self.__source)
         
         if evt.id == operations.SUCCESSFUL:
-            gtkutil.dialog_warn (
+            gtkutil.dialog_info (
                 _("Writing to disc finished"),
                 _("Disc writing was successful."),
                 parent = self.__prog
