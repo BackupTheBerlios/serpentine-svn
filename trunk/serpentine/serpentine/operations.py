@@ -92,6 +92,45 @@ class Operation (Listenable):
     def _propagate (self, evt, source = None):
         self._send_finished_event (evt.id, evt.error, source)
 
+
+
+class FailledOperation(Operation):
+    def __init__(self, error=None, source=None):
+        if source is None:
+            source = self
+            
+        self.error = error
+        self.source = source
+        
+        super(FailledOperation, self).__init__()
+    
+    def start(self):
+        self._send_finished_event(ERROR, self.error, self.source)
+        
+    
+    can_start = property(lambda: True)
+    can_stop = property (lambda: False)
+    running = property (lambda: False)
+
+
+
+def operation_factory(func):
+    """
+    This decorator protects operation factories (functions wich return
+    operators by wrapping a try catch, if the function, by any chance, raises
+    an exception a FailledOperation is returned instead.
+    """
+    
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception, err:
+            return FailledOperation(error=err)
+
+    wrapper.func_name = func.func_name
+    return wrapper
+    
+    
 class CallableOperation (Operation):
     """Simple operations that takes a callable object (ie: function) and creates
     an non-measurable Operation."""
@@ -109,7 +148,8 @@ class CallableOperation (Operation):
         self._send_finished_event (SUCCESSFUL)
 
 try:
-    import subprocess, os
+    import subprocess
+    import os
     
     class SubprocessOperation (Operation):    
         def __init__ (self, *args, **kwargs):
@@ -190,7 +230,10 @@ class OperationsQueue (MeasurableOperation, OperationListener):
             # Return 1 if there are no operations pending
             # and we are not running and there are operations done
             # else return 0
-            return (len(self.__operations) == 0 and self.__done and 1.0) or 0.0
+            if len(self.__operations) == 0 and self.__done:
+                return 1.0
+            else:
+                return 0.0
         # All that were done, the ones remaining plus the current working operation
         total = self.__total
         partial = 0.0

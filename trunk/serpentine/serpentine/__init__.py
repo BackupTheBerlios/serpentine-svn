@@ -27,7 +27,6 @@ import gtk
 import gtk.glade
 import gobject
 import sys
-import statvfs
 import gnome.ui
 import nautilusburn
 

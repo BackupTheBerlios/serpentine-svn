@@ -323,7 +323,8 @@ def fileIsPcmWav (filename):
     src = gst.element_factory_make ("filesrc")
     src.set_property ("location", filename)
     return IsWavPcm (src)
-    
+
+
 def sourceToWav (source, sink):
     """
     Converts a given source element to wav format and sends it to sink element.
@@ -334,6 +335,7 @@ def sourceToWav (source, sink):
     bin = gst.parse_launch (
         "decodebin ! audioconvert ! audioscale ! " + WavPcmParse + " ! wavenc"
     )
+        
     oper = GstOperation(sink, bin)
     
     elements = bin.get_list ()
@@ -345,6 +347,8 @@ def sourceToWav (source, sink):
     encoder.link (sink)
     
     return oper
+
+sourceToWav = operations.operation_factory(sourceToWav)
 
 
 def fileToWav (src_filename, sink_filename):

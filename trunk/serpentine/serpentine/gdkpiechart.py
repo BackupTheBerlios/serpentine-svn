@@ -17,10 +17,19 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+import gobject
+import gtk.gdk
+import gtk
+import math
+import os
+
 from gtk import DrawingArea
-import gobject, gtk.gdk, gtk
+from math import cos, sin
+from weakref import ref
+from cairopiechart import CairoPieChart
 
 _CIRCLE = 360 * 64
+
 
 class GdkPieChart (DrawingArea):
     def __init__ (self, values, getter):
@@ -38,8 +47,6 @@ class GdkPieChart (DrawingArea):
         self.connect ("realize", self.__on_realize)
     
     def __on_realize (self, widget):
-        # self.gc = widget.window.new_gc ()
-        
         style = self.get_style ()
         self.border_gc         = style.dark_gc[gtk.STATE_NORMAL]
         self.transparent_gc    = style.bg_gc[gtk.STATE_NORMAL]
@@ -144,26 +151,26 @@ class GdkPieChart (DrawingArea):
             _CIRCLE
         )
     
-    def draw ():
-        self.__on_expose_event (self, self, self)
-    
-    def radius (self):
+    def get_radius (self):
         return min (self.width, self.height) - self.offset
-    radius = property (radius)
+
+    radius = property (get_radius)
     
 
-gobject.type_register (GdkPieChart)
 
-from weakref import ref
+# Use the correct widget renderer
+if hasattr(gtk.gdk.Drawable, "cairo_create") or os.environ.get("SERP_USE_GDK", "") != "yes": 
+    PieChart = CairoPieChart
+else:
+    PieChart = GdkPieChart
 
 class SerpentineUsage (object):
     def __init__ (self, parent):
         self.__parent = ref (parent)
         self.__overflow = False
         
-        self.widget = GdkPieChart (values = self.parent.source,
+        self.widget = PieChart (values = self.parent.source,
                                    getter = lambda value: value['duration'])
-                                   
         self.widget.total = self.parent.disc_size
         # Register as a GtkMusicList listener
         self.parent.source.listeners.append (self)
@@ -171,9 +178,9 @@ class SerpentineUsage (object):
         self.parent.listeners.append (self)
     
     # Basic properties
-    def parent (self):
+    def get_parent (self):
         return self.__parent()
-    parent = property (parent)
+    parent = property (get_parent)
     
     def __set_overflow (self, is_overflow):
         self.widget.filled = is_overflow
@@ -229,7 +236,7 @@ if __name__ == '__main__':
     for v in vals:
         total += v['value']
     pie.total = total #* 2
-    pie.selected = 1
+    pie.selected = [1]
     pie.show ()
     w.add (pie)
     w.show ()

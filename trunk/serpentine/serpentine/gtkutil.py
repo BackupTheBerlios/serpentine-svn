@@ -236,25 +236,10 @@ def _iterate_widget_children (widget):
     if sub_menu is not None:
         yield sub_menu
 
-class IteratorList:
-    def __init__ (self, iterators):
-        self.iterators = iter (iterators)
-        self.curr_iterator = None
+class _IterateWidgetChildren:
+    """This iterator class is used to recurse to child widgets
     
-    def next (self):
-        if self.curr_iterator is None:
-            self.curr_iterator = iter (self.iterators.next ())
-        
-        try:
-            return self.curr_iterator.next ()
-        except StopIteration:
-            self.curr_iterator = None
-            return self.next ()
-    
-    def __iter__ (self):
-        return self
-
-class IterateWidgetChildren:
+    """
     def __init__ (self, widget):
         self.widget = widget
         self.children_widgets = iter (_iterate_widget_children (self.widget))
@@ -263,7 +248,7 @@ class IterateWidgetChildren:
     def next (self):
         if self.next_iter is None:
             widget = self.children_widgets.next ()
-            self.next_iter = IterateWidgetChildren (widget)
+            self.next_iter = _IterateWidgetChildren (widget)
             return widget
             
         else:
@@ -278,7 +263,7 @@ class IterateWidgetChildren:
         
 def iterate_widget_children (widget, recurse_children = False):
     if recurse_children:
-        return IterateWidgetChildren (widget)
+        return _IterateWidgetChildren (widget)
     else:
         return iter (_iterate_widget_children (widget))
 

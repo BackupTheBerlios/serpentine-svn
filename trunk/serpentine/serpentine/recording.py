@@ -21,6 +21,7 @@ import gtk
 import gobject
 import operations
 import gtkutil
+import gst
 
 from nautilusburn import AudioTrack
 from operations import OperationsQueueListener, MeasurableOperation
@@ -34,7 +35,17 @@ class ConvertingError:
     def on_finished (self, evt):
         if evt.id != operations.ERROR:
             return
+        err = evt.error
         
+        # Handle missing files
+        if isinstance(err, gst.GError) and err.code == gst.RESOURCE_ERROR_NOT_FOUND:
+            gtkutil.dialog_error(
+                _("Converting files failed"),
+                _("Some of the files were missing. The disc is still usable."),
+                parent = self.win
+            )
+            return
+            
         gtkutil.dialog_error (
             _("Converting files failed"),
             _("Writing to disc didn't start so it is still usable."),

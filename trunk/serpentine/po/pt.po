@@ -370,7 +370,7 @@ msgstr "Lista de reprodução do Serpentine"
 
 #: ../serpentine/recording.py:39
 msgid "Converting files failed"
-msgstr "A converção de ficheiros falhou"
+msgstr "A conversão de ficheiros falhou"
 
 #: ../serpentine/recording.py:40
 msgid "Writing to disc didn't start so it is still usable."

@@ -1,3 +1,48 @@
+2006-01-06 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * po/pt.po:
+    Fixed a typo.
+    
+    * serpentine/__init__.py:
+    Removed an invalid import.
+    
+    * serpentine/audio.py:
+    'sourceToWav' now uses the 'operations.operation_factory' decorator.
+
+    * serpentine/common.py:
+    Removed an invalid variable attribution.
+    
+    * serpentine/converting.py:
+    'GetMusic' now returns the correct error usage.
+    
+    * serpentine/gdkpiechart.py:
+    * serpentine/cairopiechart.py:
+    Added support for cairo based rendering. Gdk can still be used if
+    the enviroment variable 'SERP_USE_GDK' is set to 'yes'.
+    
+    * serpentine/mastering.py:
+    * serpentine/plugins/plugfilter_dir.py:
+    Moved handling of '\x00' strings to the DnD place, rather then
+    in one plugin.
+    
+    * serpentine/operations.py:
+    'FailledOperation' is an operation that when is started it fails, you
+    can optionally set the source and the error.
+    'operation_factory' is a decorator that should wrap functions that return
+    operations, so that if an exception is thrown a 'FailledOperation' is
+    returned.
+    Changed the evil 'return foo and bar or gengis' to an 'if...'
+    
+    * serpentine/recording.py:
+    Now handles missing files gracefully.
+    
+    
+
+2005-11-06 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/gtkutil.py:
+    Fixed get_root_parent.
+
 === 0.6.4 ===
 
 2005-10-30 Tiago Cogumbreiro <cogumbreiro@users.sf.net>

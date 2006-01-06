@@ -15,24 +15,25 @@ DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 serpentinedir = $(pythondir)/serpentine
 serpentine_PYTHON = \
-	serpentine/audio.py        \
-	serpentine/gaw.py          \
-	serpentine/__init__.py     \
-	serpentine/preferences.py  \
-	serpentine/converting.py   \
-	serpentine/mastering.py    \
-	serpentine/recording.py    \
-	serpentine/export.py       \
-	serpentine/gtkutil.py      \
-	serpentine/operations.py   \
-	serpentine/xspf.py         \
-	serpentine/services.py     \
-	serpentine/constants.py    \
-	serpentine/gdkpiechart.py  \
-	serpentine/components.py   \
-	serpentine/mainwindow.py   \
-	serpentine/common.py       \
-	serpentine/urlutil.py      \
+	serpentine/audio.py         \
+	serpentine/gaw.py           \
+	serpentine/__init__.py      \
+	serpentine/preferences.py   \
+	serpentine/converting.py    \
+	serpentine/mastering.py     \
+	serpentine/recording.py     \
+	serpentine/export.py        \
+	serpentine/gtkutil.py       \
+	serpentine/operations.py    \
+	serpentine/xspf.py          \
+	serpentine/services.py      \
+	serpentine/constants.py     \
+	serpentine/gdkpiechart.py   \
+	serpentine/cairopiechart.py \
+	serpentine/components.py    \
+	serpentine/mainwindow.py    \
+	serpentine/common.py        \
+	serpentine/urlutil.py       \
 	serpentine/release.py
 
 serpentine_pluginsdir = $(pythondir)/serpentine/plugins

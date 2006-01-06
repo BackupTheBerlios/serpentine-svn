@@ -658,9 +658,10 @@ class AudioMastering (gtk.VBox, operations.Listenable):
             
         for line in data.split("\n"):
             line = line.strip()
-            if len (line) < 1:
+            if len (line) < 1 or line == "\x00":
                 continue
                 
+            assert "\x00" not in line, "Malformed DnD string: %s" % line
             hint = {'location': line}
             hints_list.append (hint)
         self.music_list_gateway.add_hints (hints_list, insert).start ()

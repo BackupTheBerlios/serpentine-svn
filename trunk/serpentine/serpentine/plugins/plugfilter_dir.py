@@ -28,18 +28,14 @@ from types import StringType
 
 class DirectoryFilter (HintsFilter):
     def filter_location (self, location):
-        # TypeError is thrown when there is a problem with the supplied
-        # location. See http://bugzilla.ubuntu.com/show_bug.cgi?id=11447
-        assert "\0" not in location, "Malformed string ocation: %s" % location
-        
         try:
             mime = gnomevfs.get_mime_type (location)
         except RuntimeError:
             # RuntimeError is thrown when there is an error reading the file
-            return None
+            return
             
         if mime != "x-directory/normal":
-            return None
+            return
             
         s = urlparse (location)
         scheme = s[0]

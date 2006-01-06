@@ -77,7 +77,7 @@ class GetMusic (operations.MeasurableOperation, operations.OperationListener):
                 self._send_finished_event (operations.ERROR, str(e))
 
     def on_finished (self, event):
-        self._send_finished_event (event.id)
+        self._send_finished_event (event.id, event.error)
         self.__oper = None
     
     def stop (self):
@@ -266,9 +266,11 @@ class FetchMusicListPriv (operations.OperationListener):
         return None
     
     def on_finished (self, evt):
+            
         if isinstance (evt.source, operations.OperationsQueue):
             self.parent._propagate (evt)
             return
+            
         assert isinstance (evt.source, GetMusic)
         if evt.id != operations.SUCCESSFUL:
             return
@@ -323,6 +325,7 @@ class FetchMusicList (operations.MeasurableOperation):
             get = GetMusic (self.__pool, m["location"])
             get.listeners.append (self.__listener)
             self.__queue.append (get)
+
         self.__queue.start ()
     
     can_stop = property (lambda self: self.__queue.can_stop)
@@ -332,7 +335,6 @@ class FetchMusicList (operations.MeasurableOperation):
 
 if __name__ == '__main__':
     import os.path, sys, gtk, gobject, gtkutil
-    gtkutil.traceback_main_loop ()
     
     def quit ():
         #gtk.main_quit()
