@@ -1,5 +1,17 @@
 2006-01-06 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
-
+    * serpentine/__init__.py:
+    Renamed some strings to more appropriatelly describe what they are meant to.
+    Closes bug #309669.
+    
+    * serpentine/audio.py:
+    * serpentine/operations.py:
+    Commited a patch by Alessandro Decina <alessandro@nnva.org> which adds
+    support for GStreamer 0.9 as well as some code cleanups.
+    Closes bug #320750.
+    
+    * serpentine/mainwindow.py:
+    When a playlist is successfully saved show an INFO dialog instead of a WARN.
+     
     * serpentine/recording.py:
     * serpentine/gtkutil.py:
     Use 'gtk.STOCK_DIALOG_INFO' instead of 'gtk.STOCK_DIALOG_WARN', closes

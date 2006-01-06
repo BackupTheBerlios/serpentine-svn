@@ -59,7 +59,7 @@ class SavePlaylistRegistry (Component):
         all_files.add_pattern ("*.*")
         
         self.__global_filter = gtk.FileFilter()
-        self.__global_filter.set_name (_("Supported files"))
+        self.__global_filter.set_name (_("Supported playlists"))
         self.__file_filters = [self.__global_filter, all_files]
         self.__factories = {}
         self.listeners = []
@@ -217,7 +217,7 @@ class Application (operations.Operation, Component):
         lambda self: self.__get_file_filter (
             "_music_file_filters",
             "_music_file_patterns",
-            _("Supported files")
+            _("Common media files")
         )
     )
 
@@ -225,7 +225,7 @@ class Application (operations.Operation, Component):
         lambda self: self.__get_file_filter (
             "_playlist_file_filters",
             "_playlist_file_patterns",
-            _("Supported files")
+            _("Supported playlists")
         )
     )
 

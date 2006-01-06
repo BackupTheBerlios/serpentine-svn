@@ -169,7 +169,7 @@ class SavePlaylistComponent (GladeComponent):
         win = self.parent
             
         if evt.id == operations.SUCCESSFUL:
-            gtkutil.dialog_warn (
+            gtkutil.dialog_info (
                 _("Playlist Saved"),
                 _("Playlist was saved successfully."),
                 parent = win

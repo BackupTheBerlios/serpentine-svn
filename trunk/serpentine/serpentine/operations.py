@@ -74,6 +74,12 @@ class Operation (Listenable):
     def stop (self):
         pass
 
+    def _notify (self, method_name, *args, **kw):
+        for l in self.listeners:
+            meth = getattr (l, method_name, None)
+            if meth:
+                meth (*args, **kw)
+
     def _send_finished_event (self, status, error = None, source = None):
         """
         Broadcasts to all listeners the finished event. Simplifies the 

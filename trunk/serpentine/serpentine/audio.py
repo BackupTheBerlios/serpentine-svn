@@ -16,100 +16,233 @@
 # Boston, MA 02111-1307, USA.
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+#          Alessandro Decina <alessandro@nnva.org>
 
 """
 This module contains operations to convert sound files to WAV and to
 retrieve a their metadata.
 """
 
+import threading
 import gst
 import gobject
 import operations
 
-################################################################################
+class GstOperationListener (operations.OperationListener):
+    def on_tag (self, event, tag):
+        """Called when a tag is found"""
 
-class GstOperation (operations.MeasurableOperation):
-    def __init__ (self, query_element = None, pipeline = None, use_threads = False):
-        operations.MeasurableOperation.__init__ (self)
-        self.__element = query_element
-        self.__can_start = True
-        self.__running = False
-        
-        # create a new bin to hold the elements
-        if pipeline is None:
-            self.__bin = use_threads and gst.Thread () or gst.Pipeline ()
-        else:
-            self.__bin = pipeline 
-        self.__use_threads = use_threads
-        self.__source = None
-        self.__bin.connect ('error', self.__on_error)
-        self.__bin.connect ('eos', self.__on_eos)
-        self.__progress = 0.0
+    def on_eos (self, event):
+        """Called when the pipeline reaches EOS."""
+
+    def on_error (self, event, error):
+        """Called when an error occurs"""
+   
+class GstPipelineOperation (operations.MeasurableOperation):
+    """GStreamer pipeline operation"""
 
     can_start = property (lambda self: self.__can_start)
-    
     running = property (lambda self: self.__running)
+    bin = property (lambda self: self.__bin)
+    query_element = None
+    progress = property (lambda self: self._get_progress ())
     
-    def __get_progress (self):
-        "Returns the progress of the convertion operation."
-        if self.query_element and self.__progress < 1:
-        
-            total = float(self.query_element.query(gst.QUERY_TOTAL, gst.FORMAT_BYTES))
-            # when total is zero return zero
-            if total == 0:
+    def __init__ (self, query_element, pipeline):
+        super (GstPipelineOperation, self).__init__ ()
+
+        self.query_element = query_element
+        self.__bin = pipeline
+        self.__progress = 0.0
+        self.__can_start = True
+        self.__running = False
+        self.__duration = 0
+
+    def start (self):
+        assert self.can_start
+        if self.bin.set_state (gst.STATE_PLAYING):
+            self.__can_start = False
+            self.__running = True
+
+    def stop (self):
+        self._finalize (operations.ABORTED)
+
+    def query_duration (self, format = gst.FORMAT_BYTES):
+        """Return the total duration"""
+        return 0.0
+
+    def query_position (self, format = gst.FORMAT_BYTES):
+        """Return the current position"""
+        return 0
+    
+    # implementation methods
+    def _finalize (self, event_id, error = None):
+        # set state to NULL and notify the listeners
+        if self.__running:
+            self.bin.set_state (gst.STATE_NULL)
+            self.__running = False
+            self._send_finished_event (event_id, error)
+        # Notice that GstOperations are run-once.
+
+    def _get_progress (self):
+        # get the current progress
+        if self.query_element and self.__progress < 1: 
+            if not self.__duration:
+                self.__duration = self.query_duration ()
+            if self.__duration == 0:
                 progress = 0
             else:
-                progress = self.query_element.query (gst.QUERY_POSITION, gst.FORMAT_BYTES) / total
-                
-            if progress > 1:
-                print "GST_ERROR? Progress > 1:", progress
-                return self.__progress
-            
+                position = self.query_position ()
+                progress = self.query_position () / self.__duration
+
             self.__progress = max (self.__progress, progress)
             assert 0 <= self.__progress <= 1, self.__progress
             
         return self.__progress
+
+    def _on_eos (self):
+        event = operations.Event (self)
+        self._notify ("on_eos", event)
+        self._finalize (operations.SUCCESSFUL)
+
+    def _on_error (self, error):
+        event = operations.Event (self)
+        self._notify ("on_error", event, error)
+        self._finalize (operations.ERROR, error)
+
+    def _on_tag (self, taglist):
+        event = operations.Event (self)
+        self._notify ("on_tag", event, taglist)
+
+class Gst08Operation (GstPipelineOperation):
+    """Implement GstPipelineOperation with gstreamer 0.8 API"""
+    def __init__ (self, query_element = None, pipeline = None,
+                use_threads = False):
         
-    progress = property (__get_progress)
-    
-    bin = property (lambda self: self.__bin)
-    
-    query_element = property (lambda self: self.__element)
+        if pipeline is None:
+            pipeline = use_threads and gst.Thread () or gst.Pipeline ()
+        
+        super (Gst08Operation, self).__init__ (query_element, pipeline)
+        
+        self.__use_threads = use_threads
+        pipeline.connect ("found-tag", self._on_tag)
+        pipeline.connect ("error", self._on_error)
+        pipeline.connect ("eos", self._on_eos)
+        self.__source = None
 
     def start (self):
-        assert self.can_start
-        self.__bin.set_state (gst.STATE_PLAYING)
-        self.__can_start = False
-        self.__running = True
-        if not self.__use_threads:
-            self.__source = gobject.idle_add (self.bin.iterate)
-    
-    def __on_eos (self, element, user_data = None):
-        self.__finalize ()
-        self._send_finished_event (operations.SUCCESSFUL)
-    
-    def __on_error (self, pipeline, element, error, user_data = None):
-        # Do not continue processing it
-        if self.__source:
-            gobject.source_remove (self.__source)
-        self.__finalize ()
-        self._send_finished_event (operations.ERROR, error)
+        super (Gst08Operation, self).start ()
+        if self.running and not self.__use_threads:
+                self.__source = gobject.idle_add (self.bin.iterate)
 
-    def __finalize (self):
-        self.__bin.set_state (gst.STATE_NULL)
-        self.__source = None
-        self.__running = False
-    
     def stop (self):
-        if self.__source is None:
-            return
-        # After this it's dead
-        gobject.source_remove (self.__source)
-        self.__source = None
-        # Finish the event
-        self._send_finished_event (operations.ABORTED)
+        if self.__source is not None:
+            gobject.source_remove (self.__source)
+            self.__source = None
+        super (Gst08Operation, self).stop ()
+ 
+    def query_duration (self, format = gst.FORMAT_TIME):
+        return float (self.query_element.query(gst.QUERY_TOTAL, format))
 
-################################################################################
+    def query_position (self, format = gst.FORMAT_TIME):
+        return self.query_element.query (gst.QUERY_POSITION, format)
+
+    def _on_error (self, pipeline, element, error, user_data = None):
+        super (Gst08Operation, self)._on_error (error)
+    
+    def _on_tag (self, pipeline, element, taglist):
+        super (Gst08Operation, self)._on_tag (taglist)
+
+    def _on_eos (self, pipeline):
+        super (Gst08Operation, self)._on_eos ()
+
+    def _finalize (self, event_id, error = None):
+        super (Gst08Operation, self)._finalize (event_id, error)
+        if self.__source is not None:
+            gobject.source_remove (self.__source)
+            self.__source = None
+
+
+class Gst09Operation (GstPipelineOperation):
+    """Implement GstPipelineOperation with gstreamer 0.9/0.10 API"""
+    running = property (lambda self: self.__running)
+
+    def __init__ (self, query_element = None, pipeline = None):
+        if pipeline is None:
+            pipeline = gst.Pipeline ()
+        
+        super (Gst09Operation, self).__init__ (query_element, pipeline)
+
+        self.bus = pipeline.get_bus ()
+        self.bus.add_watch (self._dispatch_bus_message)
+        self.__running = False
+        
+        # the operation can be started/stopped in the main thread, when start()
+        # or stop() are called inside serpentine, and in the stream thread,
+        # when .stop() is called in on_handoff. start() and _finalize() are thus
+        # synchronized with self.lock
+        self.lock = threading.RLock ()
+ 
+    def query_duration (self, format = gst.FORMAT_TIME):
+        try:
+            total, format = self.query_element.query_duration (format)
+            return float (total)
+        except gst.QueryError, e:
+            return 0.0
+
+    def query_position (self, format = gst.FORMAT_TIME):
+        try:
+            pos, format = self.query_element.query_position (format)
+            return pos
+        except gst.QueryError:
+            return 0
+    
+    def start (self):
+        self.lock.acquire ()
+        try:
+            if not self.__running:
+                self.__running = True
+                super (Gst09Operation, self).start ()
+        finally:
+            self.lock.release ()
+
+    def _dispatch_bus_message (self, bus, message):
+        handler = getattr (self, "_on_" + message.type.first_value_nick, None)
+        if handler:
+            handler (bus, message)
+
+        return True
+   
+    def _finalize (self, event_id, error = None):
+        self.lock.acquire ()
+        try:
+            if self.running:
+                self.__running = False
+                # finalize the pipeline in the main thread to avoid deadlocks
+                def wrapper ():
+                    super (Gst09Operation, self)._finalize (event_id, error)
+                    return False
+
+                gobject.idle_add (wrapper)
+        finally:
+            self.lock.release ()
+
+    def _on_eos (self, bus, message):
+        super (Gst09Operation, self)._on_eos ()
+
+    def _on_error (self, bus, message):
+        super (Gst09Operation, self)._on_error (message.parse_error ()) 
+
+    def _on_tag (self, bus, message):
+        super (Gst09Operation, self)._on_tag (message.parse_tag ())
+
+if gst.gst_version[0] == 0 and gst.gst_version[1] >= 9:
+    # use Gst09Operation with gstreamer >= 0.9
+    NEW_PAD_SIGNAL = "pad-added"
+    GstOperation = Gst09Operation
+else:
+    # use Gst08Operation with gstreamer < 0.9
+    NEW_PAD_SIGNAL = "new-pad"
+    GstOperation = Gst08Operation
 
 class AudioMetadataListener (operations.OperationListener):
     """
@@ -128,84 +261,74 @@ class AudioMetadataEvent (operations.Event):
         
     metadata = property (lambda self: self.__metadata)
 
-class AudioMetadata (operations.Operation, operations.OperationListener):
-    """
-    Returns the metadata associated with the source element.
+class AudioMetadata (operations.Operation, GstOperationListener):
+    """Returns the metadata associated with the source element.
     
     To retrieve the metadata associated with a certain media file on gst-launch -t:
     source ! decodebin ! fakesink
     """
-    
+
+    can_start = property (lambda self: self.__oper.can_start)
+    running = property (lambda self: self.__oper.running)
+
     def __init__ (self, source):
-        operations.Operation.__init__ (self)
-        self.__can_start = True
-        bin = gst.parse_launch ("decodebin ! fakesink")
-                                
+        super (AudioMetadata, self).__init__ ()
+        
+        # setup the metadata extracting pipeline
+        bin = gst.parse_launch ("decodebin name=am_decodebin ! \
+                                fakesink name=am_fakesink")
         self.__oper = GstOperation(pipeline = bin)
-        self.__oper.listeners.append (self)
-        
-        self.__metadata = {}
-        self.__error = None
-        
-        bin.connect ("found-tag", self.__on_found_tag)
-        
-        # Last element of the bin is the sinks
-        sink = bin.get_list ()[-1]
-        sink.set_property ("signal-handoffs", True)
-        # handoffs are called when it processes one chunk of data
-        sink.connect ("handoff", self.__on_handoff)
-        self.__oper.element = sink
-        
-        # connect source to the first element on the pipeline
-        source.link (bin.get_list ()[0])
+        # link source with decodebin
         bin.add (source)
-        
-    
-    can_start = property (lambda self: self.__can_start)
-    
-    running = property (lambda self: self.__oper != None)
-    
+        source.link (bin.get_by_name ("am_decodebin"))
+        # set fakesink as the query_element
+        self._fakesink = bin.get_by_name ("am_fakesink")
+        self._fakesink.set_property ("signal-handoffs", True)
+        self._fakesink.connect ("handoff", self.on_handoff)
+        self.__oper.query_element = self._fakesink
+        self.__oper.listeners.append (self) 
+        self.__metadata = {}
+
     def start (self):
-        assert self.can_start, "Can only be started once."
-        self.__can_start = False
-        self.__oper.start()
-        
-    def on_finished (self, event):
-        # When the operation is finished we send the metadata
-        success = event.id == operations.ABORTED
-        if success:
-            # We've completed the operation successfully
-            if self.__metadata.has_key ("duration"):
-                self.__metadata["duration"] /= gst.SECOND
-            else:
-                self.__metadata["duration"] = self.__oper.element.query(gst.QUERY_TOTAL, gst.FORMAT_TIME) / gst.SECOND
-            evt = operations.Event (self)
-            
-            for l in self.listeners:
-                l.on_metadata (evt, self.__metadata)
-            self.__metadata = None
-            self.__element = None
-        
-        if success:
-            success = operations.SUCCESSFUL
-        else:
-            success = operations.ERROR
-        
-        self._send_finished_event (success)
-    
-    def __on_handoff (self, *args):
-        # Ask the gobject main context to stop our pipe
-        self.__oper.stop()
-        
-    def __on_found_tag (self, pipeline, source, tags, user_data = None):
-        for key in tags.keys():
-            self.__metadata[key] = tags.get(key)
+        self.__oper.start ()
     
     def stop (self):
-        if not self.can_stop:
-            return
+        self._check_duration ()
         self.__oper.stop ()
-    
+
+    def on_eos (self, event):
+        self._check_duration ()
+
+    def on_error (self, event, message):
+        # try to get the size even when there is an error
+        self._check_duration ()
+
+    def on_handoff (self, *ignored):
+        self._fakesink.set_property ("signal-handoffs", False)
+        self.stop ()
+
+    def on_tag (self, event, taglist):
+        self.__metadata.update (taglist)
+
+    def on_finished (self, event):
+        try:
+            duration = int (self.__metadata["duration"]) / gst.SECOND
+        except KeyError:
+            duration = 0
+        self.__metadata["duration"] = duration
+        
+        evt = operations.Event (self)
+        self._notify ("on_metadata", evt, self.__metadata)
+        
+        self.__metadata = None
+        self.__element = None
+        self._send_finished_event (operations.SUCCESSFUL)
+
+    def _check_duration (self):
+        if not self.__metadata.has_key ("duration"):
+            self.__metadata["duration"] = \
+                self.__oper.query_duration (gst.FORMAT_TIME)
+
 def fileAudioMetadata (filename):
     """
     Returns the audio metadata from a file.
@@ -213,7 +336,6 @@ def fileAudioMetadata (filename):
     filesrc = gst.element_factory_make ("filesrc", "source")
     filesrc.set_property ("location", filename)
     return AudioMetadata(filesrc)
-
 
 try:
     import gnomevfs
@@ -257,34 +379,41 @@ def capsIsWavPcm (caps):
     return True
 
 
-class IsWavPcm (operations.Operation, operations.OperationListener):
+class IsWavPcm (operations.Operation, GstOperationListener):
     """
     Tests if a certain WAV is in the PCM format.
     """
 
+    can_start = property (lambda self: self.oper.can_start)
+    running = property (lambda self: self.oper.running)
+
     def __init__ (self, source):
+        super (IsWavPcm, self).__init__ ()
     
         bin = gst.parse_launch (
-            "typefind ! wavparse ! " + WavPcmParse + " ! fakesink"
+            "typefind name=iwp_typefind ! \
+            wavparse name=iwp_wavparse ! "
+            + WavPcmParse +
+            " ! fakesink name=iwp_fakesink"
         )
         
+        self.oper = GstOperation(pipeline = bin)
+        self.oper.listeners.append (self)
+ 
+        decoder = bin.get_by_name ("iwp_typefind")
         
-        elements = bin.get_list ()
-        decoder = elements[0]
-        sink = elements[-1]
-        waveparse = elements[1]
+        sink = bin.get_by_name ("iwp_fakesink")
+        self.oper.query_element = sink
         sink.set_property ("signal-handoffs", True)
         sink.connect ("handoff", self.on_handoff)
         
-        waveparse.connect ("new-pad", self.on_new_pad)
+        waveparse = bin.get_by_name ("iwp_wavparse")
+        waveparse.connect (NEW_PAD_SIGNAL, self.on_new_pad)
         
-        self.oper = GstOperation(sink, bin)
         self.oper.bin.add (source)
-        self.oper.listeners.append (self)
         source.link (decoder)
+        
         self.isPcm = False
-        self.__can_start = True
-        super (IsWavPcm, self).__init__()
 
     def on_handoff (self, *args):
         self.oper.stop ()
@@ -301,7 +430,7 @@ class IsWavPcm (operations.Operation, operations.OperationListener):
         else:
             if event.id == operations.SUCCESSFUL:
                 eid = operations.ERROR
-                err = Exception ("Not a valid WAV PCM")
+                err = StandardError ("Not a valid WAV PCM")
             else:
                 eid = events.id
                 err = events.error
@@ -333,16 +462,18 @@ def sourceToWav (source, sink):
     source ! decodebin ! audioconvert ! audioscale !$WavPcmParse ! wavenc
     """
     bin = gst.parse_launch (
-        "decodebin ! audioconvert ! audioscale ! " + WavPcmParse + " ! wavenc"
+        "decodebin name=stw_decodebin !"
+        "audioconvert ! "
+        + WavPcmParse +
+        " ! wavenc name=stw_wavenc"
     )
-        
     oper = GstOperation(sink, bin)
-    
-    elements = bin.get_list ()
-    decoder = elements[0]
-    encoder = elements[-1]
-    
-    oper.bin.add_many (source, sink)
+      
+    decoder = bin.get_by_name ("stw_decodebin")
+    encoder = bin.get_by_name ("stw_wavenc")
+      
+    oper.bin.add (source)
+    oper.bin.add (sink)
     source.link (decoder)
     encoder.link (sink)
     
@@ -384,17 +515,18 @@ def extractAudioTrack (device, track_number, sink, extra = None):
     to send extra properties to the 'cdparanoia' element.
     """
     
-    bin = gst.parse_launch ("cdparanoia ! wavenc")
+    bin = gst.parse_launch ("cdparanoia name=eat_cdparanoia ! \
+                            wavenc name=eat_wavenc")
     bin.set_state (gst.STATE_PAUSED)
     
+    oper = GstOperation (sink, pipeline)
+   
     TRACK_FORMAT = gst.format_get_by_nick ("track")
     assert TRACK_FORMAT != 0
     PLAY_TRACK = TRACK_FORMAT | gst.SEEK_METHOD_SET | gst.SEEK_FLAG_FLUSH
-
-    
-    elements = bin.get_list ()
-    cdparanoia = elements[0]
-    wavenc = elements[-1]
+ 
+    cdparanoia = bin.get_by_name ("eat_cdparanoia")
+    wavenc = bin.get_by_name ("eat_wavenc")
     
     cdparanoia.set_property ("device", device)
     
@@ -409,7 +541,7 @@ def extractAudioTrack (device, track_number, sink, extra = None):
     bin.add (sink)
     wavenc.link (sink)
     
-    return GstOperation(sink, bin)
+    return oper
 
 def extractAudioTrackFile (device, track_number, filename, extra = None):
     sink = gst.element_factory_make ("filesink")
@@ -423,7 +555,7 @@ if __name__ == '__main__':
     import gobject
     
     mainloop = gobject.MainLoop ()
-    class L (operations.OperationListener):
+    class L (GstOperationListener):
         def __init__(self, foo):
             self.foo = foo
             
