@@ -139,7 +139,7 @@ class SavePlaylistComponent (GladeComponent):
         hbox = gtk.HBox (spacing = 6)
         hbox.show ()
         
-        lbl = gtk.Label(_("Save playlist in format")+":")
+        lbl = gtk.Label(_("Save playlist in format:"))
         lbl.show ()
         hbox.pack_start (lbl, False, False)
         

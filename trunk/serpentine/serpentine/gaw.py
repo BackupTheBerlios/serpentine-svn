@@ -149,7 +149,7 @@ class GConfValue (object):
     )
     
     def set_callback (self, on_changed):
-        assert callable (on_changed)
+        assert on_changed is None or callable (on_changed)
         
         if self.__notify_id is not None:
             self.client_notify_remove (self.__notify_id)
@@ -221,7 +221,7 @@ class RadioButtonData:
         # Update gconf entries
         self.sync_gconf ()
         
-    def __on_gconf_changed (self, client, conn_id, entry, user_data = None):
+    def __on_gconf_changed (self, client, conn_id, entry, user_data):
         
         data_spec = self.gconf_value.data_spec
 

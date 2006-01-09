@@ -48,7 +48,11 @@ except Exception:
     release = None
 
 GCONF_DIR = "/apps/serpentine"
-gconf.client_get_default ().add_dir (GCONF_DIR, gconf.CLIENT_PRELOAD_NONE)
+RAT_GCONF_DIR = "/apps/rat"
+NCB_GCONF_DIR = "/apps/nautilus-cd-burner"
+
+for gconf_dir in (GCONF_DIR, RAT_GCONF_DIR, NCB_GCONF_DIR):
+    gconf.client_get_default ().add_dir (gconf_dir, gconf.CLIENT_PRELOAD_NONE)
 
 def recordingPreferencesWindow (preferences):
     prefs_widget = gtkutil.find_widget (preferences.dialog, "preferences")
@@ -81,7 +85,94 @@ def recordingPreferencesWindow (preferences):
     bbox.add (close_btn)
     
     return win
+
+class HideCloseButton:
+    """
+    Monitors the 'rat' key for showing/hiding the close button.
+    """
+    def __init__(self, close_button):
+        self.button = close_button
+        self.use_button = gaw.GConfValue (
+            key = RAT_GCONF_DIR + "/use_close_button",
+            data_spec = gaw.Spec.BOOL,
+            default = True
+        )
+        self.use_button.set_callback(self.on_update)
+        self.on_update()
     
+    def on_update(self, *args):
+        if not self.use_button.data:
+            self.button.hide()
+        else:
+            self.button.show()
+
+class WriteSpeed:
+    """
+    Handles and monitors writing speed related widgets state.
+    """
+    def __init__(self, g, get_drive):
+        self.get_drive = get_drive
+        
+        self.__speed = gaw.data_spin_button (g.get_widget("speed"),
+                                             GCONF_DIR + "/write_speed")
+        
+        self.__specify_speed = g.get_widget ("specify_speed_wrapper")
+                                             
+        specify_speed = g.get_widget ("specify_speed")
+        
+        self.__speed_select = gaw.RadioButtonData (
+            widgets = dict (
+                specify_speed = specify_speed,
+                use_max_speed = g.get_widget ("use_max_speed")
+            ),
+            
+            key = GCONF_DIR + "/speed_select"
+        )
+        self.__speed_select.seleted_by_default = "use_max_speed"
+        
+        specify_speed.connect ("toggled", self.__on_specify_speed)
+        g.get_widget ("refresh_speed").connect ("clicked", self.__on_refresh_speed)
+        
+        # init specify speed box sensitivity
+        self.__on_specify_speed (specify_speed)
+        
+        # No default value set, set it to 99
+        if self.__speed.data == 0:
+            self.__speed.data = 99
+
+        self.__update_speed ()
+        self.__speed.sync_widget()
+        self.__speed.widget.set_sensitive (specify_speed.get_active ())
+        
+    def get(self):
+        assert self.get_drive() is not None
+        self.__update_speed()
+
+        if self.__speed_select.data == "use_max_speed":
+            return self.drive.get_max_speed_write ()
+        return self.__speed.data
+
+    def __on_refresh_speed (self, *args):
+        self.__update_speed ()
+
+    def __update_speed (self):
+        drive = self.get_drive()
+        if drive is None:
+            self.__speed.widget.set_sensitive (False)
+            return
+            
+        speed = drive.get_max_speed_write ()
+        assert speed >= 0, speed
+
+        val = self.__speed.data
+
+        self.__speed.widget.set_range (1, speed)
+        self.__speed.data = val
+        
+    def __on_specify_speed (self, widget, *args):
+        self.__specify_speed.set_sensitive (widget.get_active ())
+    
+
 class RecordingPreferences (object):
     def __init__ (self):
         # By default use burnproof
@@ -110,40 +201,11 @@ class RecordingPreferences (object):
         drv.pack_start (cmb_drv, False, False)
         
         # Speed selection
-        self.__speed = gaw.data_spin_button (g.get_widget ("speed"),
-                                             GCONF_DIR + "/write_speed")
+        self.__speed = WriteSpeed(g, self.__drive_selection.get_drive)
         
-        self.__specify_speed = g.get_widget ("specify_speed_wrapper")
-                                             
-        specify_speed = g.get_widget ("specify_speed")
-        
-        self.__speed_select = gaw.RadioButtonData (
-            widgets = dict (
-                specify_speed = specify_speed,
-                use_max_speed = g.get_widget ("use_max_speed")
-            ),
-            
-            key = GCONF_DIR + "/speed_select"
-        )
-        self.__speed_select.seleted_by_default = "use_max_speed"
-        
-        specify_speed.connect ("toggled", self.__on_specify_speed)
-        # init specify speed box sensitivity
-        self.__on_specify_speed (specify_speed)
-        
-        # No default value set, set it to 99
-        if self.__speed.data == 0:
-            self.__speed.data = 99
-
-        self.__update_speed ()
-        self.__speed.sync_widget()
-        self.__speed.widget.set_sensitive (specify_speed.get_active ())
-    
         # eject checkbox
         self.__eject = gaw.data_toggle_button (g.get_widget ("eject"),
                                                GCONF_DIR + "/eject")
-        
-        g.get_widget ("refresh_speed").connect ("clicked", self.__on_refresh_speed)
         
         # use gap checkbox
         self.__use_gap = gaw.data_toggle_button (
@@ -153,7 +215,7 @@ class RecordingPreferences (object):
         )
         
         # temp
-        ncb_temp_dir = "/apps/nautilus-cd-burner/temp_iso_dir"
+        ncb_temp_dir = NCB_GCONF_DIR + "/temp_iso_dir"
         gconf.client_get_default ().add_dir (ncb_temp_dir, gconf.CLIENT_PRELOAD_NONE)
         self.__tmp = gaw.GConfValue (
             key = ncb_temp_dir,
@@ -172,11 +234,13 @@ class RecordingPreferences (object):
         self.__pool = GvfsMusicPool ()
         
         # Close button
-        self.__close = g.get_widget ("close_btn")
+        self.__close_button_handler = HideCloseButton(g.get_widget("close_btn"))
+
     
     ############################################################################
     # Properties
     
+    ############
     # configDir
     __config_dir = os.path.join (os.path.expanduser ("~"), ".serpentine")
     def getConfigDir (self):
@@ -184,6 +248,7 @@ class RecordingPreferences (object):
         
     configDir = property (lambda self: self.__config_dir)
     
+    ###########
     # simulate
     def setSimulate (self, simulate):
         assert isinstance (simulate, BooleanType)
@@ -197,6 +262,7 @@ class RecordingPreferences (object):
     
     simulate = property (getSimulate, setSimulate)
     
+    ###########
     # overburn
     def setOverburn (self, overburn):
         assert isinstance (overburn, bool)
@@ -210,12 +276,14 @@ class RecordingPreferences (object):
     
     overburn = property (getOverburn, setOverburn)
     
+    #########
     # dialog
     def getDialog (self):
         return self.__dialog
         
     dialog = property (getDialog)
     
+    ##########
     # version
     def setVersion (self, version):
         assert isinstance (version, StringType)
@@ -226,12 +294,14 @@ class RecordingPreferences (object):
         
     version = property (getVersion, setVersion)
     
+    ########
     # drive
     def getDrive (self):
         return self.__drive_selection.get_drive()
         
     drive = property (getDrive)
     
+    ###############
     # temporaryDir
     def getTemporaryDir (self):
         tmp = self.__tmp.data
@@ -250,23 +320,22 @@ class RecordingPreferences (object):
         
     temporaryDir = property (getTemporaryDir)
     
+    #########
     # pool
     def getPool (self):
         return self.__pool
         
     pool = property (getPool)
 
+    ##############
     # speedWrite
     def getSpeedWrite (self):
-        assert self.drive is not None
-        self.__update_speed()
-
-        if self.__speed_select.data == "use_max_speed":
-            return self.drive.get_max_speed_write ()
-        return self.__speed.data
+        return self.__speed.get()
         
     speedWrite = property (getSpeedWrite)
     
+    ################
+    # writeFlags
     def getWriteFlags (self):
         ret = self.__write_flags
         if not self.__use_gap.data:
@@ -277,24 +346,8 @@ class RecordingPreferences (object):
         
     writeFlags = property (getWriteFlags)
 
-    ############################################################################
-    def __on_refresh_speed (self, *args):
-        self.__update_speed ()
-
-    def __update_speed (self):
-        if not self.drive:
-            self.__speed.widget.set_sensitive (False)
-            return
-            
-        speed = self.drive.get_max_speed_write ()
-        assert speed >= 0, speed
-
-        val = self.__speed.data
-
-        self.__speed.widget.set_range (1, speed)
-        self.__speed.data = val
-        
-    # Read only variable
+    ####################
+    # temporaryDirIsOk
     def getTemporaryDirIsOk (self):
         tmp = self.temporaryDir
         # Try to open the local file
@@ -304,30 +357,18 @@ class RecordingPreferences (object):
             print err
             is_ok = False
         return is_ok
+        
     temporaryDirIsOk = property (getTemporaryDirIsOk,
-                                    doc=_("Tests if temporary directory exists "
+                                    doc=("Tests if temporary directory exists "
                                     "and has write permissions."))
     
-    def __on_tmp_choose (self, *args):
-        if self.__tmp_dlg.run () == gtk.RESPONSE_OK:
-            self.__tmp.data = self.__tmp_dlg.get_filename ()
-        self.__tmp_dlg.hide ()
-
+    
+    #############################
+    # Methods
     def __on_destroy (self, *args):
         self.dialog.hide ()
         return False
 
-    def __on_tmp_changed (self, *args):
-        is_ok = self.temporaryDirIsOk ()
-        if is_ok:
-            self.__tmp.widget.modify_base (gtk.STATE_NORMAL, gtk.gdk.color_parse ("#FFF"))
-        else:
-            self.__tmp.widget.modify_base (gtk.STATE_NORMAL, gtk.gdk.color_parse ("#F88"))
-        self.__close.set_sensitive (is_ok)
-        
-    def __on_specify_speed (self, widget, *args):
-        self.__specify_speed.set_sensitive (widget.get_active ())
-    
     def savePlaylist (self, source):
         if not os.path.exists (self.configDir):
             os.makedirs (self.configDir)
