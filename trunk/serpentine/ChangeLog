@@ -1,3 +1,19 @@
+2006-02-08 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * scripts/serpentine:
+    * serpentine/common.py:
+    * serpentine/mainwindow.py:
+    * serpentine/mastering.py:
+    * serpentine/preferences.py:
+    Created a class to manage application's default directories.
+    
+    * serpentine/mastering.py:
+    * serpentine/preferences.py:
+    Improves the media size counting. Tries to fix #326620.
+    
+    * Makefile.am:
+    serpentine.contants was replaced by ApplicationLocations.
+    
 2006-01-09 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/gaw.py:

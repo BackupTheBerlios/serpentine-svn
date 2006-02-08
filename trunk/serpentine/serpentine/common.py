@@ -19,13 +19,35 @@
 import os
 import statvfs
 import os.path
-
-lib_dir    = os.path.abspath (os.path.dirname (__file__))
-prefix_dir = os.path.abspath (os.path.join (lib_dir, "..", "..", ".."))
-data_dir   = os.path.join (prefix_dir, "share", "serpentine")
-locale_dir = os.path.join (prefix_dir, "share", "locale")
-
+import sys
 from gettext import gettext as _
+
+
+class ApplicationLocations:
+    def __init__(self, root, appname):
+        self.root = os.path.abspath(root)
+        pyver = "python%d.%d" % sys.version_info[0:2]
+        self.lib = os.path.join(root, "lib", pyver, "site-packages")
+        self.data = os.path.join(root, "share", appname)
+        self.bin = os.path.join(root, "bin")
+        self.locale = os.path.join(root, "share", "locale")
+
+    def get_data_file(self, filename):
+        return os.path.join(self.data, filename)
+    
+    def get_lib_file(self, filename):
+        return os.path.join(self.lib, filename)
+
+    def get_bin_file(self, filename):
+        return os.path.join(self.bin, filename)
+
+    def get_locale_file(self, filename):
+        return os.path.join(self.locale, filename)
+
+    def get_root_file(self, filename):
+        return os.path.join(self.root, filename)
+
+
 
 class SerpentineError (StandardError): pass
 

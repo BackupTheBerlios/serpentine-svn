@@ -19,22 +19,19 @@
 import gtk
 import os
 import os.path
-import tempfile
 import gobject
 
 # Local imports
 import operations
 import gaw
-import constants
 import gtkutil
 
 from components import Component
-from operations import MapProxy, OperationListener, OperationsQueue
-from operations import CallableOperation
-from mastering import AudioMastering, GtkMusicList, MusicListGateway
-from mastering import ErrorTrapper
+from operations import MapProxy, OperationListener
+from mastering import AudioMastering
 
-from serpentine.common import *
+from serpentine.common import SerpentineNotSupportedError, validate_music_list
+from serpentine.common import SerpentineCacheError
 from gettext import gettext as _
 
 class GladeComponent (Component):
@@ -348,14 +345,14 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         Component.__init__ (self, application)
             
         self.__application = application
-        self.__masterer = AudioMastering ()
+        self.__masterer = AudioMastering (application)
         # Variable related to this being an Operation
         self.__running = False
         self.connect ("show", self.__on_show)
         # We listen for GtkMusicList events
         self.music_list_widget.listeners.append (self)
-
-        glade_file = os.path.join (constants.data_dir, "serpentine.glade")
+        
+        glade_file = application.locations.get_data_file("serpentine.glade")
         g = gtk.glade.XML (glade_file, "main_window_container")
         
         # Send glade to setup subcomponents

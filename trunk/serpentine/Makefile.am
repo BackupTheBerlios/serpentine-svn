@@ -27,7 +27,6 @@ serpentine_PYTHON = \
 	serpentine/operations.py    \
 	serpentine/xspf.py          \
 	serpentine/services.py      \
-	serpentine/constants.py     \
 	serpentine/gdkpiechart.py   \
 	serpentine/cairopiechart.py \
 	serpentine/components.py    \

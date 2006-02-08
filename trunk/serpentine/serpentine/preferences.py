@@ -19,7 +19,6 @@
 import gtk.glade
 import nautilusburn
 import gtk
-import gobject
 import os
 import os.path
 import gconf
@@ -35,7 +34,6 @@ from gettext import gettext as _
 # Local imports
 import gaw
 import xspf
-import constants
 import gtkutil
 
 from converting import GvfsMusicPool
@@ -174,7 +172,7 @@ class WriteSpeed:
     
 
 class RecordingPreferences (object):
-    def __init__ (self):
+    def __init__ (self, locations):
         # By default use burnproof
         self.__write_flags = nautilusburn.RECORDER_WRITE_BURNPROOF
 
@@ -183,10 +181,9 @@ class RecordingPreferences (object):
             self.version = release.version
         else:
             self.version = "testing"
-        
         # setup ui
-        g = gtk.glade.XML (os.path.join(constants.data_dir, "serpentine.glade"),
-                           "preferences_dialog")
+        filename = locations.get_data_file("serpentine.glade")
+        g = gtk.glade.XML (filename, "preferences_dialog")
         self.__dialog = g.get_widget ("preferences_dialog")
         self.dialog.connect ("destroy-event", self.__on_destroy)
         self.dialog.set_title ("")
@@ -320,6 +317,13 @@ class RecordingPreferences (object):
         
     temporaryDir = property (getTemporaryDir)
     
+    ##############
+    # useGap
+    def getUseGap(self):
+        return self.__use_gap.data
+    
+    useGap = property(getUseGap)
+
     #########
     # pool
     def getPool (self):

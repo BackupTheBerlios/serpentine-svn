@@ -35,7 +35,6 @@ from xml.parsers.expat import ExpatError
 # Private modules
 import operations
 import gtkutil
-import constants
 import urlutil
 
 from mastering import AudioMastering, GtkMusicList, MusicListGateway
@@ -92,12 +91,12 @@ class SavePlaylistRegistry (Component):
     
 class Application (operations.Operation, Component):
     components = ()
-    def __init__ (self):
+    def __init__ (self, locations):
         operations.Operation.__init__ (self)
         Component.__init__ (self, None)
         self.savePlaylist = SavePlaylistRegistry (self)
-        
-        self.__preferences = RecordingPreferences ()
+        self.locations = locations
+        self.__preferences = RecordingPreferences (locations)
         self.__operations = []
         
         self._music_file_patterns = {}
@@ -253,8 +252,8 @@ class HeadlessApplication (Application):
                 del self.trapper
         
 
-    def __init__ (self):
-        Application.__init__ (self)
+    def __init__ (self, locations):
+        Application.__init__ (self, locations)
         self.music_list_gw = HeadlessApplication.Gateway ()
         self._load_plugins ()
 
@@ -281,8 +280,8 @@ class SerpentineApplication (Application):
     This enables us to close the main window and continue showing the progress
     dialog. This object should be simple enough for D-Bus export.
     """
-    def __init__ (self):
-        Application.__init__ (self)
+    def __init__ (self, locations):
+        Application.__init__ (self, locations)
         self.__window = SerpentineWindow (self)
         self.preferences.dialog.set_transient_for (self.window_widget)
         self.__window.listeners.append (self)

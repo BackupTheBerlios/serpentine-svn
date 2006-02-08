@@ -20,24 +20,19 @@
 import gtk
 import gtk.glade
 import gobject
-import os.path
-import urllib
 import gnomevfs
 import gettext
 import sys
+import weakref
 
-from xml.dom import minidom
 from types import IntType, TupleType
-from urlparse import urlparse, urlunparse
 from gettext import gettext as _
 
 # Local modules
 import operations
 import audio
 import xspf
-import constants
 import gtkutil
-import serpentine.common
 
 from gtkutil import DictStore
 from operations import OperationsQueue
@@ -502,8 +497,9 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         ('text/plain', 0, 2),
         ('STRING', 0, 3),
     ]
-    def __init__ (self):
+    def __init__ (self, application):
         gtk.VBox.__init__ (self)
+        self._application = weakref.ref(application)
         
         operations.Listenable.__init__ (self)
         self.__disc_size = 74 * 60
@@ -514,8 +510,9 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         self.__gateway = AudioMastering.MusicListGateway (self)
         
         gtk.VBox.__init__ (self)
-        g = gtk.glade.XML (os.path.join (constants.data_dir, "serpentine.glade"),
-                           "audio_container")
+        filename = application.locations.get_data_file("serpentine.glade")
+        g = gtk.glade.XML (filename, "audio_container")
+        
         self.add (g.get_widget ("audio_container"))
         
         self.__setup_track_list (g)
@@ -687,6 +684,19 @@ class AudioMastering (gtk.VBox, operations.Listenable):
                 
             hig_duration += hig_secs
         return hig_duration
+    # TODO: implement get_media_duration
+
+    def get_preferences(self):
+        return self._application().preferences
+        
+    def get_media_duration(self):
+        total = self.source.total_duration
+        num_tracks = len(self.source)
+        
+        if num_tracks > 0 and self.get_preferences().useGap:
+            total += (num_tracks - 1) * 2
+        
+        return total 
     
     def update_disc_usage (self):
         if not self.update:
@@ -743,7 +753,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 
     
 if __name__ == '__main__':
-    import sys, os
+    import os
     win = gtk.Window()
     win.connect ("delete-event", gtk.main_quit)
     w = AudioMastering ()

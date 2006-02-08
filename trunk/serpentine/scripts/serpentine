@@ -14,21 +14,18 @@ from gettext import gettext as _
 
 # Start threads subsystem
 gobject.threads_init ()
-
-bins_dir = os.path.dirname (os.path.abspath (sys.argv[0]))
-prefix_dir = os.path.dirname (bins_dir)
-lib_dir = os.path.join (prefix_dir, 'lib',
-                        "python%d.%d" % sys.version_info[0:2],
-                        'site-packages')
-locale_dir = os.path.join (prefix_dir, 'share', 'locale')
+root = os.path.join(os.path.dirname (os.path.abspath (sys.argv[0])), "..")
+from serpentine.common import ApplicationLocations
+locations = ApplicationLocations(root, "serpentine")
 
 # Add our default lib dir to the path
-if os.path.isdir (lib_dir) and lib_dir not in sys.path:
-    sys.path.append (lib_dir)
+assert os.path.isdir(locations.lib)
+if locations.lib not in sys.path:
+    sys.path.insert (0, locations.lib)
 
-gettext.bindtextdomain("serpentine", locale_dir)
+gettext.bindtextdomain("serpentine", locations.locale)
 gettext.textdomain("serpentine")
-gtk.glade.bindtextdomain("serpentine", locale_dir)
+gtk.glade.bindtextdomain("serpentine", locations.locale)
 gtk.glade.textdomain("serpentine")
 
 
@@ -63,9 +60,9 @@ class OurListener (operations.OperationListener):
         
 listener = OurListener ()
 if options.write_files:
-    app = HeadlessApplication ()
+    app = HeadlessApplication (locations)
 else:
-    app = SerpentineApplication ()
+    app = SerpentineApplication (locations)
 
 app.listeners.append (listener)
 app.preferences.simulate = options.simulate
