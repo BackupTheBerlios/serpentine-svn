@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-09 00:33-0100\n"
+"POT-Creation-Date: 2006-02-09 19:44-0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -111,7 +111,7 @@ msgstr "Enregistrer la liste de lecture sous ..."
 msgid "Serpentine Audio Mastering"
 msgstr "Gravure Audio Serpentine"
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:65
+#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:58
 msgid "Serpentine Preferences"
 msgstr "Préférences de Serpentine"
 
@@ -143,15 +143,20 @@ msgstr "Barre d'ou_tils"
 msgid "_View"
 msgstr "_Affichage"
 
-#: ../scripts/serpentine:38
+#: ../scripts/serpentine:37
 msgid "Recording operations will be done in simulation mode."
 msgstr "Les opérations de gravure seront faites en mode simulation."
 
-#: ../scripts/serpentine:41
-msgid "Show preferences dialog and exit."
+#: ../scripts/serpentine:40
+msgid "Shows debuging information from recording backend."
+msgstr ""
+
+#: ../scripts/serpentine:43
+#, fuzzy
+msgid "Shows preferences dialog."
 msgstr "Afficher le dialogue des préférences et quitter."
 
-#: ../scripts/serpentine:44
+#: ../scripts/serpentine:46
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
@@ -159,15 +164,15 @@ msgstr ""
 "Grave les noms de fichier après cette option sur un CD. Cela affichera une "
 "boite de dialogue propice à être embarquée dans d'autres applications."
 
-#: ../scripts/serpentine:49
+#: ../scripts/serpentine:51
 msgid "Uses filenames after this option as the playlist contents."
 msgstr ""
 
-#: ../scripts/serpentine:77
+#: ../scripts/serpentine:82
 msgid "Simulation mode"
 msgstr "Mode simulation"
 
-#: ../scripts/serpentine:78
+#: ../scripts/serpentine:83
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
@@ -175,16 +180,16 @@ msgstr ""
 "Serpentine est en mode simulation, aucune véritable écriture ne sera faite "
 "sur le média inséré."
 
-#: ../serpentine/__init__.py:57 ../serpentine/__init__.py:179
+#: ../serpentine/__init__.py:52 ../serpentine/__init__.py:175
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: ../serpentine/__init__.py:61 ../serpentine/__init__.py:227
+#: ../serpentine/__init__.py:56 ../serpentine/__init__.py:223
 #, fuzzy
 msgid "Supported playlists"
 msgstr "Fichiers supportés"
 
-#: ../serpentine/__init__.py:219
+#: ../serpentine/__init__.py:215
 #, fuzzy
 msgid "Common media files"
 msgstr "Préparation des fichiers média"
@@ -410,7 +415,7 @@ msgstr "Vider la liste de lecture"
 msgid "Open Rhythmbox Playlist..."
 msgstr "Ouvrir une liste de lecture..."
 
-#: ../serpentine/preferences.py:379 ../serpentine/preferences.py:397
+#: ../serpentine/preferences.py:352 ../serpentine/preferences.py:370
 msgid "Serpentine's playlist"
 msgstr "Liste de lecture Serpentine"
 

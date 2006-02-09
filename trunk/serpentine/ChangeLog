@@ -1,4 +1,13 @@
 2006-02-08 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * scripts/serpentine:
+    Corrected some strings.
+    
+    * serpentine/__init__.py:
+    Removed an unneeded function.
+    
+2006-02-08 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
     * scripts/serpentine:
     Added an option to show debugging output of the recording backend.
     Corrected a bug on cancelling headless applications.

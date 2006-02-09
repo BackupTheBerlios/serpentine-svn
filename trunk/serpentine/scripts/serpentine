@@ -40,7 +40,7 @@ parser.add_option ("-d", "--debug", action="store_true", dest="debug",
                    help=_("Shows debuging information from recording backend."),
                    default=False)
 parser.add_option ("-p", "--preferences", action="store_true", dest="preferences",
-                   help=_("Show preferences dialog and exit."), default=False)
+                   help=_("Shows preferences dialog."), default=False)
                    
 parser.add_option ("-w", "--write", action="callback", callback=parse_args,
                    help=_("Writes the filenames after this option to a CD. "
@@ -60,12 +60,10 @@ from serpentine import SerpentineApplication, operations, gtkutil
 from serpentine import HeadlessApplication
 
 
-# gtkutil.traceback_main_loop ()
-
 class OurListener (operations.OperationListener):
     def on_finished (self, event):
+        # Route it to main loop
         gobject.idle_add(gtk.main_quit)
-        #sys.exit (0)
         
 listener = OurListener ()
 if options.write_files:

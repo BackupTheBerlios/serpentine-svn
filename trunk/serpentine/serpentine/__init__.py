@@ -30,14 +30,11 @@ from gettext import gettext as _
 
 # Private modules
 import operations
-import urlutil
 
 from mastering import GtkMusicList, MusicListGateway
 from mastering import ErrorTrapper
 from recording import ConvertAndWrite
 from preferences import RecordingPreferences
-from operations import OperationsQueue
-from operations import CallableOperation
 from components import Component
 from mainwindow import SerpentineWindow
 from common import SerpentineNotSupportedError
@@ -262,19 +259,6 @@ class HeadlessApplication (Application):
 
     music_list = property (lambda self: self.music_list_gw.music_list)
     
-
-def write_files (app, files):
-    """Helper function that takes a Serpentine application adds the files
-    to the music list and writes them.
-    Returns the operation ID.
-    """
-    files = map (os.path.abspath, files)
-    files = map (urlutil.normalize, files)
-    queue = OperationsQueue ()
-    queue.append (app.add_files (files))
-    queue.append (CallableOperation (lambda: app.write_files().start()))
-    queue.start ()
-    return operations.syncOperation (queue)
 
 class SerpentineApplication (Application):
     """When no operations are left in SerpentineApplication it will exit.

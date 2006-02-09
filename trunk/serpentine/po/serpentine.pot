@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-09 00:33-0100\n"
+"POT-Creation-Date: 2006-02-09 19:44-0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,7 +104,7 @@ msgstr ""
 msgid "Serpentine Audio Mastering"
 msgstr ""
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:65
+#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:58
 msgid "Serpentine Preferences"
 msgstr ""
 
@@ -136,43 +136,47 @@ msgstr ""
 msgid "_View"
 msgstr ""
 
-#: ../scripts/serpentine:38
+#: ../scripts/serpentine:37
 msgid "Recording operations will be done in simulation mode."
 msgstr ""
 
-#: ../scripts/serpentine:41
-msgid "Show preferences dialog and exit."
+#: ../scripts/serpentine:40
+msgid "Shows debuging information from recording backend."
 msgstr ""
 
-#: ../scripts/serpentine:44
+#: ../scripts/serpentine:43
+msgid "Shows preferences dialog."
+msgstr ""
+
+#: ../scripts/serpentine:46
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
 msgstr ""
 
-#: ../scripts/serpentine:49
+#: ../scripts/serpentine:51
 msgid "Uses filenames after this option as the playlist contents."
 msgstr ""
 
-#: ../scripts/serpentine:77
+#: ../scripts/serpentine:82
 msgid "Simulation mode"
 msgstr ""
 
-#: ../scripts/serpentine:78
+#: ../scripts/serpentine:83
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
 msgstr ""
 
-#: ../serpentine/__init__.py:57 ../serpentine/__init__.py:179
+#: ../serpentine/__init__.py:52 ../serpentine/__init__.py:175
 msgid "All files"
 msgstr ""
 
-#: ../serpentine/__init__.py:61 ../serpentine/__init__.py:227
+#: ../serpentine/__init__.py:56 ../serpentine/__init__.py:223
 msgid "Supported playlists"
 msgstr ""
 
-#: ../serpentine/__init__.py:219
+#: ../serpentine/__init__.py:215
 msgid "Common media files"
 msgstr ""
 
@@ -378,7 +382,7 @@ msgstr ""
 msgid "Open Rhythmbox Playlist..."
 msgstr ""
 
-#: ../serpentine/preferences.py:379 ../serpentine/preferences.py:397
+#: ../serpentine/preferences.py:352 ../serpentine/preferences.py:370
 msgid "Serpentine's playlist"
 msgstr ""
 
