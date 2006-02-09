@@ -28,6 +28,9 @@ import gst
 import gobject
 import operations
 
+class GstPlayingFailledError(StandardError):
+    """This error is thrown when we can't set the state to PLAYING"""
+    
 class GstOperationListener (operations.OperationListener):
     def on_tag (self, event, tag):
         """Called when a tag is found"""
@@ -62,6 +65,8 @@ class GstPipelineOperation (operations.MeasurableOperation):
         if self.bin.set_state (gst.STATE_PLAYING):
             self.__can_start = False
             self.__running = True
+        else:
+            raise GstPlayingFailledError()
 
     def stop (self):
         self._finalize (operations.ABORTED)
@@ -423,7 +428,7 @@ class IsWavPcm (operations.Operation, GstOperationListener):
         self.isWavPcm = capsIsWavPcm (caps)
 
     def on_finished (self, event):
-        if self.isWavPcm:
+        if event.id != operations.ERROR and self.isWavPcm:
             assert event.id == operations.SUCCESSFUL or event.id == operations.ABORTED
             
             self._send_finished_event (operations.SUCCESSFUL)
@@ -432,8 +437,8 @@ class IsWavPcm (operations.Operation, GstOperationListener):
                 eid = operations.ERROR
                 err = StandardError ("Not a valid WAV PCM")
             else:
-                eid = events.id
-                err = events.error
+                eid = event.id
+                err = event.error
                 
             self._send_finished_event (eid, err)
     
@@ -448,11 +453,21 @@ class IsWavPcm (operations.Operation, GstOperationListener):
     
     running = property (lambda self: self.__oper != None)
 
+
 def fileIsPcmWav (filename):
     src = gst.element_factory_make ("filesrc")
     src.set_property ("location", filename)
     return IsWavPcm (src)
+fileIsPcmWav = operations.async(fileIsPcmWav)
+fileIsPcmWav = operations.operation_factory(fileIsPcmWav)
 
+def gvfsIsPcmWav(uri):
+    src = gst.element_factory_make("gnomevfssrc")
+    src.set_property("location", uri)
+    return IsWavPcm(src)
+
+gvfsIsPcmWav = operations.async(gvfsIsPcmWav)
+gvfsIsPcmWav = operations.operation_factory(gvfsIsPcmWav)
 
 def sourceToWav (source, sink):
     """
@@ -576,9 +591,10 @@ if __name__ == '__main__':
             self.foo.progress
             return True
     
-    f = fileToWav (sys.argv[1], sys.argv[2])
-    #f = fileIsPcmWav (sys.argv[1])
-    #print operations.syncOperation (f).id == operations.SUCCESSFUL
+    #f = fileToWav (sys.argv[1], sys.argv[2])
+    f = gvfsIsPcmWav (sys.argv[1])
+    print operations.syncOperation (f).id == operations.SUCCESSFUL
+    raise SystemError
     #f = fileAudioMetadata (sys.argv[1])
     #f = extractAudioTrackFile ("/dev/cdrom", int(sys.argv[1]) + 1, sys.argv[2])
     l = L(f)

@@ -24,9 +24,9 @@ are cached in the local filesystem and can be used by the recording module.
 import gnomevfs
 import tempfile
 import os
-import os.path
 import gst
 
+from os import path
 from types import StringType
 
 # Local imports
@@ -98,9 +98,6 @@ class MusicPool:
         can use to monitor it's progress.
         """
         raise NotImplementedError
-    
-    def fetch_musics (self, musics):
-        return FetchMusics (self, musics)
     
     def is_available (self, music):
         """
@@ -217,26 +214,27 @@ class GvfsMusicPool (GstMusicPool):
         Returns always a URL, even if the string was a file path.
         """
         return urlutil.normalize (uri)
-        
+    
+    def is_wav(self, filename):
+        is_pcm = audio.IsWavPcm (self.get_source (filename))
+        return operations.syncOperation (is_pcm).id == operations.SUCCESSFUL
+    
+    def is_local(self, filename):
+        uri = gnomevfs.URI (filename)
+        return uri.is_local
+    
     def is_available (self, music):
         on_cache = GstMusicPool.is_available (self, music)
-        uri = gnomevfs.URI (music)
         
         # XXX: when there is no gnomevfdssrc we have a problem because
         #      we are using URI's
         unique_id = self.unique_music_id (music)
-        is_pcm = audio.IsWavPcm (self.get_source (unique_id))
         
-        if not on_cache and \
-                    uri.is_local and \
-                    gnomevfs.get_mime_type (music) == "audio/x-wav" and \
-                    operations.syncOperation (is_pcm).id == operations.SUCCESSFUL:
-
+        if not on_cache and self.is_local(music) and self.is_wav(unique_id):
             # convert to native filename
             filename = urlutil.get_path (unique_id)
             self.cache[unique_id] = GstCacheEntry (filename, False)
             on_cache = True
-        del uri
 
         return on_cache
     
@@ -248,7 +246,7 @@ class GvfsMusicPool (GstMusicPool):
         else:
             src = gst.element_factory_make ("filesrc", "source")
 
-            path = get_path (music)
+            path = urlutil.get_path (music)
 
             src.set_property ("location", path)
             
@@ -333,8 +331,13 @@ class FetchMusicList (operations.MeasurableOperation):
     def stop (self):
         self.__queue.stop ()
 
+
+
 if __name__ == '__main__':
-    import os.path, sys, gtk, gobject, gtkutil
+    import sys
+    import gtk
+    import gobject
+    import gtkutil
     
     def quit ():
         #gtk.main_quit()
@@ -390,8 +393,8 @@ if __name__ == '__main__':
 #    win.set_border_width (6)
 #    win.show()
     pool = GvfsMusicPool ()
-    #f = os.path.abspath (sys.argv[1])
-    music_list = [{'location': os.path.abspath (sys.argv[1])}]
+    #f = path.abspath (sys.argv[1])
+    music_list = [{'location': path.abspath (sys.argv[1])}]
     fetcher = FetchMusicList (music_list, pool)
     l = MyListener (prog, fetcher)
     fetcher.listeners.append (l)

@@ -4,9 +4,8 @@ import gtk.glade
 import sys
 import gobject
 import gnome
-import os
+from os import path
 import gettext
-import os.path
 
 from optparse import OptionParser
 from gettext import gettext as _
@@ -14,12 +13,12 @@ from gettext import gettext as _
 
 # Start threads subsystem
 gobject.threads_init ()
-root = os.path.join(os.path.dirname (os.path.abspath (sys.argv[0])), "..")
+root = path.join(path.dirname (path.abspath (sys.argv[0])), "..")
 from serpentine.common import ApplicationLocations
 locations = ApplicationLocations(root, "serpentine")
 
 # Add our default lib dir to the path
-assert os.path.isdir(locations.lib)
+assert path.isdir(locations.lib)
 if locations.lib not in sys.path:
     sys.path.insert (0, locations.lib)
 
@@ -37,6 +36,9 @@ parser = OptionParser()
 parser.add_option ("-s", "--simulate", action="store_true", dest="simulate",
                    help=_("Recording operations will be done in simulation mode."),
                    default=False)
+parser.add_option ("-d", "--debug", action="store_true", dest="debug",
+                   help=_("Shows debuging information from recording backend."),
+                   default=False)
 parser.add_option ("-p", "--preferences", action="store_true", dest="preferences",
                    help=_("Show preferences dialog and exit."), default=False)
                    
@@ -48,20 +50,22 @@ parser.add_option ("-w", "--write", action="callback", callback=parse_args,
 parser.add_option ("-o", "--open", action="callback", callback=parse_args,
                    help=_("Uses filenames after this option as the playlist "
                    "contents."), dest="open_files", default=None)
-                   
+
+
                    
 (options, args) = parser.parse_args()
 
-from serpentine import SerpentineApplication, SerpentineError, operations, gtkutil, validate_music_list, HeadlessApplication
-import serpentine
+from serpentine.common import SerpentineError, validate_music_list
+from serpentine import SerpentineApplication, operations, gtkutil
+from serpentine import HeadlessApplication
 
 
 # gtkutil.traceback_main_loop ()
 
 class OurListener (operations.OperationListener):
     def on_finished (self, event):
-        gtk.main_quit ()
-        sys.exit (0)
+        gobject.idle_add(gtk.main_quit)
+        #sys.exit (0)
         
 listener = OurListener ()
 if options.write_files:
@@ -71,6 +75,7 @@ else:
 
 app.listeners.append (listener)
 app.preferences.simulate = options.simulate
+app.preferences.debug = options.debug
 gnome_app = gnome.init ('serpentine', app.preferences.version)
 
 if app.preferences.simulate:
@@ -82,7 +87,11 @@ if app.preferences.simulate:
     dlg.set_icon_name ("gnome-dev-cdrom-audio")
     dlg.run ()
     dlg.destroy ()
-    
+
+def check_error(ret):
+    if ret == operations.ERROR:
+        raise SystemError(1)
+
 # Check if we want to write files
 if options.write_files is not None:
     if len (options.write_files) == 0:
@@ -90,9 +99,9 @@ if options.write_files is not None:
         sys.exit (1)
     try:
         # Check if the operation was successful
-        error =  serpentine.write_files (app, options.write_files).id == operations.ERROR
-        if error:
-            sys.exit (1)
+        app.clear_files()
+        check_error(app.add_files(map(path.abspath, options.write_files), sync=True))
+        check_error(app.write_files(sync=True))
             
     except SerpentineError, e:
         print >> sys.stderr, e
@@ -117,7 +126,7 @@ else:
 try:
     if options.open_files is not None:
         app.clear_files()
-        operations.syncOperation(app.add_files(options.open_files))
+        app.add_files(map(path.abspath, options.open_files), sync=True)
 
     app.start ()
 except SerpentineError, e:

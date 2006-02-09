@@ -26,26 +26,21 @@ import os.path
 import gtk
 import gtk.glade
 import gobject
-import sys
-import gnome.ui
-import nautilusburn
-
-from xml.parsers.expat import ExpatError
+from gettext import gettext as _
 
 # Private modules
 import operations
-import gtkutil
 import urlutil
 
-from mastering import AudioMastering, GtkMusicList, MusicListGateway
+from mastering import GtkMusicList, MusicListGateway
 from mastering import ErrorTrapper
 from recording import ConvertAndWrite
 from preferences import RecordingPreferences
-from operations import MapProxy, OperationListener, OperationsQueue
+from operations import OperationsQueue
 from operations import CallableOperation
 from components import Component
 from mainwindow import SerpentineWindow
-from common import *
+from common import SerpentineNotSupportedError
 from plugins import plugins
 
 class SavePlaylistRegistry (Component):
@@ -143,7 +138,7 @@ class Application (operations.Operation, Component):
         del self.__plugins
 
 
-    def write_files (self, window = None):
+    def write_files (self, window=None):
         # TODO: we should add a confirmation dialog
 
         r = ConvertAndWrite (self.music_list, self.preferences, window)
@@ -151,6 +146,7 @@ class Application (operations.Operation, Component):
         self.running_ops.append (r)
         r.listeners.append (self)
         return r
+    write_files = operations.async(write_files)
     
     # TODO: should these be moved to MusicList object?
     # TODO: have a better definition of a MusicList
@@ -326,8 +322,3 @@ class SerpentineApplication (Application):
 
 gobject.type_register (SerpentineWindow)
 
-if __name__ == '__main__':
-    s = Serpentine ()
-    s.preferences.simulate = len(sys.argv) == 2 and sys.argv[1] == '--simulate'
-    s.show()
-    gtk.main()

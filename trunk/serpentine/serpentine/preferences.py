@@ -16,34 +16,27 @@
 #
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
-import gtk.glade
 import nautilusburn
-import gtk
 import os
 import os.path
 import gconf
-import gtk.gdk
 import urllib
 import tempfile
+import gtk
+from gtk import glade
 
-from xml.dom import minidom
 from urlparse import urlparse
-from types import *
+from types import BooleanType, StringType
 from gettext import gettext as _
 
 # Local imports
 import gaw
 import xspf
 import gtkutil
+import release
 
 from converting import GvfsMusicPool
 from common import SafeFileWrite
-
-# For testing purposes we try to import it
-try:
-    import release
-except Exception:
-    release = None
 
 GCONF_DIR = "/apps/serpentine"
 RAT_GCONF_DIR = "/apps/rat"
@@ -147,7 +140,7 @@ class WriteSpeed:
         self.__update_speed()
 
         if self.__speed_select.data == "use_max_speed":
-            return self.drive.get_max_speed_write ()
+            return self.get_drive().get_max_speed_write ()
         return self.__speed.data
 
     def __on_refresh_speed (self, *args):
@@ -172,18 +165,19 @@ class WriteSpeed:
     
 
 class RecordingPreferences (object):
+    debug = False
+    overburn = False
+    simulate = False
+    
     def __init__ (self, locations):
         # By default use burnproof
         self.__write_flags = nautilusburn.RECORDER_WRITE_BURNPROOF
-
         # Sets up data dir and version
-        if release:
-            self.version = release.version
-        else:
-            self.version = "testing"
+        self.version = release.version
+
         # setup ui
         filename = locations.get_data_file("serpentine.glade")
-        g = gtk.glade.XML (filename, "preferences_dialog")
+        g = glade.XML (filename, "preferences_dialog")
         self.__dialog = g.get_widget ("preferences_dialog")
         self.dialog.connect ("destroy-event", self.__on_destroy)
         self.dialog.set_title ("")
@@ -244,34 +238,6 @@ class RecordingPreferences (object):
         return self.__config_dir
         
     configDir = property (lambda self: self.__config_dir)
-    
-    ###########
-    # simulate
-    def setSimulate (self, simulate):
-        assert isinstance (simulate, BooleanType)
-        if simulate:
-            self.__write_flags |= nautilusburn.RECORDER_WRITE_DUMMY_WRITE
-        else:
-            self.__write_flags &= ~nautilusburn.RECORDER_WRITE_DUMMY_WRITE
-    
-    def getSimulate (self):
-        return (self.__write_flags & nautilusburn.RECORDER_WRITE_DUMMY_WRITE) == nautilusburn.RECORDER_WRITE_DUMMY_WRITE
-    
-    simulate = property (getSimulate, setSimulate)
-    
-    ###########
-    # overburn
-    def setOverburn (self, overburn):
-        assert isinstance (overburn, bool)
-        if overburn:
-            self.__write_flags |= nautilusburn.RECORDER_WRITE_OVERBURN
-        else:
-            self.__write_flags &= ~nautilusburn.RECORDER_WRITE_OVERBURN
-    
-    def getOverburn (self):
-        return (self.__write_flags & nautilusburn.RECORDER_WRITE_OVERBURN) == nautilusburn.RECORDER_WRITE_OVERBURN
-    
-    overburn = property (getOverburn, setOverburn)
     
     #########
     # dialog
@@ -346,6 +312,13 @@ class RecordingPreferences (object):
             ret |= nautilusburn.RECORDER_WRITE_DISC_AT_ONCE
         if self.__eject.data:
             ret |= nautilusburn.RECORDER_WRITE_EJECT
+        if self.debug:
+            ret |= nautilusburn.RECORDER_WRITE_DEBUG
+        if self.overburn:
+            ret |= nautilusburn.RECORDER_WRITE_OVERBURN
+        if self.simulate:
+            ret |= nautilusburn.RECORDER_WRITE_DUMMY_WRITE
+
         return ret
         
     writeFlags = property (getWriteFlags)

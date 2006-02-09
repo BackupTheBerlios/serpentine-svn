@@ -366,7 +366,7 @@ def syncableMethod(kwarg="sync", default_value=False):
         def wrapper(*args, **kwargs):
             is_sync = kwargs.get(kwarg, default_value)
             if is_sync:
-                kwargs[kwarg] = False
+                del kwargs[kwarg]
                 return syncOperation(func(*args, **kwargs))
             else:
                 return func(*args, **kwargs)

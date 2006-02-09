@@ -1,4 +1,38 @@
 2006-02-08 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+    * scripts/serpentine:
+    Added an option to show debugging output of the recording backend.
+    Corrected a bug on cancelling headless applications.
+    Cleared up a bug regarding relative files.
+    
+    * serpentine/__init__.py:
+    Cleaned up imports.
+    
+    * serpentine/audio.py:
+    Made GstOperation more robust by raising an exception when the operation
+    cannot start.
+    Fixed a bug on IsPcmWav regarding when there was an error before padding
+    was set.
+    Fixed a bug on IsPcmWav when the operation was not successfull and the
+    file was not of the correct format.
+    Made `fileIsPcmWav` function more robust.
+    Added `gvfsIsPcmWav` function, which has a Gnome VFS source, this accepting
+    urls.
+    
+    * serpentine/converting.py:
+    Cleaned up imports. Cleaned up some unused methods.
+    Cleaned up the code on is_available_method, making it more save (is_local).
+    Corrected a possible bug when not using gvfs backend (currently not
+    possible).
+    
+    * serpentine/operations.py:
+    Corrected a bug on `syncableMethod` decorator (affected `sync` and `async`
+    methods).
+    
+    * serpentine/preferences.py:
+    Cleaned up imports. Cleaned up a few properties, making it simple variables.
+    Corrected a bug on `WriteSpeed.get`.
+    
+2006-02-08 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
     * serpentine/operations.py:
     Created a decorator to make methods that return operations run also
