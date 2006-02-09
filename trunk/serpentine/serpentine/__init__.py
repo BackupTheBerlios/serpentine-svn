@@ -97,7 +97,7 @@ class Application (operations.Operation, Component):
         self.savePlaylist = SavePlaylistRegistry (self)
         self.locations = locations
         self.__preferences = RecordingPreferences (locations)
-        self.__operations = []
+        self.__running_ops = []
         
         self._music_file_patterns = {}
         self._playlist_file_patterns = {}
@@ -118,9 +118,9 @@ class Application (operations.Operation, Component):
 
     preferences = property (lambda self: self.__preferences)
 
-    operations = property (lambda self: self.__operations)
+    running_ops = property (lambda self: self.__running_ops)
 
-    can_stop = property (lambda self: len (self.operations) == 0)
+    can_stop = property (lambda self: len (self.running_ops) == 0)
     
     # The window is only none when the operation has finished
     can_start = property (lambda self: self.__window is not None)
@@ -128,7 +128,7 @@ class Application (operations.Operation, Component):
 
     def on_finished (self, event):
         # We listen to operations we contain, when they are finished we remove them
-        self.operations.remove (event.source)
+        self.__running_ops.remove (event.source)
         if self.can_stop:
             self.stop ()
 
@@ -148,7 +148,7 @@ class Application (operations.Operation, Component):
 
         r = ConvertAndWrite (self.music_list, self.preferences, window)
         # Add this operation to the recording
-        self.operations.append (r)
+        self.running_ops.append (r)
         r.listeners.append (self)
         return r
     
@@ -230,7 +230,14 @@ class Application (operations.Operation, Component):
 
     
     # a list of filenames, can be URI's
-    add_files = lambda self, files: self.music_list_gw.add_files (files)
+    def add_files(self, files):
+        """Returns an operation"""
+        return self.music_list_gw.add_files (files)
+
+    add_files = operations.async(add_files)
+
+    def clear_files(self):
+        self.music_list.clear()
 
 class HeadlessApplication (Application):
 
@@ -262,8 +269,7 @@ class HeadlessApplication (Application):
 
 def write_files (app, files):
     """Helper function that takes a Serpentine application adds the files
-    to the music list and writes them. When no `app` is provided a
-    HeadlessApplication is created.
+    to the music list and writes them.
     Returns the operation ID.
     """
     files = map (os.path.abspath, files)
@@ -301,7 +307,7 @@ class SerpentineApplication (Application):
     def show_window (self):
         # Starts the window operation
         self.__window.start ()
-        self.operations.append (self.__window)
+        self.running_ops.append (self.__window)
     
     def close_window (self):
         # Stops the window operation

@@ -1,5 +1,18 @@
 2006-02-08 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
-
+    
+    * serpentine/operations.py:
+    Created a decorator to make methods that return operations run also
+    synchronously.
+    
+    * po/serpentine.pot:
+    * po/pt.po:
+    Update translatable strings and Portuguese translation.
+    
+    * scripts/serpentine:
+    * serpentine/__init__.py:
+    Now 'serpentine -o <file1> <file2>' is a way to specify the playlist
+    contents.
+    
     * scripts/serpentine:
     * serpentine/common.py:
     * serpentine/mainwindow.py:

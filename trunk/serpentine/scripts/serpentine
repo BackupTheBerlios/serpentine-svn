@@ -38,12 +38,17 @@ parser.add_option ("-s", "--simulate", action="store_true", dest="simulate",
                    help=_("Recording operations will be done in simulation mode."),
                    default=False)
 parser.add_option ("-p", "--preferences", action="store_true", dest="preferences",
-                   help=_("Show preferences dialog and exit."), default = False)
+                   help=_("Show preferences dialog and exit."), default=False)
                    
 parser.add_option ("-w", "--write", action="callback", callback=parse_args,
                    help=_("Writes the filenames after this option to a CD. "
                    "This will show a dialog suitable for embedding in other "
                    "applications."), dest="write_files", default=None)
+
+parser.add_option ("-o", "--open", action="callback", callback=parse_args,
+                   help=_("Uses filenames after this option as the playlist "
+                   "contents."), dest="open_files", default=None)
+                   
                    
 (options, args) = parser.parse_args()
 
@@ -110,6 +115,10 @@ else:
 
 
 try:
+    if options.open_files is not None:
+        app.clear_files()
+        operations.syncOperation(app.add_files(options.open_files))
+
     app.start ()
 except SerpentineError, e:
     print >> sys.stderr, e

@@ -353,6 +353,30 @@ def syncOperation (oper):
     mainloop.run ()
     return listener.result
 
+def syncableMethod(kwarg="sync", default_value=False):
+    """
+    This is a decorator that accepts a keyword argument (defaults to 'sync')
+    with a kwarg default value (defaults to `False`).
+    When you call the method you can use the extra keyword argument to
+    specify if the method call is going to be sync or async.
+    
+    The decorated method should be one that returns an operation.
+    """
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            is_sync = kwargs.get(kwarg, default_value)
+            if is_sync:
+                kwargs[kwarg] = False
+                return syncOperation(func(*args, **kwargs))
+            else:
+                return func(*args, **kwargs)
+        return wrapper
+        
+    return decorator
+
+sync = syncableMethod(default_value=True)
+async = syncableMethod()
+
 class MapFunctor (object):
     def __init__ (self, funcs):
         self.__funcs = funcs
