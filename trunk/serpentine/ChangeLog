@@ -1,5 +1,14 @@
 2006-02-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * po/pt.po:
+    Portuguese translation updated by me.
+    
+    * po/fi.po:
+    Finnish translation updated by Timo Jyrinki.
+    
+    * po/fr.po:
+    French translation updated by Stephane Raimbault and Christophe Bliard.
+    
     * scripts/serpentine:
     * po/serpentine.pot:
     Corrected a small spelling error.

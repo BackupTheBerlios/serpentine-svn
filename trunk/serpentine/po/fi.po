@@ -1,15 +1,15 @@
 # Finnish translation for serpentine
 # Copyright (c) (c) 2005 Canonical Ltd, and Rosetta Contributors 2005
 # This file is distributed under the same license as the serpentine package.
-# Timo Jyyrinki <timo.jyrinki@iki.fi>, 2005.
+# Timo Jyrinki <timo.jyrinki@iki.fi>, 2005-2006.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-10 11:38-0100\n"
-"PO-Revision-Date: 2005-10-07 15:10+0300\n"
-"Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
+"PO-Revision-Date: 2006-02-10 11:46-0100\n"
+"Last-Translator: Tiago Cogumbreiro <cogumbreiro@users.sf.net>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: ../data/serpentine.desktop.in.h:1
 msgid "Create Audio-CD's from music files and playlists"
-msgstr "Luo Audio-CD:itä musiikkitiedostoista ja soittolistoista"
+msgstr "Luo ääni-CD-levyjä musiikkitiedostoista ja soittolistoista"
 
 #: ../data/serpentine.desktop.in.h:2
 msgid "Serpentine Audio-CD Creator"
-msgstr "Serpentine Audio-CD-työkalu"
+msgstr "Serpentine - CD-luontityökalu"
 
 #: ../data/serpentine.glade.h:1
 msgid ""
@@ -59,7 +59,7 @@ msgstr "Lisää kahden sekunnin tauko kappaleiden väliin"
 
 #: ../data/serpentine.glade.h:10
 msgid "Audio Widget Wrapper"
-msgstr ""
+msgstr "Äänisäätimen käärin"
 
 #: ../data/serpentine.glade.h:11
 msgid "Choose writing speed"
@@ -75,7 +75,7 @@ msgstr "Laite:"
 
 #: ../data/serpentine.glade.h:14
 msgid "Disc Capacity:"
-msgstr "Levyn kapasiteetti:"
+msgstr "Levyn koko:"
 
 #: ../data/serpentine.glade.h:15
 msgid "Disc Usage:"
@@ -143,26 +143,27 @@ msgstr "_Näytä"
 
 #: ../scripts/serpentine:37
 msgid "Recording operations will be done in simulation mode."
-msgstr "Kirjoitusoperaatiot tehdään simulaatiotilassa."
+msgstr "Kirjoitustoiminnot tehdään simulaatiotilassa."
 
 #: ../scripts/serpentine:40
 msgid "Shows debugging information from recording backend."
-msgstr ""
+msgstr "Näyttää virheenjäljitystietoja kirjoitustaustaosasta."
 
 #: ../scripts/serpentine:43
-#, fuzzy
 msgid "Shows preferences dialog."
-msgstr "Näytä asetukset-valintaikkuna ja poistu."
+msgstr "Näyttää asetukset-valintaikkunan."
 
 #: ../scripts/serpentine:46
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
 msgstr ""
+"Kirjoittaa tiedostonnimet tämän valinnan mukaisesti CD-levylle. Tämä näyttää "
+"valintaikkunan joka on sulautettavissa muihin ohjelmiin."
 
 #: ../scripts/serpentine:51
 msgid "Uses filenames after this option as the playlist contents."
-msgstr ""
+msgstr "Käyttää tämän valinnan mukaisia tiedostonnimiä soittolistan sisältönä."
 
 #: ../scripts/serpentine:80
 msgid "Simulation mode"
@@ -181,14 +182,12 @@ msgid "All files"
 msgstr "Kaikki tiedostot"
 
 #: ../serpentine/__init__.py:53 ../serpentine/__init__.py:220
-#, fuzzy
 msgid "Supported playlists"
-msgstr "Tuetut tiedostot"
+msgstr "Tuetut soittolistat"
 
 #: ../serpentine/__init__.py:212
-#, fuzzy
 msgid "Common media files"
-msgstr "Valmistellaan mediatiedostoja"
+msgstr "Yleiset mediatiedostot"
 
 #: ../serpentine/common.py:70
 msgid "GByte"
@@ -233,13 +232,12 @@ msgstr ""
 "riittävästi vapaata tilaa (noin %s)."
 
 #: ../serpentine/mainwindow.py:139
-#, fuzzy
 msgid "Save playlist in format:"
-msgstr "Tallenna soittolista nimellä..."
+msgstr "Tallenna soittolista muodossa:"
 
 #: ../serpentine/mainwindow.py:153
 msgid "Detect by extension"
-msgstr ""
+msgstr "Tunnista päätteestä"
 
 #: ../serpentine/mainwindow.py:170
 msgid "Playlist Saved"
@@ -347,7 +345,6 @@ msgid "Unknown"
 msgstr "Tuntematon"
 
 #: ../serpentine/mastering.py:112
-#, fuzzy
 msgid "Unknown Artist"
 msgstr "Tuntematon esittäjä"
 
@@ -400,14 +397,12 @@ msgid "Empty"
 msgstr "Tyhjä"
 
 #: ../serpentine/plugins/plugrhythmbox.py:47
-#, fuzzy
 msgid "Select playlist"
-msgstr "Tyhjennä soittolista"
+msgstr "Valitse soittolista"
 
 #: ../serpentine/plugins/plugrhythmbox.py:84
-#, fuzzy
 msgid "Open Rhythmbox Playlist..."
-msgstr "Avaa soittolista..."
+msgstr "Avaa Rhythmbox-soittolista..."
 
 #: ../serpentine/preferences.py:352 ../serpentine/preferences.py:370
 msgid "Serpentine's playlist"
@@ -419,11 +414,11 @@ msgstr "Tiedostojen muuntaminen epäonnistui"
 
 #: ../serpentine/recording.py:44
 msgid "Some of the files were missing. The disc is still usable."
-msgstr ""
+msgstr "Jotkut tiedostoista puttuivat. Levy on edelleen käytettävissä."
 
 #: ../serpentine/recording.py:51
 msgid "Writing to disc didn't start so it is still usable."
-msgstr "Kirjoitus levylle ei alkanut, joten levy on vielä käytettävissä."
+msgstr "Kirjoitus levylle ei alkanut, joten levy on edelleen käytettävissä."
 
 #: ../serpentine/recording.py:64
 msgid "Writing to disc failed"
@@ -434,10 +429,8 @@ msgid "Writing to disc canceled"
 msgstr "Levylle kirjoittaminen peruttiin"
 
 #: ../serpentine/recording.py:69
-#, fuzzy
 msgid "The writing operation has started. The disc may be unusable."
-msgstr ""
-"Kirjoitus levylle oli jo aloitettu, joten levy voi olla käyttökelvoton."
+msgstr "Kirjoitus levylle on alkanut. Levy voi olla käyttökelvoton."
 
 #: ../serpentine/recording.py:90
 msgid "Writing Audio Disc"
@@ -490,10 +483,11 @@ msgstr "Tiedostoja kirjoitetaan levylle"
 #: ../serpentine/recording.py:250
 msgid "There were no valid files for writing. Please select at least one."
 msgstr ""
+"Kelvollisia tiedostoja ei ollut kirjoittamista varten. Valitse ainakin yksi."
 
 #: ../serpentine/recording.py:300
 msgid "Please make sure another application is not using the drive."
-msgstr "Vramista, ettei joku toinen sovellus käytä asemaa."
+msgstr "Varmista, ettei joku toinen sovellus käytä asemaa."
 
 #: ../serpentine/recording.py:301
 msgid "Drive is busy"
