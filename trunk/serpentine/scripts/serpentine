@@ -37,7 +37,7 @@ parser.add_option ("-s", "--simulate", action="store_true", dest="simulate",
                    help=_("Recording operations will be done in simulation mode."),
                    default=False)
 parser.add_option ("-d", "--debug", action="store_true", dest="debug",
-                   help=_("Shows debuging information from recording backend."),
+                   help=_("Shows debugging information from recording backend."),
                    default=False)
 parser.add_option ("-p", "--preferences", action="store_true", dest="preferences",
                    help=_("Shows preferences dialog."), default=False)

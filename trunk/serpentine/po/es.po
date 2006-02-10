@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-09 19:44-0100\n"
+"POT-Creation-Date: 2006-02-10 11:38-0100\n"
 "PO-Revision-Date: 2005-09-17 23:39-0100\n"
 "Last-Translator: Rafael Bermúdez <rafaelbermudez@gmail.com>\n"
 "Language-Team: \n"
@@ -141,7 +141,7 @@ msgid "Recording operations will be done in simulation mode."
 msgstr "Las operaciones de grabación terminarán en modo de simulación."
 
 #: ../scripts/serpentine:40
-msgid "Shows debuging information from recording backend."
+msgid "Shows debugging information from recording backend."
 msgstr ""
 
 #: ../scripts/serpentine:43
@@ -161,11 +161,11 @@ msgstr ""
 msgid "Uses filenames after this option as the playlist contents."
 msgstr ""
 
-#: ../scripts/serpentine:82
+#: ../scripts/serpentine:80
 msgid "Simulation mode"
 msgstr "Modo de simulación"
 
-#: ../scripts/serpentine:83
+#: ../scripts/serpentine:81
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
@@ -173,16 +173,16 @@ msgstr ""
 "Serpentine está en modo de simulación, no se escribirán datos en el disco "
 "insertado."
 
-#: ../serpentine/__init__.py:52 ../serpentine/__init__.py:175
+#: ../serpentine/__init__.py:49 ../serpentine/__init__.py:172
 msgid "All files"
 msgstr "Todos los archivos"
 
-#: ../serpentine/__init__.py:56 ../serpentine/__init__.py:223
+#: ../serpentine/__init__.py:53 ../serpentine/__init__.py:220
 #, fuzzy
 msgid "Supported playlists"
 msgstr "Formatos de archivo soportados"
 
-#: ../serpentine/__init__.py:215
+#: ../serpentine/__init__.py:212
 #, fuzzy
 msgid "Common media files"
 msgstr "Preparando archivos de audio"
