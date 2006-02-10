@@ -1,8 +1,15 @@
+Changes from 0.6.4:
+ - Support for GStreamer 0.10
+ - Full Portuguese (Tiago Cogumbreiro), French (Stephane Raimbault and Christophe Bliard)
+   and Finnish (Timo Jyrinki) translations.
+ - Ability to open files through the command line.
+ - Bug fixes.
+
 Changes from 0.6.3:
  - Added the possibility to add Rhythmbox playlists.
  - Spanish (es) translation by Rafael Bermúdez <rafaelbermudez@gmail.com>
  - German (de) translation by Julian Turner <julian.turner@gmx.de>
- - Finish (fi) translation by Timo Jyrinki <timo.jyrinki@iki.fi>
+ - Finnish (fi) translation by Timo Jyrinki <timo.jyrinki@iki.fi>
  - French (fr) translation by Guillaume Hoffmann <guillaume.h@ifrance.com> and
    Nicolas Velin <nsv@fr.st>
  - Hungarian (hu) translation by Gabor Kelemen <kelemeng@gnome.hu>

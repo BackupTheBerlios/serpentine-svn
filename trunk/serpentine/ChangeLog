@@ -1,7 +1,20 @@
 2006-02-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
-
+    
+    * po/fi.po:
+    Updated Finnish translation (Timo Jyrinki).
+    
+    * data/serpentine.desktop.in:
+    Updated categories in the launcher.
+    
+    * NEWS:
+    Updated changes from last version.
+    
+    * configure.ac:
+    Bumped version to 0.7. Removed all translations that are not 100% from
+    the distribution.
+    
     * po/pt.po:
-    Portuguese translation updated by me.
+    Portuguese translation updated by Tiago Cogumbreiro.
     
     * po/fi.po:
     Finnish translation updated by Timo Jyrinki.

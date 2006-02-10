@@ -7,5 +7,5 @@ Type=Application
 Exec=serpentine
 Icon=gnome-dev-cdrom-audio.png
 Terminal=False
-Categories=GNOME;Application;AudioVideo;X-Ximian-Main;X-Red-Hat-Base;
+Categories=GNOME;GTK;Audio;DiscBurning;
 StartupNotify=true
