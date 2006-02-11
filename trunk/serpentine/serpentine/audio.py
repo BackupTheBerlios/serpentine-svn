@@ -342,18 +342,13 @@ def fileAudioMetadata (filename):
     filesrc.set_property ("location", filename)
     return AudioMetadata(filesrc)
 
-try:
-    import gnomevfs
-    def gvfsAudioMetadata (uri):
-        """
-        Returns the audio metadata from an URI.
-        """
-        filesrc = gst.element_factory_make ("gnomevfssrc", "source")
-        filesrc.set_property ("location", uri)
-        return AudioMetadata(filesrc)
-
-except:
-    pass
+def gvfsAudioMetadata (uri):
+    """
+    Returns the audio metadata from an URI.
+    """
+    filesrc = gst.element_factory_make ("gnomevfssrc", "source")
+    filesrc.set_property ("location", uri)
+    return AudioMetadata(filesrc)
 
     
 ################################################################################
@@ -508,66 +503,11 @@ def fileToWav (src_filename, sink_filename):
     sink.set_property ("location", sink_filename)
     return sourceToWav (src, sink)
 
-# We don't export the gvfs function if there is no gnomevfs avail
-try:
-    import gnomevfs
-    def gvfsToWav (src_uri, sink_uri):
-        "Converts a given source URI to a wav located in sink URI."
-        src = gst.element_factory_make ("gnomevfssrc")
-        src.set_property ("location", src_uri)
-        handle = gnomevfs.Handle (sink_uri)
-        sink = gst.element_factory_make ("gnomevfssink")
-        sink.set_property ("handle", handle)
-        return sourceToWav (src, sink)
-except:
-    pass
-
 ################################################################################
 
-def extractAudioTrack (device, track_number, sink, extra = None):
-    """
-    Exctracts an audio track from a certain device. The 'extra' field is used
-    to send extra properties to the 'cdparanoia' element.
-    """
-    
-    bin = gst.parse_launch ("cdparanoia name=eat_cdparanoia ! \
-                            wavenc name=eat_wavenc")
-    bin.set_state (gst.STATE_PAUSED)
-    
-    oper = GstOperation (sink, pipeline)
-   
-    TRACK_FORMAT = gst.format_get_by_nick ("track")
-    assert TRACK_FORMAT != 0
-    PLAY_TRACK = TRACK_FORMAT | gst.SEEK_METHOD_SET | gst.SEEK_FLAG_FLUSH
- 
-    cdparanoia = bin.get_by_name ("eat_cdparanoia")
-    wavenc = bin.get_by_name ("eat_wavenc")
-    
-    cdparanoia.set_property ("device", device)
-    
-    if extra is not None:
-        for key, value in extra.iteritems ():
-            cdparanoia.set_property (key, value)
-            
-    src = cdparanoia.get_pad ("src")
-    evt = gst.event_new_segment_seek (PLAY_TRACK, track_number, track_number + 1)
-    src.send_event (evt)
-    
-    bin.add (sink)
-    wavenc.link (sink)
-    
-    return oper
-
-def extractAudioTrackFile (device, track_number, filename, extra = None):
-    sink = gst.element_factory_make ("filesink")
-    sink.set_property ("location", filename)
-    
-    return extractAudioTrack (device, track_number, sink, extra)
-    
 ################################################################################
 if __name__ == '__main__':
     import sys
-    import gobject
     
     mainloop = gobject.MainLoop ()
     class L (GstOperationListener):

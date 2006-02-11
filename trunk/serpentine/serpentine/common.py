@@ -18,34 +18,36 @@
 
 import os
 import statvfs
-import os.path
 import sys
+import tempfile
+
 from gettext import gettext as _
+from os import path
 
 
 class ApplicationLocations:
     def __init__(self, root, appname):
-        self.root = os.path.abspath(root)
+        self.root = path.abspath(root)
         pyver = "python%d.%d" % sys.version_info[0:2]
-        self.lib = os.path.join(root, "lib", pyver, "site-packages")
-        self.data = os.path.join(root, "share", appname)
-        self.bin = os.path.join(root, "bin")
-        self.locale = os.path.join(root, "share", "locale")
+        self.lib = path.join(root, "lib", pyver, "site-packages")
+        self.data = path.join(root, "share", appname)
+        self.bin = path.join(root, "bin")
+        self.locale = path.join(root, "share", "locale")
 
     def get_data_file(self, filename):
-        return os.path.join(self.data, filename)
+        return path.join(self.data, filename)
     
     def get_lib_file(self, filename):
-        return os.path.join(self.lib, filename)
+        return path.join(self.lib, filename)
 
     def get_bin_file(self, filename):
-        return os.path.join(self.bin, filename)
+        return path.join(self.bin, filename)
 
     def get_locale_file(self, filename):
-        return os.path.join(self.locale, filename)
+        return path.join(self.locale, filename)
 
     def get_root_file(self, filename):
-        return os.path.join(self.root, filename)
+        return path.join(self.root, filename)
 
 
 
@@ -94,7 +96,6 @@ def __plural (value, strings):
     else:
         return strings[1]
 
-import tempfile, os
 
 class SafeFileWrite:
     """This class enables the user to safely write the contents to a file and
@@ -104,7 +105,7 @@ class SafeFileWrite:
     
     def __init__ (self, filename):
         self.filename = filename
-        basedir = os.path.dirname (filename)
+        basedir = path.dirname (filename)
         # must be in the same directory so that renaming works
         fd, self.tmp_filename = tempfile.mkstemp (dir = basedir)
         os.close (fd)

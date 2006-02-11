@@ -80,7 +80,7 @@ class Operation (Listenable):
             if meth:
                 meth (*args, **kw)
 
-    def _send_finished_event (self, status, error = None, source = None):
+    def _send_finished_event (self, status, error=None, source=None):
         """
         Broadcasts to all listeners the finished event. Simplifies the 
         task of creating the event and iterating over listeners.

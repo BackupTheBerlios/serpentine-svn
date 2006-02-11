@@ -3,6 +3,8 @@ Changes from 0.6.4:
  - Full Portuguese (Tiago Cogumbreiro), French (Stephane Raimbault and Christophe Bliard)
    and Finnish (Timo Jyrinki) translations.
  - Ability to open files through the command line.
+ - Uses Cairo to draw the usage gauge.
+ - Ability to not use GnomeVfs
  - Bug fixes.
 
 Changes from 0.6.3:

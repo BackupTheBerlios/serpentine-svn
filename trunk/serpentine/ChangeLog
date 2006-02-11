@@ -1,4 +1,68 @@
 2006-02-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * data/serpentine.desktop.in:
+    Registred Serpentine to open with M3U and PLS playlists, XSPF currently
+    has no mime type associated with it.
+    
+    * po/serpentine.pot:
+    * scripts/serpentine:
+    Added an option to disable the gnomevfs backend.
+    
+    * scripts/serpentine:
+    ApplicationLocation is now present in the script this way it's self
+    contained and relocable.
+    Made the options appear instead of the ones from gstreamer's ones.
+    
+    * serpentine/plugins/plugfilter_dir.py:
+    * serpentine/plugins/plugfilter_plparser.py:
+    * serpentine/plugins/plugfilter_xspf.py:
+    Removed gnomevfs dependency.
+
+    * serpentine/plugins/plugfilter_xspf.py:
+    Improved handling of relative files.
+    
+    * po/serpentine.pot:
+    * serpentine/plugins/plugrhythmbox.py:
+    When no playlists are present show a dialog warning the user of how to
+    create them.
+    
+    * serpentine/audio.py:
+    Removed unused functions. Removed direct gnomevfs dependency.
+    Cleaned up imports.
+    
+    * serpentine/common.py:
+    Cleaned up imports.
+    
+    * serpentine/converting.py:
+    * serpentine/mastering.py:
+    Removed spaces before parenthisis. Made gnomevfs optional.
+    GnomeVfs dependency is now implicit (no direct imports).
+    
+    * serpentine/preferences.py:
+    Cleaned up imports.
+    Added an option to use GnomeVfs.
+    Corrected 'tempDir' variable to use 'urlutil.normalize' function.
+    
+    * serpentine/urlutil.py:
+    Now accepts a basepath to use with relative local files.
+    Added a new function 'basename' which accepts a URI or a filename.
+    
+2006-02-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+    
+    * data/serpentine.desktop.in:
+    Changed from 'Audio' category to 'AudioVideo' category or it won't be
+    listed on Applications menu of GNOME.
+    
+    * po/serpentine.pot:
+    * po/pt.po:
+    * serpentine/plugins/plugrhythmbox.py:
+    When no playlists exist popup a dialog.
+    
+    * serpentine/mainwindow.py:
+    Updated copyright year.
+    
+    * NEWS:
+    Added cairo gauge to the news.
     
     * po/fi.po:
     Updated Finnish translation (Timo Jyrinki).

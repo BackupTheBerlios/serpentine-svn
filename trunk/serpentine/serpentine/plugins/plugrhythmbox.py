@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import gtk
 import os.path
 import weakref
@@ -17,12 +18,14 @@ PLAYLISTS = os.path.join (os.path.expanduser("~"), ".gnome2", "rhythmbox", "play
 
 def rhythmbox_list_names ():
     root = minidom.parse (PLAYLISTS)
-    return [node.attributes["name"].value for node in Evaluate ("/rhythmdb-playlists/playlist", root)]
+    getvalue = lambda node: node.attributes["name"].value
+    return map(getvalue, Evaluate ("/rhythmdb-playlists/playlist", root))
 
 def rhythmbox_get_playlist (playlist_name):
     root = minidom.parse (PLAYLISTS)
     path = "/rhythmdb-playlists/playlist[@name = '%s']/location/text()" % playlist_name
-    return [node.nodeValue for node in Evaluate (path, root)]
+    getvalue = lambda node: node.nodeValue
+    return map(getvalue, Evaluate (path, root))
 
 class RhythmboxListener (object):
     def __init__ (self, app):
@@ -44,7 +47,7 @@ class RhythmboxListener (object):
         hbox = gtk.HBox (spacing = 6)
         hbox.show ()
         
-        lbl = gtk.Label (_("Select playlist") + ":")
+        lbl = gtk.Label (_("Select playlist:"))
         lbl.show ()
         hbox.pack_start (lbl, False, False)
         
@@ -61,12 +64,20 @@ class RhythmboxListener (object):
     
     def populate (self):
         self.cmb.get_model ().clear ()
-        for name in rhythmbox_list_names ():
-            self.cmb.append_text (name)
+        elements = rhythmbox_list_names ()
+        map(self.cmb.append_text, elements)
         self.cmb.set_active (0)
+        return len(elements) > 0
         
     def on_clicked (self, menu):
-        self.populate ()
+        if not self.populate ():
+            gtkutil.dialog_warn(
+                _("No Rhythmbox playlist found"),
+                _("Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist...</i>"),
+                parent=self.app.window_widget
+            )
+            return
+            
         response = self.dlg.run ()
         self.dlg.hide ()
         

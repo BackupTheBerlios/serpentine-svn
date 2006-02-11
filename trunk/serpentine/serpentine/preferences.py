@@ -18,15 +18,12 @@
 
 import nautilusburn
 import os
-import os.path
 import gconf
-import urllib
-import tempfile
 import gtk
-from gtk import glade
 
-from urlparse import urlparse
-from types import BooleanType, StringType
+from gtk import glade
+from os import path
+from types import StringType
 from gettext import gettext as _
 
 # Local imports
@@ -34,6 +31,7 @@ import gaw
 import xspf
 import gtkutil
 import release
+import urlutil
 
 from converting import GvfsMusicPool
 from common import SafeFileWrite
@@ -233,7 +231,7 @@ class RecordingPreferences (object):
     
     ############
     # configDir
-    __config_dir = os.path.join (os.path.expanduser ("~"), ".serpentine")
+    __config_dir = path.join (path.expanduser ("~"), ".serpentine")
     def getConfigDir (self):
         return self.__config_dir
         
@@ -264,22 +262,24 @@ class RecordingPreferences (object):
         
     drive = property (getDrive)
     
+    ##############
+    # useGnomeVfs
+    def getUseGnomeVfs(self):
+        return self.__pool.use_gnomevfs
+    
+    def setUseGnomeVfs(self, use_gnomevfs):
+        self.__pool.use_gnomevfs = use_gnomevfs
+    
+    useGnomeVfs = property(getUseGnomeVfs, setUseGnomeVfs)
+    
     ###############
     # temporaryDir
     def getTemporaryDir (self):
         tmp = self.__tmp.data
-        if tmp == "":
-            tmp = tempfile.gettempdir ()
-        # tmp can be a url or a filename
-        s = urlparse (tmp)
-        scheme = s[0]
-        # in case it is a url
-        if scheme == "file":
-            tmp = urllib.unquote (s[2])
-        # in case it is a url but not file://
-        elif scheme != "":
-            return None
-        return tmp
+        url = urlutil.UrlParse(tmp)
+        if url.is_local:
+            return url.path
+            
         
     temporaryDir = property (getTemporaryDir)
     
@@ -329,7 +329,7 @@ class RecordingPreferences (object):
         tmp = self.temporaryDir
         # Try to open the local file
         try:
-            is_ok = os.path.isdir (tmp) and os.access (tmp, os.W_OK)
+            is_ok = path.isdir (tmp) and os.access (tmp, os.W_OK)
         except OSError, err:
             print err
             is_ok = False
@@ -347,13 +347,13 @@ class RecordingPreferences (object):
         return False
 
     def savePlaylist (self, source):
-        if not os.path.exists (self.configDir):
+        if not path.exists (self.configDir):
             os.makedirs (self.configDir)
         p = xspf.Playlist (title=_("Serpentine's playlist"), creator="Serpentine " + self.version)
         source.to_playlist (p)
         doc = p.toxml()
         
-        out = SafeFileWrite (os.path.join (self.configDir, "playlist.xml"))
+        out = SafeFileWrite (path.join (self.configDir, "playlist.xml"))
         try:
             doc.writexml (out, addindent = "\t", newl = "\n")
             del p
@@ -365,12 +365,12 @@ class RecordingPreferences (object):
         return True
     
     def loadPlaylist (self, source):
-        if not os.path.exists (self.configDir):
+        if not path.exists (self.configDir):
             os.makedirs (self.configDir)
         p = xspf.Playlist (title=_("Serpentine's playlist"), creator="Serpentine " + self.version)
         
         try:
-            p.parse (os.path.join (self.configDir, "playlist.xml"))
+            p.parse (path.join (self.configDir, "playlist.xml"))
         except IOError:
             return
             

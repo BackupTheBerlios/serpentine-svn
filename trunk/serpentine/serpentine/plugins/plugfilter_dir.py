@@ -20,39 +20,24 @@
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 """Loads directory filters."""
-import gnomevfs, urllib, os.path
-from urlparse import urlparse
+from os import path
 from glob import glob
+
 from serpentine.mastering import HintsFilter
-from types import StringType
+from serpentine import urlutil
 
 class DirectoryFilter (HintsFilter):
     def filter_location (self, location):
-        try:
-            mime = gnomevfs.get_mime_type (location)
-        except RuntimeError:
-            # RuntimeError is thrown when there is an error reading the file
+        url = urlutil.UrlParse(location)
+        if not url.is_local or not path.isdir(url.path):
             return
             
-        if mime != "x-directory/normal":
-            return
-            
-        s = urlparse (location)
-        scheme = s[0]
-        # TODO: handle more urls
-        if scheme == "file":
-            location = urllib.unquote (s[2])
-        elif scheme == "":
-            location = s[2]
-        else:
-            return None
-        hints_list = []
-        files = glob (os.path.join (location, "*"))
-        files.sort ()
-        for location in files:
-            hints_list.append ({"location": location})
-        return hints_list
+        files = glob(path.join(location, "*"))
+        files.sort()
+        
+        to_hints = lambda loc: {"location": urlutil.normalize(loc)}
+        return map(to_hints, files)
 
 
-def create_plugin (app):
-    app.add_hints_filter (DirectoryFilter ())
+def create_plugin(app):
+    app.add_hints_filter(DirectoryFilter())

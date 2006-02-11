@@ -18,13 +18,12 @@
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 import gtk
-import gtk.glade
 import gobject
-import gnomevfs
-import gettext
 import sys
 import weakref
 
+from gtk import glade
+from os import path
 from types import IntType, TupleType
 from gettext import gettext as _
 
@@ -33,6 +32,7 @@ import operations
 import audio
 import xspf
 import gtkutil
+import urlutil
 
 from gtkutil import DictStore
 from operations import OperationsQueue
@@ -70,7 +70,7 @@ class ErrorTrapper (operations.Operation, operations.OperationListener):
             
         filenames = []
         for e in self.errors:
-            filenames.append (gnomevfs.URI(e.hints['location']).short_name)
+            filenames.append (urlutil.basename(e.hints['location']))
         del self.__errors
         
         if len (filenames) == 1:
@@ -92,23 +92,48 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
     
     running = property (lambda self: False)
 
-    def __init__ (self, music_list, hints, insert = None):
+    def __init__ (self, music_list, hints, insert=None, app=None):
         operations.Operation.__init__ (self)
         self.hints = hints
         self.music_list = music_list
         self.insert = insert
+        # We normalize the paths by default
+        hints["location"] = urlutil.normalize(hints["location"])
+        self.app = app
     
     def start (self):
-        oper = audio.gvfsAudioMetadata (self.hints['location'])
+        if self.app.preferences.useGnomeVfs:
+            oper = audio.gvfsAudioMetadata(self.hints["location"])
+            
+        else:
+            url = urlutil.UrlParse(self.hints["location"])
+            if not url.is_local:
+                self._send_finished_error(
+                    operations.ERROR,
+                    error=StandardError(self.hints["location"])
+                )
+                return
+                
+            filename = url.path
+            oper = audio.fileAudioMetadata (filename)
+
         oper.listeners.append (self)
-        oper.start()
+        try:
+            oper.start()
+        except audio.GstPlayingFailledError:
+            self._send_finished_event(
+                operations.ERROR,
+                error=StandardError(self.hints["location"])
+            )
     
     def on_metadata (self, event, metadata):
+        title = urlutil.basename(self.hints['location'])
+        title = path.splitext(title)[0]
         
         row = {
             "location": self.hints['location'],
             "cache_location": "",
-            "title": gnomevfs.URI(self.hints['location'][:-4]).short_name or _("Unknown"),
+            "title": title or _("Unknown"),
             "artist": _("Unknown Artist"),
             "duration": int(metadata['duration']),
         }
@@ -218,15 +243,16 @@ class GtkMusicList (MusicList):
     Takes care of the data source. Supports events and listeners.
     """
     SPEC = (
-            # URI is used in converter
-            {"name": "location", "type": gobject.TYPE_STRING},
-            # filename is used in recorder
-            {"name": "cache_location", "type": gobject.TYPE_STRING},
-            # Remaining items are for the list
-            {"name": "duration", "type": gobject.TYPE_INT},
-            {"name": "title", "type": gobject.TYPE_STRING},
-            {"name": "artist", "type": gobject.TYPE_STRING},
-            {"name": "time", "type": gobject.TYPE_STRING})
+        # URI is used in converter
+        {"name": "location", "type": gobject.TYPE_STRING},
+        # filename is used in recorder
+        {"name": "cache_location", "type": gobject.TYPE_STRING},
+        # Remaining items are for the list
+        {"name": "duration", "type": gobject.TYPE_INT},
+        {"name": "title", "type": gobject.TYPE_STRING},
+        {"name": "artist", "type": gobject.TYPE_STRING},
+        {"name": "time", "type": gobject.TYPE_STRING}
+    )
             
     def __init__ (self):
         operations.Listenable.__init__ (self)
@@ -376,6 +402,9 @@ class HintsFilter (object):
         assert isinstance (value, HintsFilter)
         return self.priority - value.priority
 
+def normalize_hints(hints):
+    hints["location"] = urlutil.normalize(hints["location"])
+
 class MusicListGateway:
     """This class wraps the MusicList interface in a friendlier one with a
     method `add_files` easier to use then the `insert` method which expects
@@ -396,9 +425,10 @@ class MusicListGateway:
         def prepare_add_file (self, gateway, add_file):
             """Method called before add_file object is added to queue"""
     
-    def __init__ (self):
+    def __init__ (self, app):
         # Filters
         self.__filters = []
+        self._app = weakref.ref(app)
     
     music_list = None
     
@@ -410,8 +440,8 @@ class MusicListGateway:
         return None
     
     def add_files (self, filenames):
-        hints = [{"location":file} for file in filenames]
-        return self.add_hints (hints)
+        to_hint = lambda filename: {"location": urlutil.normalize(filename)}
+        return self.add_hints(map(to_hint, filenames))
 
     def add_hints (self, hints_list, insert = None):
         assert insert is None or isinstance (insert, IntType)
@@ -426,7 +456,10 @@ class MusicListGateway:
         i = 0
         for h in hints_list:
             pls = self.__filter_location (h["location"])
+            
             if pls is not None and len (pls) > 0:
+                # normalize the returning elements
+                map(normalize_hints, pls)
                 # We add this to the queue so it is
                 # processed before the next file on the list
                 queue.append (self.add_hints(pls, insert))
@@ -436,7 +469,7 @@ class MusicListGateway:
             if insert != None:
                 ins += i
             
-            a = AddFile (self.music_list, h, ins)
+            a = AddFile (self.music_list, h, ins, self._app())
             handler.prepare_add_file (self, a)
             
             queue.append (a)
@@ -454,6 +487,7 @@ class MusicListGateway:
     def remove_hints_filter (self, location_filter):
         self.__filters.remove (location_filter)
 
+
 class AudioMastering (gtk.VBox, operations.Listenable):
     SIZE_21 = 0
     SIZE_74 = 1
@@ -462,7 +496,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
     
     class MusicListGateway (MusicListGateway):
         def __init__ (self, parent):
-            MusicListGateway.__init__ (self)
+            MusicListGateway.__init__ (self, parent._application())
             self.parent = parent
         
         def music_list (self):
@@ -511,7 +545,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         
         gtk.VBox.__init__ (self)
         filename = application.locations.get_data_file("serpentine.glade")
-        g = gtk.glade.XML (filename, "audio_container")
+        g = glade.XML (filename, "audio_container")
         
         self.add (g.get_widget ("audio_container"))
         
@@ -753,7 +787,6 @@ class AudioMastering (gtk.VBox, operations.Listenable):
 
     
 if __name__ == '__main__':
-    import os
     win = gtk.Window()
     win.connect ("delete-event", gtk.main_quit)
     w = AudioMastering ()

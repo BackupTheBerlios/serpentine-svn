@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-10 14:21-0100\n"
+"POT-Creation-Date: 2006-02-10 22:12-0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -374,11 +374,21 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: ../serpentine/plugins/plugrhythmbox.py:47
-msgid "Select playlist"
+#: ../serpentine/plugins/plugrhythmbox.py:50
+msgid "Select playlist:"
 msgstr ""
 
-#: ../serpentine/plugins/plugrhythmbox.py:84
+#: ../serpentine/plugins/plugrhythmbox.py:75
+msgid "No Rhythmbox playlist found"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:76
+msgid ""
+"Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist..."
+"</i>"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:95
 msgid "Open Rhythmbox Playlist..."
 msgstr ""
 

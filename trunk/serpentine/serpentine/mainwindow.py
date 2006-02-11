@@ -474,7 +474,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         a.set_name ("Serpentine")
         a.set_version (self.__application.preferences.version)
         a.set_website ("http://s1x.homelinux.net/projects/serpentine")
-        a.set_copyright ("2004-2005 Tiago Cogumbreiro")
+        a.set_copyright ("2004-2006 Tiago Cogumbreiro")
         a.set_transient_for (self)
         a.run ()
         a.hide()
