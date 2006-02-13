@@ -1,5 +1,26 @@
 2006-02-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * po/ast.po:
+    * po/bg.po:
+    * po/de.po:
+    * po/es.po:
+    * po/hu.po:
+    * po/nl.po:
+    * po/it.po:
+    * po/ko.po:
+    * po/pl.po:
+    * po/pt_BR.po:
+    * po/ru.po:
+    * po/sk.po:
+    * po/sv.po:
+    Synchronized translations from Rosetta.
+    
+    * configure.ac:
+    Included languages that contain more then 80 translated strings.
+    Changed version to 0.6.9.0.
+    
+2006-02-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
     * data/serpentine.desktop.in:
     Registred Serpentine to open with M3U and PLS playlists, XSPF currently
     has no mime type associated with it.

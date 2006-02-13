@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-10 11:38-0100\n"
+"POT-Creation-Date: 2006-02-12 21:27-0100\n"
 "PO-Revision-Date: 2005-10-06 22:53+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
@@ -16,7 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Rosetta-Version: 0.1\n"
-"Plural-Forms:  nplurals=1; plural=0;\n"
 "X-Generator: KBabel 1.10.2\n"
 
 #: ../data/serpentine.desktop.in.h:1
@@ -111,7 +110,7 @@ msgstr "Lejátszólista mentése másként..."
 msgid "Serpentine Audio Mastering"
 msgstr ""
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:58
+#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:56
 msgid "Serpentine Preferences"
 msgstr "Serpentine beállításai"
 
@@ -143,20 +142,19 @@ msgstr "_Eszköztár"
 msgid "_View"
 msgstr "_Nézet"
 
-#: ../scripts/serpentine:37
+#: ../scripts/serpentine:57
 msgid "Recording operations will be done in simulation mode."
 msgstr "A rögzítési műveletek szimulációs módban lesznek végrehajtva."
 
-#: ../scripts/serpentine:40
+#: ../scripts/serpentine:60
 msgid "Shows debugging information from recording backend."
 msgstr ""
 
-#: ../scripts/serpentine:43
-#, fuzzy
+#: ../scripts/serpentine:63
 msgid "Shows preferences dialog."
-msgstr "Tulajdonságok párbeszédablak megjelenítése és kilépés."
+msgstr ""
 
-#: ../scripts/serpentine:46
+#: ../scripts/serpentine:66
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
@@ -164,15 +162,19 @@ msgstr ""
 "Ezen opció után megadott fájlneveket a lemezre írja. Ez egy más "
 "alkalmazásokba beágyazáshoz megfelelő párbeszédablakot jelenít meg."
 
-#: ../scripts/serpentine:51
+#: ../scripts/serpentine:71
 msgid "Uses filenames after this option as the playlist contents."
 msgstr ""
 
-#: ../scripts/serpentine:80
+#: ../scripts/serpentine:75
+msgid "Do not use GnomeVfs module."
+msgstr ""
+
+#: ../scripts/serpentine:111
 msgid "Simulation mode"
 msgstr "Szimulációs mód"
 
-#: ../scripts/serpentine:81
+#: ../scripts/serpentine:112
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
@@ -185,49 +187,47 @@ msgid "All files"
 msgstr "Minden fájl"
 
 #: ../serpentine/__init__.py:53 ../serpentine/__init__.py:220
-#, fuzzy
 msgid "Supported playlists"
-msgstr "Támogatott fájlok"
+msgstr ""
 
 #: ../serpentine/__init__.py:212
-#, fuzzy
 msgid "Common media files"
-msgstr "Hangfájlok előkészítése"
+msgstr ""
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GByte"
 msgstr "GBájt"
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GBytes"
 msgstr "GBájt"
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MByte"
 msgstr "MBájt"
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MBytes"
 msgstr "MBájt"
 
-#: ../serpentine/common.py:72
+#: ../serpentine/common.py:74
 msgid "KByte"
 msgstr "KBájt"
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "byte"
 msgstr "bájt"
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "bytes"
 msgstr "bájt"
 
-#: ../serpentine/common.py:150
+#: ../serpentine/common.py:151
 msgid "Please check if the cache location exists and has writable permissions."
 msgstr ""
 "Ellenőrizze, hogy a gyorsítótár helye létezik-e és van-e írási jogosultsága."
 
-#: ../serpentine/common.py:160
+#: ../serpentine/common.py:161
 #, python-format
 msgid ""
 "Remove some music tracks or make sure your cache location location has "
@@ -237,9 +237,8 @@ msgstr ""
 "elegendő (körülbelül %s) szabad hellyel rendelkezik."
 
 #: ../serpentine/mainwindow.py:139
-#, fuzzy
 msgid "Save playlist in format:"
-msgstr "Lejátszólista mentése másként..."
+msgstr ""
 
 #: ../serpentine/mainwindow.py:153
 msgid "Detect by extension"
@@ -346,72 +345,80 @@ msgstr "Nem támogatott fájltípus"
 msgid "The following files were not added:"
 msgstr "A következő fájlok nem lettek hozzáadva:"
 
-#: ../serpentine/mastering.py:111
+#: ../serpentine/mastering.py:136
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: ../serpentine/mastering.py:112
-#, fuzzy
+#: ../serpentine/mastering.py:137
 msgid "Unknown Artist"
-msgstr "Ismeretlen előadó"
+msgstr ""
 
-#: ../serpentine/mastering.py:560
+#: ../serpentine/mastering.py:594
 msgid "Track"
 msgstr "Szám"
 
-#: ../serpentine/mastering.py:573
+#: ../serpentine/mastering.py:607
 msgid "Artist"
 msgstr "Előadó"
 
-#: ../serpentine/mastering.py:576
+#: ../serpentine/mastering.py:610
 msgid "Duration"
 msgstr "Időtartam"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minute"
 msgstr "perc"
 
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minutes"
 msgstr "perc"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "second"
 msgstr "másodperc"
 
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "seconds"
 msgstr "másodperc"
 
-#: ../serpentine/mastering.py:683
+#: ../serpentine/mastering.py:717
 msgid " and "
 msgstr " és "
 
-#: ../serpentine/mastering.py:717
+#: ../serpentine/mastering.py:751
 #, python-format
 msgid "%s remaining"
 msgstr "%s van hátra"
 
-#: ../serpentine/mastering.py:719
+#: ../serpentine/mastering.py:753
 #, python-format
 msgid "%s overlaping"
 msgstr "%s átfed"
 
-#: ../serpentine/mastering.py:721
+#: ../serpentine/mastering.py:755
 msgid "Empty"
 msgstr "Üres"
 
-#: ../serpentine/plugins/plugrhythmbox.py:47
+#: ../serpentine/plugins/plugrhythmbox.py:50
 #, fuzzy
-msgid "Select playlist"
+msgid "Select playlist:"
 msgstr "Lejátszólista törlése"
 
-#: ../serpentine/plugins/plugrhythmbox.py:84
-#, fuzzy
+#: ../serpentine/plugins/plugrhythmbox.py:75
+msgid "No Rhythmbox playlist found"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:76
+msgid ""
+"Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist..."
+"</i>"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:95
 msgid "Open Rhythmbox Playlist..."
-msgstr "Lejátszólista megnyitása..."
+msgstr ""
 
 #: ../serpentine/preferences.py:352 ../serpentine/preferences.py:370
 msgid "Serpentine's playlist"
@@ -438,9 +445,8 @@ msgid "Writing to disc canceled"
 msgstr "A lemez írása félbeszakítva"
 
 #: ../serpentine/recording.py:69
-#, fuzzy
 msgid "The writing operation has started. The disc may be unusable."
-msgstr "Az írási művelet elkezdődött, így a lemez lehet, hogy használhatatlan."
+msgstr ""
 
 #: ../serpentine/recording.py:90
 msgid "Writing Audio Disc"
@@ -535,10 +541,23 @@ msgstr "Cserélje ki a meghajtóban lévő lemezt egy üres lemezre"
 msgid "Reload blank disc"
 msgstr "Üres lemez újratöltése"
 
+#~ msgid "Show preferences dialog and exit."
+#~ msgstr "Tulajdonságok párbeszédablak megjelenítése és kilépés."
+
+#~ msgid "Supported files"
+#~ msgstr "Támogatott fájlok"
+
 #~ msgid "Playlists"
 #~ msgstr "Lejátszólisták"
+
+#~ msgid "Unknow Artist"
+#~ msgstr "Ismeretlen előadó"
 
 #~ msgid "Tests if temporary directory exists and has write permissions."
 #~ msgstr ""
 #~ "Teszteli, hogy az átmeneti könyvtár létezik-e és rendelkezik-e írási "
 #~ "jogosultságokkal."
+
+#~ msgid "The writing operation as started so the disc might be unusable."
+#~ msgstr ""
+#~ "Az írási művelet elkezdődött, így a lemez lehet, hogy használhatatlan."

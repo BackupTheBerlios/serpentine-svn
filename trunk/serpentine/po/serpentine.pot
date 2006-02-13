@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-10 22:12-0100\n"
+"POT-Creation-Date: 2006-02-12 21:27-0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,7 +104,7 @@ msgstr ""
 msgid "Serpentine Audio Mastering"
 msgstr ""
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:58
+#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:56
 msgid "Serpentine Preferences"
 msgstr ""
 
@@ -136,33 +136,37 @@ msgstr ""
 msgid "_View"
 msgstr ""
 
-#: ../scripts/serpentine:37
+#: ../scripts/serpentine:57
 msgid "Recording operations will be done in simulation mode."
 msgstr ""
 
-#: ../scripts/serpentine:40
+#: ../scripts/serpentine:60
 msgid "Shows debugging information from recording backend."
 msgstr ""
 
-#: ../scripts/serpentine:43
+#: ../scripts/serpentine:63
 msgid "Shows preferences dialog."
 msgstr ""
 
-#: ../scripts/serpentine:46
+#: ../scripts/serpentine:66
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
 msgstr ""
 
-#: ../scripts/serpentine:51
+#: ../scripts/serpentine:71
 msgid "Uses filenames after this option as the playlist contents."
 msgstr ""
 
-#: ../scripts/serpentine:80
+#: ../scripts/serpentine:75
+msgid "Do not use GnomeVfs module."
+msgstr ""
+
+#: ../scripts/serpentine:111
 msgid "Simulation mode"
 msgstr ""
 
-#: ../scripts/serpentine:81
+#: ../scripts/serpentine:112
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
@@ -180,39 +184,39 @@ msgstr ""
 msgid "Common media files"
 msgstr ""
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GByte"
 msgstr ""
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GBytes"
 msgstr ""
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MByte"
 msgstr ""
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MBytes"
 msgstr ""
 
-#: ../serpentine/common.py:72
+#: ../serpentine/common.py:74
 msgid "KByte"
 msgstr ""
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "byte"
 msgstr ""
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "bytes"
 msgstr ""
 
-#: ../serpentine/common.py:150
+#: ../serpentine/common.py:151
 msgid "Please check if the cache location exists and has writable permissions."
 msgstr ""
 
-#: ../serpentine/common.py:160
+#: ../serpentine/common.py:161
 #, python-format
 msgid ""
 "Remove some music tracks or make sure your cache location location has "
@@ -318,59 +322,59 @@ msgstr ""
 msgid "The following files were not added:"
 msgstr ""
 
-#: ../serpentine/mastering.py:111
+#: ../serpentine/mastering.py:136
 msgid "Unknown"
 msgstr ""
 
-#: ../serpentine/mastering.py:112
+#: ../serpentine/mastering.py:137
 msgid "Unknown Artist"
 msgstr ""
 
-#: ../serpentine/mastering.py:560
+#: ../serpentine/mastering.py:594
 msgid "Track"
 msgstr ""
 
-#: ../serpentine/mastering.py:573
+#: ../serpentine/mastering.py:607
 msgid "Artist"
 msgstr ""
 
-#: ../serpentine/mastering.py:576
+#: ../serpentine/mastering.py:610
 msgid "Duration"
 msgstr ""
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minute"
 msgstr ""
 
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minutes"
 msgstr ""
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "second"
 msgstr ""
 
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "seconds"
 msgstr ""
 
-#: ../serpentine/mastering.py:683
+#: ../serpentine/mastering.py:717
 msgid " and "
 msgstr ""
 
-#: ../serpentine/mastering.py:717
+#: ../serpentine/mastering.py:751
 #, python-format
 msgid "%s remaining"
 msgstr ""
 
-#: ../serpentine/mastering.py:719
+#: ../serpentine/mastering.py:753
 #, python-format
 msgid "%s overlaping"
 msgstr ""
 
-#: ../serpentine/mastering.py:721
+#: ../serpentine/mastering.py:755
 msgid "Empty"
 msgstr ""
 

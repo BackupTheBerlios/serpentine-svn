@@ -1,4 +1,4 @@
-# Spanish translation for serpentine
+# Swedish translation for serpentine
 # Copyright (c) (c) 2005 Canonical Ltd, and Rosetta Contributors 2005
 # This file is distributed under the same license as the serpentine package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2005.
@@ -11,19 +11,19 @@ msgstr ""
 "POT-Creation-Date: 2006-02-12 21:27-0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Version: 0.1\n"
 
 #: ../data/serpentine.desktop.in.h:1
 msgid "Create Audio-CD's from music files and playlists"
-msgstr "Crear CDs de Audio desde ficheros de música y listas de reproducción"
+msgstr "Skapa Ljud-CD från musikfiler och spellistor"
 
 #: ../data/serpentine.desktop.in.h:2
+#, fuzzy
 msgid "Serpentine Audio-CD Creator"
-msgstr "Creador de CDs de Audio Serpentine"
+msgstr "Serpentine Ljud-CD-skapare"
 
 #: ../data/serpentine.glade.h:1
 msgid ""
@@ -32,118 +32,118 @@ msgid ""
 "80 minutes\n"
 "90 minutes"
 msgstr ""
-"21 minutos\n"
-"74 minutos\n"
-"80 minutos\n"
-"90 minutos"
+"21 minuter\n"
+"74 minuter\n"
+"80 minuter\n"
+"90 minuter"
 
 #: ../data/serpentine.glade.h:5
 msgid "<b>Disc capacity exceeded!</b>"
-msgstr "<b>Capacidad del disco excedida</b>"
+msgstr "<b>Skivkapaciteten överskriden!</b>"
 
 #: ../data/serpentine.glade.h:6
 msgid "<b>Writing Device</b>"
-msgstr "<b>Dispositivo de grabación</b>"
+msgstr "<b>Skrivenhet</b>"
 
 #: ../data/serpentine.glade.h:7
 msgid "<b>Writing Options</b>"
-msgstr "<b>Opciones de grabacion</b>"
+msgstr "<b>Skrivningsalternativ</b>"
 
 #: ../data/serpentine.glade.h:8
 msgid "Add tracks to playlist"
-msgstr "Añadir pistas a lista de reproducción"
+msgstr "Lägg till spår till spellista"
 
 #: ../data/serpentine.glade.h:9
 msgid "Add two seconds gap between tracks"
-msgstr "Añadir pausa de dos segundos entre pistas"
+msgstr "Lägg in två sekunders mellanrum mellan spår"
 
 #: ../data/serpentine.glade.h:10
 msgid "Audio Widget Wrapper"
-msgstr "Componente Envolvente de Audio"
+msgstr ""
 
 #: ../data/serpentine.glade.h:11
 msgid "Choose writing speed"
-msgstr "Elige la velocidad de grabación"
+msgstr "Ange skrivhastighet"
 
 #: ../data/serpentine.glade.h:12
 msgid "Clear playlist"
-msgstr "Borra lista de reproducción"
+msgstr "Rensa spellistan"
 
 #: ../data/serpentine.glade.h:13
 msgid "Device:"
-msgstr "Dispositivo:"
+msgstr "Enhet:"
 
 #: ../data/serpentine.glade.h:14
 msgid "Disc Capacity:"
-msgstr "Capacidad en disco:"
+msgstr "Skivkapacitet:"
 
 #: ../data/serpentine.glade.h:15
 msgid "Disc Usage:"
-msgstr "Cantidad de Disco en uso:"
+msgstr "Skivanvändning:"
 
 #: ../data/serpentine.glade.h:16
 msgid "Edit"
-msgstr "Editar"
+msgstr "Redigera"
 
 #: ../data/serpentine.glade.h:17
 msgid "Eject disk after writing"
-msgstr "Expulsar disco después de la grabación"
+msgstr "Mata ut skiva efter skrivning"
 
 #: ../data/serpentine.glade.h:18
 msgid "Open Playlist..."
-msgstr "Abrir lista de reproducción..."
+msgstr "Öppna spellista..."
 
 #: ../data/serpentine.glade.h:19
 msgid "Refreshes the max writing speed"
-msgstr "Actualizar la velocidad máxima de grabación"
+msgstr "Uppdaterar maximala skrivhastigheten"
 
 #: ../data/serpentine.glade.h:20
 msgid "Remove selected tracks from playlist"
-msgstr "Quitar las pistas seleccionadas de la lista de reproducción"
+msgstr "Ta bort valda spår från spellistan"
 
 #: ../data/serpentine.glade.h:21
 msgid "Save Playlist As..."
-msgstr "Guardar lista de reproducción como..."
+msgstr "Spara spellistan som..."
 
 #: ../data/serpentine.glade.h:22
 msgid "Serpentine Audio Mastering"
-msgstr "Edición de Audio Serpentine"
+msgstr "Serpentine Ljudmastering"
 
 #: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:56
 msgid "Serpentine Preferences"
-msgstr "Preferencias de Serpentine"
+msgstr "Serpentine Inställningar"
 
 #: ../data/serpentine.glade.h:24
 msgid "Use maximum writing speed"
-msgstr "Usar velocidad máxima de grabación"
+msgstr "Använd maximal skrivhastighet"
 
 #: ../data/serpentine.glade.h:25
 msgid "Write playlist to disc"
-msgstr "Grabar lista de reproducción a un disco"
+msgstr "Skriv spellista till skiva"
 
 #: ../data/serpentine.glade.h:26 ../serpentine/mainwindow.py:514
 msgid "Write to Disc"
-msgstr "Grabar a un disco"
+msgstr "Skriv till skiva"
 
 #: ../data/serpentine.glade.h:27
 msgid "_File"
-msgstr "_Fichero"
+msgstr "_Arkiv"
 
 #: ../data/serpentine.glade.h:28
 msgid "_Help"
-msgstr "_Ayuda"
+msgstr "_Hjälp"
 
 #: ../data/serpentine.glade.h:29
 msgid "_Toolbar"
-msgstr "_Barra de herramientas"
+msgstr "V_erktygsrad"
 
 #: ../data/serpentine.glade.h:30
 msgid "_View"
-msgstr "_Ver"
+msgstr "_Visa"
 
 #: ../scripts/serpentine:57
 msgid "Recording operations will be done in simulation mode."
-msgstr "Las operaciones de grabación se harán en modo de simulación."
+msgstr "Inspelningsoperationer kommer att göras i simuleringsläge."
 
 #: ../scripts/serpentine:60
 msgid "Shows debugging information from recording backend."
@@ -158,8 +158,8 @@ msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
 msgstr ""
-"Escribe los nombresdeficheros después de esta opción en un CD. Esto mostrará "
-"un dialogo conveniente para la adaptación a otras aplicaciones."
+"Skriver filnamnen efter detta alternativ till en CD. Detta kommer att visa "
+"en dialog som är lämplig att baka in i andra program."
 
 #: ../scripts/serpentine:71
 msgid "Uses filenames after this option as the playlist contents."
@@ -171,19 +171,19 @@ msgstr ""
 
 #: ../scripts/serpentine:111
 msgid "Simulation mode"
-msgstr "Modo de simulación"
+msgstr "Simuleringsläge"
 
 #: ../scripts/serpentine:112
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
 msgstr ""
-"Serpentine esta en modo de Simulacion, no se hará ninguna grabación en el "
-"medio insertado."
+"Serpentine är i simuleringsläge, ingen skrivning kommer att ske på det "
+"inlagda mediet."
 
 #: ../serpentine/__init__.py:49 ../serpentine/__init__.py:172
 msgid "All files"
-msgstr "Todos los ficheros"
+msgstr "Alla filer"
 
 #: ../serpentine/__init__.py:53 ../serpentine/__init__.py:220
 msgid "Supported playlists"
@@ -195,37 +195,36 @@ msgstr ""
 
 #: ../serpentine/common.py:72
 msgid "GByte"
-msgstr "Gbit"
+msgstr "GByte"
 
 #: ../serpentine/common.py:72
 msgid "GBytes"
-msgstr "Gbits"
+msgstr "GByte"
 
 #: ../serpentine/common.py:73
 msgid "MByte"
-msgstr "Mbit"
+msgstr "MByte"
 
 #: ../serpentine/common.py:73
 msgid "MBytes"
-msgstr "Mbits"
+msgstr "MByte"
 
 #: ../serpentine/common.py:74
 msgid "KByte"
-msgstr "Kbit"
+msgstr "KByte"
 
 #: ../serpentine/common.py:75
 msgid "byte"
-msgstr "bit"
+msgstr "byte"
 
 #: ../serpentine/common.py:75
 msgid "bytes"
-msgstr "bits"
+msgstr "byte"
 
 #: ../serpentine/common.py:151
 msgid "Please check if the cache location exists and has writable permissions."
 msgstr ""
-"Por favor verifica si la ubicación del caché exite y que tienes permisos de "
-"escritura."
+"Var god kontrollera om platsen för cache existerar och har skrivrättigheter."
 
 #: ../serpentine/common.py:161
 #, python-format
@@ -233,8 +232,8 @@ msgid ""
 "Remove some music tracks or make sure your cache location location has "
 "enough free space (about %s)."
 msgstr ""
-"Elimina alguna pistas o asegúrate que la ubicación del caché tenga espacio "
-"suficiente (cerca de %s)."
+"Ta bort några musikspår eller se till att din plats för cache har "
+"tillräckligt med ledigt utrymme (ungefär %s)."
 
 #: ../serpentine/mainwindow.py:139
 msgid "Save playlist in format:"
@@ -246,23 +245,23 @@ msgstr ""
 
 #: ../serpentine/mainwindow.py:170
 msgid "Playlist Saved"
-msgstr "Lista de Reproducción Guardada"
+msgstr "Spellista sparad"
 
 #: ../serpentine/mainwindow.py:171
 msgid "Playlist was saved successfully."
-msgstr "La lista de reproducción fué guardada exitosamente."
+msgstr "Spellistan har sparats"
 
 #: ../serpentine/mainwindow.py:176
 msgid "Playlist Not Saved"
-msgstr "Lista de reproducción no guardada"
+msgstr "Spellistan ej sparad"
 
 #: ../serpentine/mainwindow.py:177
 msgid "There was an error while saving the playlist."
-msgstr "Hubo un error mientras se guardaba la lista de reproducción."
+msgstr "Det uppstod ett fel när spellistan skulle sparas."
 
 #: ../serpentine/mainwindow.py:214
 msgid "Replace existing file"
-msgstr "¿Reemplazar el fichero existente?"
+msgstr "Ersätt existerande fil"
 
 #: ../serpentine/mainwindow.py:215
 #, python-format
@@ -270,85 +269,84 @@ msgid ""
 "A file named <i>%s</i> already exists. Do you want to replace it with the "
 "one you are saving?"
 msgstr ""
-"Ya existe un fichero con nombre <i>%s</i>. ¿Quieres reemplazarlo con el que "
-"estás guardando?"
+"En fil men namnet <i>%s</i> existerar redan. Vill du ersätta den med den fil "
+"du håller på att spara?"
 
 #: ../serpentine/mainwindow.py:233
 msgid "Unsupported Format"
-msgstr "Formato no soportado"
+msgstr "Formatet stöds inte"
 
 #: ../serpentine/mainwindow.py:234
 msgid ""
 "The playlist format you used (by the file extension) is currently not "
 "supported."
 msgstr ""
-"El formato de lista de reproducción que usó (por la extension) no está "
-"soportado actualmente."
+"Spellistsformatet du använder (enligt filtillägget) stöds inte för "
+"tillfället."
 
 #: ../serpentine/mainwindow.py:415
 msgid "No recording drive found"
-msgstr "No fué encontrado dispositivo de grabación"
+msgstr "Ingen inspelningsenhet hittades"
 
 #: ../serpentine/mainwindow.py:416
 msgid ""
 "No recording drive found on your system, therefore some of Serpentine's "
 "functionalities will be disabled."
 msgstr ""
-"No fué encontrado un dispositivo de grabación en tu sistema, por lo tanto "
-"algunas de las funciones de Serpentine serán desactivadas."
+"Inten inspelningsenhet hittades på ditt system, därför kommer några av "
+"Serpentines funktioner att vara bortkopplade."
 
 #: ../serpentine/mainwindow.py:491
 msgid "Cache directory location unavailable"
-msgstr "Directorio de ubicación de cache no disponible"
+msgstr "Platsen för cachekatalogen ej tillgänglig"
 
 #: ../serpentine/mainwindow.py:495
 msgid "Not enough space on cache directory"
-msgstr "No hay suficiente espacio en el directorio del caché."
+msgstr "Ej tillräckligt med ledigt utrymme i cachekatalogen"
 
 #: ../serpentine/mainwindow.py:502
 msgid "Do you want to overburn your disc?"
-msgstr "¿Quieres grabar el disco más de su capacidad?"
+msgstr "Vill du överbränna din skiva?"
 
 #: ../serpentine/mainwindow.py:503
 msgid ""
 "You are about to record a media disc in overburn mode. This may not work on "
 "all drives and shouldn't give you more then a couple of minutes."
 msgstr ""
-"¿Estas a punto de grabar un disco a una capacidad mayor de la suya "
-"(overburn)?. Ésto puede no funcionar bien en todas las unidades de grabación "
-"y podría darte no más de unos cuantos minutos."
+"Du är på väg att spela in en skiva i överbränningsläge. Detta fungerar inte "
+"på alla enheter och bör inte ge dig mer än några extra minuter."
 
 #: ../serpentine/mainwindow.py:506
 msgid "Write to Disc (Overburning)"
-msgstr "Grabar a un disco a más de su capacidad (overburning)"
+msgstr "Skriv till skiva (överbränning)"
 
 #: ../serpentine/mainwindow.py:509
 msgid "Do you want to record your music?"
-msgstr "¿Quieres grabar tu música?"
+msgstr "Vill du spela in din musik?"
 
 #: ../serpentine/mainwindow.py:510
 msgid ""
 "You are about to record a media disc. Canceling a writing operation will "
 "make your disc unusable."
 msgstr ""
-"Está a punto de grabar un disco. Si se cancela la operación podría hacer que "
-"el disco quede inservible."
+"Du är på väg att spela in en skiva. Om du avbryter skrivningen kommer du "
+"göra din skiva oanvändbar."
 
 #: ../serpentine/mastering.py:67
 msgid "Unsupported file types"
-msgstr "Tipos de ficheros no soportados"
+msgstr "Filtyperna stöds inte"
 
 #: ../serpentine/mastering.py:69
 msgid "Unsupported file type"
-msgstr "Tipo de fichero no soportado"
+msgstr "Filtypen stöds inte"
 
 #: ../serpentine/mastering.py:77 ../serpentine/mastering.py:79
 msgid "The following files were not added:"
-msgstr "Los siguientes ficheros no fueron añadidos:"
+msgstr "Följande filer lades ej till:"
 
 #: ../serpentine/mastering.py:136
 msgid "Unknown"
-msgstr "Desconocido"
+msgstr "Okänd"
 
 #: ../serpentine/mastering.py:137
 msgid "Unknown Artist"
@@ -356,56 +354,56 @@ msgstr ""
 
 #: ../serpentine/mastering.py:594
 msgid "Track"
-msgstr "Pista"
+msgstr "Spår"
 
 #: ../serpentine/mastering.py:607
 msgid "Artist"
-msgstr "Artista"
+msgstr "Artist"
 
 #: ../serpentine/mastering.py:610
 msgid "Duration"
-msgstr "Duración"
+msgstr "Varaktighet"
 
 #. To translators: I know this is ugly for you
 #: ../serpentine/mastering.py:711
 msgid "minute"
-msgstr "minuto"
+msgstr "minut"
 
 #: ../serpentine/mastering.py:711
 msgid "minutes"
-msgstr "minutos"
+msgstr "minuter"
 
 #. To translators: I know this is ugly for you
 #: ../serpentine/mastering.py:715
 msgid "second"
-msgstr "segundo"
+msgstr "sekund"
 
 #: ../serpentine/mastering.py:715
 msgid "seconds"
-msgstr "segundos"
+msgstr "sekunder"
 
 #: ../serpentine/mastering.py:717
 msgid " and "
-msgstr " y "
+msgstr " och "
 
 #: ../serpentine/mastering.py:751
 #, python-format
 msgid "%s remaining"
-msgstr "falta %s"
+msgstr "%s kvar"
 
 #: ../serpentine/mastering.py:753
-#, fuzzy, python-format
+#, python-format
 msgid "%s overlaping"
-msgstr "%s muy largo"
+msgstr ""
 
 #: ../serpentine/mastering.py:755
 msgid "Empty"
-msgstr "Vacío"
+msgstr "Tom"
 
 #: ../serpentine/plugins/plugrhythmbox.py:50
 #, fuzzy
 msgid "Select playlist:"
-msgstr "Borra lista de reproducción"
+msgstr "Rensa spellistan"
 
 #: ../serpentine/plugins/plugrhythmbox.py:75
 msgid "No Rhythmbox playlist found"
@@ -423,11 +421,11 @@ msgstr ""
 
 #: ../serpentine/preferences.py:352 ../serpentine/preferences.py:370
 msgid "Serpentine's playlist"
-msgstr "Lista de reproducción de Serpentine"
+msgstr "Serpentines spellista"
 
 #: ../serpentine/recording.py:43 ../serpentine/recording.py:50
 msgid "Converting files failed"
-msgstr "Falló la conversión de ficheros"
+msgstr "Konvertering av filer misslyckades"
 
 #: ../serpentine/recording.py:44
 msgid "Some of the files were missing. The disc is still usable."
@@ -436,15 +434,15 @@ msgstr ""
 #: ../serpentine/recording.py:51
 msgid "Writing to disc didn't start so it is still usable."
 msgstr ""
-"La grabación en el disco no comenzó por lo tanto su disco es todavía útil."
+"Skrivningen till skivan startade aldrig, så den är fortfarande användbar."
 
 #: ../serpentine/recording.py:64
 msgid "Writing to disc failed"
-msgstr "Falló la escritura en disco"
+msgstr "Skrivningen till skiva misslyckades"
 
 #: ../serpentine/recording.py:66
 msgid "Writing to disc canceled"
-msgstr "Grabación en disco cancelada"
+msgstr "Skrivningen till skiva avbröts"
 
 #: ../serpentine/recording.py:69
 msgid "The writing operation has started. The disc may be unusable."
@@ -452,52 +450,51 @@ msgstr ""
 
 #: ../serpentine/recording.py:90
 msgid "Writing Audio Disc"
-msgstr "Grabando Disco de Audio"
+msgstr "Skriver ljudskiva"
 
 #: ../serpentine/recording.py:91
 msgid ""
 "The audio tracks are going to be written to a disc. This operation may take "
 "a long time, depending on data size and write speed."
 msgstr ""
-"Las pistas de audio van a ser grabadas en un disco. Ésta operación podría "
-"durar un largo tiempo, dependiendo del tamaño de los datos y de la velocidad "
-"de grabación."
+"Ljudspåren kommer skrivas till skiva. Denna operation kan ta lång tid "
+"beroende på datastorlek och skrivhastighet."
 
 #: ../serpentine/recording.py:124
 msgid "CD-RW disc will be erased"
-msgstr "EL dico CD-RW será borrado"
+msgstr "cd-rw-skivan kommer tömmas."
 
 #: ../serpentine/recording.py:125
 msgid "Please remove your disc if you want to preserve it's contents."
-msgstr "Por favor retire su disco si quiere conservar su contenido."
+msgstr "Var vänlig och ta ur din skiva om du vill bevara dess innehåll."
 
 #: ../serpentine/recording.py:172
 msgid "Preparing recorder"
-msgstr "Preparando grabador"
+msgstr "Förbereder brännaren"
 
 #: ../serpentine/recording.py:174
 msgid "Writing media files to disc"
-msgstr "Escribiendo datos en disco"
+msgstr "Skriver mediefiler till skiva"
 
 #: ../serpentine/recording.py:176
 msgid "Fixating disc"
-msgstr "Finalizando disco"
+msgstr "Fixerar skiva"
 
 #: ../serpentine/recording.py:184
 msgid "Preparing media files"
-msgstr "Preparando datos de ficheros"
+msgstr "Förbereder mediefiler"
 
 #: ../serpentine/recording.py:199
 msgid "Writing to disc finished"
-msgstr "La grabación ha finalizado"
+msgstr "Skrivning till skiva färdig"
 
 #: ../serpentine/recording.py:200
 msgid "Disc writing was successful."
-msgstr "La grabación fué exitosa"
+msgstr "Skrivningen till skiva lyckades."
 
 #: ../serpentine/recording.py:231
 msgid "Writing Files to Disc"
-msgstr "Escribiendo ficheros al disco"
+msgstr "Skriver filer till skiva"
 
 #: ../serpentine/recording.py:250
 msgid "There were no valid files for writing. Please select at least one."
@@ -505,41 +502,42 @@ msgstr ""
 
 #: ../serpentine/recording.py:300
 msgid "Please make sure another application is not using the drive."
-msgstr "Por favor asegurese de que otra aplicación no está usando la unidad."
+msgstr "Var vänligt och se till att inga andra program använder enheten."
 
 #: ../serpentine/recording.py:301
 msgid "Drive is busy"
-msgstr "La unidad está ocupada"
+msgstr "Enheten är upptagen"
 
 #: ../serpentine/recording.py:303
 msgid "Please put a rewritable or blank disc into the drive."
-msgstr "Por favor inserte un disco en blanco o grabable en la unidad."
+msgstr "Var vänlig och lägg i en tom skiva i enheten."
 
 #: ../serpentine/recording.py:304
 msgid "Insert rewritable or blank disc"
-msgstr "Inserte un disco en blanco o regrabable"
+msgstr "Lägg i en återskrivningsbar eller tom skiva"
 
 #: ../serpentine/recording.py:306
 msgid "Please put a blank disc into the drive."
-msgstr "Por favor inserte un disco en blanco en la unidad."
+msgstr "Var god lägg i en tom skiva i enheten."
 
 #: ../serpentine/recording.py:307
 msgid "Insert blank disc"
-msgstr "Inserte un disco en blanco"
+msgstr "Sägg i en tom skiva"
 
 #: ../serpentine/recording.py:309
 msgid "Please replace the disc in the drive with a rewritable or blank disc."
 msgstr ""
-"Por favor reemplace el disco en la unidad por uno en blanco o regrabable."
+"Var vänlig och ersätt skivan i enheten med en återskrivningsbar eller tom "
+"skiva"
 
 #: ../serpentine/recording.py:312
 msgid "Reload rewritable or blank disc"
-msgstr "Recargue el disco en blanco o regrabable"
+msgstr "Ladda om återskrivningsbar eller tom skiva"
 
 #: ../serpentine/recording.py:314
 msgid "Please replace the disc in the drive a blank disc."
-msgstr "Por favor reemplace el disco en la unidad por uno en blanco."
+msgstr "Var vänlig och ersätt skivan i enheten med en tom skiva."
 
 #: ../serpentine/recording.py:315
 msgid "Reload blank disc"
-msgstr "Recargue el disco en blanco"
+msgstr "Ladda om tom skiva"

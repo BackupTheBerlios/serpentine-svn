@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-10 22:12-0100\n"
+"POT-Creation-Date: 2006-02-12 21:27-0100\n"
 "PO-Revision-Date: 2006-02-10 16:21+0200\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -109,7 +109,7 @@ msgstr "Tallenna soittolista nimellä..."
 msgid "Serpentine Audio Mastering"
 msgstr "Serpentine-audiomasterointi"
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:58
+#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:56
 msgid "Serpentine Preferences"
 msgstr "Serpentinen asetukset"
 
@@ -141,19 +141,19 @@ msgstr "_Työkalurivi"
 msgid "_View"
 msgstr "_Näytä"
 
-#: ../scripts/serpentine:37
+#: ../scripts/serpentine:57
 msgid "Recording operations will be done in simulation mode."
 msgstr "Kirjoitustoiminnot tehdään simulaatiotilassa."
 
-#: ../scripts/serpentine:40
+#: ../scripts/serpentine:60
 msgid "Shows debugging information from recording backend."
 msgstr "Näyttää virheenjäljitystietoja kirjoitustaustaosasta."
 
-#: ../scripts/serpentine:43
+#: ../scripts/serpentine:63
 msgid "Shows preferences dialog."
 msgstr "Näyttää asetukset-valintaikkunan."
 
-#: ../scripts/serpentine:46
+#: ../scripts/serpentine:66
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
@@ -161,16 +161,20 @@ msgstr ""
 "Kirjoittaa valitsimen jälkeen luetellut tiedostot CD-levylle. Näyttää "
 "valintaikkunan, joka on sulautettavissa muihin ohjelmiin."
 
-#: ../scripts/serpentine:51
+#: ../scripts/serpentine:71
 msgid "Uses filenames after this option as the playlist contents."
 msgstr ""
 "Käyttää valitsimen jälkeen lueteltuja tiedostoja soittolistan sisältönä."
 
-#: ../scripts/serpentine:80
+#: ../scripts/serpentine:75
+msgid "Do not use GnomeVfs module."
+msgstr ""
+
+#: ../scripts/serpentine:111
 msgid "Simulation mode"
 msgstr "Simulaatiotila"
 
-#: ../scripts/serpentine:81
+#: ../scripts/serpentine:112
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
@@ -190,40 +194,40 @@ msgstr "Tuetut soittolistat"
 msgid "Common media files"
 msgstr "Yleiset mediatiedostot"
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GByte"
 msgstr "Gtavu"
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GBytes"
 msgstr "Gtavua"
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MByte"
 msgstr "Mtavu"
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MBytes"
 msgstr "Mtavua"
 
-#: ../serpentine/common.py:72
+#: ../serpentine/common.py:74
 msgid "KByte"
 msgstr "ktavu"
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "byte"
 msgstr "tavu"
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "bytes"
 msgstr "tavua"
 
-#: ../serpentine/common.py:150
+#: ../serpentine/common.py:151
 msgid "Please check if the cache location exists and has writable permissions."
 msgstr ""
 "Tarkista, että kätkön sijainti on olemassa ja sinne on kirjoitusoikeudet."
 
-#: ../serpentine/common.py:160
+#: ../serpentine/common.py:161
 #, python-format
 msgid ""
 "Remove some music tracks or make sure your cache location location has "
@@ -341,59 +345,59 @@ msgstr "Tukematon tiedostomuoto"
 msgid "The following files were not added:"
 msgstr "Seuraavia tiedostoja ei lisätty:"
 
-#: ../serpentine/mastering.py:111
+#: ../serpentine/mastering.py:136
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: ../serpentine/mastering.py:112
+#: ../serpentine/mastering.py:137
 msgid "Unknown Artist"
 msgstr "Tuntematon esittäjä"
 
-#: ../serpentine/mastering.py:560
+#: ../serpentine/mastering.py:594
 msgid "Track"
 msgstr "Kappale"
 
-#: ../serpentine/mastering.py:573
+#: ../serpentine/mastering.py:607
 msgid "Artist"
 msgstr "Esittäjä"
 
-#: ../serpentine/mastering.py:576
+#: ../serpentine/mastering.py:610
 msgid "Duration"
 msgstr "Kesto"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minute"
 msgstr "minuutti"
 
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minutes"
 msgstr "minuuttia"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "second"
 msgstr "sekunti"
 
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "seconds"
 msgstr "sekuntia"
 
-#: ../serpentine/mastering.py:683
+#: ../serpentine/mastering.py:717
 msgid " and "
 msgstr " ja "
 
-#: ../serpentine/mastering.py:717
+#: ../serpentine/mastering.py:751
 #, python-format
 msgid "%s remaining"
 msgstr "%s jäljellä"
 
-#: ../serpentine/mastering.py:719
+#: ../serpentine/mastering.py:753
 #, python-format
 msgid "%s overlaping"
 msgstr "%s ylitse"
 
-#: ../serpentine/mastering.py:721
+#: ../serpentine/mastering.py:755
 msgid "Empty"
 msgstr "Tyhjä"
 

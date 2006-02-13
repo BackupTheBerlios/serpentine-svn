@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-10 11:38-0100\n"
+"POT-Creation-Date: 2006-02-12 21:27-0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: German <de@li.org>\n"
@@ -16,7 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Rosetta-Version: 0.1\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
 
 #: ../data/serpentine.desktop.in.h:1
 msgid "Create Audio-CD's from music files and playlists"
@@ -56,11 +55,11 @@ msgstr "Spuren zur Wiedergabeliste hinzufügen"
 
 #: ../data/serpentine.glade.h:9
 msgid "Add two seconds gap between tracks"
-msgstr "Zwei Sekunden Stille zwischen den Spuren einfüggen"
+msgstr "Zwei Sekunden Stille zwischen den Spuren einfügen"
 
 #: ../data/serpentine.glade.h:10
 msgid "Audio Widget Wrapper"
-msgstr ""
+msgstr "Audio-Widget-Hülle"
 
 #: ../data/serpentine.glade.h:11
 msgid "Choose writing speed"
@@ -110,7 +109,7 @@ msgstr "Wiedergabeliste speichern unter..."
 msgid "Serpentine Audio Mastering"
 msgstr ""
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:58
+#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:56
 msgid "Serpentine Preferences"
 msgstr "Serpentine - Einstellungen"
 
@@ -142,20 +141,19 @@ msgstr "_Werkzeugleiste"
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../scripts/serpentine:37
+#: ../scripts/serpentine:57
 msgid "Recording operations will be done in simulation mode."
 msgstr "Schreiben wird im Simulationsmodus ausgeführt werden."
 
-#: ../scripts/serpentine:40
+#: ../scripts/serpentine:60
 msgid "Shows debugging information from recording backend."
 msgstr ""
 
-#: ../scripts/serpentine:43
-#, fuzzy
+#: ../scripts/serpentine:63
 msgid "Shows preferences dialog."
-msgstr "Einstellungsdialog anzeigen und beenden."
+msgstr ""
 
-#: ../scripts/serpentine:46
+#: ../scripts/serpentine:66
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
@@ -163,15 +161,19 @@ msgstr ""
 "Schreibt die Dateinamen nach dieser Option auf eine CD. Dies ergibt einen "
 "Dialog, der sich in andere Anwenfungen einbetten lässt."
 
-#: ../scripts/serpentine:51
+#: ../scripts/serpentine:71
 msgid "Uses filenames after this option as the playlist contents."
 msgstr ""
 
-#: ../scripts/serpentine:80
+#: ../scripts/serpentine:75
+msgid "Do not use GnomeVfs module."
+msgstr ""
+
+#: ../scripts/serpentine:111
 msgid "Simulation mode"
 msgstr "Simulationsmodus"
 
-#: ../scripts/serpentine:81
+#: ../scripts/serpentine:112
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
@@ -184,49 +186,48 @@ msgid "All files"
 msgstr "Alle Dateien"
 
 #: ../serpentine/__init__.py:53 ../serpentine/__init__.py:220
-#, fuzzy
 msgid "Supported playlists"
-msgstr "Unterstützte Dateien"
+msgstr ""
 
 #: ../serpentine/__init__.py:212
 msgid "Common media files"
 msgstr ""
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GByte"
 msgstr "GB"
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GBytes"
 msgstr "GB"
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MByte"
 msgstr "MB"
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MBytes"
 msgstr "MB"
 
-#: ../serpentine/common.py:72
+#: ../serpentine/common.py:74
 msgid "KByte"
 msgstr "KB"
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "byte"
 msgstr "byte"
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "bytes"
 msgstr "byte"
 
-#: ../serpentine/common.py:150
+#: ../serpentine/common.py:151
 msgid "Please check if the cache location exists and has writable permissions."
 msgstr ""
 "Bitte überprüfen Sie, ob das Auslagerungsverzeichnis existiert und Sie "
 "Schreibrechte darin haben."
 
-#: ../serpentine/common.py:160
+#: ../serpentine/common.py:161
 #, python-format
 msgid ""
 "Remove some music tracks or make sure your cache location location has "
@@ -236,9 +237,8 @@ msgstr ""
 "Auslagerungsverzeichnis genug freien Platz hat (etwa %s)"
 
 #: ../serpentine/mainwindow.py:139
-#, fuzzy
 msgid "Save playlist in format:"
-msgstr "Wiedergabeliste speichern unter..."
+msgstr ""
 
 #: ../serpentine/mainwindow.py:153
 msgid "Detect by extension"
@@ -341,71 +341,80 @@ msgstr ""
 msgid "The following files were not added:"
 msgstr ""
 
-#: ../serpentine/mastering.py:111
+#: ../serpentine/mastering.py:136
 msgid "Unknown"
 msgstr ""
 
-#: ../serpentine/mastering.py:112
+#: ../serpentine/mastering.py:137
 msgid "Unknown Artist"
 msgstr ""
 
-#: ../serpentine/mastering.py:560
+#: ../serpentine/mastering.py:594
 msgid "Track"
 msgstr ""
 
-#: ../serpentine/mastering.py:573
+#: ../serpentine/mastering.py:607
 msgid "Artist"
 msgstr ""
 
-#: ../serpentine/mastering.py:576
+#: ../serpentine/mastering.py:610
 msgid "Duration"
 msgstr ""
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minute"
 msgstr ""
 
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minutes"
 msgstr ""
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "second"
 msgstr ""
 
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "seconds"
 msgstr ""
 
-#: ../serpentine/mastering.py:683
+#: ../serpentine/mastering.py:717
 msgid " and "
 msgstr ""
 
-#: ../serpentine/mastering.py:717
+#: ../serpentine/mastering.py:751
 #, python-format
 msgid "%s remaining"
 msgstr ""
 
-#: ../serpentine/mastering.py:719
+#: ../serpentine/mastering.py:753
 #, python-format
 msgid "%s overlaping"
 msgstr ""
 
-#: ../serpentine/mastering.py:721
+#: ../serpentine/mastering.py:755
 msgid "Empty"
 msgstr ""
 
-#: ../serpentine/plugins/plugrhythmbox.py:47
+#: ../serpentine/plugins/plugrhythmbox.py:50
 #, fuzzy
-msgid "Select playlist"
+msgid "Select playlist:"
 msgstr "Wiedergabeliste leeren"
 
-#: ../serpentine/plugins/plugrhythmbox.py:84
-#, fuzzy
+#: ../serpentine/plugins/plugrhythmbox.py:75
+msgid "No Rhythmbox playlist found"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:76
+msgid ""
+"Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist..."
+"</i>"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:95
 msgid "Open Rhythmbox Playlist..."
-msgstr "Wiedergabeliste öffnen..."
+msgstr ""
 
 #: ../serpentine/preferences.py:352 ../serpentine/preferences.py:370
 msgid "Serpentine's playlist"
@@ -524,6 +533,3 @@ msgstr ""
 #: ../serpentine/recording.py:315
 msgid "Reload blank disc"
 msgstr ""
-
-#~ msgid "Playlists"
-#~ msgstr "Wiedergabelisten"

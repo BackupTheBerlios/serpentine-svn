@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-10 22:12-0100\n"
+"POT-Creation-Date: 2006-02-12 21:27-0100\n"
 "PO-Revision-Date: 2006-02-10 11:47-0100\n"
 "Last-Translator: Tiago Cogumbreiro <cogumbreiro@users.sf.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -111,7 +111,7 @@ msgstr "Enregistrer la liste de lecture sous..."
 msgid "Serpentine Audio Mastering"
 msgstr "Gravure audio Serpentine"
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:58
+#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:56
 msgid "Serpentine Preferences"
 msgstr "Préférences de Serpentine"
 
@@ -143,20 +143,20 @@ msgstr "Barre d'ou_tils"
 msgid "_View"
 msgstr "Afficha_ge"
 
-#: ../scripts/serpentine:37
+#: ../scripts/serpentine:57
 msgid "Recording operations will be done in simulation mode."
 msgstr "Les opérations de gravure seront faites en mode simulation."
 
-#: ../scripts/serpentine:40
+#: ../scripts/serpentine:60
 msgid "Shows debugging information from recording backend."
 msgstr ""
 "Affiche des informations de débogage issues du moteur d'enregistrement."
 
-#: ../scripts/serpentine:43
+#: ../scripts/serpentine:63
 msgid "Shows preferences dialog."
 msgstr "Affiche la boîte de dialogue des préférences."
 
-#: ../scripts/serpentine:46
+#: ../scripts/serpentine:66
 msgid ""
 "Writes the filenames after this option to a CD. This will show a dialog "
 "suitable for embedding in other applications."
@@ -164,16 +164,20 @@ msgstr ""
 "Grave les noms de fichier après cette option sur un CD. Cette option affiche "
 "une boîte de dialogue conçue pour être embarquée dans d'autres applications."
 
-#: ../scripts/serpentine:51
+#: ../scripts/serpentine:71
 msgid "Uses filenames after this option as the playlist contents."
 msgstr ""
 "Utilise les fichiers fournis après cette option comme la liste de lecture."
 
-#: ../scripts/serpentine:80
+#: ../scripts/serpentine:75
+msgid "Do not use GnomeVfs module."
+msgstr ""
+
+#: ../scripts/serpentine:111
 msgid "Simulation mode"
 msgstr "Mode simulation"
 
-#: ../scripts/serpentine:81
+#: ../scripts/serpentine:112
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
@@ -193,41 +197,41 @@ msgstr "Listes de lecture supportées"
 msgid "Common media files"
 msgstr "Fichiers audio communs"
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GByte"
 msgstr "Goctet"
 
-#: ../serpentine/common.py:70
+#: ../serpentine/common.py:72
 msgid "GBytes"
 msgstr "Goctets"
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MByte"
 msgstr "Moctet"
 
-#: ../serpentine/common.py:71
+#: ../serpentine/common.py:73
 msgid "MBytes"
 msgstr "Moctets"
 
-#: ../serpentine/common.py:72
+#: ../serpentine/common.py:74
 msgid "KByte"
 msgstr "Koctet"
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "byte"
 msgstr "octet"
 
-#: ../serpentine/common.py:73
+#: ../serpentine/common.py:75
 msgid "bytes"
 msgstr "octets"
 
-#: ../serpentine/common.py:150
+#: ../serpentine/common.py:151
 msgid "Please check if the cache location exists and has writable permissions."
 msgstr ""
 "Vérifiez que l'emplacement du cache existe et qu'il possède les permissions "
 "d'écriture."
 
-#: ../serpentine/common.py:160
+#: ../serpentine/common.py:161
 #, python-format
 msgid ""
 "Remove some music tracks or make sure your cache location location has "
@@ -347,59 +351,59 @@ msgstr "Type de fichier non pris en charge"
 msgid "The following files were not added:"
 msgstr "Les fichiers suivants n'ont pas été ajoutés :"
 
-#: ../serpentine/mastering.py:111
+#: ../serpentine/mastering.py:136
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: ../serpentine/mastering.py:112
+#: ../serpentine/mastering.py:137
 msgid "Unknown Artist"
 msgstr "Artiste inconnu"
 
-#: ../serpentine/mastering.py:560
+#: ../serpentine/mastering.py:594
 msgid "Track"
 msgstr "Piste"
 
-#: ../serpentine/mastering.py:573
+#: ../serpentine/mastering.py:607
 msgid "Artist"
 msgstr "Artiste"
 
-#: ../serpentine/mastering.py:576
+#: ../serpentine/mastering.py:610
 msgid "Duration"
 msgstr "Durée"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minute"
 msgstr "minute"
 
-#: ../serpentine/mastering.py:677
+#: ../serpentine/mastering.py:711
 msgid "minutes"
 msgstr "minutes"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "second"
 msgstr "seconde"
 
-#: ../serpentine/mastering.py:681
+#: ../serpentine/mastering.py:715
 msgid "seconds"
 msgstr "secondes"
 
-#: ../serpentine/mastering.py:683
+#: ../serpentine/mastering.py:717
 msgid " and "
 msgstr " et "
 
-#: ../serpentine/mastering.py:717
+#: ../serpentine/mastering.py:751
 #, python-format
 msgid "%s remaining"
 msgstr "%s restante(s)"
 
-#: ../serpentine/mastering.py:719
+#: ../serpentine/mastering.py:753
 #, python-format
 msgid "%s overlaping"
 msgstr "%s de chevauchement"
 
-#: ../serpentine/mastering.py:721
+#: ../serpentine/mastering.py:755
 msgid "Empty"
 msgstr "Vide"
 
