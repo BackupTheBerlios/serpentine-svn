@@ -1,0 +1,10 @@
+Serpentine is an application for mastering audio CDs.
+In it's design simplicity will be the keyword. Dnd and saving states (think nautilus) will play an important role here, since it will cleanup the UI alot.
+Serpentine will try to abide to GNOME HIG v2.0.
+
+The project is not yet functional but great part of it already is.
+
+It depends on atleast: pygtk-2.4 gst-python-0.7 libnautilus-burn-python-0.1
+
+libnautilus-burn-python is currently available through:
+http://s1x.homelinux.net/projects/libnautilus-burn-python/

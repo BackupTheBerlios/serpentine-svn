@@ -1,0 +1,165 @@
+#!/usr/bin/env python
+import gtk
+import sys
+import gobject
+import gnome
+import gettext
+
+from os import path
+from gtk import glade
+from optparse import OptionParser
+from gettext import gettext as _
+
+
+# Start threads subsystem
+gobject.threads_init ()
+
+# Get the application locations
+class ApplicationLocations:
+    def __init__(self, root, appname):
+        self.root = path.abspath(root)
+        pyver = "python%d.%d" % sys.version_info[0:2]
+        self.lib = path.join(root, "lib", pyver, "site-packages")
+        self.data = path.join(root, "share", appname)
+        self.bin = path.join(root, "bin")
+        self.locale = path.join(root, "share", "locale")
+
+    def get_data_file(self, filename):
+        return path.join(self.data, filename)
+    
+    def get_lib_file(self, filename):
+        return path.join(self.lib, filename)
+
+    def get_bin_file(self, filename):
+        return path.join(self.bin, filename)
+
+    def get_locale_file(self, filename):
+        return path.join(self.locale, filename)
+
+    def get_root_file(self, filename):
+        return path.join(self.root, filename)
+
+root = path.join(path.dirname (path.abspath (sys.argv[0])), "..")
+locations = ApplicationLocations(root, "serpentine")
+
+# Setup i18n
+gettext.bindtextdomain("serpentine", locations.locale)
+gettext.textdomain("serpentine")
+glade.bindtextdomain("serpentine", locations.locale)
+glade.textdomain("serpentine")
+
+# Parse args
+def parse_args (option, opt_str, value, parser):
+    setattr (parser.values, option.dest,  list (parser.rargs))
+
+parser = OptionParser()
+parser.add_option ("-s", "--simulate", action="store_true", dest="simulate",
+                   help=_("Recording operations will be done in simulation mode."),
+                   default=False)
+parser.add_option ("-d", "--debug", action="store_true", dest="debug",
+                   help=_("Shows debugging information from recording backend."),
+                   default=False)
+parser.add_option ("-p", "--preferences", action="store_true", dest="preferences",
+                   help=_("Shows preferences dialog."), default=False)
+                   
+parser.add_option ("-w", "--write", action="callback", callback=parse_args,
+                   help=_("Writes the filenames after this option to a CD. "
+                   "This will show a dialog suitable for embedding in other "
+                   "applications."), dest="write_files", default=None)
+
+parser.add_option ("-o", "--open", action="callback", callback=parse_args,
+                   help=_("Uses filenames after this option as the playlist "
+                   "contents."), dest="open_files", default=None)
+
+parser.add_option ("-n", "--no-gnomevfs", action="store_true", dest="no_gvfs",
+                   help=_("Do not use GnomeVfs module."),
+                   default=False)
+                   
+(options, args) = parser.parse_args()
+sys.argv = sys.argv[:1]
+
+# Add our default lib dir to the path
+assert path.isdir(locations.lib)
+if locations.lib not in sys.path:
+    sys.path.insert (0, locations.lib)
+
+# Actually start the program
+from serpentine.common import SerpentineError, validate_music_list
+from serpentine import SerpentineApplication, operations, gtkutil
+from serpentine import HeadlessApplication
+
+
+class OurListener (operations.OperationListener):
+    def on_finished (self, event):
+        # Route it to main loop
+        gobject.idle_add(gtk.main_quit)
+        
+listener = OurListener ()
+if options.write_files:
+    app = HeadlessApplication (locations)
+else:
+    app = SerpentineApplication (locations)
+
+app.listeners.append (listener)
+app.preferences.simulate = options.simulate
+app.preferences.debug = options.debug
+app.preferences.useGnomeVfs = not options.no_gvfs
+
+gnome_app = gnome.init ('serpentine', app.preferences.version)
+
+if app.preferences.simulate:
+    primary_text = _("Simulation mode")
+    secondary_text = _("Serpentine is on simulation mode, no actual writing "
+                       "will be done on inserted media.")
+                       
+    dlg = gtkutil.gen_warn (primary_text, secondary_text, title = "Serpentine")
+    dlg.set_icon_name ("gnome-dev-cdrom-audio")
+    dlg.run ()
+    dlg.destroy ()
+
+def check_error(ret):
+    if ret == operations.ERROR:
+        raise SystemError(1)
+
+# Check if we want to write files
+if options.write_files is not None:
+    if len (options.write_files) == 0:
+        print >> sys.stderr, "Choose at least one valid filename"
+        sys.exit (1)
+    try:
+        # Check if the operation was successful
+        app.clear_files()
+        check_error(app.add_files(options.write_files, sync=True))
+        check_error(app.write_files(sync=True))
+            
+    except SerpentineError, e:
+        print >> sys.stderr, e
+        sys.exit (1)
+    
+
+# Show main window
+else:
+    if options.preferences:
+        from serpentine.preferences import recordingPreferencesWindow
+        win = recordingPreferencesWindow (app.preferences)
+        win.set_icon_name ("gnome-dev-cdrom-audio")
+        win.show ()
+        win.connect ("delete-event", gtk.main_quit)
+        gtk.main ()
+        sys.exit (0)
+        
+    else:
+        app.show_window ()
+
+
+try:
+    if options.open_files is not None and len(options.open_files) > 0:
+        app.clear_files()
+        app.add_files(options.open_files, sync=True)
+
+    app.start ()
+except SerpentineError, e:
+    print >> sys.stderr, e
+    sys.exit (1)
+
+gtk.main()
