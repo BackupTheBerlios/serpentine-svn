@@ -44,7 +44,7 @@ for gconf_dir in (GCONF_DIR, RAT_GCONF_DIR, NCB_GCONF_DIR):
     gconf.client_get_default ().add_dir (gconf_dir, gconf.CLIENT_PRELOAD_NONE)
 
 def recordingPreferencesWindow (preferences):
-    prefs_widget = gtkutil.find_widget (preferences.dialog, "preferences")
+    prefs_widget = gtkutil.find_child_widget (preferences.dialog, "preferences")
     prefs_widget.show ()
     
     assert prefs_widget is not None

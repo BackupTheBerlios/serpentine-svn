@@ -20,6 +20,7 @@
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 import urllib
+
 from os import path
 from urlparse import urlparse, urlunparse
 
@@ -56,6 +57,7 @@ class UrlParse(object):
             self.parse(data, basepath)
     
     def parse(self, data, basepath=None):
+        data = data.encode("utf-8")
         self.data = urlparse(data)
         # if the scheme is empty then we're locating a local file
         if self.scheme == "":

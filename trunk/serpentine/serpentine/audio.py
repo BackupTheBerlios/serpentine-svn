@@ -22,11 +22,28 @@
 This module contains operations to convert sound files to WAV and to
 retrieve a their metadata.
 """
+try:
+    import pygst
+    pygst.require("0.10")
+except ImportError:
+    pass
 
 import threading
 import gst
 import gobject
 import operations
+
+GVFS_SRC = "gnomevfssrc"
+FILE_SRC = "filesrc"
+
+class ElementNotFoundError(KeyError):
+    """This error is thrown when an element is not found"""
+
+def safe_element_factory_make(*args, **kwargs):
+    element = gst.element_factory_make(*args, **kwargs)
+    if element is None:
+        raise ElementNotFoundError(args)
+    return element
 
 class GstPlayingFailledError(StandardError):
     """This error is thrown when we can't set the state to PLAYING"""
@@ -137,7 +154,7 @@ class Gst08Operation (GstPipelineOperation):
     def start (self):
         super (Gst08Operation, self).start ()
         if self.running and not self.__use_threads:
-                self.__source = gobject.idle_add (self.bin.iterate)
+            self.__source = gobject.idle_add (self.bin.iterate)
 
     def stop (self):
         if self.__source is not None:
@@ -191,7 +208,7 @@ class Gst09Operation (GstPipelineOperation):
         try:
             total, format = self.query_element.query_duration (format)
             return float (total)
-        except gst.QueryError, e:
+        except gst.QueryError, err:
             return 0.0
 
     def query_position (self, format = gst.FORMAT_TIME):
@@ -249,6 +266,12 @@ else:
     NEW_PAD_SIGNAL = "new-pad"
     GstOperation = Gst08Operation
 
+def create_source(source, location, src_prop="location"):
+    src = safe_element_factory_make(source)
+    src.set_property(src_prop, location)
+    return src
+
+################################################################################
 class AudioMetadataListener (operations.OperationListener):
     """
     The on_metadata event is called before the FinishedEvent, if the metadata
@@ -261,7 +284,7 @@ class AudioMetadataEvent (operations.Event):
     "Event that holds the audio metadata."
     
     def __init__ (self, source, id, metadata):
-        operations.FinishedEvent.__init__ (source, id)
+        operations.Event.__init__ (source, id)
         self.__metadata = metadata
         
     metadata = property (lambda self: self.__metadata)
@@ -293,6 +316,7 @@ class AudioMetadata (operations.Operation, GstOperationListener):
         self.__oper.query_element = self._fakesink
         self.__oper.listeners.append (self) 
         self.__metadata = {}
+        self.__element = None
 
     def start (self):
         self.__oper.start ()
@@ -316,10 +340,19 @@ class AudioMetadata (operations.Operation, GstOperationListener):
         self.__metadata.update (taglist)
 
     def on_finished (self, event):
+        if event.id == operations.ERROR:
+            self._propagate(event)
+            return
+            
         try:
             duration = int (self.__metadata["duration"]) / gst.SECOND
         except KeyError:
             duration = 0
+        
+        if duration == -1 or duration == 0:
+            self._send_finished_event(operations.ERROR)
+            return
+            
         self.__metadata["duration"] = duration
         
         evt = operations.Event (self)
@@ -334,23 +367,10 @@ class AudioMetadata (operations.Operation, GstOperationListener):
             self.__metadata["duration"] = \
                 self.__oper.query_duration (gst.FORMAT_TIME)
 
-def fileAudioMetadata (filename):
-    """
-    Returns the audio metadata from a file.
-    """
-    filesrc = gst.element_factory_make ("filesrc", "source")
-    filesrc.set_property ("location", filename)
-    return AudioMetadata(filesrc)
+def get_metadata(source, location):
+    return AudioMetadata(create_source(source, location))
 
-def gvfsAudioMetadata (uri):
-    """
-    Returns the audio metadata from an URI.
-    """
-    filesrc = gst.element_factory_make ("gnomevfssrc", "source")
-    filesrc.set_property ("location", uri)
-    return AudioMetadata(filesrc)
 
-    
 ################################################################################
 WavPcmStruct = {
     'rate'      : 44100,
@@ -361,13 +381,11 @@ WavPcmStruct = {
     'endianness': 1234
 }
 
-WavPcmParse = ("audio/x-raw-int, endianness=(int)1234, width=(int)16, "
+_WAV_PCM_PARSE = ("audio/x-raw-int, endianness=(int)1234, width=(int)16, "
                "depth=(int)16, signed=(boolean)true, rate=(int)44100, "
                "channels=(int)2")
 
-def capsIsWavPcm (caps):
-    global WavPcmParse
-    
+def is_caps_wav_pcm (caps):
     struct = caps[0]
     if not struct.get_name () == "audio/x-raw-int":
         return False
@@ -388,12 +406,14 @@ class IsWavPcm (operations.Operation, GstOperationListener):
     running = property (lambda self: self.oper.running)
 
     def __init__ (self, source):
+        
         super (IsWavPcm, self).__init__ ()
-    
+        
+        self.is_wav_pcm = False
         bin = gst.parse_launch (
             "typefind name=iwp_typefind ! \
             wavparse name=iwp_wavparse ! "
-            + WavPcmParse +
+            + _WAV_PCM_PARSE +
             " ! fakesink name=iwp_fakesink"
         )
         
@@ -407,24 +427,25 @@ class IsWavPcm (operations.Operation, GstOperationListener):
         sink.set_property ("signal-handoffs", True)
         sink.connect ("handoff", self.on_handoff)
         
-        waveparse = bin.get_by_name ("iwp_wavparse")
-        waveparse.connect (NEW_PAD_SIGNAL, self.on_new_pad)
+        self.waveparse = bin.get_by_name ("iwp_wavparse")
+        self.waveparse.connect (NEW_PAD_SIGNAL, self.on_new_pad)
         
         self.oper.bin.add (source)
         source.link (decoder)
         
-        self.isPcm = False
+        self.is_wav_pcm = False
 
     def on_handoff (self, *args):
         self.oper.stop ()
     
     def on_new_pad (self, src, pad):
         caps = pad.get_caps()
-        self.isWavPcm = capsIsWavPcm (caps)
-
+        self.is_wav_pcm = is_caps_wav_pcm (caps)
+    
     def on_finished (self, event):
-        if event.id != operations.ERROR and self.isWavPcm:
-            assert event.id == operations.SUCCESSFUL or event.id == operations.ABORTED
+        if event.id != operations.ERROR and self.is_wav_pcm:
+            assert event.id == operations.SUCCESSFUL or \
+                   event.id == operations.ABORTED
             
             self._send_finished_event (operations.SUCCESSFUL)
         else:
@@ -448,33 +469,25 @@ class IsWavPcm (operations.Operation, GstOperationListener):
     
     running = property (lambda self: self.__oper != None)
 
+def is_wav_pcm(source, location):
+    return IsWavPcm(create_source(source, location))
 
-def fileIsPcmWav (filename):
-    src = gst.element_factory_make ("filesrc")
-    src.set_property ("location", filename)
-    return IsWavPcm (src)
-fileIsPcmWav = operations.async(fileIsPcmWav)
-fileIsPcmWav = operations.operation_factory(fileIsPcmWav)
+is_wav_pcm = operations.operation_factory(is_wav_pcm)
+is_wav_pcm = operations.async(is_wav_pcm)
 
-def gvfsIsPcmWav(uri):
-    src = gst.element_factory_make("gnomevfssrc")
-    src.set_property("location", uri)
-    return IsWavPcm(src)
-
-gvfsIsPcmWav = operations.async(gvfsIsPcmWav)
-gvfsIsPcmWav = operations.operation_factory(gvfsIsPcmWav)
-
-def sourceToWav (source, sink):
+################################################################################
+def source_to_wav(source, sink):
     """
     Converts a given source element to wav format and sends it to sink element.
     
     To convert a media file to a wav using gst-launch:
-    source ! decodebin ! audioconvert ! audioscale !$WavPcmParse ! wavenc
+    source ! decodebin ! audioconvert ! audioscale !$_WAV_PCM_PARSE ! wavenc
     """
+
     bin = gst.parse_launch (
         "decodebin name=stw_decodebin !"
         "audioconvert ! "
-        + WavPcmParse +
+        + _WAV_PCM_PARSE +
         " ! wavenc name=stw_wavenc"
     )
     oper = GstOperation(sink, bin)
@@ -489,62 +502,68 @@ def sourceToWav (source, sink):
     
     return oper
 
-sourceToWav = operations.operation_factory(sourceToWav)
+source_to_wav = operations.operation_factory(source_to_wav)
 
-
-def fileToWav (src_filename, sink_filename):
+def convert_to_wav(source, source_location, sink_location):
     """
     Utility function that given a source filename it converts it to a wav
     with sink_filename.
     """
-    src = gst.element_factory_make ("filesrc")
-    src.set_property ("location", src_filename)
-    sink = gst.element_factory_make ("filesink")
-    sink.set_property ("location", sink_filename)
-    return sourceToWav (src, sink)
+    sink = safe_element_factory_make("filesink")
+    sink.set_property("location", sink_location)
+    return source_to_wav(create_source(source, source_location), sink)
 
+convert_to_wav = operations.operation_factory(convert_to_wav)
+convert_to_wav = operations.async(convert_to_wav)
+
+commands = {
+    "convert_to_wav": convert_to_wav,
+    "is_wav": is_wav_pcm,
+    "get_metadata": get_metadata
+}
+
+def parse_command(operation, source, source_location, *args):
+    return commands[operation](source, source_location, *args)
+    
 ################################################################################
 
 ################################################################################
 if __name__ == '__main__':
     import sys
-    
+    import gst
+
     mainloop = gobject.MainLoop ()
-    class L (GstOperationListener):
-        def __init__(self, foo):
-            self.foo = foo
+    class Listener (GstOperationListener):
+        def __init__(self, oper):
+            self.oper = oper
             
         def on_metadata (self, event, metadata):
-            print metadata
+            print >> sys.stderr, metadata
             
         def on_finished (self, event):
-            if event.id == operations.ABORTED:
-                print "Aborted!"
-                
-            if event.id == operations.ERROR:
-                print "Error:", event.error
-            #gst.main_quit()
+            self.success = operations.SUCCESSFUL == event.id
             mainloop.quit ()
 
         def on_progress (self):
-            #print
-            self.foo.progress
+            print self.oper.progress
             return True
     
-    #f = fileToWav (sys.argv[1], sys.argv[2])
-    f = gvfsIsPcmWav (sys.argv[1])
-    print operations.syncOperation (f).id == operations.SUCCESSFUL
-    raise SystemError
-    #f = fileAudioMetadata (sys.argv[1])
+    #f = convert_to_wav (FILE_SRC, sys.argv[1], sys.argv[2])
+    f = parse_command(sys.argv[1], FILE_SRC, sys.argv[2], *sys.argv[3:])
+    #f = is_wav_pcm (FILE_SRC, sys.argv[1])
+    #print operations.syncOperation (f).id == operations.SUCCESSFUL
+    #raise SystemError
+    #f = get_metadata("filesrc", sys.argv[1])
     #f = extractAudioTrackFile ("/dev/cdrom", int(sys.argv[1]) + 1, sys.argv[2])
-    l = L(f)
-    #gobject.timeout_add (200, l.on_progress)
+    l = Listener(f)
+    if isinstance(f, operations.MeasurableOperation):
+        gobject.timeout_add (200, l.on_progress)
     f.listeners.append (l)
     f.start()
     l.finished = False
-    #gst.main()
 
     mainloop.run ()
-#    while not l.finished:
-#        pass
+    if not l.success:
+        import sys
+        sys.exit(1)
     

@@ -76,10 +76,10 @@ class SavePlaylistRegistry (Component):
         if extension is None:
             fname, extension = os.path.splitext (filename)
 
-        if not self.__factories.has_key (extension):
+        try:
+            return  self.__factories[extension](self.parent.music_list, filename)
+        except KeyError:
             raise SerpentineNotSupportedError (extension)
-        
-        return  self.__factories[extension] (self.parent.music_list, filename)
     
 class Application (operations.Operation, Component):
     components = ()

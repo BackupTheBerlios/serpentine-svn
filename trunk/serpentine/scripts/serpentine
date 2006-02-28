@@ -78,6 +78,13 @@ parser.add_option ("-n", "--no-gnomevfs", action="store_true", dest="no_gvfs",
 (options, args) = parser.parse_args()
 sys.argv = sys.argv[:1]
 
+# Depend on GStreamer 0.10 when available
+try:
+    import pygst
+    pygst.require("0.10")
+except ImportError:
+    pass
+    
 # Add our default lib dir to the path
 assert path.isdir(locations.lib)
 if locations.lib not in sys.path:

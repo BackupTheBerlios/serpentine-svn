@@ -30,60 +30,35 @@ def rhythmbox_get_playlist (playlist_name):
 class RhythmboxListener (object):
     def __init__ (self, app):
         self._app = weakref.ref (app)
-        self.create_window (self.app.window_widget)
     
     app = property (lambda self: self._app())
     
-    def create_window (self, parent):
-        setup = gtkutil.SetupDialog()
-        
-        dlg = gtk.Dialog (
-            title='',
-            parent = parent,
-            buttons = (gtk.STOCK_OPEN, gtk.RESPONSE_ACCEPT)
-        )
-        dlg.set_has_separator (False)
-        
-        hbox = gtk.HBox (spacing = 6)
-        hbox.show ()
-        
-        lbl = gtk.Label (_("Select playlist:"))
-        lbl.show ()
-        hbox.pack_start (lbl, False, False)
-        
-        cmb = gtk.combo_box_new_text ()
-        cmb.show ()
-        hbox.pack_start (cmb, False, False)
-        
-        dlg, vbox = setup(dlg, dlg.vbox)
-        vbox.add (hbox)
-        
-        self.dlg = dlg
-        self.cmb = cmb
-        
-    
-    def populate (self):
-        self.cmb.get_model ().clear ()
-        elements = rhythmbox_list_names ()
-        map(self.cmb.append_text, elements)
-        self.cmb.set_active (0)
-        return len(elements) > 0
-        
     def on_clicked (self, menu):
-        if not self.populate ():
+        playlists = rhythmbox_list_names()
+
+        if len(playlists) == 0:
             gtkutil.dialog_warn(
                 _("No Rhythmbox playlist found"),
                 _("Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist...</i>"),
                 parent=self.app.window_widget
             )
             return
-            
-        response = self.dlg.run ()
-        self.dlg.hide ()
         
-        if response == gtk.RESPONSE_ACCEPT:
+        indexes, response = gtkutil.choice_dialog(
+            _("Which playlist do you choose to open?"),
+            _("These are the playlists created on Rhythmbox."),
+            one_item_text = _("Do you want to open the playlist <i>%s</i>?"),
+            list_title = _("Rhythmbox playlists:"),
+            items = playlists,
+            parent = self.app.window_widget,
+            min_select = 1,
+            max_select = 1,
+            ok_button = gtk.STOCK_OPEN,
+        )
+        
+        if response == gtk.RESPONSE_OK:
             self.app.music_list.clear ()
-            files = rhythmbox_get_playlist (self.cmb.get_active_text ())
+            files = rhythmbox_get_playlist(playlists[indexes[0]])
             self.app.add_files (files).start ()
     
 def create_plugin (app):
@@ -103,7 +78,7 @@ def create_plugin (app):
     listener = RhythmboxListener (app)
     rhyt.connect ("activate", listener.on_clicked)
     
-    file_menu = gtkutil.find_widget (window, "file_menu")
+    file_menu = gtkutil.find_child_widget (window, "file_menu")
     file_menu.add (rhyt)
     file_menu.reorder_child (rhyt, 4)
 

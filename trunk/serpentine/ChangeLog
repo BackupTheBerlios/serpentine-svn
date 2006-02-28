@@ -1,3 +1,46 @@
+2006-02-26 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/plugins/plugrhythmbox.py:
+    Uses rat.hig.choice_list to display the available playlist.
+    
+    * serpentine/__init__.py:
+    Minor cosmetic change.
+    
+    * serpentine/mainwindow.py:
+    Uses rat.hig.choice_list to display the playlist formats.
+    Closes bug 331399.
+    
+    * serpentine/mastering.py:
+    Made some strings more i18n friendly.
+    Uses rat.hig.list_dialog for displaying not opened files.
+    
+    * serpentine/preferences.py:
+    Updated synchronization from rat.hig.
+    
+    * serpentine/urlutil.py:
+    Incoming strings must be encoded in utf-8.
+    
+2006-02-26 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * scripts/serpentine:
+    Adds support for python-gst 0.10
+    
+    * serpentine/audio.py:
+    Improved metadata retrieval.
+    Made the module more robust versus systems without the needed plugins.
+    There's no longer gnomevfs and file functions. Use `create_source` instead.
+    AudioMetadataEvent had a bug in the constructor.
+    Renamed the functions of the module to conform with PEP 8.
+    This module can be run from the command line and use these functions:
+    'convert_to_wav', 'is_wav' and 'get_metadata'.
+
+    * serpentine/converting.py:
+    * serpentine/mastering.py:
+    Update the functions renamed on serpentine.audio.
+    
+
+== 0.6.9.0 ==
+
 2006-02-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * po/ast.po:

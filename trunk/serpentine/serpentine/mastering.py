@@ -26,6 +26,7 @@ from gtk import glade
 from os import path
 from types import IntType, TupleType
 from gettext import gettext as _
+from gettext import ngettext as N_
 
 # Local modules
 import operations
@@ -62,26 +63,34 @@ class ErrorTrapper (operations.Operation, operations.OperationListener):
             for l in self.listeners:
                 l.on_finished (e)
             return
-                
-        elif len (self.errors) > 1:
-            title = _("Unsupported file types")
-        else:
-            title = _("Unsupported file type")
-            
+
         filenames = []
         for e in self.errors:
             filenames.append (urlutil.basename(e.hints['location']))
         del self.__errors
         
-        if len (filenames) == 1:
-            msg = _("The following files were not added:") + "\n"
-        else:
-            msg = _("The following files were not added:") + "\n"
-        
-        msg += " "
-        msg += ", ".join (filenames)
+        title = N_(
+            "Unsupported file type",
+            "Unsupported file types",
+            len(filenames)
+        )
 
-        gtkutil.dialog_error (title, msg, parent = self.parent)
+        msg = N_(
+            "The following file was not added:",
+            "The following files were not added:",
+            len(filenames)
+        )
+
+        gtkutil.list_dialog(
+            title,
+            _("If you're having problems opening certain files make sure you "
+              "have the GStreamer plugins needed to decode them."),
+            list_title=msg,
+            parent=self.parent,
+            items=filenames,
+            stock = gtk.STOCK_DIALOG_ERROR,
+            buttons =(gtk.STOCK_CLOSE, gtk.RESPONSE_OK),
+        )
         
         e = operations.FinishedEvent (self, operations.SUCCESSFUL)
         for l in self.listeners:
@@ -103,7 +112,7 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
     
     def start (self):
         if self.app.preferences.useGnomeVfs:
-            oper = audio.gvfsAudioMetadata(self.hints["location"])
+            oper = audio.get_metadata(audio.GVFS_SRC, self.hints["location"])
             
         else:
             url = urlutil.UrlParse(self.hints["location"])
@@ -115,7 +124,7 @@ class AddFile (audio.AudioMetadataListener, operations.Operation):
                 return
                 
             filename = url.path
-            oper = audio.fileAudioMetadata (filename)
+            oper = audio.get_metadata("filesrc", filename)
 
         oper.listeners.append (self)
         try:

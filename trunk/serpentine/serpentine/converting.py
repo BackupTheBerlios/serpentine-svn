@@ -175,15 +175,14 @@ class GstMusicPool(MusicPool):
         invalid.
         """
         assert not self.is_available(music)
-        source = self.get_source(music)
-        sink = gst.element_factory_make("filesink", "destination")
+        source = self.get_source()
         
         handle, filename = tempfile.mkstemp(suffix = ".wav", dir = self.temporaryDir)
         os.close(handle)
-        sink.set_property("location", filename)
         
         our_listener = GstSourceToWavListener(self, filename, music)
-        oper = audio.sourceToWav(source, sink)
+        oper = audio.convert_to_wav(source, music, filename)
+        
         oper.listeners.append(our_listener)
         return oper
 
@@ -214,7 +213,7 @@ class GvfsMusicPool(GstMusicPool):
         return urlutil.normalize(uri)
     
     def is_wav(self, filename):
-        is_pcm = audio.IsWavPcm(self.get_source(filename))
+        is_pcm = audio.is_wav_pcm(self.get_source(), filename)
         return operations.syncOperation(is_pcm).id == operations.SUCCESSFUL
     
     def is_local(self, filename):
@@ -223,10 +222,8 @@ class GvfsMusicPool(GstMusicPool):
     def is_available(self, music):
         on_cache = GstMusicPool.is_available(self, music)
         
-        # XXX: when there is no gnomevfdssrc we have a problem because
-        #      we are using URI's
         unique_id = self.unique_music_id(music)
-        
+
         if not on_cache and self.is_local(music) and self.is_wav(unique_id):
             # convert to native filename
             filename = urlutil.get_path(unique_id)
@@ -235,16 +232,12 @@ class GvfsMusicPool(GstMusicPool):
 
         return on_cache
     
-    def get_source(self, music):
+    def get_source(self):
         if self.use_gnomevfs:
-            src = gst.element_factory_make("gnomevfssrc")
-            src.set_property("location", music)
-        
-        else:
-            src = gst.element_factory_make("filesrc", "source")
-            src.set_property("location", urlutil.get_path(music))
+            return audio.GVFS_SRC
             
-        return src
+        else:
+            return audio.FILE_SRC
 
 class FetchMusicListPriv(operations.OperationListener):
     def __init__(self, parent, music_list):

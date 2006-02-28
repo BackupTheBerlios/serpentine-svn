@@ -165,13 +165,7 @@ class SavePlaylistComponent (GladeComponent):
     def on_finished (self, evt):
         win = self.parent
             
-        if evt.id == operations.SUCCESSFUL:
-            gtkutil.dialog_info (
-                _("Playlist Saved"),
-                _("Playlist was saved successfully."),
-                parent = win
-            )
-        else:
+        if evt.id != operations.SUCCESSFUL:
             gtkutil.dialog_error (
                 _("Playlist Not Saved"),
                 _("There was an error while saving the playlist."),
@@ -229,12 +223,54 @@ class SavePlaylistComponent (GladeComponent):
                 break
 
             except SerpentineNotSupportedError:
-                gtkutil.dialog_error (
-                    _("Unsupported Format"),
-                    _("The playlist format you used (by the file extension) is "
-                    "currently not supported."),
-                    parent = win
-                )
+                # In this case the user supplied a wrong extension
+                # let's ask for him to choose one
+                
+                if extension is None:
+                    # convert to strings
+                    items = map(lambda row: row[0], self.store)
+                    # First row is useless
+                    del items[0]
+                    
+                    indexes, response = gtkutil.choice_dialog(
+                        _("Select one playlist format"),
+                        _("Serpentine will open any of these formats so the "
+                          "one you choose only matters if you are going to "
+                          "open with other applications."),
+                        one_text_item = _("Do you want to save as the %s "
+                                          "format?"),
+                        min_select = 1,
+                        max_select = 1,
+                        parent = win,
+                        items = items,
+                        ok_button = gtk.STOCK_SAVE,
+                    )
+                    if len(indexes) != 0:
+                        index, = indexes
+                        # Since we deleted the first row from the items then
+                        # the index have an offset of 1
+                        index += 1
+                        row = self.store[index]
+                        extension = row[1]
+                        
+                        # Save the file
+                        oper = app.savePlaylist.save (filename, extension)
+                        oper.listeners.append (self)
+                        oper.start ()
+                        
+                        # Select the option in the list store
+                        self.combo.set_active(index)
+                        break
+                        
+                        
+                else:
+                    gtkutil.dialog_error (
+                        _("Unsupported Format"),
+                        _("The playlist format you used (by the file extension) is "
+                        "currently not supported."),
+                        parent = win
+                    )
+                    
             
         self.file_dlg.unselect_all()
         self.file_dlg.hide()
