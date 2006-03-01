@@ -85,6 +85,16 @@ try:
 except ImportError:
     pass
     
+import gst
+try:
+    src = gst.element_factory_make("gnomevfssrc")
+    SUPPORTS_GNOMEVFS = src is not None
+    del src
+
+# gst 0.10 raises an exception
+except Exception:
+    SUPPORTS_GNOMEVFS = False
+
 # Add our default lib dir to the path
 assert path.isdir(locations.lib)
 if locations.lib not in sys.path:
@@ -110,7 +120,11 @@ else:
 app.listeners.append (listener)
 app.preferences.simulate = options.simulate
 app.preferences.debug = options.debug
-app.preferences.useGnomeVfs = not options.no_gvfs
+app.preferences.useGnomeVfs = SUPPORTS_GNOMEVFS and not options.no_gvfs
+
+if not SUPPORTS_GNOMEVFS and not options.no_gvfs:
+    print >> sys.stderr, ("GnomeVfs backend disabled. Install GnomeVfs plugin "
+                          "for GStreamer %d.%d.%d" % gst.gst_version)
 
 gnome_app = gnome.init ('serpentine', app.preferences.version)
 

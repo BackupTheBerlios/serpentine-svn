@@ -1,4 +1,15 @@
-2006-02-26 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+2006-03-01 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+    
+    * configure.ac:
+    Bumpped to version 0.6.91
+    
+    * scripts/serpentine:
+    Serpentine now turns gnomevfs backend off when there's no available plugin.
+
+    * serpentine/audio.py:
+    Corrected a few things to work better with gst 0.10
+    
+2006-02-28 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/plugins/plugrhythmbox.py:
     Uses rat.hig.choice_list to display the available playlist.
@@ -38,7 +49,6 @@
     * serpentine/mastering.py:
     Update the functions renamed on serpentine.audio.
     
-
 == 0.6.9.0 ==
 
 2006-02-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>

@@ -1,12 +1,11 @@
 Changes from 0.6.4:
  - Support for GStreamer 0.10
- - Full Portuguese (Tiago Cogumbreiro), French (Stephane Raimbault and Christophe Bliard)
-   and Finnish (Timo Jyrinki) translations.
  - Ability to open files through the command line.
  - Uses Cairo to draw the usage gauge.
  - Ability to not use GnomeVfs
- - Bug fixes.
-
+ - More robust metadata parsing and not media files handling
+ - No longer depends directly on gnomevfs gstreamer plugin
+ 
 Changes from 0.6.3:
  - Added the possibility to add Rhythmbox playlists.
  - Spanish (es) translation by Rafael Bermúdez <rafaelbermudez@gmail.com>

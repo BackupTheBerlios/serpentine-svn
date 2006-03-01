@@ -22,11 +22,12 @@
 This module contains operations to convert sound files to WAV and to
 retrieve a their metadata.
 """
-try:
-    import pygst
-    pygst.require("0.10")
-except ImportError:
-    pass
+if __name__ == '__main__':
+    try:
+        import pygst
+        pygst.require("0.10")
+    except ImportError:
+        pass
 
 import threading
 import gst
@@ -39,12 +40,17 @@ FILE_SRC = "filesrc"
 class ElementNotFoundError(KeyError):
     """This error is thrown when an element is not found"""
 
-def safe_element_factory_make(*args, **kwargs):
-    element = gst.element_factory_make(*args, **kwargs)
-    if element is None:
-        raise ElementNotFoundError(args)
-    return element
-
+# Versions below 0.9 do not raise an exception when the element is not found
+if gst.gst_version < (0, 9):
+    def safe_element_factory_make(*args, **kwargs):
+        element = gst.element_factory_make(*args, **kwargs)
+        if element is None:
+            raise ElementNotFoundError(args)
+        return element
+# New versions >= 0.9 already raise an exception, so there's not a big problem
+else:
+    safe_element_factory_make = gst.element_factory_make
+    
 class GstPlayingFailledError(StandardError):
     """This error is thrown when we can't set the state to PLAYING"""
     
@@ -517,7 +523,7 @@ convert_to_wav = operations.operation_factory(convert_to_wav)
 convert_to_wav = operations.async(convert_to_wav)
 
 commands = {
-    "convert_to_wav": convert_to_wav,
+    "convert": convert_to_wav,
     "is_wav": is_wav_pcm,
     "get_metadata": get_metadata
 }
