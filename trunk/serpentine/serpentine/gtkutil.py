@@ -1040,3 +1040,124 @@ def get_root_parent(widget):
     else:
         return parents[-1]
 
+class HigProgress(gtk.Window):
+    """
+    HigProgress returns a window that contains a number of properties to
+    access what a common Progress window should have.
+    """
+    def __init__(self):
+        gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
+        
+        self.set_border_width(6)
+        self.set_resizable(False)
+        self.set_title('')
+        # defaults to center location
+        self.set_position(gtk.WIN_POS_CENTER)
+        self.connect("delete-event", self._on_close)
+        
+        # main container
+        main = gtk.VBox(spacing = 12)
+        main.set_spacing(12)
+        main.set_border_width(6)
+        main.show()
+        self.add(main)
+        
+        # primary text
+        alg = gtk.Alignment()
+        alg.set_padding(0, 6, 0, 0)
+        alg.show()
+        main.pack_start(alg, False, False)
+        lbl = SetupLabel()()
+        lbl.set_selectable(False)
+        lbl.show()
+        self._primary_label = lbl
+        alg.add(lbl)
+        
+        # secondary text
+        lbl = SetupLabel()()
+        lbl.set_selectable(False)
+        lbl.show()
+        main.pack_start(lbl, False, False)
+        self._secondary_label = lbl
+        
+        # Progress bar
+        vbox = gtk.VBox()
+        vbox.show()
+        main.pack_start(vbox, False, False)
+        
+        prog = gtk.ProgressBar()
+        prog.show()
+        self._progress_bar = prog
+        vbox.pack_start(prog, expand = False)
+        
+        lbl = SetupLabel()()
+        lbl.set_selectable(False)
+        lbl.show()
+        self._sub_progress_label = lbl
+        vbox.pack_start(lbl, False, False)
+        
+        # Buttons box
+        bbox = gtk.HButtonBox()
+        bbox.set_layout(gtk.BUTTONBOX_END)
+        bbox.show()
+        
+        # Cancel Button
+        cancel = gtk.Button(gtk.STOCK_CANCEL)
+        cancel.set_use_stock(True)
+        cancel.show()
+        self._cancel = cancel
+        bbox.add(cancel)
+        main.add(bbox)
+        
+        # Close button, which is hidden by default
+        close = gtk.Button(gtk.STOCK_CLOSE)
+        close.set_use_stock(True)
+        close.hide()
+        bbox.add(close)
+        self._close = close
+        
+    primary_label = property(lambda self: self._primary_label)
+    secondary_label = property(lambda self: self._secondary_label)
+    progress_bar = property(lambda self: self._progress_bar)
+    sub_progress_label = property(lambda self: self._sub_progress_label)
+    cancel_button = property(lambda self: self._cancel)
+    close_button = property(lambda self: self._close)
+    
+    def set_primary_text(self, text):
+        self.primary_label.set_markup(
+            '<span weight="bold" size="larger">'+text+'</span>'
+        )
+        self.set_title(text)
+    
+    primary_text = property(fset = set_primary_text)
+        
+    def set_secondary_text(self, text):
+        self.secondary_label.set_markup(text)
+    
+    secondary_text = property(fset = set_secondary_text)
+    
+    def set_progress_fraction(self, fraction):
+        self.progress_bar.set_fraction(fraction)
+    
+    def get_progress_fraction(self):
+        return self.progress_bar.get_fraction()
+        
+    progress_fraction = property(get_progress_fraction, set_progress_fraction)
+    
+    def set_progress_text(self, text):
+        self.progress_bar.set_text(text)
+
+    progress_text = property(fset = set_progress_text)
+    
+    def set_sub_progress_text(self, text):
+        self.sub_progress_label.set_markup('<i>'+text+'</i>')
+        
+    sub_progress_text = property(fset = set_sub_progress_text)
+    
+    def _on_close(self, *args):
+        if not self.cancel_button.get_property("sensitive"):
+            return True
+        # click on the cancel button
+        self.cancel_button.clicked()
+        # let the clicked event close the window if it likes too
+        return True

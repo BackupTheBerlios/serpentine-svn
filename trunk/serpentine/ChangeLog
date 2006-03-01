@@ -1,5 +1,8 @@
 2006-03-01 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
+    * serpentine/gtkutil.py:
+    HigProgress was missing, included it from rat.hig.
+    
     * configure.ac:
     Bumpped to version 0.6.91
     
