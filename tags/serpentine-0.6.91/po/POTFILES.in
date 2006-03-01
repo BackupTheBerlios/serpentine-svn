@@ -1,0 +1,11 @@
+# alphabetically
+data/serpentine.desktop.in
+data/serpentine.glade
+scripts/serpentine
+serpentine/__init__.py
+serpentine/common.py
+serpentine/mainwindow.py
+serpentine/mastering.py
+serpentine/plugins/plugrhythmbox.py
+serpentine/preferences.py
+serpentine/recording.py
