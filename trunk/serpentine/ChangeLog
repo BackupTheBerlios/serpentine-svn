@@ -1,3 +1,13 @@
+2006-04-03 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * data/serpentine.desktop.in:
+    Fixed #336975
+    
+    * serpentine/operations.py:
+    Tiny cleanup.
+
+== 0.6.91 ==
+
 2006-03-01 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
     * serpentine/gtkutil.py:

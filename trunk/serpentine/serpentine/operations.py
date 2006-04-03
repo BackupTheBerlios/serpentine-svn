@@ -364,9 +364,14 @@ def syncableMethod(kwarg="sync", default_value=False):
     """
     def decorator(func):
         def wrapper(*args, **kwargs):
-            is_sync = kwargs.get(kwarg, default_value)
-            if is_sync:
+            try:
+                is_sync = kwargs[kwarg]
                 del kwargs[kwarg]
+            except KeyError:
+                is_sync = default_value
+
+            if is_sync:
+                
                 return syncOperation(func(*args, **kwargs))
             else:
                 return func(*args, **kwargs)
