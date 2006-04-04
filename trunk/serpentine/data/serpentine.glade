@@ -135,7 +135,7 @@
 	  <child>
 	    <widget class="GtkMenuItem" id="edit_mni">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Edit</property>
+	      <property name="label" translatable="yes">_Edit</property>
 	      <property name="use_underline">True</property>
 
 	      <child>

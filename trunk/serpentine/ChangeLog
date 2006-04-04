@@ -1,5 +1,20 @@
 2006-04-03 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
-
+    
+    * serpentine/mainwindow.py:
+    Marked the '/app/gnome/interface' key as observable, fixes #337045.
+    Added loads of things to About dialog.
+    
+    * po/serpentine.pot:
+    * po/pt.po:
+    Updated portuguese translation and POT.
+    
+    * data/serpentine.glade:
+    Add mnemonics to Edit menu, closes #337042.
+    
+    * serpentine/preferences.py:
+    Fixed a small bug that would render the speed spinbox insensitive some
+    times.
+    
     * data/serpentine.desktop.in:
     Fixed #336975
     

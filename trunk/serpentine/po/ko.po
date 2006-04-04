@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-12 21:27-0100\n"
+"POT-Creation-Date: 2006-04-04 01:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -84,51 +84,52 @@ msgid "Disc Usage:"
 msgstr "디스크 사용:"
 
 #: ../data/serpentine.glade.h:16
-msgid "Edit"
-msgstr "편집"
-
-#: ../data/serpentine.glade.h:17
 msgid "Eject disk after writing"
 msgstr "쓴 후에 디스크 빼기"
 
-#: ../data/serpentine.glade.h:18
+#: ../data/serpentine.glade.h:17
 msgid "Open Playlist..."
 msgstr "연주 목록 열음..."
 
-#: ../data/serpentine.glade.h:19
+#: ../data/serpentine.glade.h:18
 #, fuzzy
 msgid "Refreshes the max writing speed"
 msgstr "최대 쓰기 속도 새로 바꿈"
 
-#: ../data/serpentine.glade.h:20
+#: ../data/serpentine.glade.h:19
 msgid "Remove selected tracks from playlist"
 msgstr "선택된 트랙(들)을 연주 목록에서 삭제"
 
-#: ../data/serpentine.glade.h:21
+#: ../data/serpentine.glade.h:20
 msgid "Save Playlist As..."
 msgstr "연주 목록 다른 이름으로 저장..."
 
-#: ../data/serpentine.glade.h:22
+#: ../data/serpentine.glade.h:21
 #, fuzzy
 msgid "Serpentine Audio Mastering"
 msgstr "Serpentine 오디오 마스터링"
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:56
+#: ../data/serpentine.glade.h:22 ../serpentine/preferences.py:56
 #, fuzzy
 msgid "Serpentine Preferences"
 msgstr "Serpentine 선호"
 
-#: ../data/serpentine.glade.h:24
+#: ../data/serpentine.glade.h:23
 msgid "Use maximum writing speed"
 msgstr "최대 쓰기 속도 사용"
 
-#: ../data/serpentine.glade.h:25
+#: ../data/serpentine.glade.h:24
 msgid "Write playlist to disc"
 msgstr "연주 목록을 디스크에 쓰기"
 
-#: ../data/serpentine.glade.h:26 ../serpentine/mainwindow.py:514
+#: ../data/serpentine.glade.h:25 ../serpentine/mainwindow.py:559
 msgid "Write to Disc"
 msgstr "디스크로 쓰기"
+
+#: ../data/serpentine.glade.h:26
+#, fuzzy
+msgid "_Edit"
+msgstr "편집"
 
 #: ../data/serpentine.glade.h:27
 msgid "_File"
@@ -174,11 +175,11 @@ msgstr ""
 msgid "Do not use GnomeVfs module."
 msgstr ""
 
-#: ../scripts/serpentine:111
+#: ../scripts/serpentine:132
 msgid "Simulation mode"
 msgstr "가상 모드"
 
-#: ../scripts/serpentine:112
+#: ../scripts/serpentine:133
 #, fuzzy
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
@@ -238,21 +239,13 @@ msgstr ""
 "몇 개의 음악 트랙(들)을 제거하거나 캐쉬 장소가 충분한 여유 용량 (대략 %s)을 "
 "가졌는지를 확인 하십시요."
 
-#: ../serpentine/mainwindow.py:139
+#: ../serpentine/mainwindow.py:145
 msgid "Save playlist in format:"
 msgstr ""
 
-#: ../serpentine/mainwindow.py:153
+#: ../serpentine/mainwindow.py:159
 msgid "Detect by extension"
 msgstr ""
-
-#: ../serpentine/mainwindow.py:170
-msgid "Playlist Saved"
-msgstr "연주 목록 저장됨"
-
-#: ../serpentine/mainwindow.py:171
-msgid "Playlist was saved successfully."
-msgstr "연주 목록이 성공적으로 저장 되었습니다."
 
 #: ../serpentine/mainwindow.py:176
 msgid "Playlist Not Saved"
@@ -275,22 +268,38 @@ msgstr ""
 "파일 이름 <i>%s</i> (이)가 이미 있습니다. 지금 저장하려는 것으로 그것을 대체"
 "하기를 원합니까?"
 
-#: ../serpentine/mainwindow.py:233
+#: ../serpentine/mainwindow.py:242
+#, fuzzy
+msgid "Select one playlist format"
+msgstr "연주 목록 지우기"
+
+#: ../serpentine/mainwindow.py:243
+msgid ""
+"Serpentine will open any of these formats so the one you choose only matters "
+"if you are going to open with other applications."
+msgstr ""
+
+#: ../serpentine/mainwindow.py:246
+#, fuzzy, python-format
+msgid "Do you want to save as the %s format?"
+msgstr "음악을 녹음하기를 원합니까?"
+
+#: ../serpentine/mainwindow.py:274
 msgid "Unsupported Format"
 msgstr "지원 안되는 형식"
 
-#: ../serpentine/mainwindow.py:234
+#: ../serpentine/mainwindow.py:275
 msgid ""
 "The playlist format you used (by the file extension) is currently not "
 "supported."
 msgstr ""
 "사용하는 (파일 확장자에 의한) 연주 목록 형식은 현재 지원이 되지 않습니다."
 
-#: ../serpentine/mainwindow.py:415
+#: ../serpentine/mainwindow.py:457
 msgid "No recording drive found"
 msgstr "녹음 드라이브 없음"
 
-#: ../serpentine/mainwindow.py:416
+#: ../serpentine/mainwindow.py:458
 #, fuzzy
 msgid ""
 "No recording drive found on your system, therefore some of Serpentine's "
@@ -299,20 +308,29 @@ msgstr ""
 "시스템에 녹음 드라이브가 없습니다, 그래서 Serpentine의 기능 중 일부는 동작하"
 "지 않습니다."
 
-#: ../serpentine/mainwindow.py:491
+#: ../serpentine/mainwindow.py:522
+msgid "translator-credits"
+msgstr ""
+
+#: ../serpentine/mainwindow.py:523
+#, fuzzy
+msgid "Audio CD Creator"
+msgstr "Serpentine Audio-CD Creator"
+
+#: ../serpentine/mainwindow.py:536
 msgid "Cache directory location unavailable"
 msgstr "캐쉬 디렉토리 위치 불가"
 
-#: ../serpentine/mainwindow.py:495
+#: ../serpentine/mainwindow.py:540
 msgid "Not enough space on cache directory"
 msgstr "캐쉬 디렉토리에 충분한 공간이 없음"
 
-#: ../serpentine/mainwindow.py:502
+#: ../serpentine/mainwindow.py:547
 #, fuzzy
 msgid "Do you want to overburn your disc?"
 msgstr "디스크에 압축굽기를 원합니까?"
 
-#: ../serpentine/mainwindow.py:503
+#: ../serpentine/mainwindow.py:548
 #, fuzzy
 msgid ""
 "You are about to record a media disc in overburn mode. This may not work on "
@@ -321,16 +339,16 @@ msgstr ""
 "압축굽기 모드로 미디어 디스크에 녹음 중입니다. 이것은 모든 드라이브에서 동작"
 "하지 않을 수 있으며 일 이분 이상을 더 주어서는 안됩니다."
 
-#: ../serpentine/mainwindow.py:506
+#: ../serpentine/mainwindow.py:551
 #, fuzzy
 msgid "Write to Disc (Overburning)"
 msgstr "디스크에 쓰기(압축굽기)"
 
-#: ../serpentine/mainwindow.py:509
+#: ../serpentine/mainwindow.py:554
 msgid "Do you want to record your music?"
 msgstr "음악을 녹음하기를 원합니까?"
 
-#: ../serpentine/mainwindow.py:510
+#: ../serpentine/mainwindow.py:555
 msgid ""
 "You are about to record a media disc. Canceling a writing operation will "
 "make your disc unusable."
@@ -338,97 +356,113 @@ msgstr ""
 "미디어 디스크에 녹음 중입니다. 쓰기를 취소하는 작동은 디스크를 사용할 수 없도"
 "록 만듭니다."
 
-#: ../serpentine/mastering.py:67
-msgid "Unsupported file types"
-msgstr "지원되지 않는 파일 형식"
-
-#: ../serpentine/mastering.py:69
+#: ../serpentine/mastering.py:73
 msgid "Unsupported file type"
 msgstr "지원되지 않는 파일 형식"
 
-#: ../serpentine/mastering.py:77 ../serpentine/mastering.py:79
-msgid "The following files were not added:"
+#: ../serpentine/mastering.py:79
+#, fuzzy
+msgid "The following file was not added:"
 msgstr "다음 파일(들)은 추가되지 않았습니다:"
 
-#: ../serpentine/mastering.py:136
+#: ../serpentine/mastering.py:86
+msgid ""
+"If you're having problems opening certain files make sure you have the "
+"GStreamer plugins needed to decode them."
+msgstr ""
+
+#: ../serpentine/mastering.py:145
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: ../serpentine/mastering.py:137
+#: ../serpentine/mastering.py:146
 msgid "Unknown Artist"
 msgstr ""
 
-#: ../serpentine/mastering.py:594
+#: ../serpentine/mastering.py:603
 msgid "Track"
 msgstr "트랙"
 
-#: ../serpentine/mastering.py:607
+#: ../serpentine/mastering.py:616
 msgid "Artist"
 msgstr "연주가"
 
-#: ../serpentine/mastering.py:610
+#: ../serpentine/mastering.py:619
 #, fuzzy
 msgid "Duration"
 msgstr "녹음량"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:711
+#: ../serpentine/mastering.py:720
 msgid "minute"
 msgstr "분"
 
-#: ../serpentine/mastering.py:711
+#: ../serpentine/mastering.py:720
 msgid "minutes"
 msgstr "분"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:715
+#: ../serpentine/mastering.py:724
 msgid "second"
 msgstr "초"
 
-#: ../serpentine/mastering.py:715
+#: ../serpentine/mastering.py:724
 msgid "seconds"
 msgstr "초"
 
-#: ../serpentine/mastering.py:717
+#: ../serpentine/mastering.py:726
 #, fuzzy
 msgid " and "
 msgstr " 그리고 "
 
-#: ../serpentine/mastering.py:751
+#: ../serpentine/mastering.py:760
 #, python-format
 msgid "%s remaining"
 msgstr "%s 남음"
 
-#: ../serpentine/mastering.py:753
+#: ../serpentine/mastering.py:762
 #, python-format
 msgid "%s overlaping"
 msgstr "%s 중첩"
 
-#: ../serpentine/mastering.py:755
+#: ../serpentine/mastering.py:764
 #, fuzzy
 msgid "Empty"
 msgstr "빈"
 
-#: ../serpentine/plugins/plugrhythmbox.py:50
-#, fuzzy
-msgid "Select playlist:"
-msgstr "연주 목록 지우기"
-
-#: ../serpentine/plugins/plugrhythmbox.py:75
+#: ../serpentine/plugins/plugrhythmbox.py:41
 msgid "No Rhythmbox playlist found"
 msgstr ""
 
-#: ../serpentine/plugins/plugrhythmbox.py:76
+#: ../serpentine/plugins/plugrhythmbox.py:42
 msgid ""
 "Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist..."
 "</i>"
 msgstr ""
 
-#: ../serpentine/plugins/plugrhythmbox.py:95
+#: ../serpentine/plugins/plugrhythmbox.py:48
+msgid "Which playlist do you choose to open?"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:49
+msgid "These are the playlists created on Rhythmbox."
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:50
+#, fuzzy, python-format
+msgid "Do you want to open the playlist <i>%s</i>?"
+msgstr "디스크에 압축굽기를 원합니까?"
+
+#: ../serpentine/plugins/plugrhythmbox.py:51
+#, fuzzy
+msgid "Rhythmbox playlists:"
+msgstr "연주 목록 지우기"
+
+#: ../serpentine/plugins/plugrhythmbox.py:70
 msgid "Open Rhythmbox Playlist..."
 msgstr ""
 
-#: ../serpentine/preferences.py:352 ../serpentine/preferences.py:370
+#: ../serpentine/preferences.py:353 ../serpentine/preferences.py:371
 msgid "Serpentine's playlist"
 msgstr "Serpentine 연주 목록"
 
@@ -549,3 +583,12 @@ msgstr "드라이브의 디스크를 공 디스크로 바꾸십시요."
 #: ../serpentine/recording.py:315
 msgid "Reload blank disc"
 msgstr "공 디스크 다시 올림"
+
+#~ msgid "Playlist Saved"
+#~ msgstr "연주 목록 저장됨"
+
+#~ msgid "Playlist was saved successfully."
+#~ msgstr "연주 목록이 성공적으로 저장 되었습니다."
+
+#~ msgid "Unsupported file types"
+#~ msgstr "지원되지 않는 파일 형식"

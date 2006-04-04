@@ -122,16 +122,15 @@ class WriteSpeed:
         specify_speed.connect ("toggled", self.__on_specify_speed)
         g.get_widget ("refresh_speed").connect ("clicked", self.__on_refresh_speed)
         
-        # init specify speed box sensitivity
-        self.__on_specify_speed (specify_speed)
-        
         # No default value set, set it to 99
         if self.__speed.data == 0:
             self.__speed.data = 99
 
         self.__update_speed ()
         self.__speed.sync_widget()
-        self.__speed.widget.set_sensitive (specify_speed.get_active ())
+        
+        # init specify speed box sensitivity
+        self.__on_specify_speed (specify_speed)
         
     def get(self):
         assert self.get_drive() is not None
@@ -159,7 +158,9 @@ class WriteSpeed:
         self.__speed.data = val
         
     def __on_specify_speed (self, widget, *args):
-        self.__specify_speed.set_sensitive (widget.get_active ())
+        # Sometimes the spinbox would get insensitive, so make sure it's not
+        self.__speed.widget.set_sensitive(widget.get_active())
+        self.__specify_speed.set_sensitive(widget.get_active())
     
 
 class RecordingPreferences (object):

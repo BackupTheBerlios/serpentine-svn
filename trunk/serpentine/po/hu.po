@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-12 21:27-0100\n"
+"POT-Creation-Date: 2006-04-04 01:56+0000\n"
 "PO-Revision-Date: 2005-10-06 22:53+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
@@ -83,48 +83,49 @@ msgid "Disc Usage:"
 msgstr "Lemezhasználat:"
 
 #: ../data/serpentine.glade.h:16
-msgid "Edit"
-msgstr "Szerkesztés"
-
-#: ../data/serpentine.glade.h:17
 msgid "Eject disk after writing"
 msgstr "Lemez kiadása az írás után"
 
-#: ../data/serpentine.glade.h:18
+#: ../data/serpentine.glade.h:17
 msgid "Open Playlist..."
 msgstr "Lejátszólista megnyitása..."
 
-#: ../data/serpentine.glade.h:19
+#: ../data/serpentine.glade.h:18
 msgid "Refreshes the max writing speed"
 msgstr "Frissíti a maximális írási sebességet"
 
-#: ../data/serpentine.glade.h:20
+#: ../data/serpentine.glade.h:19
 msgid "Remove selected tracks from playlist"
 msgstr "A kijelölt számok eltávolítása a lejátszólistáról"
 
-#: ../data/serpentine.glade.h:21
+#: ../data/serpentine.glade.h:20
 msgid "Save Playlist As..."
 msgstr "Lejátszólista mentése másként..."
 
-#: ../data/serpentine.glade.h:22
+#: ../data/serpentine.glade.h:21
 msgid "Serpentine Audio Mastering"
 msgstr ""
 
-#: ../data/serpentine.glade.h:23 ../serpentine/preferences.py:56
+#: ../data/serpentine.glade.h:22 ../serpentine/preferences.py:56
 msgid "Serpentine Preferences"
 msgstr "Serpentine beállításai"
 
-#: ../data/serpentine.glade.h:24
+#: ../data/serpentine.glade.h:23
 msgid "Use maximum writing speed"
 msgstr "Maximális írási sebesség"
 
-#: ../data/serpentine.glade.h:25
+#: ../data/serpentine.glade.h:24
 msgid "Write playlist to disc"
 msgstr "Lejátszólista lemezre írása"
 
-#: ../data/serpentine.glade.h:26 ../serpentine/mainwindow.py:514
+#: ../data/serpentine.glade.h:25 ../serpentine/mainwindow.py:559
 msgid "Write to Disc"
 msgstr "Lemezre írás"
+
+#: ../data/serpentine.glade.h:26
+#, fuzzy
+msgid "_Edit"
+msgstr "Szerkesztés"
 
 #: ../data/serpentine.glade.h:27
 msgid "_File"
@@ -170,11 +171,11 @@ msgstr ""
 msgid "Do not use GnomeVfs module."
 msgstr ""
 
-#: ../scripts/serpentine:111
+#: ../scripts/serpentine:132
 msgid "Simulation mode"
 msgstr "Szimulációs mód"
 
-#: ../scripts/serpentine:112
+#: ../scripts/serpentine:133
 msgid ""
 "Serpentine is on simulation mode, no actual writing will be done on inserted "
 "media."
@@ -236,21 +237,13 @@ msgstr ""
 "Távolítson el néhány zeneszámot vagy ellenőrizze, hogy a gyorsítótár helye "
 "elegendő (körülbelül %s) szabad hellyel rendelkezik."
 
-#: ../serpentine/mainwindow.py:139
+#: ../serpentine/mainwindow.py:145
 msgid "Save playlist in format:"
 msgstr ""
 
-#: ../serpentine/mainwindow.py:153
+#: ../serpentine/mainwindow.py:159
 msgid "Detect by extension"
 msgstr ""
-
-#: ../serpentine/mainwindow.py:170
-msgid "Playlist Saved"
-msgstr "Lejátszólista mentve"
-
-#: ../serpentine/mainwindow.py:171
-msgid "Playlist was saved successfully."
-msgstr "A lejátszólista sikeresen elmentve."
 
 #: ../serpentine/mainwindow.py:176
 msgid "Playlist Not Saved"
@@ -273,11 +266,27 @@ msgstr ""
 "A(z) <i>%s</i> nevű fájl már létezik. Szeretné lecserélni azzal, amit "
 "menteni készül?"
 
-#: ../serpentine/mainwindow.py:233
+#: ../serpentine/mainwindow.py:242
+#, fuzzy
+msgid "Select one playlist format"
+msgstr "Lejátszólista törlése"
+
+#: ../serpentine/mainwindow.py:243
+msgid ""
+"Serpentine will open any of these formats so the one you choose only matters "
+"if you are going to open with other applications."
+msgstr ""
+
+#: ../serpentine/mainwindow.py:246
+#, fuzzy, python-format
+msgid "Do you want to save as the %s format?"
+msgstr "Szeretné lemezre írni a zenéit?"
+
+#: ../serpentine/mainwindow.py:274
 msgid "Unsupported Format"
 msgstr "Nem támogatott formátum"
 
-#: ../serpentine/mainwindow.py:234
+#: ../serpentine/mainwindow.py:275
 msgid ""
 "The playlist format you used (by the file extension) is currently not "
 "supported."
@@ -285,11 +294,11 @@ msgstr ""
 "A használt lejátszólista-formátum (a kiterjesztés alapján) jelenleg nem "
 "támogatott."
 
-#: ../serpentine/mainwindow.py:415
+#: ../serpentine/mainwindow.py:457
 msgid "No recording drive found"
 msgstr "Nem található felvételre alkalmas meghajtó"
 
-#: ../serpentine/mainwindow.py:416
+#: ../serpentine/mainwindow.py:458
 msgid ""
 "No recording drive found on your system, therefore some of Serpentine's "
 "functionalities will be disabled."
@@ -297,19 +306,28 @@ msgstr ""
 "Nem található felvételre alkalmas meghajtó a rendszerén, ezért a Serpentine "
 "néhány funkciója letiltásra került."
 
-#: ../serpentine/mainwindow.py:491
+#: ../serpentine/mainwindow.py:522
+msgid "translator-credits"
+msgstr ""
+
+#: ../serpentine/mainwindow.py:523
+#, fuzzy
+msgid "Audio CD Creator"
+msgstr "Serpentine audio-CD készítő"
+
+#: ../serpentine/mainwindow.py:536
 msgid "Cache directory location unavailable"
 msgstr "A gyorsítótár könyvtár helye nem érhető el"
 
-#: ../serpentine/mainwindow.py:495
+#: ../serpentine/mainwindow.py:540
 msgid "Not enough space on cache directory"
 msgstr "Nincs elég hely a gyorsítótár könyvtárban"
 
-#: ../serpentine/mainwindow.py:502
+#: ../serpentine/mainwindow.py:547
 msgid "Do you want to overburn your disc?"
 msgstr "Felül szeretné írni a lemezét?"
 
-#: ../serpentine/mainwindow.py:503
+#: ../serpentine/mainwindow.py:548
 msgid ""
 "You are about to record a media disc in overburn mode. This may not work on "
 "all drives and shouldn't give you more then a couple of minutes."
@@ -317,15 +335,15 @@ msgstr ""
 "Egy lemezt felülírási módban készül megírni. Ez lehet, hogy nem működik "
 "minden meghajtóval és nem nyerne pár percnél többet vele."
 
-#: ../serpentine/mainwindow.py:506
+#: ../serpentine/mainwindow.py:551
 msgid "Write to Disc (Overburning)"
 msgstr "Lemezre írás (felülírás)"
 
-#: ../serpentine/mainwindow.py:509
+#: ../serpentine/mainwindow.py:554
 msgid "Do you want to record your music?"
 msgstr "Szeretné lemezre írni a zenéit?"
 
-#: ../serpentine/mainwindow.py:510
+#: ../serpentine/mainwindow.py:555
 msgid ""
 "You are about to record a media disc. Canceling a writing operation will "
 "make your disc unusable."
@@ -333,94 +351,110 @@ msgstr ""
 "Egy lemezre készül felvételt készíteni. Egy írási művelet megszakítása "
 "használhatatlanná teszi a lemezét."
 
-#: ../serpentine/mastering.py:67
-msgid "Unsupported file types"
-msgstr "Nem támogatott fájltípusok"
-
-#: ../serpentine/mastering.py:69
+#: ../serpentine/mastering.py:73
 msgid "Unsupported file type"
 msgstr "Nem támogatott fájltípus"
 
-#: ../serpentine/mastering.py:77 ../serpentine/mastering.py:79
-msgid "The following files were not added:"
+#: ../serpentine/mastering.py:79
+#, fuzzy
+msgid "The following file was not added:"
 msgstr "A következő fájlok nem lettek hozzáadva:"
 
-#: ../serpentine/mastering.py:136
+#: ../serpentine/mastering.py:86
+msgid ""
+"If you're having problems opening certain files make sure you have the "
+"GStreamer plugins needed to decode them."
+msgstr ""
+
+#: ../serpentine/mastering.py:145
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: ../serpentine/mastering.py:137
+#: ../serpentine/mastering.py:146
 msgid "Unknown Artist"
 msgstr ""
 
-#: ../serpentine/mastering.py:594
+#: ../serpentine/mastering.py:603
 msgid "Track"
 msgstr "Szám"
 
-#: ../serpentine/mastering.py:607
+#: ../serpentine/mastering.py:616
 msgid "Artist"
 msgstr "Előadó"
 
-#: ../serpentine/mastering.py:610
+#: ../serpentine/mastering.py:619
 msgid "Duration"
 msgstr "Időtartam"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:711
+#: ../serpentine/mastering.py:720
 msgid "minute"
 msgstr "perc"
 
-#: ../serpentine/mastering.py:711
+#: ../serpentine/mastering.py:720
 msgid "minutes"
 msgstr "perc"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:715
+#: ../serpentine/mastering.py:724
 msgid "second"
 msgstr "másodperc"
 
-#: ../serpentine/mastering.py:715
+#: ../serpentine/mastering.py:724
 msgid "seconds"
 msgstr "másodperc"
 
-#: ../serpentine/mastering.py:717
+#: ../serpentine/mastering.py:726
 msgid " and "
 msgstr " és "
 
-#: ../serpentine/mastering.py:751
+#: ../serpentine/mastering.py:760
 #, python-format
 msgid "%s remaining"
 msgstr "%s van hátra"
 
-#: ../serpentine/mastering.py:753
+#: ../serpentine/mastering.py:762
 #, python-format
 msgid "%s overlaping"
 msgstr "%s átfed"
 
-#: ../serpentine/mastering.py:755
+#: ../serpentine/mastering.py:764
 msgid "Empty"
 msgstr "Üres"
 
-#: ../serpentine/plugins/plugrhythmbox.py:50
-#, fuzzy
-msgid "Select playlist:"
-msgstr "Lejátszólista törlése"
-
-#: ../serpentine/plugins/plugrhythmbox.py:75
+#: ../serpentine/plugins/plugrhythmbox.py:41
 msgid "No Rhythmbox playlist found"
 msgstr ""
 
-#: ../serpentine/plugins/plugrhythmbox.py:76
+#: ../serpentine/plugins/plugrhythmbox.py:42
 msgid ""
 "Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist..."
 "</i>"
 msgstr ""
 
-#: ../serpentine/plugins/plugrhythmbox.py:95
+#: ../serpentine/plugins/plugrhythmbox.py:48
+msgid "Which playlist do you choose to open?"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:49
+msgid "These are the playlists created on Rhythmbox."
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:50
+#, fuzzy, python-format
+msgid "Do you want to open the playlist <i>%s</i>?"
+msgstr "Felül szeretné írni a lemezét?"
+
+#: ../serpentine/plugins/plugrhythmbox.py:51
+#, fuzzy
+msgid "Rhythmbox playlists:"
+msgstr "Lejátszólista törlése"
+
+#: ../serpentine/plugins/plugrhythmbox.py:70
 msgid "Open Rhythmbox Playlist..."
 msgstr ""
 
-#: ../serpentine/preferences.py:352 ../serpentine/preferences.py:370
+#: ../serpentine/preferences.py:353 ../serpentine/preferences.py:371
 msgid "Serpentine's playlist"
 msgstr "A Serpentine lejátszólistája"
 
@@ -540,6 +574,15 @@ msgstr "Cserélje ki a meghajtóban lévő lemezt egy üres lemezre"
 #: ../serpentine/recording.py:315
 msgid "Reload blank disc"
 msgstr "Üres lemez újratöltése"
+
+#~ msgid "Playlist Saved"
+#~ msgstr "Lejátszólista mentve"
+
+#~ msgid "Playlist was saved successfully."
+#~ msgstr "A lejátszólista sikeresen elmentve."
+
+#~ msgid "Unsupported file types"
+#~ msgstr "Nem támogatott fájltípusok"
 
 #~ msgid "Show preferences dialog and exit."
 #~ msgstr "Tulajdonságok párbeszédablak megjelenítése és kilépés."

@@ -25,6 +25,7 @@ import gobject
 import operations
 import gaw
 import gtkutil
+import gconf
 
 from components import Component
 from operations import MapProxy, OperationListener
@@ -33,6 +34,11 @@ from mastering import AudioMastering
 from serpentine.common import SerpentineNotSupportedError, validate_music_list
 from serpentine.common import SerpentineCacheError
 from gettext import gettext as _
+
+D_G_INTERFACE = "/desktop/gnome/interface"
+
+for gconf_dir in (D_G_INTERFACE,):
+    gconf.client_get_default ().add_dir (gconf_dir, gconf.CLIENT_PRELOAD_NONE)
 
 class GladeComponent (Component):
 
@@ -506,14 +512,20 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
     
     def __on_about (self, widget, *args):
         # Triggered by the about menu item
-        a = gtk.AboutDialog ()
-        a.set_name ("Serpentine")
-        a.set_version (self.__application.preferences.version)
-        a.set_website ("http://s1x.homelinux.net/projects/serpentine")
-        a.set_copyright ("2004-2006 Tiago Cogumbreiro")
-        a.set_transient_for (self)
-        a.run ()
-        a.hide()
+        a = gtk.AboutDialog()
+        a.set_name("Serpentine")
+        a.set_version(self.__application.preferences.version)
+        a.set_website("http://developer.berlios.de/projects/serpentine")
+        a.set_copyright("2004-2006 Tiago Cogumbreiro <cogumbreiro@users.sf.net>")
+        a.set_transient_for(self)
+        a.set_authors(
+            ("Tiago Cogumbreiro <cogumbreiro@users.sf.net>",
+             "Alessandro Decina <alessandro@nnva.org>",)
+        )
+        a.set_translator_credits(_("translator-credits"))
+        a.set_comments(_("Audio CD Creator"))
+        a.run()
+        a.destroy()
     
     def __on_write_files (self, *args):
         # TODO: move this to SerpentineApplication.write_files ?
