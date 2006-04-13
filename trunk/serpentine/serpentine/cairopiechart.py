@@ -93,14 +93,20 @@ class CairoPieChart(gtk.DrawingArea):
         center = (x, y)
         
         small_radius = radius * 0.20
-        self.total = float(self.total)
         
         ctx = self.window.cairo_create()
         ctx.set_line_width(0.75)
  
         offset = 0.0
+        total = 0
+        for val in self.values:
+            total += self.getter(val)
+        if total < self.total:
+            total = self.total
+        total = float(total)
+
         for index, val in enumerate(self.values):
-            apperture = self.getter(val) / self.total
+            apperture = self.getter(val) / total
             selected = index in self.selected
 
             if selected:
@@ -109,7 +115,6 @@ class CairoPieChart(gtk.DrawingArea):
                 bg = self.get_normal_background_color()
                 
                 
-            assert offset + apperture <= 1
             self.draw_slice(center, radius, offset, apperture, bg, ctx)
             offset += apperture
         
