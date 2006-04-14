@@ -1,8 +1,12 @@
 2006-04-13 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+    
+    * serpentine/audio.py:
+    When a file has variable bitrate retrieve the correct duration.
+    Fixes #331049.
 
-	* serpentine/cairopiechart.py:
-	When the CD is overfilled now the tracks are displayed correctly.
-	Fixes #337254.
+    * serpentine/cairopiechart.py:
+    When the CD is overfilled now the tracks are displayed correctly.
+    Fixes #337254.
 
 2006-04-03 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
