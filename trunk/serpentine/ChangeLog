@@ -1,3 +1,8 @@
+2006-04-14 Alejandro Andres <fuzzy.alej@gmail.com>
+
+    * serpentine/preferences.py: Now the preferences window has title.
+    Fixes #338446.
+    
 2006-04-13 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
     
     * serpentine/audio.py:

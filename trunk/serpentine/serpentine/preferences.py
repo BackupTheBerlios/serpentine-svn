@@ -178,8 +178,8 @@ class RecordingPreferences (object):
         filename = locations.get_data_file("serpentine.glade")
         g = glade.XML (filename, "preferences_dialog")
         self.__dialog = g.get_widget ("preferences_dialog")
-        self.dialog.connect ("destroy-event", self.__on_destroy)
-        self.dialog.set_title ("")
+        self.dialog.connect("destroy-event", self.__on_destroy)
+        self.dialog.set_title(_("Serpentine Preferences"))
         
         # Drive selection
         drv = g.get_widget ("drive")
