@@ -133,7 +133,6 @@ def operation_factory(func):
         except Exception, err:
             return FailledOperation(error=err)
 
-    wrapper.func_name = func.func_name
     return wrapper
     
     

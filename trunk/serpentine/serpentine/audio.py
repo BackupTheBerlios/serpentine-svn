@@ -522,12 +522,12 @@ def source_to_wav(source, sink):
     Converts a given source element to wav format and sends it to sink element.
     
     To convert a media file to a wav using gst-launch:
-    source ! decodebin ! audioconvert ! audioscale !$_WAV_PCM_PARSE ! wavenc
+    source ! decodebin ! audioconvert ! audioresample ! $_WAV_PCM_PARSE ! wavenc
     """
 
     bin = gst.parse_launch(
         "decodebin name=stw_decodebin !"
-        "audioconvert ! "
+        "audioconvert ! audioresample ! "
         + _WAV_PCM_PARSE +
         " ! wavenc name=stw_wavenc"
     )

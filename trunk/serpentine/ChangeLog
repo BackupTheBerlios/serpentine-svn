@@ -1,3 +1,19 @@
+2006-06-02 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/audio.py:
+    Tried fixing launchpad bug #22501.
+    
+    * serpentine/mainwindow.py:
+    Now URLs are clickable. Closes bug #337043.
+    
+    * serpentine/operations.py:
+    Closed bug #342505. Fixed Python 2.3 compability issue.
+    
+    * INSTALL:
+    * COPYING:
+    Added license file and INSTALL.
+    
+
 2006-04-14 Alejandro Andres <fuzzy.alej@gmail.com>
 
     * serpentine/preferences.py: Now the preferences window has title.

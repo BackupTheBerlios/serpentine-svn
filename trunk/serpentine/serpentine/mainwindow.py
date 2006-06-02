@@ -20,6 +20,7 @@ import gtk
 import os
 import os.path
 import gobject
+import webbrowser
 
 # Local imports
 import operations
@@ -36,6 +37,12 @@ from serpentine.common import SerpentineCacheError
 from gettext import gettext as _
 
 D_G_INTERFACE = "/desktop/gnome/interface"
+
+# Make sure the URLs are clickable
+def open_url(dlg, url):
+    webbrowser.open_new(url)
+
+gtk.about_dialog_set_url_hook(open_url)
 
 for gconf_dir in (D_G_INTERFACE,):
     gconf.client_get_default ().add_dir (gconf_dir, gconf.CLIENT_PRELOAD_NONE)
