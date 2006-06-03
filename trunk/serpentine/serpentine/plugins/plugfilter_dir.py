@@ -21,7 +21,7 @@
 
 """Loads directory filters."""
 from os import path
-from glob import glob
+import glob
 
 from serpentine.mastering import HintsFilter
 from serpentine import urlutil
@@ -29,14 +29,14 @@ from serpentine import urlutil
 class DirectoryFilter (HintsFilter):
     def filter_location (self, location):
         url = urlutil.UrlParse(location)
+
         if not url.is_local or not path.isdir(url.path):
             return
             
-        files = glob(path.join(location, "*"))
+        files = glob.glob(path.join(url.path, "*"))
         files.sort()
-        
-        to_hints = lambda loc: {"location": urlutil.normalize(loc)}
-        return map(to_hints, files)
+
+        return [{"location": urlutil.normalize(loc)} for loc in files]
 
 
 def create_plugin(app):

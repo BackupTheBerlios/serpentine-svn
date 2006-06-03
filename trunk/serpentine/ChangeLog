@@ -1,4 +1,8 @@
-2006-06-02 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+2006-06-03 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/plugins/plugfilter_dir.py:
+    Fixed a regression where directories could not be added.
+    Fixes launchpad bug #42045.
 
     * scripts/serpentine:
     Removed a useless import.

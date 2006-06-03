@@ -279,6 +279,8 @@ class WriteAudioDisc (MeasurableOperation):
                                                  self.preferences.writeFlags)
         except gobject.GError, err:
             result = nautilusburn.RECORDER_RESULT_ERROR
+            import traceback
+            traceback.print_exc()
             # Grab the error message
             error = str(err)
             
