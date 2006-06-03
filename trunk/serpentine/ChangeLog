@@ -1,5 +1,31 @@
 2006-06-02 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * scripts/serpentine:
+    Removed a useless import.
+    Fixed the "-s" (simulation) argument.
+    Uses the new method to validate files.
+    
+    * serpentine/__init__.py:
+    Created a new method that must be called before 'write_files': 'validate_files'.
+    Fixed a bug where running 'serpentine -w <files>' would not work.
+    
+    * serpentine/__init__.py:
+    * serpentine/common.py:
+    * serpentine/preferences.py:
+    Moved 'validate_music_list' from 'serpentine.common' to 'serpentine' and
+    made it private.
+    
+    * serpentine/converting.py:
+    * serpentine/recording.py:
+    Renamed 'temporaryDir' to 'temporary_dir'.
+    
+    * serpentine/mainwindow.py:
+    Updated the API change to write files.
+    Improved the temporary directory algoritm, closes bug #342342.
+    Now we have 'get_temporary_dirs' instead of the 'temporary_dir' property.
+
+2006-06-02 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
     * serpentine/audio.py:
     Tried fixing launchpad bug #22501.
     

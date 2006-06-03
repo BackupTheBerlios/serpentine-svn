@@ -138,25 +138,17 @@ class GstSourceToWavListener(operations.OperationListener):
             os.unlink(self.__filename)
         
 class GstMusicPool(MusicPool):
+    temporary_dir = None
+    
     def __init__(self):
         self.__cache = {}
-        self.__temp_dir = None
+
     ############################################################################
     # Properties
     
     # read-only
     cache = property(lambda self: self.__cache)
     
-    # temporaryDir
-    def setTemporaryDir(self, temp_dir):
-        assert temp_dir == None or isinstance(temp_dir, StringType),\
-               "Directory must be a string. Or None for default."
-        self.__temp_dir = temp_dir
-    
-    def getTemporaryDir(self):
-        return self.__temp_dir
-    
-    temporaryDir = property(getTemporaryDir, setTemporaryDir)
     ############################################################################
     
     def is_available(self, music):
@@ -177,7 +169,7 @@ class GstMusicPool(MusicPool):
         assert not self.is_available(music)
         source = self.get_source()
         
-        handle, filename = tempfile.mkstemp(suffix = ".wav", dir = self.temporaryDir)
+        handle, filename = tempfile.mkstemp(suffix=".wav", dir=self.temporary_dir)
         os.close(handle)
         
         our_listener = GstSourceToWavListener(self, filename, music)

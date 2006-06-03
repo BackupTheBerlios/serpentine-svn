@@ -32,6 +32,7 @@ import xspf
 import gtkutil
 import release
 import urlutil
+import tempfile
 
 from converting import GvfsMusicPool
 from common import SafeFileWrite
@@ -39,6 +40,20 @@ from common import SafeFileWrite
 GCONF_DIR = "/apps/serpentine"
 RAT_GCONF_DIR = "/apps/rat"
 NCB_GCONF_DIR = "/apps/nautilus-cd-burner"
+
+# Get system's temporary dir
+TEMP_DIR = tempfile.gettempdir()
+HOME_DIR = path.expanduser("~")
+
+def _is_dir_writable(dirname):
+    # Try to open the local file
+    try:
+        is_ok = path.isdir(dirname) and os.access(dirname, os.W_OK)
+    except OSError, err:
+        is_ok = False
+            
+    return is_ok
+
 
 for gconf_dir in (GCONF_DIR, RAT_GCONF_DIR, NCB_GCONF_DIR):
     gconf.client_get_default ().add_dir (gconf_dir, gconf.CLIENT_PRELOAD_NONE)
@@ -210,7 +225,7 @@ class RecordingPreferences (object):
         self.__tmp = gaw.GConfValue (
             key = ncb_temp_dir,
             data_spec = gaw.Spec.STRING,
-            default = "file:///tmp"
+            default = TEMP_DIR
         )
         
         # debug
@@ -274,15 +289,24 @@ class RecordingPreferences (object):
     useGnomeVfs = property(getUseGnomeVfs, setUseGnomeVfs)
     
     ###############
-    # temporaryDir
-    def getTemporaryDir (self):
-        tmp = self.__tmp.data
-        url = urlutil.UrlParse(tmp)
-        if url.is_local:
-            return url.path
-            
+    # temporary_dir
+    
+    def get_temporary_dir(self):
+        return self.__tmp.data
+    
+    def set_temporary_dir(self, value):
+        self.__tmp.data = value
         
-    temporaryDir = property (getTemporaryDir)
+    temporary_dir = property (get_temporary_dir, set_temporary_dir)
+    
+    def get_temporary_dirs(self):
+        # First try the GConf temporary dir, then try the system TEMP dir
+        # finally try on the HOME
+        temps = (self.temporary_dir, TEMP_DIR, HOME_DIR)
+        for temp in temps:
+            if urlutil.is_local(temp) and _is_dir_writable(temp):
+                yield urlutil.get_path(temp)
+        
     
     ##############
     # useGap
@@ -323,22 +347,6 @@ class RecordingPreferences (object):
         return ret
         
     writeFlags = property (getWriteFlags)
-
-    ####################
-    # temporaryDirIsOk
-    def getTemporaryDirIsOk (self):
-        tmp = self.temporaryDir
-        # Try to open the local file
-        try:
-            is_ok = path.isdir (tmp) and os.access (tmp, os.W_OK)
-        except OSError, err:
-            print err
-            is_ok = False
-        return is_ok
-        
-    temporaryDirIsOk = property (getTemporaryDirIsOk,
-                                    doc=("Tests if temporary directory exists "
-                                    "and has write permissions."))
     
     
     #############################

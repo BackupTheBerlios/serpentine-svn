@@ -26,6 +26,8 @@ import os.path
 import gtk
 import gtk.glade
 import gobject
+import statvfs
+
 from gettext import gettext as _
 
 # Private modules
@@ -37,8 +39,42 @@ from recording import ConvertAndWrite
 from preferences import RecordingPreferences
 from components import Component
 from mainwindow import SerpentineWindow
-from common import SerpentineNotSupportedError
+from common import SerpentineNotSupportedError, SerpentineCacheError
 from plugins import plugins
+
+def _validate_music_list (music_list, preferences):
+    # Check if we have space available in our cache dir
+    secs = 0
+    for music in music_list:
+        # When music is not available it will have to be converted
+        if not preferences.pool.is_available (music["location"]):
+            secs += music["duration"]
+    # 44100hz * 16bit * 2channels / 8bits = 176400 bytes per sec
+    size_needed = secs * 176400L
+    
+    # Now check if cache location is ok
+    for tmp in preferences.get_temporary_dirs():
+        try:
+            s = os.statvfs(tmp)
+        except OSError:
+            # skip it if there's an error
+            continue
+        
+        # Now check for available size
+        size_avail = s[statvfs.F_BAVAIL] * long(s[statvfs.F_BSIZE])
+        if (size_avail - size_needed) < 0:
+            preferences.pool.clear ()
+        
+        size_avail = s[statvfs.F_BAVAIL] * long(s[statvfs.F_BSIZE])
+        
+        if size_avail - size_needed >= 0:
+            # Yay we have the needed space, update the preferences entry
+            preferences.temporary_dir = tmp
+            return
+            
+    raise SerpentineCacheError (SerpentineCacheError.INVALID, _("Please "
+                            "check if the cache location exists and "
+                            "has writable permissions."))
 
 class SavePlaylistRegistry (Component):
     def __init__ (self, parent):
@@ -134,14 +170,23 @@ class Application (operations.Operation, Component):
         # Cleanup plugins
         del self.__plugins
 
+    validated = False
+    def validate_files(self):
+        """Call this before calling write files"""
+        music_list = self.music_list_gw.music_list
+        _validate_music_list(music_list, self.preferences)
+        self.validated = True
 
     def write_files (self, window=None):
         # TODO: we should add a confirmation dialog
-
+        if not self.validated:
+            raise ValueError("Call validate_files first")
+            
         r = ConvertAndWrite (self.music_list, self.preferences, window)
         # Add this operation to the recording
         self.running_ops.append (r)
         r.listeners.append (self)
+        self.validated = False
         return r
     write_files = operations.async(write_files)
     
@@ -236,8 +281,8 @@ class HeadlessApplication (Application):
 
     
     class Gateway (MusicListGateway):
-        def __init__ (self):
-            MusicListGateway.__init__ (self)
+        def __init__ (self, app):
+            MusicListGateway.__init__(self, app)
             self.music_list = GtkMusicList ()
         
         class Handler:
@@ -254,7 +299,7 @@ class HeadlessApplication (Application):
 
     def __init__ (self, locations):
         Application.__init__ (self, locations)
-        self.music_list_gw = HeadlessApplication.Gateway ()
+        self.music_list_gw = HeadlessApplication.Gateway(self)
         self._load_plugins ()
 
     music_list = property (lambda self: self.music_list_gw.music_list)
@@ -266,12 +311,12 @@ class SerpentineApplication (Application):
     This enables us to close the main window and continue showing the progress
     dialog. This object should be simple enough for D-Bus export.
     """
-    def __init__ (self, locations):
-        Application.__init__ (self, locations)
-        self.__window = SerpentineWindow (self)
-        self.preferences.dialog.set_transient_for (self.window_widget)
-        self.__window.listeners.append (self)
-        self._load_plugins ()
+    def __init__(self, locations):
+        Application.__init__(self, locations)
+        self.__window = SerpentineWindow(self)
+        self.preferences.dialog.set_transient_for(self.window_widget)
+        self.__window.listeners.append(self)
+        self._load_plugins()
 
 
     window_widget = property (lambda self: self.__window)

@@ -126,7 +126,7 @@ class ConvertAndWrite (MeasurableOperation, OperationsQueueListener):
                                    "preserve it's contents."),
                                  parent = self.__prog)
         self.__blocked = False
-        self.preferences.pool.temporaryDir = self.preferences.temporaryDir
+        self.preferences.pool.temporary_dir = self.preferences.temporary_dir
         oper = FetchMusicList(self.__music_list, self.preferences.pool)
         # Fill filenames after retrieving stuff
         self.__filenames = []

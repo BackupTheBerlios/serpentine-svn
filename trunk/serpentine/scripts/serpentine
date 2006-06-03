@@ -101,7 +101,7 @@ if locations.lib not in sys.path:
     sys.path.insert (0, locations.lib)
 
 # Actually start the program
-from serpentine.common import SerpentineError, validate_music_list
+from serpentine.common import SerpentineError
 from serpentine import SerpentineApplication, operations, gtkutil
 from serpentine import HeadlessApplication
 
@@ -133,7 +133,7 @@ if app.preferences.simulate:
     secondary_text = _("Serpentine is on simulation mode, no actual writing "
                        "will be done on inserted media.")
                        
-    dlg = gtkutil.gen_warn (primary_text, secondary_text, title = "Serpentine")
+    dlg = gtkutil.dialog_warn (primary_text, secondary_text, title = "Serpentine", run=False)
     dlg.set_icon_name ("gnome-dev-cdrom-audio")
     dlg.run ()
     dlg.destroy ()
@@ -151,6 +151,11 @@ if options.write_files is not None:
         # Check if the operation was successful
         app.clear_files()
         check_error(app.add_files(options.write_files, sync=True))
+        try:
+            app.validate_files()
+        except SerpentineError:
+            raise SystemError(1)
+            
         check_error(app.write_files(sync=True))
             
     except SerpentineError, e:

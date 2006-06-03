@@ -32,7 +32,7 @@ from components import Component
 from operations import MapProxy, OperationListener
 from mastering import AudioMastering
 
-from serpentine.common import SerpentineNotSupportedError, validate_music_list
+from serpentine.common import SerpentineNotSupportedError
 from serpentine.common import SerpentineCacheError
 from gettext import gettext as _
 
@@ -537,8 +537,8 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
     def __on_write_files (self, *args):
         # TODO: move this to SerpentineApplication.write_files ?
         try:
-            # Try to validate music list
-            validate_music_list (self.music_list_widget.source, self.application.preferences)
+            self.__application.validate_files()
+            
         except SerpentineCacheError, err:
             show_prefs = False
             
@@ -551,7 +551,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
             
             gtkutil.dialog_warn (title, err.error_message, parent = self)
             return
-
+        
         # TODO: move this to recording module?
         if self.music_list_widget.source.total_duration > self.music_list_widget.disc_size:
             title = _("Do you want to overburn your disc?")
@@ -572,7 +572,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         if gtkutil.dialog_ok_cancel (title, msg, parent = self, ok_button = btn) != gtk.RESPONSE_OK:
             return
         
-        self.application.write_files ().start ()
+        self.application.write_files().start()
     
     # Start is the same as showing a window, we do it every time
     start = gtk.Window.show

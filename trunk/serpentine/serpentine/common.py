@@ -17,7 +17,6 @@
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 import os
-import statvfs
 import sys
 import tempfile
 
@@ -132,34 +131,3 @@ class SafeFileWrite:
         except:
             pass
 
-def validate_music_list (music_list, preferences):
-    # Check if we have space available in our cache dir
-    secs = 0
-    for music in music_list:
-        # When music is not available it will have to be converted
-        if not preferences.pool.is_available (music["location"]):
-            secs += music["duration"]
-    # 44100hz * 16bit * 2channels / 8bits = 176400 bytes per sec
-    size_needed = secs * 176400L
-    
-    # Now check if cache location is ok
-    try:
-        s = os.statvfs (preferences.temporaryDir)
-        # Raise exception if temporary dir is not ok
-        assert preferences.temporaryDirIsOk
-    except OSError, AssertionError:
-        raise SerpentineCacheError (SerpentineCacheError.INVALID, _("Please "
-                                    "check if the cache location exists and "
-                                    "has writable permissions."))
-    
-    size_avail = s[statvfs.F_BAVAIL] * long(s[statvfs.F_BSIZE])
-    if (size_avail - size_needed) < 0:
-        preferences.pool.clear ()
-    
-    size_avail = s[statvfs.F_BAVAIL] * long(s[statvfs.F_BSIZE])
-    if (size_avail - size_needed) < 0:
-        raise SerpentineCacheError (SerpentineCacheError.NO_SPACE, _("Remove " 
-                                    "some music tracks or make sure your "     
-                                    "cache location location has enough free " 
-                                    "space (about %s).")
-                                    % __hig_bytes(size_needed - size_avail))
