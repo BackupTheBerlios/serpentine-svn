@@ -213,6 +213,7 @@ class Gst09Operation(GstPipelineOperation):
         self.lock = threading.RLock()
  
     def query_duration(self, format = gst.FORMAT_TIME):
+
         try:
             total, format = self.query_element.query_duration(format)
             return float(total)
@@ -237,7 +238,7 @@ class Gst09Operation(GstPipelineOperation):
 
     def _dispatch_bus_message(self, bus, message):
         handler = getattr(self, "_on_" + message.type.first_value_nick, None)
-        if handler:
+        if handler is not None:
             handler(bus, message)
 
         return True
@@ -303,9 +304,6 @@ class AudioMetadata(operations.Operation, GstOperationListener): #, gobject.GObj
     To retrieve the metadata associated with a certain media file on gst-launch -t:
     source ! decodebin ! fakesink
     """
-#    __gsignals__ = {
-#        "long-duration": _VOID_VOID,
-#    }
     can_start = property(lambda self: self.__oper.can_start)
     running = property(lambda self: self.__oper.running)
 
@@ -334,23 +332,16 @@ class AudioMetadata(operations.Operation, GstOperationListener): #, gobject.GObj
         self.__oper.start()
     
     def stop(self):
-#        self._check_duration()
         self.__oper.stop()
 
     def on_eos(self, event):
         pass
-#        self._check_duration()
 
     def on_error(self, event, message):
-        # try to get the size even when there is an error
-#        self._check_duration()
         pass
 
     def on_handoff(self, *ignored):
         self._check_duration()
-#        if not self.fuzzy_duration:
-#            self._fakesink.set_property("signal-handoffs", False)
-#            self.__oper.stop()
 
     def on_tag(self, event, taglist):
         self.__metadata.update(taglist)
@@ -522,14 +513,12 @@ def source_to_wav(source, sink):
     Converts a given source element to wav format and sends it to sink element.
     
     To convert a media file to a wav using gst-launch:
-    source ! decodebin ! audioconvert ! audioresample ! $_WAV_PCM_PARSE ! wavenc
+    source ! decodebin ! audioconvert ! wavenc
     """
 
     bin = gst.parse_launch(
         "decodebin name=stw_decodebin !"
-        "audioconvert ! audioresample ! "
-        + _WAV_PCM_PARSE +
-        " ! wavenc name=stw_wavenc"
+        "audioconvert ! wavenc name=stw_wavenc"
     )
     oper = GstOperation(sink, bin)
       

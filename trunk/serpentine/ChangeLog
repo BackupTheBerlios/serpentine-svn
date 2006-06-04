@@ -1,3 +1,9 @@
+2006-06-04 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/audio.py:
+    Fixed the long lasting converting problem issues.
+    Fixes launchpad bug #22501.
+
 2006-06-03 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/plugins/plugfilter_dir.py:
