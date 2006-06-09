@@ -32,6 +32,7 @@ from gettext import gettext as _
 
 # Private modules
 import operations
+import urlutil
 
 from mastering import GtkMusicList, MusicListGateway
 from mastering import ErrorTrapper
@@ -42,13 +43,26 @@ from mainwindow import SerpentineWindow
 from common import SerpentineNotSupportedError, SerpentineCacheError
 from plugins import plugins
 
+PATTERN_SEPARATOR=";"
+
 def _validate_music_list (music_list, preferences):
     # Check if we have space available in our cache dir
     secs = 0
+    missing_musics = []
     for music in music_list:
+        if not urlutil.exists(music["location"]):
+            missing_musics.append("%s - %s" % (music["title"], music["artist"]))
+            
         # When music is not available it will have to be converted
         if not preferences.pool.is_available (music["location"]):
             secs += music["duration"]
+    if len(missing_musics) > 0:
+        raise SerpentineCacheError(SerpentineCacheError.INVALID,
+                "%s\n%s" % (
+                    _("The following musics have missing files:"),
+                    "\n".join(missing_musics)
+                ))
+                 
     # 44100hz * 16bit * 2channels / 8bits = 176400 bytes per sec
     size_needed = secs * 176400L
     
@@ -131,10 +145,11 @@ class Application (operations.Operation, Component):
         self._playlist_file_patterns = {}
         self._music_file_filters = None
         self._playlist_file_filters = None
-        self.register_music_file_pattern ("MPEG Audio Stream, Layer III", "*.mp3")
-        self.register_music_file_pattern ("Ogg Vorbis Codec Compressed WAV File", "*.ogg")
-        self.register_music_file_pattern ("Free Lossless Audio Codec", "*.flac")
-        self.register_music_file_pattern ("PCM Wave audio", "*.wav")
+        self.register_music_file_pattern("MPEG Audio Stream, Layer III", "*.mp3")
+        self.register_music_file_pattern("Ogg Vorbis Codec Compressed WAV File", "*.ogg")
+        self.register_music_file_pattern("Free Lossless Audio Codec", "*.flac")
+        self.register_music_file_pattern("MPEG 4 Audio", "*.m4a;*.mp4")
+        self.register_music_file_pattern("PCM Wave audio", "*.wav")
     
     def _load_plugins (self):
         # Load Plugins
@@ -144,14 +159,16 @@ class Application (operations.Operation, Component):
             self.__plugins.append (plugins[plug].create_plugin (self))
         
 
-    preferences = property (lambda self: self.__preferences)
+    cache_pool = property(lambda self: self.__preferences.pool)
 
-    running_ops = property (lambda self: self.__running_ops)
+    preferences = property(lambda self: self.__preferences)
 
-    can_stop = property (lambda self: len (self.running_ops) == 0)
+    running_ops = property(lambda self: self.__running_ops)
+
+    can_stop = property(lambda self: len(self.running_ops) == 0)
     
     # The window is only none when the operation has finished
-    can_start = property (lambda self: self.__window is not None)
+    can_start = property(lambda self: self.__window is not None)
 
 
     def on_finished (self, event):
@@ -202,8 +219,12 @@ class Application (operations.Operation, Component):
         """
         Music patterns are meant to be used in the file dialog for adding
         musics to the playlist.
+        
+        To associate more then one pattern to the same name use the ';' char
+        as the pattern separator.
         """
-        self._music_file_patterns[pattern] = name
+        
+        self._music_file_patterns[pattern.strip(PATTERN_SEPARATOR)] = name
         self._music_file_filters = None
 
     def register_playlist_file_pattern (self, name, pattern):
@@ -212,26 +233,29 @@ class Application (operations.Operation, Component):
         self._playlist_file_patterns[pattern] = name
         self._playlist_file_filters = None
     
-    def __gen_file_filters (self, patterns, all_filters_name):
-        all_files = gtk.FileFilter ()
-        all_files.set_name (_("All files"))
-        all_files.add_pattern ("*.*")
+    def __gen_file_filters(self, patterns, all_filters_name):
+        all_files = gtk.FileFilter()
+        all_files.set_name(_("All files"))
+        all_files.add_pattern("*.*")
         
-        all_musics = gtk.FileFilter ()
-        all_musics.set_name (all_filters_name)
+        all_musics = gtk.FileFilter()
+        all_musics.set_name(all_filters_name)
         
         filters = [all_musics]
         
-        for pattern, name in patterns.iteritems ():
-            all_musics.add_pattern (pattern)
+        for pattern, name in patterns.iteritems():
+            patterns = pattern.split(PATTERN_SEPARATOR)
+            for patt in patterns:
+                all_musics.add_pattern(patt)
             
-            filter = gtk.FileFilter ()
-            filter.set_name (name)
-            filter.add_pattern (pattern)
+            filter = gtk.FileFilter()
+            filter.set_name(name)
+            for patt in patterns:
+                filter.add_pattern(patt)
             
-            filters.append (filter)
+            filters.append(filter)
         
-        filters.append (all_files)
+        filters.append(all_files)
         return filters
     
     def __get_file_filter (self, filter_attr, pattern_attr, name):

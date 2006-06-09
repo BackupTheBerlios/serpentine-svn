@@ -377,7 +377,7 @@ class GtkMusicList (MusicList):
 # Audio Mastering widget
 #    
 
-class AudioMasteringMusicListener (MusicListListener):
+class AudioMasteringMusicListener(MusicListListener):
     def __init__ (self, audio_mastering):
         self.__master = audio_mastering
         
@@ -386,6 +386,10 @@ class AudioMasteringMusicListener (MusicListListener):
     
     def on_musics_removed (self, e, rows):
         self.__master.update_disc_usage()
+        
+        for row in rows:
+            self.__master.pool.remove_music(row['location'])
+            
 
 class HintsFilter (object):
     __priority = 0
@@ -579,6 +583,8 @@ class AudioMastering (gtk.VBox, operations.Listenable):
             doc = "Represents the disc size, in seconds.")
     
     disc_size_widget = property (lambda self: self.__size_list)
+    
+    pool = property(lambda self: self._application().cache_pool)
     
     def __setup_container_misc (self, g):
         self.__size_list = g.get_widget ("size_list")

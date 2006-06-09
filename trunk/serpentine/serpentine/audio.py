@@ -86,12 +86,10 @@ class GstPipelineOperation(operations.MeasurableOperation):
         self.__duration = 0
 
     def start(self):
-        assert self.can_start
-        if self.bin.set_state(gst.STATE_PLAYING):
-            self.__can_start = False
-            self.__running = True
-        else:
-            raise GstPlayingFailledError()
+        self.__can_start = False
+        self.__running = True
+        if not self.bin.set_state(gst.STATE_PLAYING):
+            self._finalize(operations.ERROR, GstPlayingFailledError())
 
     def stop(self):
         self._finalize(operations.ABORTED)
@@ -572,6 +570,8 @@ if __name__ == '__main__':
             
         def on_finished(self, event):
             self.success = operations.SUCCESSFUL == event.id
+            if event.id == operations.ERROR:
+                print "ERROR:", event.error
             mainloop.quit()
 
         def on_progress(self):

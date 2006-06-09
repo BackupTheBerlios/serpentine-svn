@@ -23,15 +23,17 @@ are cached in the local filesystem and can be used by the recording module.
 """
 import tempfile
 import os
-import gst
-
-from types import StringType
 
 # Local imports
 import urlutil    
 import operations
 import audio
 
+def silent_unlink(filename):
+    try:
+        os.unlink(filename)
+    except OSError:
+        pass
 
 class GetMusic(operations.MeasurableOperation, operations.OperationListener):
     """"
@@ -135,7 +137,7 @@ class GstSourceToWavListener(operations.OperationListener):
         if event.id == operations.SUCCESSFUL:
             self.__parent.cache[self.__parent.unique_music_id(self.__music)] = GstCacheEntry(self.__filename, True)
         else:
-            os.unlink(self.__filename)
+            silent_unlink(self.__filename)
         
 class GstMusicPool(MusicPool):
     temporary_dir = None
@@ -182,11 +184,21 @@ class GstMusicPool(MusicPool):
         for key in self.cache:
             entry = self.cache[key]
             if entry.is_temp:
-                os.unlink(entry.filename)
+                silent_unlink(entry.filename)
         self.__cache = {}
         
     def __del__(self):
         self.clear()
+    
+    def remove_music(self, music):
+        music_id = self.unique_music_id(music)
+        try:
+            entry = self.cache.pop(music_id)
+            if entry.is_temp:
+                silent_unlink(entry.filename)
+
+        except KeyError:
+            pass
     
     def unique_music_id(self, music):
         pass
@@ -248,7 +260,6 @@ class FetchMusicListPriv(operations.OperationListener):
             self.parent._propagate(evt)
             return
             
-        assert isinstance(evt.source, GetMusic)
         if evt.id != operations.SUCCESSFUL:
             return
             
@@ -257,10 +268,8 @@ class FetchMusicListPriv(operations.OperationListener):
         filename = pool.get_filename(uri)
         m = self.get_music_from_uri(uri)
 
-        if m:
-            m["cache_location"] = filename
-        else:
-            assert False, "uri '%s' was not found in music list." %(uri)
+        m["cache_location"] = filename
+
         
     def before_operation_starts(self, event, operation):
         e = operations.Event(self.parent)

@@ -1,3 +1,23 @@
+2006-06-09 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/__init__.py:
+    Before burning the CD the files are checked to see if they exist.
+    Now `register_music_pattern` method accepts multiple patterns.
+    
+    * serpentine/audio.py:
+    Now when the `GstOperation` cannot be started with a play it does not
+    raises an exception but finishes as a failled op.
+    
+    * serpentine/converting.py:
+    Now the music pool contains a `remove_music` method.
+    
+    * serpentine/mastering.py:
+    When the music is removed from the list the temporary file is also remove.
+    Fixes bug #344373.
+    
+    * serpentine/urlutil.py:
+    Now contains an `exists` method and a function too.
+
 2006-06-04 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/audio.py:

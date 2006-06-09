@@ -96,6 +96,9 @@ class UrlParse(object):
     def make_writable(self):
         self.data = list(self.data)
     
+    def exists(self):
+        return not self.is_local or path.exists(self.path)
+    
     
 def get_path(uri_or_path, basepath=None):
     """Returns a path from a path or from a URI"""
@@ -112,4 +115,6 @@ def is_local(uri_or_path, basepath=None):
 
 def basename(uri_or_path, basepath=None):
     return path.basename(UrlParse(uri_or_path, basepath).path)
-    
+
+def exists(uri_or_path, basepath=None):
+    return UrlParse(uri_or_path, basepath).exists()
