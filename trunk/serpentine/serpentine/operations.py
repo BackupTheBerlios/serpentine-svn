@@ -75,10 +75,8 @@ class Operation (Listenable):
         pass
 
     def _notify (self, method_name, *args, **kw):
-        for l in self.listeners:
-            meth = getattr (l, method_name, None)
-            if meth:
-                meth (*args, **kw)
+        [getattr(listener, method_name)(*args, **kw) \
+            for listener in self.listeners if hasattr(listener, method_name)]
 
     def _send_finished_event (self, status, error=None, source=None):
         """
@@ -89,11 +87,9 @@ class Operation (Listenable):
         if source is None:
             source = self
             
-        e = FinishedEvent (source, status, error)
-
-        for l in self.listeners:
-            if hasattr (l, "on_finished"):
-                l.on_finished (e)
+        evt = FinishedEvent(source, status, error)
+        self._notify("on_finished", evt)
+                
                 
     def _propagate (self, evt, source = None):
         self._send_finished_event (evt.id, evt.error, source)
@@ -190,7 +186,7 @@ try:
             else:
                 status = ERROR
                 
-            self._send_finished_event (status)
+            self._send_finished_event(status)
             self.__pid = None
 except ImportError:
     pass        
@@ -201,7 +197,7 @@ class MeasurableOperation (Operation):
 class OperationsQueueListener (OperationListener):
     def before_operation_starts (self, event, operation):
         pass
-    
+
 class OperationsQueue (MeasurableOperation, OperationListener):
     """
     Operation Queuees allow a user to enqueue a number of operations and run
@@ -224,6 +220,10 @@ class OperationsQueue (MeasurableOperation, OperationListener):
         self.__progress = 0.0
         self.__total = 0
         self.__abort_on_failure = True
+        self._stop_now = False
+    
+    def _call_later(self, callable):
+        gobject.idle_add(callable)
     
     def __is_running (self):
         return self.__curr_oper != None
@@ -256,17 +256,21 @@ class OperationsQueue (MeasurableOperation, OperationListener):
     abort_on_failure = property (lambda self: self.__abort_on_failure,
                                  __set_abort_on_failure,
                                  doc = "If one operation stops abort progress and propagate event.")
-        
-    def start (self):
+
+    def start(self):
         """
         Starts all the operations on queue, sequentially.
         """
         assert not self.running, self.__curr_oper
+
+        self._stop_now = False
+        self.paused = False
         self.__done = 0
-        self.__total = len (self.__operations)
+        self.__total = len(self.__operations)
         self.__progress = 0.0
         self.__started = True
-        gobject.idle_add (self.__start_next)
+        self.paused = False
+        self._call_later(self.__start_next)
     
     def append (self, oper):
         self.__operations.append (oper)
@@ -276,53 +280,58 @@ class OperationsQueue (MeasurableOperation, OperationListener):
         
     # Private methods:
     def __start_next (self):
-        if len (self.__operations):
-            oper = self.__operations[0]
-            del self.__operations[0]
-            e = Event (self)
-            for l in self.listeners:
-                if hasattr (l, "before_operation_starts"):
-                    l.before_operation_starts (e, oper)
-                
-            oper.listeners.append (self)
+        if len(self.__operations) and not self.paused:
+            oper = self.__operations.pop(0)
+            
+            self._notify("before_operation_starts", Event(self), oper)
             self.__curr_oper = oper
+
+            oper.listeners.append(self)
             oper.start()
             
         else:
             self.__started = False
-            e = FinishedEvent (self, SUCCESSFUL)
-            for l in self.listeners:
-                if hasattr (l, "on_finished"):
-                    l.on_finished (e)
+            self._send_finished_event(SUCCESSFUL)
     
     
     
-    def on_finished (self, evt):
-        assert isinstance (evt, FinishedEvent), evt
+    def on_finished(self, evt):
         # Remove the listener connection
-        evt.source.listeners.remove (self)
+        evt.source.listeners.remove(self)
+        
         # One more done
         self.__done += 1
         self.__curr_oper = None
         
-        # Abort on not success
-        if self.abort_on_failure and evt.id != SUCCESSFUL:
+        if self._stop_now and evt.id != ERROR:
+            evt.id = ABORTED
+            evt.source = self
+            
+        # when 'abort_on_failure' do it otherwise stop when 'stop_now' is
+        # called
+        if (self.abort_on_failure and evt.id != SUCCESSFUL) or self._stop_now:
             # Clear remaining operations
             self.__operations = []
-            evt.source = self
-            for l in self.listeners:
-                l.on_finished (evt)
+            self._propagate(evt, self)
+                
         else:
             # Start next operation
             self.__start_next()
     
     can_stop = property (lambda self: self.running and self.__curr_oper.can_stop)
     
-    def stop (self):
+    def stop(self):
         assert self.can_stop, "Check if the operation can be stopped first."
         self.__curr_oper.stop ()
     
-    __len__ = lambda self: len (self.__operations)
+    def pause(self):
+        self.paused = True
+    
+    def stop_after_next(self):
+        self._stop_now = True
+    
+    def __len__(self):
+        return len(self.__operations)
     
     def __repr__ (self):
         return "{%s: %s}" % (

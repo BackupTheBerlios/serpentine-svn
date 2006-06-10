@@ -412,8 +412,8 @@ WavPcmStruct = {
 }
 
 _WAV_PCM_PARSE =("audio/x-raw-int, endianness=(int)1234, width=(int)16, "
-               "depth=(int)16, signed=(boolean)true, rate=(int)44100, "
-               "channels=(int)2")
+                 "depth=(int)16, signed=(boolean)true, rate=(int)44100, "
+                 "channels=(int)2")
 
 def is_caps_wav_pcm(caps):
     struct = caps[0]
@@ -471,8 +471,10 @@ class IsWavPcm(operations.Operation, GstOperationListener):
     def on_new_pad(self, src, pad):
         caps = pad.get_caps()
         self.is_wav_pcm = is_caps_wav_pcm(caps)
+        self.oper.stop()
     
     def on_finished(self, event):
+        
         if event.id != operations.ERROR and self.is_wav_pcm:
             assert event.id == operations.SUCCESSFUL or \
                    event.id == operations.ABORTED
@@ -511,18 +513,19 @@ def source_to_wav(source, sink):
     Converts a given source element to wav format and sends it to sink element.
     
     To convert a media file to a wav using gst-launch:
-    source ! decodebin ! audioconvert ! wavenc
+    source ! decodebin ! audioconvert ! audioresample ! audioconvert ! wavenc
     """
-
+    
     bin = gst.parse_launch(
-        "decodebin name=stw_decodebin !"
-        "audioconvert ! wavenc name=stw_wavenc"
+        "decodebin name=stw_decodebin ! audioconvert ! "
+        "audioresample ! audioconvert ! %s ! wavenc name=stw_wavenc" % _WAV_PCM_PARSE
     )
+    
     oper = GstOperation(sink, bin)
       
     decoder = bin.get_by_name("stw_decodebin")
     encoder = bin.get_by_name("stw_wavenc")
-      
+
     oper.bin.add(source)
     oper.bin.add(sink)
     source.link(decoder)

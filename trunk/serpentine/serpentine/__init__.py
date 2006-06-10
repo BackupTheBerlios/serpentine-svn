@@ -56,6 +56,7 @@ def _validate_music_list (music_list, preferences):
         # When music is not available it will have to be converted
         if not preferences.pool.is_available (music["location"]):
             secs += music["duration"]
+            
     if len(missing_musics) > 0:
         raise SerpentineCacheError(SerpentineCacheError.INVALID,
                 "%s\n%s" % (
