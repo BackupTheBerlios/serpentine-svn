@@ -1,3 +1,17 @@
+2006-06-11 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * data/serpentine.desktop.in:
+    Removed the extension from the icon.
+
+2006-06-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/audio.py:
+    Having another go on the Perfect WAV Converting Pipeline (TM).
+    
+    * serpentine/operations.py:
+    Optimized callback handler.
+    Added a possibility to pause queues and to stop after next operation.
+    
 2006-06-09 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/__init__.py:
