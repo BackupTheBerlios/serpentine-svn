@@ -1,8 +1,20 @@
 2006-06-11 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * po/fi.po:
+    Merged fi.po from Timo Jyrinki <timo.jyrinki@iki.fi>.
+    
+    * po/pt.po:
+    I updated pt.po.
+    
+    * po/es.po:
+    Merged es.po from Rafael Bermúdez <rafaelbermudez@gmail.com>.
+    
+    * data/serpentine.glade:
+    Removed a unnecessary translatable string. Fix launchpad bug #46564.
+
     * data/serpentine.desktop.in:
     Removed the extension from the icon.
-
+    
 2006-06-10 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
     * serpentine/audio.py:

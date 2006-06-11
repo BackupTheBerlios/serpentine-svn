@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-04 01:56+0000\n"
-"PO-Revision-Date: 2006-02-10 16:21+0200\n"
+"POT-Creation-Date: 2006-06-11 22:52+0000\n"
+"PO-Revision-Date: 2006-03-01 23:04+0200\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -58,87 +58,84 @@ msgid "Add two seconds gap between tracks"
 msgstr "Lisää kahden sekunnin tauko kappaleiden väliin"
 
 #: ../data/serpentine.glade.h:10
-msgid "Audio Widget Wrapper"
-msgstr "Äänisäätimen käärin"
-
-#: ../data/serpentine.glade.h:11
 msgid "Choose writing speed"
 msgstr "Valitse kirjoitusnopeus"
 
-#: ../data/serpentine.glade.h:12
+#: ../data/serpentine.glade.h:11
 msgid "Clear playlist"
 msgstr "Tyhjennä soittolista"
 
-#: ../data/serpentine.glade.h:13
+#: ../data/serpentine.glade.h:12
 msgid "Device:"
 msgstr "Laite:"
 
-#: ../data/serpentine.glade.h:14
+#: ../data/serpentine.glade.h:13
 msgid "Disc Capacity:"
 msgstr "Levyn koko:"
 
-#: ../data/serpentine.glade.h:15
+#: ../data/serpentine.glade.h:14
 msgid "Disc Usage:"
 msgstr "Levyn käyttö:"
 
-#: ../data/serpentine.glade.h:16
+#: ../data/serpentine.glade.h:15
 msgid "Eject disk after writing"
 msgstr "Poista levy asemasta kirjoituksen jälkeen"
 
-#: ../data/serpentine.glade.h:17
+#: ../data/serpentine.glade.h:16
 msgid "Open Playlist..."
 msgstr "Avaa soittolista..."
 
-#: ../data/serpentine.glade.h:18
+#: ../data/serpentine.glade.h:17
 msgid "Refreshes the max writing speed"
 msgstr "Päivittää suurimman mahdollisen kirjoitusnopeuden"
 
-#: ../data/serpentine.glade.h:19
+#: ../data/serpentine.glade.h:18
 msgid "Remove selected tracks from playlist"
 msgstr "Poista valitut kappaleet soittolistalta"
 
-#: ../data/serpentine.glade.h:20
+#: ../data/serpentine.glade.h:19
 msgid "Save Playlist As..."
 msgstr "Tallenna soittolista nimellä..."
 
-#: ../data/serpentine.glade.h:21
+#: ../data/serpentine.glade.h:20
 msgid "Serpentine Audio Mastering"
 msgstr "Serpentine-audiomasterointi"
 
-#: ../data/serpentine.glade.h:22 ../serpentine/preferences.py:56
+#: ../data/serpentine.glade.h:21 ../serpentine/preferences.py:71
+#: ../serpentine/preferences.py:197
 msgid "Serpentine Preferences"
 msgstr "Serpentinen asetukset"
 
-#: ../data/serpentine.glade.h:23
+#: ../data/serpentine.glade.h:22
 msgid "Use maximum writing speed"
 msgstr "Käytä suurinta kirjoitusnopeutta"
 
-#: ../data/serpentine.glade.h:24
+#: ../data/serpentine.glade.h:23
 msgid "Write playlist to disc"
 msgstr "Kirjoita soittolista levylle"
 
-#: ../data/serpentine.glade.h:25 ../serpentine/mainwindow.py:559
+#: ../data/serpentine.glade.h:24 ../serpentine/mainwindow.py:569
 msgid "Write to Disc"
 msgstr "Kirjoita levylle"
 
-#: ../data/serpentine.glade.h:26
+#: ../data/serpentine.glade.h:25
 #, fuzzy
 msgid "_Edit"
 msgstr "Muokkaa"
 
-#: ../data/serpentine.glade.h:27
+#: ../data/serpentine.glade.h:26
 msgid "_File"
 msgstr "_Tiedosto"
 
-#: ../data/serpentine.glade.h:28
+#: ../data/serpentine.glade.h:27
 msgid "_Help"
 msgstr "_Ohje"
 
-#: ../data/serpentine.glade.h:29
+#: ../data/serpentine.glade.h:28
 msgid "_Toolbar"
 msgstr "_Työkalurivi"
 
-#: ../data/serpentine.glade.h:30
+#: ../data/serpentine.glade.h:29
 msgid "_View"
 msgstr "_Näytä"
 
@@ -169,7 +166,7 @@ msgstr ""
 
 #: ../scripts/serpentine:75
 msgid "Do not use GnomeVfs module."
-msgstr ""
+msgstr "Älä käytä GnomeVfs-moduulia"
 
 #: ../scripts/serpentine:132
 msgid "Simulation mode"
@@ -183,81 +180,77 @@ msgstr ""
 "Serpentine on simulaatiotilassa, joten varsinaista kirjoitusta ei tehdä "
 "asemaan laitetulle levylle."
 
-#: ../serpentine/__init__.py:49 ../serpentine/__init__.py:172
-msgid "All files"
-msgstr "Kaikki tiedostot"
+#: ../serpentine/__init__.py:63
+#, fuzzy
+msgid "The following musics have missing files:"
+msgstr "Seuraavaa tiedostoa ei lisätty:"
 
-#: ../serpentine/__init__.py:53 ../serpentine/__init__.py:220
-msgid "Supported playlists"
-msgstr "Tuetut soittolistat"
-
-#: ../serpentine/__init__.py:212
-msgid "Common media files"
-msgstr "Yleiset mediatiedostot"
-
-#: ../serpentine/common.py:72
-msgid "GByte"
-msgstr "Gtavu"
-
-#: ../serpentine/common.py:72
-msgid "GBytes"
-msgstr "Gtavua"
-
-#: ../serpentine/common.py:73
-msgid "MByte"
-msgstr "Mtavu"
-
-#: ../serpentine/common.py:73
-msgid "MBytes"
-msgstr "Mtavua"
-
-#: ../serpentine/common.py:74
-msgid "KByte"
-msgstr "ktavu"
-
-#: ../serpentine/common.py:75
-msgid "byte"
-msgstr "tavu"
-
-#: ../serpentine/common.py:75
-msgid "bytes"
-msgstr "tavua"
-
-#: ../serpentine/common.py:151
+#: ../serpentine/__init__.py:90
 msgid "Please check if the cache location exists and has writable permissions."
 msgstr ""
 "Tarkista, että kätkön sijainti on olemassa ja sinne on kirjoitusoikeudet."
 
-#: ../serpentine/common.py:161
-#, python-format
-msgid ""
-"Remove some music tracks or make sure your cache location location has "
-"enough free space (about %s)."
-msgstr ""
-"Poista joitain musiikkikappaleita, tai tarkista että kätkön sijainnissa on "
-"riittävästi vapaata tilaa (noin %s)."
+#: ../serpentine/__init__.py:100 ../serpentine/__init__.py:239
+msgid "All files"
+msgstr "Kaikki tiedostot"
 
-#: ../serpentine/mainwindow.py:145
+#: ../serpentine/__init__.py:104 ../serpentine/__init__.py:290
+msgid "Supported playlists"
+msgstr "Tuetut soittolistat"
+
+#: ../serpentine/__init__.py:282
+msgid "Common media files"
+msgstr "Yleiset mediatiedostot"
+
+#: ../serpentine/common.py:71
+msgid "GByte"
+msgstr "Gtavu"
+
+#: ../serpentine/common.py:71
+msgid "GBytes"
+msgstr "Gtavua"
+
+#: ../serpentine/common.py:72
+msgid "MByte"
+msgstr "Mtavu"
+
+#: ../serpentine/common.py:72
+msgid "MBytes"
+msgstr "Mtavua"
+
+#: ../serpentine/common.py:73
+msgid "KByte"
+msgstr "ktavu"
+
+#: ../serpentine/common.py:74
+msgid "byte"
+msgstr "tavu"
+
+#: ../serpentine/common.py:74
+msgid "bytes"
+msgstr "tavua"
+
+#: ../serpentine/mainwindow.py:152
 msgid "Save playlist in format:"
 msgstr "Tallenna soittolista muodossa:"
 
-#: ../serpentine/mainwindow.py:159
+#: ../serpentine/mainwindow.py:166
 msgid "Detect by extension"
 msgstr "Tunnista päätteestä"
 
-#: ../serpentine/mainwindow.py:176
+#: ../serpentine/mainwindow.py:183
 msgid "Playlist Not Saved"
 msgstr "Soittolistaa ei tallennettu"
 
-#: ../serpentine/mainwindow.py:177
+#: ../serpentine/mainwindow.py:184
 msgid "There was an error while saving the playlist."
 msgstr "Soittolistaa tallennettaessa tapahtui virhe."
 
-#: ../serpentine/mainwindow.py:214
+#: ../serpentine/mainwindow.py:221
 msgid "Replace existing file"
 msgstr "Korvaa vanha tiedosto"
 
-#: ../serpentine/mainwindow.py:215
+#: ../serpentine/mainwindow.py:222
 #, python-format
 msgid ""
 "A file named <i>%s</i> already exists. Do you want to replace it with the "
@@ -266,27 +259,28 @@ msgstr ""
 "Tiedosto <i>%s</i> on jo olemassa. Haluatko korvata sen tiedostolla, jota "
 "olet tallentamassa?"
 
-#: ../serpentine/mainwindow.py:242
-#, fuzzy
+#: ../serpentine/mainwindow.py:249
 msgid "Select one playlist format"
-msgstr "Tallenna soittolista muodossa:"
+msgstr "Valitse yksi soittolistamuoto"
 
-#: ../serpentine/mainwindow.py:243
+#: ../serpentine/mainwindow.py:250
 msgid ""
 "Serpentine will open any of these formats so the one you choose only matters "
 "if you are going to open with other applications."
 msgstr ""
+"Serpentine osaa avata kaikkia näitä soittolistamuotoja. Valinnallasi on siis "
+"merkitystä vain, jos aiot avata soittolistoja muilla ohjelmilla."
 
-#: ../serpentine/mainwindow.py:246
-#, fuzzy, python-format
+#: ../serpentine/mainwindow.py:253
+#, python-format
 msgid "Do you want to save as the %s format?"
-msgstr "Haluatko kirjoittaa musiikkisi levylle?"
+msgstr "Haluatko tallentaa muodossa %s?"
 
-#: ../serpentine/mainwindow.py:274
+#: ../serpentine/mainwindow.py:281
 msgid "Unsupported Format"
 msgstr "Tiedostomuoto ei tuettu"
 
-#: ../serpentine/mainwindow.py:275
+#: ../serpentine/mainwindow.py:282
 msgid ""
 "The playlist format you used (by the file extension) is currently not "
 "supported."
@@ -294,11 +288,11 @@ msgstr ""
 "Käyttämääsi soittolistamuotoa (pääteltynä tiedoston päätteestä) ei tällä "
 "hetkellä tueta."
 
-#: ../serpentine/mainwindow.py:457
+#: ../serpentine/mainwindow.py:464
 msgid "No recording drive found"
 msgstr "Kirjoittavaa asemaa ei löytynyt"
 
-#: ../serpentine/mainwindow.py:458
+#: ../serpentine/mainwindow.py:465
 msgid ""
 "No recording drive found on your system, therefore some of Serpentine's "
 "functionalities will be disabled."
@@ -306,28 +300,28 @@ msgstr ""
 "Kirjoittavaa asemaa ei löytynyt järjestelmästäsi. Tämän takia jotkin "
 "Serpentinen toiminnoista eivät ole käytettävissä."
 
-#: ../serpentine/mainwindow.py:522
+#: ../serpentine/mainwindow.py:532
 msgid "translator-credits"
 msgstr ""
 
-#: ../serpentine/mainwindow.py:523
+#: ../serpentine/mainwindow.py:533
 #, fuzzy
 msgid "Audio CD Creator"
 msgstr "Serpentine - CD-luontityökalu"
 
-#: ../serpentine/mainwindow.py:536
+#: ../serpentine/mainwindow.py:546
 msgid "Cache directory location unavailable"
 msgstr "Kätköhakemiston sijainti ei ole saatavilla"
 
-#: ../serpentine/mainwindow.py:540
+#: ../serpentine/mainwindow.py:550
 msgid "Not enough space on cache directory"
 msgstr "Kätköhakemistossa ei ole riittävästi vapaata tilaa"
 
-#: ../serpentine/mainwindow.py:547
+#: ../serpentine/mainwindow.py:557
 msgid "Do you want to overburn your disc?"
 msgstr "Haluatko ylipolttaa levyn?"
 
-#: ../serpentine/mainwindow.py:548
+#: ../serpentine/mainwindow.py:558
 msgid ""
 "You are about to record a media disc in overburn mode. This may not work on "
 "all drives and shouldn't give you more then a couple of minutes."
@@ -335,15 +329,15 @@ msgstr ""
 "Olet kirjoittamassa levyä ylipolttotilassa. Tämä ei toimi kaikilla asemilla "
 "eikä tarjoa kuin muutaman ylimääräisen minuutin tilaa."
 
-#: ../serpentine/mainwindow.py:551
+#: ../serpentine/mainwindow.py:561
 msgid "Write to Disc (Overburning)"
 msgstr "Kirjoita levylle (ylipoltto)"
 
-#: ../serpentine/mainwindow.py:554
+#: ../serpentine/mainwindow.py:564
 msgid "Do you want to record your music?"
 msgstr "Haluatko kirjoittaa musiikkisi levylle?"
 
-#: ../serpentine/mainwindow.py:555
+#: ../serpentine/mainwindow.py:565
 msgid ""
 "You are about to record a media disc. Canceling a writing operation will "
 "make your disc unusable."
@@ -356,15 +350,16 @@ msgid "Unsupported file type"
 msgstr "Tukematon tiedostomuoto"
 
 #: ../serpentine/mastering.py:79
-#, fuzzy
 msgid "The following file was not added:"
-msgstr "Seuraavia tiedostoja ei lisätty:"
+msgstr "Seuraavaa tiedostoa ei lisätty:"
 
 #: ../serpentine/mastering.py:86
 msgid ""
 "If you're having problems opening certain files make sure you have the "
 "GStreamer plugins needed to decode them."
 msgstr ""
+"Jos joidenkin tiedostojen avaamisessa on ongelmia, tarkista että "
+"järjestelmässäsi on niiden lukemiseen tarvittavat GStreamer-liitännäiset."
 
 #: ../serpentine/mastering.py:145
 msgid "Unknown"
@@ -374,88 +369,88 @@ msgstr "Tuntematon"
 msgid "Unknown Artist"
 msgstr "Tuntematon esittäjä"
 
-#: ../serpentine/mastering.py:603
+#: ../serpentine/mastering.py:609
 msgid "Track"
 msgstr "Kappale"
 
-#: ../serpentine/mastering.py:616
+#: ../serpentine/mastering.py:622
 msgid "Artist"
 msgstr "Esittäjä"
 
-#: ../serpentine/mastering.py:619
+#: ../serpentine/mastering.py:625
 msgid "Duration"
 msgstr "Kesto"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:720
+#: ../serpentine/mastering.py:726
 msgid "minute"
 msgstr "minuutti"
 
-#: ../serpentine/mastering.py:720
+#: ../serpentine/mastering.py:726
 msgid "minutes"
 msgstr "minuuttia"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:724
+#: ../serpentine/mastering.py:730
 msgid "second"
 msgstr "sekunti"
 
-#: ../serpentine/mastering.py:724
+#: ../serpentine/mastering.py:730
 msgid "seconds"
 msgstr "sekuntia"
 
-#: ../serpentine/mastering.py:726
+#: ../serpentine/mastering.py:732
 msgid " and "
 msgstr " ja "
 
-#: ../serpentine/mastering.py:760
+#: ../serpentine/mastering.py:766
 #, python-format
 msgid "%s remaining"
 msgstr "%s jäljellä"
 
-#: ../serpentine/mastering.py:762
+#: ../serpentine/mastering.py:768
 #, python-format
 msgid "%s overlaping"
 msgstr "%s ylitse"
 
-#: ../serpentine/mastering.py:764
+#: ../serpentine/mastering.py:770
 msgid "Empty"
 msgstr "Tyhjä"
 
 #: ../serpentine/plugins/plugrhythmbox.py:41
-#, fuzzy
 msgid "No Rhythmbox playlist found"
-msgstr "Avaa Rhythmbox-soittolista..."
+msgstr "Rhythmbox-soittolistaa ei löytynyt"
 
 #: ../serpentine/plugins/plugrhythmbox.py:42
 msgid ""
 "Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist..."
 "</i>"
 msgstr ""
+"Luo soittolista menemällä <i>Soitto&#8594;Soittolista&#8594;Uusi "
+"soittolista...</i>"
 
 #: ../serpentine/plugins/plugrhythmbox.py:48
 msgid "Which playlist do you choose to open?"
-msgstr ""
+msgstr "Minkä soittolistan haluat avata?"
 
 #: ../serpentine/plugins/plugrhythmbox.py:49
 msgid "These are the playlists created on Rhythmbox."
-msgstr ""
+msgstr "Nämä ovat Rhythmbox-ohjelmalla luotuja soittolistoja."
 
 #: ../serpentine/plugins/plugrhythmbox.py:50
-#, fuzzy, python-format
+#, python-format
 msgid "Do you want to open the playlist <i>%s</i>?"
-msgstr "Haluatko ylipolttaa levyn?"
+msgstr "Haluatko avata soittolistan <i>%s</i>?"
 
 #: ../serpentine/plugins/plugrhythmbox.py:51
-#, fuzzy
 msgid "Rhythmbox playlists:"
-msgstr "Avaa Rhythmbox-soittolista..."
+msgstr "Rhythmbox-soittolistat:"
 
 #: ../serpentine/plugins/plugrhythmbox.py:70
 msgid "Open Rhythmbox Playlist..."
 msgstr "Avaa Rhythmbox-soittolista..."
 
-#: ../serpentine/preferences.py:353 ../serpentine/preferences.py:371
+#: ../serpentine/preferences.py:361 ../serpentine/preferences.py:379
 msgid "Serpentine's playlist"
 msgstr "Serpentinen soittolista"
 
@@ -536,46 +531,56 @@ msgid "There were no valid files for writing. Please select at least one."
 msgstr ""
 "Kelvollisia tiedostoja ei ollut kirjoittamista varten. Valitse ainakin yksi."
 
-#: ../serpentine/recording.py:300
+#: ../serpentine/recording.py:302
 msgid "Please make sure another application is not using the drive."
 msgstr "Varmista, ettei joku toinen sovellus käytä asemaa."
 
-#: ../serpentine/recording.py:301
+#: ../serpentine/recording.py:303
 msgid "Drive is busy"
 msgstr "Asema on käytössä"
 
-#: ../serpentine/recording.py:303
+#: ../serpentine/recording.py:305
 msgid "Please put a rewritable or blank disc into the drive."
 msgstr "Laita uudelleenkirjoitettava tai tyhjä levy asemaan."
 
-#: ../serpentine/recording.py:304
+#: ../serpentine/recording.py:306
 msgid "Insert rewritable or blank disc"
 msgstr "Laita uudelleenkirjoitettava tai tyhjä levy asemaan"
 
-#: ../serpentine/recording.py:306
+#: ../serpentine/recording.py:308
 msgid "Please put a blank disc into the drive."
 msgstr "Laita tyhjä levy asemaan."
 
-#: ../serpentine/recording.py:307
+#: ../serpentine/recording.py:309
 msgid "Insert blank disc"
 msgstr "Laita tyhjä levy asemaan"
 
-#: ../serpentine/recording.py:309
+#: ../serpentine/recording.py:311
 msgid "Please replace the disc in the drive with a rewritable or blank disc."
 msgstr ""
 "Vaihda asemassa oleva levy uudelleenkirjoitettavaan tai tyhjään levyyn."
 
-#: ../serpentine/recording.py:312
+#: ../serpentine/recording.py:314
 msgid "Reload rewritable or blank disc"
 msgstr "Laita uudelleenkirjoitettava tai tyhjä levy uudelleen asemaan"
 
-#: ../serpentine/recording.py:314
+#: ../serpentine/recording.py:316
 msgid "Please replace the disc in the drive a blank disc."
 msgstr "Vaihda asemassa oleva levy tyhjällä levyllä."
 
-#: ../serpentine/recording.py:315
+#: ../serpentine/recording.py:317
 msgid "Reload blank disc"
 msgstr "Laita tyhjä levy uudelleen asemaan"
+
+#~ msgid "Audio Widget Wrapper"
+#~ msgstr "Äänisäätimen käärin"
+
+#~ msgid ""
+#~ "Remove some music tracks or make sure your cache location location has "
+#~ "enough free space (about %s)."
+#~ msgstr ""
+#~ "Poista joitain musiikkikappaleita, tai tarkista että kätkön sijainnissa "
+#~ "on riittävästi vapaata tilaa (noin %s)."
 
 #~ msgid "Playlist Saved"
 #~ msgstr "Soittolista tallennettu"
@@ -586,9 +591,8 @@ msgstr "Laita tyhjä levy uudelleen asemaan"
 #~ msgid "Unsupported file types"
 #~ msgstr "Tukemattomat tiedostomuodot"
 
-#, fuzzy
 #~ msgid "Select playlist:"
-#~ msgstr "Valitse soittolista"
+#~ msgstr "Valitse soittolista:"
 
 #~ msgid "Playlists"
 #~ msgstr "Soittolistat"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: serpentine\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-04 01:56+0000\n"
+"POT-Creation-Date: 2006-06-11 22:52+0000\n"
 "PO-Revision-Date: 2006-02-10 11:47-0100\n"
 "Last-Translator: Tiago Cogumbreiro <cogumbreiro@users.sf.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -60,87 +60,84 @@ msgid "Add two seconds gap between tracks"
 msgstr "Ajouter un blanc de deux secondes entre les pistes"
 
 #: ../data/serpentine.glade.h:10
-msgid "Audio Widget Wrapper"
-msgstr "Boîte audio"
-
-#: ../data/serpentine.glade.h:11
 msgid "Choose writing speed"
 msgstr "Choisir la vitesse de gravure"
 
-#: ../data/serpentine.glade.h:12
+#: ../data/serpentine.glade.h:11
 msgid "Clear playlist"
 msgstr "Vide la liste de lecture"
 
-#: ../data/serpentine.glade.h:13
+#: ../data/serpentine.glade.h:12
 msgid "Device:"
 msgstr "Périphérique :"
 
-#: ../data/serpentine.glade.h:14
+#: ../data/serpentine.glade.h:13
 msgid "Disc Capacity:"
 msgstr "Capacité du disque :"
 
-#: ../data/serpentine.glade.h:15
+#: ../data/serpentine.glade.h:14
 msgid "Disc Usage:"
 msgstr "Utilisation du disque :"
 
-#: ../data/serpentine.glade.h:16
+#: ../data/serpentine.glade.h:15
 msgid "Eject disk after writing"
 msgstr "Éjecter le disque après la gravure"
 
-#: ../data/serpentine.glade.h:17
+#: ../data/serpentine.glade.h:16
 msgid "Open Playlist..."
 msgstr "Ouvrir une liste de lecture..."
 
-#: ../data/serpentine.glade.h:18
+#: ../data/serpentine.glade.h:17
 msgid "Refreshes the max writing speed"
 msgstr "Rafraîchit la vitesse maximale de gravure"
 
-#: ../data/serpentine.glade.h:19
+#: ../data/serpentine.glade.h:18
 msgid "Remove selected tracks from playlist"
 msgstr "Enlève les pistes sélectionnées de la liste de lecture"
 
-#: ../data/serpentine.glade.h:20
+#: ../data/serpentine.glade.h:19
 msgid "Save Playlist As..."
 msgstr "Enregistrer la liste de lecture sous..."
 
-#: ../data/serpentine.glade.h:21
+#: ../data/serpentine.glade.h:20
 msgid "Serpentine Audio Mastering"
 msgstr "Gravure audio Serpentine"
 
-#: ../data/serpentine.glade.h:22 ../serpentine/preferences.py:56
+#: ../data/serpentine.glade.h:21 ../serpentine/preferences.py:71
+#: ../serpentine/preferences.py:197
 msgid "Serpentine Preferences"
 msgstr "Préférences de Serpentine"
 
-#: ../data/serpentine.glade.h:23
+#: ../data/serpentine.glade.h:22
 msgid "Use maximum writing speed"
 msgstr "Utiliser la vitesse de gravure maximale"
 
-#: ../data/serpentine.glade.h:24
+#: ../data/serpentine.glade.h:23
 msgid "Write playlist to disc"
 msgstr "Grave la liste de lecture sur le disque"
 
-#: ../data/serpentine.glade.h:25 ../serpentine/mainwindow.py:559
+#: ../data/serpentine.glade.h:24 ../serpentine/mainwindow.py:569
 msgid "Write to Disc"
 msgstr "Graver sur le disque"
 
-#: ../data/serpentine.glade.h:26
+#: ../data/serpentine.glade.h:25
 #, fuzzy
 msgid "_Edit"
 msgstr "Édition"
 
-#: ../data/serpentine.glade.h:27
+#: ../data/serpentine.glade.h:26
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../data/serpentine.glade.h:28
+#: ../data/serpentine.glade.h:27
 msgid "_Help"
 msgstr "_Aide"
 
-#: ../data/serpentine.glade.h:29
+#: ../data/serpentine.glade.h:28
 msgid "_Toolbar"
 msgstr "Barre d'ou_tils"
 
-#: ../data/serpentine.glade.h:30
+#: ../data/serpentine.glade.h:29
 msgid "_View"
 msgstr "Afficha_ge"
 
@@ -186,83 +183,79 @@ msgstr ""
 "Serpentine est en mode simulation, aucune véritable gravure ne sera faite "
 "sur le média inséré."
 
-#: ../serpentine/__init__.py:49 ../serpentine/__init__.py:172
-msgid "All files"
-msgstr "Tous les fichiers"
+#: ../serpentine/__init__.py:63
+#, fuzzy
+msgid "The following musics have missing files:"
+msgstr "Les fichiers suivants n'ont pas été ajoutés :"
 
-#: ../serpentine/__init__.py:53 ../serpentine/__init__.py:220
-msgid "Supported playlists"
-msgstr "Listes de lecture supportées"
-
-#: ../serpentine/__init__.py:212
-msgid "Common media files"
-msgstr "Fichiers audio communs"
-
-#: ../serpentine/common.py:72
-msgid "GByte"
-msgstr "Goctet"
-
-#: ../serpentine/common.py:72
-msgid "GBytes"
-msgstr "Goctets"
-
-#: ../serpentine/common.py:73
-msgid "MByte"
-msgstr "Moctet"
-
-#: ../serpentine/common.py:73
-msgid "MBytes"
-msgstr "Moctets"
-
-#: ../serpentine/common.py:74
-msgid "KByte"
-msgstr "Koctet"
-
-#: ../serpentine/common.py:75
-msgid "byte"
-msgstr "octet"
-
-#: ../serpentine/common.py:75
-msgid "bytes"
-msgstr "octets"
-
-#: ../serpentine/common.py:151
+#: ../serpentine/__init__.py:90
 msgid "Please check if the cache location exists and has writable permissions."
 msgstr ""
 "Vérifiez que l'emplacement du cache existe et qu'il possède les permissions "
 "d'écriture."
 
-#: ../serpentine/common.py:161
-#, python-format
-msgid ""
-"Remove some music tracks or make sure your cache location location has "
-"enough free space (about %s)."
-msgstr ""
-"Enlevez quelques pistes musicales ou assurez-vous que l'emplacement de votre "
-"cache possède assez d'espace libre (environ %s)."
+#: ../serpentine/__init__.py:100 ../serpentine/__init__.py:239
+msgid "All files"
+msgstr "Tous les fichiers"
 
-#: ../serpentine/mainwindow.py:145
+#: ../serpentine/__init__.py:104 ../serpentine/__init__.py:290
+msgid "Supported playlists"
+msgstr "Listes de lecture supportées"
+
+#: ../serpentine/__init__.py:282
+msgid "Common media files"
+msgstr "Fichiers audio communs"
+
+#: ../serpentine/common.py:71
+msgid "GByte"
+msgstr "Goctet"
+
+#: ../serpentine/common.py:71
+msgid "GBytes"
+msgstr "Goctets"
+
+#: ../serpentine/common.py:72
+msgid "MByte"
+msgstr "Moctet"
+
+#: ../serpentine/common.py:72
+msgid "MBytes"
+msgstr "Moctets"
+
+#: ../serpentine/common.py:73
+msgid "KByte"
+msgstr "Koctet"
+
+#: ../serpentine/common.py:74
+msgid "byte"
+msgstr "octet"
+
+#: ../serpentine/common.py:74
+msgid "bytes"
+msgstr "octets"
+
+#: ../serpentine/mainwindow.py:152
 msgid "Save playlist in format:"
 msgstr "Enregistrer la liste de lecture dans le format :"
 
-#: ../serpentine/mainwindow.py:159
+#: ../serpentine/mainwindow.py:166
 msgid "Detect by extension"
 msgstr "Détecter par extension"
 
-#: ../serpentine/mainwindow.py:176
+#: ../serpentine/mainwindow.py:183
 msgid "Playlist Not Saved"
 msgstr "Liste de lecture non enregistrée"
 
-#: ../serpentine/mainwindow.py:177
+#: ../serpentine/mainwindow.py:184
 msgid "There was an error while saving the playlist."
 msgstr ""
 "Une erreur s'est produite lors de l'enregistrement de la liste de lecture."
 
-#: ../serpentine/mainwindow.py:214
+#: ../serpentine/mainwindow.py:221
 msgid "Replace existing file"
 msgstr "Remplacement d'un fichier existant"
 
-#: ../serpentine/mainwindow.py:215
+#: ../serpentine/mainwindow.py:222
 #, python-format
 msgid ""
 "A file named <i>%s</i> already exists. Do you want to replace it with the "
@@ -271,27 +264,27 @@ msgstr ""
 "Un fichier nommé <i>%s</i> existe déjà. Voulez-vous le remplacer par celui "
 "que vous êtes en train de sauvegarder ?"
 
-#: ../serpentine/mainwindow.py:242
+#: ../serpentine/mainwindow.py:249
 #, fuzzy
 msgid "Select one playlist format"
 msgstr "Enregistrer la liste de lecture dans le format :"
 
-#: ../serpentine/mainwindow.py:243
+#: ../serpentine/mainwindow.py:250
 msgid ""
 "Serpentine will open any of these formats so the one you choose only matters "
 "if you are going to open with other applications."
 msgstr ""
 
-#: ../serpentine/mainwindow.py:246
+#: ../serpentine/mainwindow.py:253
 #, fuzzy, python-format
 msgid "Do you want to save as the %s format?"
 msgstr "Voulez-vous enregistrer votre musique ?"
 
-#: ../serpentine/mainwindow.py:274
+#: ../serpentine/mainwindow.py:281
 msgid "Unsupported Format"
 msgstr "Format non pris en charge"
 
-#: ../serpentine/mainwindow.py:275
+#: ../serpentine/mainwindow.py:282
 msgid ""
 "The playlist format you used (by the file extension) is currently not "
 "supported."
@@ -299,11 +292,11 @@ msgstr ""
 "Le format de la liste de lecture que vous utilisez (d'après l'extension du "
 "fichier) n'est pas pris en charge actuellement."
 
-#: ../serpentine/mainwindow.py:457
+#: ../serpentine/mainwindow.py:464
 msgid "No recording drive found"
 msgstr "Aucun graveur reconnu"
 
-#: ../serpentine/mainwindow.py:458
+#: ../serpentine/mainwindow.py:465
 msgid ""
 "No recording drive found on your system, therefore some of Serpentine's "
 "functionalities will be disabled."
@@ -311,28 +304,28 @@ msgstr ""
 "Aucun graveur n'a été reconnu sur votre système, certaines fonctions de "
 "Serpentine seront donc désactivées."
 
-#: ../serpentine/mainwindow.py:522
+#: ../serpentine/mainwindow.py:532
 msgid "translator-credits"
 msgstr ""
 
-#: ../serpentine/mainwindow.py:523
+#: ../serpentine/mainwindow.py:533
 #, fuzzy
 msgid "Audio CD Creator"
 msgstr "Serpentine, créateur de CD audio"
 
-#: ../serpentine/mainwindow.py:536
+#: ../serpentine/mainwindow.py:546
 msgid "Cache directory location unavailable"
 msgstr "Emplacement du répertoire de cache indisponible"
 
-#: ../serpentine/mainwindow.py:540
+#: ../serpentine/mainwindow.py:550
 msgid "Not enough space on cache directory"
 msgstr "Pas assez d'espace dans le répertoire de cache"
 
-#: ../serpentine/mainwindow.py:547
+#: ../serpentine/mainwindow.py:557
 msgid "Do you want to overburn your disc?"
 msgstr "Voulez-vous graver votre disque au-delà de sa capacité prévue ?"
 
-#: ../serpentine/mainwindow.py:548
+#: ../serpentine/mainwindow.py:558
 msgid ""
 "You are about to record a media disc in overburn mode. This may not work on "
 "all drives and shouldn't give you more then a couple of minutes."
@@ -341,15 +334,15 @@ msgstr ""
 "Cette opération ne fonctionne pas sur tous les lecteurs et ne fournit "
 "quelques minutes supplémentaires."
 
-#: ../serpentine/mainwindow.py:551
+#: ../serpentine/mainwindow.py:561
 msgid "Write to Disc (Overburning)"
 msgstr "Graver sur le disque (au-delà de sa capacité prévue)"
 
-#: ../serpentine/mainwindow.py:554
+#: ../serpentine/mainwindow.py:564
 msgid "Do you want to record your music?"
 msgstr "Voulez-vous enregistrer votre musique ?"
 
-#: ../serpentine/mainwindow.py:555
+#: ../serpentine/mainwindow.py:565
 msgid ""
 "You are about to record a media disc. Canceling a writing operation will "
 "make your disc unusable."
@@ -380,51 +373,51 @@ msgstr "Inconnu"
 msgid "Unknown Artist"
 msgstr "Artiste inconnu"
 
-#: ../serpentine/mastering.py:603
+#: ../serpentine/mastering.py:609
 msgid "Track"
 msgstr "Piste"
 
-#: ../serpentine/mastering.py:616
+#: ../serpentine/mastering.py:622
 msgid "Artist"
 msgstr "Artiste"
 
-#: ../serpentine/mastering.py:619
+#: ../serpentine/mastering.py:625
 msgid "Duration"
 msgstr "Durée"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:720
+#: ../serpentine/mastering.py:726
 msgid "minute"
 msgstr "minute"
 
-#: ../serpentine/mastering.py:720
+#: ../serpentine/mastering.py:726
 msgid "minutes"
 msgstr "minutes"
 
 #. To translators: I know this is ugly for you
-#: ../serpentine/mastering.py:724
+#: ../serpentine/mastering.py:730
 msgid "second"
 msgstr "seconde"
 
-#: ../serpentine/mastering.py:724
+#: ../serpentine/mastering.py:730
 msgid "seconds"
 msgstr "secondes"
 
-#: ../serpentine/mastering.py:726
+#: ../serpentine/mastering.py:732
 msgid " and "
 msgstr " et "
 
-#: ../serpentine/mastering.py:760
+#: ../serpentine/mastering.py:766
 #, python-format
 msgid "%s remaining"
 msgstr "%s restante(s)"
 
-#: ../serpentine/mastering.py:762
+#: ../serpentine/mastering.py:768
 #, python-format
 msgid "%s overlaping"
 msgstr "%s de chevauchement"
 
-#: ../serpentine/mastering.py:764
+#: ../serpentine/mastering.py:770
 msgid "Empty"
 msgstr "Vide"
 
@@ -461,7 +454,7 @@ msgstr "Ouvrir une liste de lecture Rhythmbox..."
 msgid "Open Rhythmbox Playlist..."
 msgstr "Ouvrir une liste de lecture Rhythmbox..."
 
-#: ../serpentine/preferences.py:353 ../serpentine/preferences.py:371
+#: ../serpentine/preferences.py:361 ../serpentine/preferences.py:379
 msgid "Serpentine's playlist"
 msgstr "Liste de lecture Serpentine"
 
@@ -545,48 +538,58 @@ msgid "There were no valid files for writing. Please select at least one."
 msgstr ""
 "Il n'y a pas de fichiers valides à graver. Sélectionnez au moins un fichier."
 
-#: ../serpentine/recording.py:300
+#: ../serpentine/recording.py:302
 msgid "Please make sure another application is not using the drive."
 msgstr "Assurez vous qu'aucune application n'utilise le lecteur."
 
-#: ../serpentine/recording.py:301
+#: ../serpentine/recording.py:303
 msgid "Drive is busy"
 msgstr "Le lecteur est occupé"
 
-#: ../serpentine/recording.py:303
+#: ../serpentine/recording.py:305
 msgid "Please put a rewritable or blank disc into the drive."
 msgstr ""
 "Veuillez insérer un disque réinscriptible ou vierge dans votre lecteur."
 
-#: ../serpentine/recording.py:304
+#: ../serpentine/recording.py:306
 msgid "Insert rewritable or blank disc"
 msgstr "Insertion d'un disque vierge ou réinscriptible"
 
-#: ../serpentine/recording.py:306
+#: ../serpentine/recording.py:308
 msgid "Please put a blank disc into the drive."
 msgstr "Veuillez insérer un disque vierge dans le lecteur."
 
-#: ../serpentine/recording.py:307
+#: ../serpentine/recording.py:309
 msgid "Insert blank disc"
 msgstr "Insertion d'un disque vierge"
 
-#: ../serpentine/recording.py:309
+#: ../serpentine/recording.py:311
 msgid "Please replace the disc in the drive with a rewritable or blank disc."
 msgstr ""
 "Veuillez remplacer le disque dans le lecteur par un disque réinscriptible ou "
 "vierge."
 
-#: ../serpentine/recording.py:312
+#: ../serpentine/recording.py:314
 msgid "Reload rewritable or blank disc"
 msgstr "Remplacement du disque vierge ou réinscriptible"
 
-#: ../serpentine/recording.py:314
+#: ../serpentine/recording.py:316
 msgid "Please replace the disc in the drive a blank disc."
 msgstr "Veuillez remplacer le disque dans le lecteur par un disque vierge."
 
-#: ../serpentine/recording.py:315
+#: ../serpentine/recording.py:317
 msgid "Reload blank disc"
 msgstr "Remplacement du disque vierge"
+
+#~ msgid "Audio Widget Wrapper"
+#~ msgstr "Boîte audio"
+
+#~ msgid ""
+#~ "Remove some music tracks or make sure your cache location location has "
+#~ "enough free space (about %s)."
+#~ msgstr ""
+#~ "Enlevez quelques pistes musicales ou assurez-vous que l'emplacement de "
+#~ "votre cache possède assez d'espace libre (environ %s)."
 
 #~ msgid "Playlist Saved"
 #~ msgstr "Liste de lecture enregistrée"
