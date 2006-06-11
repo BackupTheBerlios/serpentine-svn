@@ -64,9 +64,10 @@ class FileDialogComponent (GladeComponent):
                 gtk.STOCK_OPEN, gtk.RESPONSE_OK
             )
         )
-        self.file_dlg.set_title ("")
-        self.file_dlg.set_transient_for (self.parent)
-        self.file_dlg.set_current_folder (os.path.expanduser("~"))
+        self.file_dlg.set_title("")
+        self.file_dlg.set_transient_for(self.parent)
+        self.file_dlg.set_current_folder(os.path.expanduser("~"))
+        self.file_dlg.set_property("local-only", False)
         self.__file_filters = None
     
     def run_dialog (self, *args):

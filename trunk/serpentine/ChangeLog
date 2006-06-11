@@ -1,5 +1,8 @@
 2006-06-11 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * serpentine/mainwindow.py:
+    Allow file dialogs opening non-local files. Fixes launchpad bug #47459.
+
     * po/fi.po:
     Merged fi.po from Timo Jyrinki <timo.jyrinki@iki.fi>.
     
