@@ -75,7 +75,7 @@
 		      <property name="label" translatable="yes">Open Playlist...</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_open_playlist_activate" last_modification_time="Sat, 18 Jun 2005 15:23:35 GMT"/>
-		      <accelerator key="p" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+		      <accelerator key="o" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
 			<widget class="GtkImage" id="image54">

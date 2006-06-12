@@ -17,7 +17,6 @@
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 import gtk
-from gtk import gdk
 import os
 import os.path
 import gobject
@@ -32,6 +31,7 @@ import gconf
 from components import Component
 from operations import MapProxy, OperationListener
 from mastering import AudioMastering
+from common import parse_key_event
 
 from serpentine.common import SerpentineNotSupportedError
 from serpentine.common import SerpentineCacheError
@@ -433,18 +433,6 @@ class PersistencePreferences(GladeComponent):
         except ValueError:
             pass
 
-def parse_key_event(evt):
-    args = []
-    if evt.state & gdk.CONTROL_MASK:
-        args.append("<Ctrl>")
-    if evt.state & gdk.MOD1_MASK:
-        args.append("<Alt>")
-    if evt.state & gdk.SHIFT_MASK:
-        args.append("<Shift>")
-    
-    args.append(gdk.keyval_name(evt.keyval))
-    return "+".join(args)
-    
 class KeyBindings(GladeComponent):
     
     def init(self):
@@ -454,7 +442,7 @@ class KeyBindings(GladeComponent):
             "<Ctrl>+r": self.on_write_cd,
             "<Ctrl>+q": self.on_quit_app,
             "<Ctrl>+w": self.on_quit_app,
-            "<Ctrl>+p": self.on_open_playlist,
+            "<Ctrl>+o": self.on_open_playlist,
             "<Ctrl>+s": self.on_save_playlist,
         }
     

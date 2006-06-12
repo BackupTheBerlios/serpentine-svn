@@ -19,6 +19,7 @@
 import os
 import sys
 import tempfile
+from gtk import gdk
 
 from gettext import gettext as _
 from os import path
@@ -131,3 +132,16 @@ class SafeFileWrite:
         except:
             pass
 
+
+def parse_key_event(evt):
+    args = []
+    if evt.state & gdk.CONTROL_MASK:
+        args.append("<Ctrl>")
+    if evt.state & gdk.MOD1_MASK:
+        args.append("<Alt>")
+    if evt.state & gdk.SHIFT_MASK:
+        args.append("<Shift>")
+    
+    args.append(gdk.keyval_name(evt.keyval))
+    return "+".join(args)
+    

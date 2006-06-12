@@ -38,6 +38,7 @@ import urlutil
 from gtkutil import DictStore
 from operations import OperationsQueue
 from gdkpiechart import SerpentineUsage
+from common import parse_key_event
 
 ################################################################################
 # Operations used on AudioMastering
@@ -544,6 +545,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         ('text/plain', 0, 2),
         ('STRING', 0, 3),
     ]
+    
     def __init__ (self, application):
         gtk.VBox.__init__ (self)
         self._application = weakref.ref(application)
@@ -562,8 +564,18 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         
         self.add (g.get_widget ("audio_container"))
         
-        self.__setup_track_list (g)
-        self.__setup_container_misc (g)
+        self.__setup_track_list(g)
+        self.__setup_container_misc(g)
+        self.connect("key-press-event", self.on_key_pressed)
+        self.keys = {
+            "Delete": self.remove_selected,
+        }
+    
+    def on_key_pressed(self, widget, evt):
+        try:
+            self.keys[parse_key_event(evt)]()
+        except KeyError:
+            pass
     
     def __set_disc_size (self, size):
         assert size in AudioMastering.disc_sizes
@@ -632,7 +644,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
         
         # Listen for drag-n-drop events
         lst.set_reorderable (True)
-        #XXX pygtk bug here
+
         lst.enable_model_drag_source (gtk.gdk.BUTTON1_MASK,
                                       AudioMastering.DND_TARGETS,
                                       gtk.gdk.ACTION_DEFAULT |
@@ -643,6 +655,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
                                     gtk.gdk.ACTION_MOVE)
         lst.connect ("drag_data_received", self.__on_dnd_drop)
         lst.connect ("drag_data_get", self.__on_dnd_send)
+        
     
     def __generate_track (self, col, renderer, tree_model, treeiter, user_data = None):
         index = tree_model.get_path(treeiter)[0]
