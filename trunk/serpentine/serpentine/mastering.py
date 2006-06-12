@@ -568,7 +568,7 @@ class AudioMastering (gtk.VBox, operations.Listenable):
     def __set_disc_size (self, size):
         assert size in AudioMastering.disc_sizes
         self.__disc_size = size
-        self.__size_list.set_active (AudioMastering.disc_sizes.index(size))
+        self.__size_list.set_active(AudioMastering.disc_sizes.index(size))
         self.update_disc_usage()
         e = operations.Event (self)
         for l in self.listeners:

@@ -17,6 +17,7 @@
 # Authors: Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
 import gtk
+from gtk import gdk
 import os
 import os.path
 import gobject
@@ -70,7 +71,7 @@ class FileDialogComponent (GladeComponent):
         self.file_dlg.set_property("local-only", False)
         self.__file_filters = None
     
-    def run_dialog (self, *args):
+    def run_dialog(self, *args):
         # Triggered by add button
         # update file filters
         self.__sync_file_filters ()
@@ -123,6 +124,7 @@ class AddFileComponent (FileDialogComponent):
 
     
 class PlaylistComponent (FileDialogComponent):
+    component_name = "open_playlist"
     def _setup_glade (self, g):
         g.get_widget ("open_playlist_mni").connect ("activate", self.run_dialog)
     
@@ -135,6 +137,8 @@ class PlaylistComponent (FileDialogComponent):
         self.parent.clear_files ()
 
 class SavePlaylistComponent (GladeComponent):
+    component_name = "save_playlist"
+    
     def _setup_glade (self, g):
         g.get_widget ("save_playlist_mni").connect ("activate", self.run_dialog)
         self.file_dlg = gtk.FileChooserDialog (
@@ -380,19 +384,115 @@ class ToolbarComponent (GladeComponent):
             
     style = property (style)
 
+class PersistencePreferences(GladeComponent):
+    prefs = property(lambda self: self.parent.preferences)
+    
+    def init(self):
+        self.update_window_prefs()
+        self.update_disc_size(self.parent.masterer)
+    
+    def stop(self):
+        self.store_window_prefs()
+        self.store_disc_size(self.parent.masterer)
+
+    def update_window_prefs(self):
+        # get locations
+        x, y = self.prefs.window_position
+        width, height = self.prefs.window_size
+
+        # Correct them
+        if x < 0:
+            x = 0
+        if y < 0:
+            y = 0
+        if width < 200:
+            width = 200
+        if height < 200:
+            height = 200
+
+        # update them
+        self.parent.move(x, y)
+        self.parent.resize(width, height)
+    
+    def store_window_prefs(self):
+        # store them on GConf
+        self.prefs.window_size = self.parent.get_size()
+        self.prefs.window_position = self.parent.get_position()
+
+    def update_disc_size(self, mastering):
+        try:
+            disc_size = mastering.disc_sizes[self.prefs.disc_size]
+            mastering.disc_size = disc_size
+        except IndexError:
+            pass
+    
+    def store_disc_size(self, mastering):
+        try:
+            disc_size = mastering.disc_sizes.index(mastering.disc_size)
+            self.prefs.disc_size = disc_size
+        except ValueError:
+            pass
+
+def parse_key_event(evt):
+    args = []
+    if evt.state & gdk.CONTROL_MASK:
+        args.append("<Ctrl>")
+    if evt.state & gdk.MOD1_MASK:
+        args.append("<Alt>")
+    if evt.state & gdk.SHIFT_MASK:
+        args.append("<Shift>")
+    
+    args.append(gdk.keyval_name(evt.keyval))
+    return "+".join(args)
+    
+class KeyBindings(GladeComponent):
+    
+    def init(self):
+        win = self.parent
+        win.connect("key-press-event", self.on_key_press_event)
+        self.keys = {
+            "<Ctrl>+r": self.on_write_cd,
+            "<Ctrl>+q": self.on_quit_app,
+            "<Ctrl>+w": self.on_quit_app,
+            "<Ctrl>+p": self.on_open_playlist,
+            "<Ctrl>+s": self.on_save_playlist,
+        }
+    
+    def on_key_press_event(self, win, evt):
+        try:
+            self.keys[parse_key_event(evt)]()
+        except KeyError:
+            pass
+    
+    def on_write_cd(self):
+        self.parent.write_files()
+    
+    def on_quit_app(self):
+        self.parent.stop()
+    
+    def on_open_playlist(self):
+        self.parent.open_playlist()
+    
+    def on_save_playlist(self):
+        self.parent.save_playlist()
+    
 class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Component):
     # TODO: finish up implementing an Operation
     components = (
         AddFileComponent,
         PlaylistComponent,
         SavePlaylistComponent,
-        ToolbarComponent
+        ToolbarComponent,
+        PersistencePreferences,
+        KeyBindings,
     )
     
     def __init__ (self, application):
         gtk.Window.__init__ (self, gtk.WINDOW_TOPLEVEL)
         operations.Operation.__init__ (self)
         Component.__init__ (self, application)
+        self.named_components = {}
+        self.get_component = self.named_components.__getitem__
             
         self.__application = application
         self.__masterer = AudioMastering (application)
@@ -407,17 +507,18 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         
         # Send glade to setup subcomponents
         for c in self._components:
-            if hasattr (c, "_setup_glade"):
-                c._setup_glade (g)
+            if hasattr(c, "component_name"):
+                self.named_components[c.component_name] = c
+                
+            if hasattr(c, "_setup_glade"):
+                c._setup_glade(g)
 
         self.add (g.get_widget ("main_window_container"))
         self.set_title ("Serpentine")
         self.set_default_size (450, 350)
-        self.application.preferences.update_window_prefs(self)
         self.connect("delete-event", self.on_delete_window)
         
         self.set_icon_name ("gnome-dev-cdrom-audio")
-        
         
         # record button
         # setup record button
@@ -427,8 +528,8 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         ))
         
         self.__write_to_disc.set_sensitive (False)
-        self.__write_to_disc["button"].connect ("clicked", self.__on_write_files)
-        self.__write_to_disc["menu"].connect ("activate", self.__on_write_files)
+        self.__write_to_disc["button"].connect ("clicked", self.write_files)
+        self.__write_to_disc["menu"].connect ("activate", self.write_files)
         
         # masterer widget
         box = self.get_child()
@@ -475,6 +576,9 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
     
         # Load internal XSPF playlist
         self.__load_playlist()
+        # call 'init' method
+        self.call_components("init")
+    
         
     music_list_widget = property (lambda self: self.__masterer)
     
@@ -488,8 +592,14 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
     
     application = property (lambda self: self.__application)
     
+    preferences = property (lambda self: self.__application.preferences)
+
+    def call_components(self, meth):
+        [getattr(comp, meth)() for comp in self._components \
+                if hasattr(comp, meth)]
+    
     def on_delete_window(self, win, evt):
-        self.application.preferences.store_window_prefs(self)
+        self.call_components("stop")
     
     def __on_show (self, *args):
         self.__running = True
@@ -502,7 +612,13 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         except:
             import traceback
             traceback.print_exc()
-            
+    
+    def open_playlist(self):
+        self.get_component("open_playlist").run_dialog()
+    
+    def save_playlist(self):
+        self.get_component("save_playlist").run_dialog()
+    
     def on_selection_changed (self, *args):
         self.remove.set_sensitive (self.music_list_widget.count_selected() > 0)
         
@@ -541,7 +657,10 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         a.run()
         a.destroy()
     
-    def __on_write_files (self, *args):
+    def write_files(self, *args):
+        # TODO: remove this as soon as we have gtk.Actions
+        if len(self.music_list_widget.source) == 0:
+            return
         # TODO: move this to SerpentineApplication.write_files ?
         try:
             self.__application.validate_files()
@@ -555,8 +674,13 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
                 
             elif err.error_id == SerpentineCacheError.NO_SPACE:
                 title = _("Not enough space on cache directory")
+            # TODO: see bug #344688
+            gtkutil.dialog_warn(
+                title, 
+                gobject.markup_escape_text(err.error_message),
+                parent=self
+            )
             
-            gtkutil.dialog_warn (title, err.error_message, parent = self)
             return
         
         # TODO: move this to recording module?

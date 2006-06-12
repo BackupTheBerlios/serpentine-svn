@@ -260,6 +260,13 @@ class RecordingPreferences (object):
             default = 0,
         )
         
+        # disc size
+        self.__disc_size = gaw.GConfValue(
+            key = GCONF_DIR + "/disc_size",
+            data_spec = gaw.Spec.INT,
+            default = 1,
+        )
+        
         # Pool
         self.__pool = GvfsMusicPool ()
         
@@ -331,32 +338,30 @@ class RecordingPreferences (object):
         for temp in temps:
             if urlutil.is_local(temp) and _is_dir_writable(temp):
                 yield urlutil.get_path(temp)
-        
-    def update_window_prefs(self, win):
-        # get locations
-        x = self.__x.data
-        y = self.__y.data
-        width = self.__width.data
-        height = self.__height.data
-        
-        # Correct them
-        if x < 0:
-            x = 0
-        if y < 0:
-            y = 0
-        if width < 200:
-            width = 200
-        if height < 200:
-            height = 200
-
-        # update them
-        win.move(x, y)
-        win.resize(width, height)
     
-    def store_window_prefs(self, win):
-        # store them on GConf
-        self.__x.data, self.__y.data = win.get_position()
-        self.__width.data, self.__height.data = win.get_size()
+    def get_window_position(self):
+        return self.__x.data, self.__y.data
+    
+    def set_window_position(self, x_y):
+        self.__x.data, self.__y.data = x_y
+    
+    window_position = property(get_window_position, set_window_position)
+    
+    def get_window_size(self):
+        return self.__width.data, self.__height.data
+    
+    def set_window_size(self, width_height):
+        self.__width.data, self.__height.data = width_height
+    
+    window_size = property(get_window_size, set_window_size)
+    
+    def get_disc_size(self):
+        return self.__disc_size.data
+    
+    def set_disc_size(self, disc_size):
+        self.__disc_size.data = disc_size
+    
+    disc_size = property(get_disc_size, set_disc_size)
     
     ##############
     # useGap

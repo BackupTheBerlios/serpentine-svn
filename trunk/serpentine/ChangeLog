@@ -1,5 +1,13 @@
 2006-06-12 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
 
+    * data/serpentine.glade:
+    * serpentine/mainwindow.py:
+    Implemented global key bindings.
+    
+    * serpentine/mainwindow.py:
+    * serpentine/preferences.py:
+    Now disc size is persistent. Moved some code from prefs to mainwindow.
+    
     * serpentine/mainwindow.py:
     * serpentine/preferences.py:
     Now window size and position are persistent. Fixes launchpad bug #33639.
