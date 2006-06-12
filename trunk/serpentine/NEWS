@@ -4,7 +4,6 @@ Changes from 0.6.4:
  - Uses Cairo to draw the usage gauge.
  - Ability to not use GnomeVfs
  - More robust metadata parsing and not media files handling
- - No longer depends directly on gnomevfs gstreamer plugin
  
 Changes from 0.6.3:
  - Added the possibility to add Rhythmbox playlists.
