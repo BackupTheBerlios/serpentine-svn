@@ -235,6 +235,31 @@ class RecordingPreferences (object):
             default = False
         )
         
+        # size
+        self.__x = gaw.GConfValue(
+            key = GCONF_DIR + "/x",
+            data_spec = gaw.Spec.INT,
+            default = 0,
+        )
+        
+        self.__y = gaw.GConfValue(
+            key = GCONF_DIR + "/y",
+            data_spec = gaw.Spec.INT,
+            default = 0,
+        )
+
+        self.__width = gaw.GConfValue(
+            key = GCONF_DIR + "/width",
+            data_spec = gaw.Spec.INT,
+            default = 0,
+        )
+
+        self.__height = gaw.GConfValue(
+            key = GCONF_DIR + "/height",
+            data_spec = gaw.Spec.INT,
+            default = 0,
+        )
+        
         # Pool
         self.__pool = GvfsMusicPool ()
         
@@ -307,6 +332,31 @@ class RecordingPreferences (object):
             if urlutil.is_local(temp) and _is_dir_writable(temp):
                 yield urlutil.get_path(temp)
         
+    def update_window_prefs(self, win):
+        # get locations
+        x = self.__x.data
+        y = self.__y.data
+        width = self.__width.data
+        height = self.__height.data
+        
+        # Correct them
+        if x < 0:
+            x = 0
+        if y < 0:
+            y = 0
+        if width < 200:
+            width = 200
+        if height < 200:
+            height = 200
+
+        # update them
+        win.move(x, y)
+        win.resize(width, height)
+    
+    def store_window_prefs(self, win):
+        # store them on GConf
+        self.__x.data, self.__y.data = win.get_position()
+        self.__width.data, self.__height.data = win.get_size()
     
     ##############
     # useGap

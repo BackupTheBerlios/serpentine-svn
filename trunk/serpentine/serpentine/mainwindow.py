@@ -400,7 +400,7 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         self.__running = False
         self.connect ("show", self.__on_show)
         # We listen for GtkMusicList events
-        self.music_list_widget.listeners.append (self)
+        self.music_list_widget.listeners.append(self)
         
         glade_file = application.locations.get_data_file("serpentine.glade")
         g = gtk.glade.XML (glade_file, "main_window_container")
@@ -413,6 +413,9 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
         self.add (g.get_widget ("main_window_container"))
         self.set_title ("Serpentine")
         self.set_default_size (450, 350)
+        self.application.preferences.update_window_prefs(self)
+        self.connect("delete-event", self.on_delete_window)
+        
         self.set_icon_name ("gnome-dev-cdrom-audio")
         
         
@@ -484,6 +487,9 @@ class SerpentineWindow (gtk.Window, OperationListener, operations.Operation, Com
     masterer = property (lambda self: self.__masterer)
     
     application = property (lambda self: self.__application)
+    
+    def on_delete_window(self, win, evt):
+        self.application.preferences.store_window_prefs(self)
     
     def __on_show (self, *args):
         self.__running = True
