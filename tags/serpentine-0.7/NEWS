@@ -1,0 +1,50 @@
+Changes from 0.6.4:
+ - Support for GStreamer 0.10
+ - Ability to open files through the command line.
+ - Uses Cairo to draw the usage gauge.
+ - Ability to not use GnomeVfs
+ - More robust metadata parsing and not media files handling
+ 
+Changes from 0.6.3:
+ - Added the possibility to add Rhythmbox playlists.
+ - Spanish (es) translation by Rafael Bermúdez <rafaelbermudez@gmail.com>
+ - German (de) translation by Julian Turner <julian.turner@gmx.de>
+ - Finnish (fi) translation by Timo Jyrinki <timo.jyrinki@iki.fi>
+ - French (fr) translation by Guillaume Hoffmann <guillaume.h@ifrance.com> and
+   Nicolas Velin <nsv@fr.st>
+ - Hungarian (hu) translation by Gabor Kelemen <kelemeng@gnome.hu>
+ - Dutch (nl) translation by Eric Spierings <ericspierings@netscape.net>
+ - Brazillian (pt_BR) translation by Carlos Santiviago <segfault@ubuntu.com> and
+   Rafael Peregrino <rperegrino@linuxmagazine.com.br>
+ - Bug fixes
+   
+Changes from 0.6.2:
+ - Bug fixes release.
+
+Changes from 0.6.1:
+ - Support for K3B audio projects
+ - Possibility to choose to add 2 seconds silence gap between tracks
+ - i18n enabled and Portuguese translation
+ - Lots of bugfixes
+
+Changes from 0.6:
+ - HIG compliance fixes: toolbar buttons now have tooltips and react to system preferences
+   on toolbar style and detachable state.
+ - Fixed a bug that made new installations of serpentine not work (regretion introduced in 0.6).
+ - Removed cache location widgets, you can still set it in gconf key: "/apps/serpentine/temporary_dir"
+ - Muine plugin is now bundled in tarball
+ - Added a button in the preferences to refresh maximum speed
+
+Changes from 0.5:
+ - New usage widget: progressbar should be used for progress. The new usage disc widget
+   improves the user experience by reflecting the disc contents in a disc like display.
+
+ - Integration friendly: special command line arguments make integration with other
+   applications easier.
+
+ - New Muine plugin: you can write your playlist to a CD directly from Muine.
+
+ - Save and load playlist: you can now open and save playlists inside Serpentine.
+
+ - User interface polish: the user interface was improved and made more similar to
+   nautilus-cd-burner.

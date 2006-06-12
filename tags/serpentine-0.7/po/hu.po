@@ -1,0 +1,609 @@
+# Hungarian translation for serpentine
+# Copyright (c) (c) 2005 Canonical Ltd, and Rosetta Contributors 2005
+# This file is distributed under the same license as the serpentine package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2005.
+# Gabor Kelemen <kelemeng@gnome.hu>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: serpentine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-06-11 22:52+0000\n"
+"PO-Revision-Date: 2005-10-06 22:53+0200\n"
+"Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
+"Language-Team: Hungarian <gnome@gnome.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Rosetta-Version: 0.1\n"
+"X-Generator: KBabel 1.10.2\n"
+
+#: ../data/serpentine.desktop.in.h:1
+msgid "Create Audio-CD's from music files and playlists"
+msgstr "Audio-CD létrehozása zenefájlokból és lejátszólistákból"
+
+#: ../data/serpentine.desktop.in.h:2
+msgid "Serpentine Audio-CD Creator"
+msgstr "Serpentine audio-CD készítő"
+
+#: ../data/serpentine.glade.h:1
+msgid ""
+"21 minutes\n"
+"74 minutes\n"
+"80 minutes\n"
+"90 minutes"
+msgstr ""
+"21 perc\n"
+"74 perc\n"
+"80 perc\n"
+"90 perc"
+
+#: ../data/serpentine.glade.h:5
+msgid "<b>Disc capacity exceeded!</b>"
+msgstr "<b>A lemez kapacitása túllépve!</b>"
+
+#: ../data/serpentine.glade.h:6
+msgid "<b>Writing Device</b>"
+msgstr "<b>Eszköz írása</b>"
+
+#: ../data/serpentine.glade.h:7
+msgid "<b>Writing Options</b>"
+msgstr "<b>Írás beállításai</b>"
+
+#: ../data/serpentine.glade.h:8
+msgid "Add tracks to playlist"
+msgstr "Számok hozzáadása a lejátszólistához"
+
+#: ../data/serpentine.glade.h:9
+msgid "Add two seconds gap between tracks"
+msgstr "Két másodperc szünet beszúrása a számok közé"
+
+#: ../data/serpentine.glade.h:10
+msgid "Choose writing speed"
+msgstr "Válassza ki az írás sebességét:"
+
+#: ../data/serpentine.glade.h:11
+msgid "Clear playlist"
+msgstr "Lejátszólista törlése"
+
+#: ../data/serpentine.glade.h:12
+msgid "Device:"
+msgstr "Eszköz:"
+
+#: ../data/serpentine.glade.h:13
+msgid "Disc Capacity:"
+msgstr "Lemez kapacitása:"
+
+#: ../data/serpentine.glade.h:14
+msgid "Disc Usage:"
+msgstr "Lemezhasználat:"
+
+#: ../data/serpentine.glade.h:15
+msgid "Eject disk after writing"
+msgstr "Lemez kiadása az írás után"
+
+#: ../data/serpentine.glade.h:16
+msgid "Open Playlist..."
+msgstr "Lejátszólista megnyitása..."
+
+#: ../data/serpentine.glade.h:17
+msgid "Refreshes the max writing speed"
+msgstr "Frissíti a maximális írási sebességet"
+
+#: ../data/serpentine.glade.h:18
+msgid "Remove selected tracks from playlist"
+msgstr "A kijelölt számok eltávolítása a lejátszólistáról"
+
+#: ../data/serpentine.glade.h:19
+msgid "Save Playlist As..."
+msgstr "Lejátszólista mentése másként..."
+
+#: ../data/serpentine.glade.h:20
+msgid "Serpentine Audio Mastering"
+msgstr ""
+
+#: ../data/serpentine.glade.h:21 ../serpentine/preferences.py:71
+#: ../serpentine/preferences.py:197
+msgid "Serpentine Preferences"
+msgstr "Serpentine beállításai"
+
+#: ../data/serpentine.glade.h:22
+msgid "Use maximum writing speed"
+msgstr "Maximális írási sebesség"
+
+#: ../data/serpentine.glade.h:23
+msgid "Write playlist to disc"
+msgstr "Lejátszólista lemezre írása"
+
+#: ../data/serpentine.glade.h:24 ../serpentine/mainwindow.py:569
+msgid "Write to Disc"
+msgstr "Lemezre írás"
+
+#: ../data/serpentine.glade.h:25
+#, fuzzy
+msgid "_Edit"
+msgstr "Szerkesztés"
+
+#: ../data/serpentine.glade.h:26
+msgid "_File"
+msgstr "_Fájl"
+
+#: ../data/serpentine.glade.h:27
+msgid "_Help"
+msgstr "_Súgó"
+
+#: ../data/serpentine.glade.h:28
+msgid "_Toolbar"
+msgstr "_Eszköztár"
+
+#: ../data/serpentine.glade.h:29
+msgid "_View"
+msgstr "_Nézet"
+
+#: ../scripts/serpentine:57
+msgid "Recording operations will be done in simulation mode."
+msgstr "A rögzítési műveletek szimulációs módban lesznek végrehajtva."
+
+#: ../scripts/serpentine:60
+msgid "Shows debugging information from recording backend."
+msgstr ""
+
+#: ../scripts/serpentine:63
+msgid "Shows preferences dialog."
+msgstr ""
+
+#: ../scripts/serpentine:66
+msgid ""
+"Writes the filenames after this option to a CD. This will show a dialog "
+"suitable for embedding in other applications."
+msgstr ""
+"Ezen opció után megadott fájlneveket a lemezre írja. Ez egy más "
+"alkalmazásokba beágyazáshoz megfelelő párbeszédablakot jelenít meg."
+
+#: ../scripts/serpentine:71
+msgid "Uses filenames after this option as the playlist contents."
+msgstr ""
+
+#: ../scripts/serpentine:75
+msgid "Do not use GnomeVfs module."
+msgstr ""
+
+#: ../scripts/serpentine:132
+msgid "Simulation mode"
+msgstr "Szimulációs mód"
+
+#: ../scripts/serpentine:133
+msgid ""
+"Serpentine is on simulation mode, no actual writing will be done on inserted "
+"media."
+msgstr ""
+"A Serpentine szimulációs módban van, a behelyezett hordozóra nem történik "
+"tényleges írás."
+
+#: ../serpentine/__init__.py:63
+#, fuzzy
+msgid "The following musics have missing files:"
+msgstr "A következő fájlok nem lettek hozzáadva:"
+
+#: ../serpentine/__init__.py:90
+msgid "Please check if the cache location exists and has writable permissions."
+msgstr ""
+"Ellenőrizze, hogy a gyorsítótár helye létezik-e és van-e írási jogosultsága."
+
+#: ../serpentine/__init__.py:100 ../serpentine/__init__.py:239
+msgid "All files"
+msgstr "Minden fájl"
+
+#: ../serpentine/__init__.py:104 ../serpentine/__init__.py:290
+msgid "Supported playlists"
+msgstr ""
+
+#: ../serpentine/__init__.py:282
+msgid "Common media files"
+msgstr ""
+
+#: ../serpentine/common.py:71
+msgid "GByte"
+msgstr "GBájt"
+
+#: ../serpentine/common.py:71
+msgid "GBytes"
+msgstr "GBájt"
+
+#: ../serpentine/common.py:72
+msgid "MByte"
+msgstr "MBájt"
+
+#: ../serpentine/common.py:72
+msgid "MBytes"
+msgstr "MBájt"
+
+#: ../serpentine/common.py:73
+msgid "KByte"
+msgstr "KBájt"
+
+#: ../serpentine/common.py:74
+msgid "byte"
+msgstr "bájt"
+
+#: ../serpentine/common.py:74
+msgid "bytes"
+msgstr "bájt"
+
+#: ../serpentine/mainwindow.py:152
+msgid "Save playlist in format:"
+msgstr ""
+
+#: ../serpentine/mainwindow.py:166
+msgid "Detect by extension"
+msgstr ""
+
+#: ../serpentine/mainwindow.py:183
+msgid "Playlist Not Saved"
+msgstr "A lejátszólista nincs mentve"
+
+#: ../serpentine/mainwindow.py:184
+msgid "There was an error while saving the playlist."
+msgstr "Hiba történt a lejátszólista mentésekor."
+
+#: ../serpentine/mainwindow.py:221
+msgid "Replace existing file"
+msgstr "Létező fájl cseréje"
+
+#: ../serpentine/mainwindow.py:222
+#, python-format
+msgid ""
+"A file named <i>%s</i> already exists. Do you want to replace it with the "
+"one you are saving?"
+msgstr ""
+"A(z) <i>%s</i> nevű fájl már létezik. Szeretné lecserélni azzal, amit "
+"menteni készül?"
+
+#: ../serpentine/mainwindow.py:249
+#, fuzzy
+msgid "Select one playlist format"
+msgstr "Lejátszólista törlése"
+
+#: ../serpentine/mainwindow.py:250
+msgid ""
+"Serpentine will open any of these formats so the one you choose only matters "
+"if you are going to open with other applications."
+msgstr ""
+
+#: ../serpentine/mainwindow.py:253
+#, fuzzy, python-format
+msgid "Do you want to save as the %s format?"
+msgstr "Szeretné lemezre írni a zenéit?"
+
+#: ../serpentine/mainwindow.py:281
+msgid "Unsupported Format"
+msgstr "Nem támogatott formátum"
+
+#: ../serpentine/mainwindow.py:282
+msgid ""
+"The playlist format you used (by the file extension) is currently not "
+"supported."
+msgstr ""
+"A használt lejátszólista-formátum (a kiterjesztés alapján) jelenleg nem "
+"támogatott."
+
+#: ../serpentine/mainwindow.py:464
+msgid "No recording drive found"
+msgstr "Nem található felvételre alkalmas meghajtó"
+
+#: ../serpentine/mainwindow.py:465
+msgid ""
+"No recording drive found on your system, therefore some of Serpentine's "
+"functionalities will be disabled."
+msgstr ""
+"Nem található felvételre alkalmas meghajtó a rendszerén, ezért a Serpentine "
+"néhány funkciója letiltásra került."
+
+#: ../serpentine/mainwindow.py:532
+msgid "translator-credits"
+msgstr ""
+
+#: ../serpentine/mainwindow.py:533
+#, fuzzy
+msgid "Audio CD Creator"
+msgstr "Serpentine audio-CD készítő"
+
+#: ../serpentine/mainwindow.py:546
+msgid "Cache directory location unavailable"
+msgstr "A gyorsítótár könyvtár helye nem érhető el"
+
+#: ../serpentine/mainwindow.py:550
+msgid "Not enough space on cache directory"
+msgstr "Nincs elég hely a gyorsítótár könyvtárban"
+
+#: ../serpentine/mainwindow.py:557
+msgid "Do you want to overburn your disc?"
+msgstr "Felül szeretné írni a lemezét?"
+
+#: ../serpentine/mainwindow.py:558
+msgid ""
+"You are about to record a media disc in overburn mode. This may not work on "
+"all drives and shouldn't give you more then a couple of minutes."
+msgstr ""
+"Egy lemezt felülírási módban készül megírni. Ez lehet, hogy nem működik "
+"minden meghajtóval és nem nyerne pár percnél többet vele."
+
+#: ../serpentine/mainwindow.py:561
+msgid "Write to Disc (Overburning)"
+msgstr "Lemezre írás (felülírás)"
+
+#: ../serpentine/mainwindow.py:564
+msgid "Do you want to record your music?"
+msgstr "Szeretné lemezre írni a zenéit?"
+
+#: ../serpentine/mainwindow.py:565
+msgid ""
+"You are about to record a media disc. Canceling a writing operation will "
+"make your disc unusable."
+msgstr ""
+"Egy lemezre készül felvételt készíteni. Egy írási művelet megszakítása "
+"használhatatlanná teszi a lemezét."
+
+#: ../serpentine/mastering.py:73
+msgid "Unsupported file type"
+msgstr "Nem támogatott fájltípus"
+
+#: ../serpentine/mastering.py:79
+#, fuzzy
+msgid "The following file was not added:"
+msgstr "A következő fájlok nem lettek hozzáadva:"
+
+#: ../serpentine/mastering.py:86
+msgid ""
+"If you're having problems opening certain files make sure you have the "
+"GStreamer plugins needed to decode them."
+msgstr ""
+
+#: ../serpentine/mastering.py:145
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+#: ../serpentine/mastering.py:146
+msgid "Unknown Artist"
+msgstr ""
+
+#: ../serpentine/mastering.py:609
+msgid "Track"
+msgstr "Szám"
+
+#: ../serpentine/mastering.py:622
+msgid "Artist"
+msgstr "Előadó"
+
+#: ../serpentine/mastering.py:625
+msgid "Duration"
+msgstr "Időtartam"
+
+#. To translators: I know this is ugly for you
+#: ../serpentine/mastering.py:726
+msgid "minute"
+msgstr "perc"
+
+#: ../serpentine/mastering.py:726
+msgid "minutes"
+msgstr "perc"
+
+#. To translators: I know this is ugly for you
+#: ../serpentine/mastering.py:730
+msgid "second"
+msgstr "másodperc"
+
+#: ../serpentine/mastering.py:730
+msgid "seconds"
+msgstr "másodperc"
+
+#: ../serpentine/mastering.py:732
+msgid " and "
+msgstr " és "
+
+#: ../serpentine/mastering.py:766
+#, python-format
+msgid "%s remaining"
+msgstr "%s van hátra"
+
+#: ../serpentine/mastering.py:768
+#, python-format
+msgid "%s overlaping"
+msgstr "%s átfed"
+
+#: ../serpentine/mastering.py:770
+msgid "Empty"
+msgstr "Üres"
+
+#: ../serpentine/plugins/plugrhythmbox.py:41
+msgid "No Rhythmbox playlist found"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:42
+msgid ""
+"Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist..."
+"</i>"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:48
+msgid "Which playlist do you choose to open?"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:49
+msgid "These are the playlists created on Rhythmbox."
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:50
+#, fuzzy, python-format
+msgid "Do you want to open the playlist <i>%s</i>?"
+msgstr "Felül szeretné írni a lemezét?"
+
+#: ../serpentine/plugins/plugrhythmbox.py:51
+#, fuzzy
+msgid "Rhythmbox playlists:"
+msgstr "Lejátszólista törlése"
+
+#: ../serpentine/plugins/plugrhythmbox.py:70
+msgid "Open Rhythmbox Playlist..."
+msgstr ""
+
+#: ../serpentine/preferences.py:361 ../serpentine/preferences.py:379
+msgid "Serpentine's playlist"
+msgstr "A Serpentine lejátszólistája"
+
+#: ../serpentine/recording.py:43 ../serpentine/recording.py:50
+msgid "Converting files failed"
+msgstr "A fájlok átalakítása meghiúsult"
+
+#: ../serpentine/recording.py:44
+msgid "Some of the files were missing. The disc is still usable."
+msgstr ""
+
+#: ../serpentine/recording.py:51
+msgid "Writing to disc didn't start so it is still usable."
+msgstr "A lemez írása még nem kezdődött el, így az továbbra is használható."
+
+#: ../serpentine/recording.py:64
+msgid "Writing to disc failed"
+msgstr "A lemez írása meghiúsult"
+
+#: ../serpentine/recording.py:66
+msgid "Writing to disc canceled"
+msgstr "A lemez írása félbeszakítva"
+
+#: ../serpentine/recording.py:69
+msgid "The writing operation has started. The disc may be unusable."
+msgstr ""
+
+#: ../serpentine/recording.py:90
+msgid "Writing Audio Disc"
+msgstr "Audio lemez írása"
+
+#: ../serpentine/recording.py:91
+msgid ""
+"The audio tracks are going to be written to a disc. This operation may take "
+"a long time, depending on data size and write speed."
+msgstr ""
+"A hangszámok a lemezre lesznek írva. Ez a művelet sokáig tarthat az adatok "
+"mennyiségétől és az írási sebességtől függően."
+
+#: ../serpentine/recording.py:124
+msgid "CD-RW disc will be erased"
+msgstr "A CD-RW lemez törölve lesz"
+
+#: ../serpentine/recording.py:125
+msgid "Please remove your disc if you want to preserve it's contents."
+msgstr "Távolítsa el a lemezt, ha meg akarja őrizni annak tartalmát."
+
+#: ../serpentine/recording.py:172
+msgid "Preparing recorder"
+msgstr "Az író előkészítése"
+
+#: ../serpentine/recording.py:174
+msgid "Writing media files to disc"
+msgstr "Hangfájlok lemezre írása"
+
+#: ../serpentine/recording.py:176
+msgid "Fixating disc"
+msgstr "A lemez rögzítése"
+
+#: ../serpentine/recording.py:184
+msgid "Preparing media files"
+msgstr "Hangfájlok előkészítése"
+
+#: ../serpentine/recording.py:199
+msgid "Writing to disc finished"
+msgstr "A lemez írása befejeződött"
+
+#: ../serpentine/recording.py:200
+msgid "Disc writing was successful."
+msgstr "A lemez írása sikeres."
+
+#: ../serpentine/recording.py:231
+msgid "Writing Files to Disc"
+msgstr "Fájlok lemezre írása"
+
+#: ../serpentine/recording.py:250
+msgid "There were no valid files for writing. Please select at least one."
+msgstr ""
+
+#: ../serpentine/recording.py:302
+msgid "Please make sure another application is not using the drive."
+msgstr "Győződjön meg róla, hogy másik alkalmazás nem használja a meghajtót."
+
+#: ../serpentine/recording.py:303
+msgid "Drive is busy"
+msgstr "A meghajtó foglalt"
+
+#: ../serpentine/recording.py:305
+msgid "Please put a rewritable or blank disc into the drive."
+msgstr "Helyezzen egy újraírható vagy üres lemezt a meghajtóba."
+
+#: ../serpentine/recording.py:306
+msgid "Insert rewritable or blank disc"
+msgstr "Helyezzen be egy újraírható vagy üres lemezt"
+
+#: ../serpentine/recording.py:308
+msgid "Please put a blank disc into the drive."
+msgstr "Helyezzen egy üres lemezt a meghajtóba."
+
+#: ../serpentine/recording.py:309
+msgid "Insert blank disc"
+msgstr "Helyezzen egy üres lemezt"
+
+#: ../serpentine/recording.py:311
+msgid "Please replace the disc in the drive with a rewritable or blank disc."
+msgstr ""
+"Cseréjle ki a meghajtóban lévő lemezt egy újraírható vagy üres lemezre."
+
+#: ../serpentine/recording.py:314
+msgid "Reload rewritable or blank disc"
+msgstr "Újraírható vagy üres lemez újratöltése"
+
+#: ../serpentine/recording.py:316
+msgid "Please replace the disc in the drive a blank disc."
+msgstr "Cserélje ki a meghajtóban lévő lemezt egy üres lemezre"
+
+#: ../serpentine/recording.py:317
+msgid "Reload blank disc"
+msgstr "Üres lemez újratöltése"
+
+#~ msgid "Audio Widget Wrapper"
+#~ msgstr "Hang felületi elem átalakító"
+
+#~ msgid ""
+#~ "Remove some music tracks or make sure your cache location location has "
+#~ "enough free space (about %s)."
+#~ msgstr ""
+#~ "Távolítson el néhány zeneszámot vagy ellenőrizze, hogy a gyorsítótár "
+#~ "helye elegendő (körülbelül %s) szabad hellyel rendelkezik."
+
+#~ msgid "Playlist Saved"
+#~ msgstr "Lejátszólista mentve"
+
+#~ msgid "Playlist was saved successfully."
+#~ msgstr "A lejátszólista sikeresen elmentve."
+
+#~ msgid "Unsupported file types"
+#~ msgstr "Nem támogatott fájltípusok"
+
+#~ msgid "Show preferences dialog and exit."
+#~ msgstr "Tulajdonságok párbeszédablak megjelenítése és kilépés."
+
+#~ msgid "Supported files"
+#~ msgstr "Támogatott fájlok"
+
+#~ msgid "Playlists"
+#~ msgstr "Lejátszólisták"
+
+#~ msgid "Unknow Artist"
+#~ msgstr "Ismeretlen előadó"
+
+#~ msgid "Tests if temporary directory exists and has write permissions."
+#~ msgstr ""
+#~ "Teszteli, hogy az átmeneti könyvtár létezik-e és rendelkezik-e írási "
+#~ "jogosultságokkal."
+
+#~ msgid "The writing operation as started so the disc might be unusable."
+#~ msgstr ""
+#~ "Az írási művelet elkezdődött, így a lemez lehet, hogy használhatatlan."

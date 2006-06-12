@@ -1,0 +1,581 @@
+# Slovak translation for serpentine
+# Copyright (c) (c) 2006 Canonical Ltd, and Rosetta Contributors 2006
+# This file is distributed under the same license as the serpentine package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: serpentine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-06-11 22:52+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Slovak <sk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/serpentine.desktop.in.h:1
+msgid "Create Audio-CD's from music files and playlists"
+msgstr "Tvorba Audio CD z hudobných súborov a playlistov"
+
+#: ../data/serpentine.desktop.in.h:2
+msgid "Serpentine Audio-CD Creator"
+msgstr "Serpentine Audio-CD Creator"
+
+#: ../data/serpentine.glade.h:1
+msgid ""
+"21 minutes\n"
+"74 minutes\n"
+"80 minutes\n"
+"90 minutes"
+msgstr ""
+"21 minút\n"
+"74 minút\n"
+"80 minút\n"
+"90 minút"
+
+#: ../data/serpentine.glade.h:5
+msgid "<b>Disc capacity exceeded!</b>"
+msgstr "<b>Prekročená kapacita disku!</b>"
+
+#: ../data/serpentine.glade.h:6
+msgid "<b>Writing Device</b>"
+msgstr "<b>Zapisovacie Zariadenie</b>"
+
+#: ../data/serpentine.glade.h:7
+msgid "<b>Writing Options</b>"
+msgstr "<b>Možnosti zápisu</b>"
+
+#: ../data/serpentine.glade.h:8
+msgid "Add tracks to playlist"
+msgstr "Pridaj stopy do playlistu"
+
+#: ../data/serpentine.glade.h:9
+msgid "Add two seconds gap between tracks"
+msgstr "Vlož dvojsekundovú medzeru medzi stopy"
+
+#: ../data/serpentine.glade.h:10
+msgid "Choose writing speed"
+msgstr "Výber rýchlosti zápisu"
+
+#: ../data/serpentine.glade.h:11
+msgid "Clear playlist"
+msgstr "Vyčistiť playlist"
+
+#: ../data/serpentine.glade.h:12
+msgid "Device:"
+msgstr "Zariadenie:"
+
+#: ../data/serpentine.glade.h:13
+msgid "Disc Capacity:"
+msgstr "Kapacita disku:"
+
+#: ../data/serpentine.glade.h:14
+msgid "Disc Usage:"
+msgstr "Zaplenie disku:"
+
+#: ../data/serpentine.glade.h:15
+msgid "Eject disk after writing"
+msgstr "Vysunúť disk po zápise"
+
+#: ../data/serpentine.glade.h:16
+msgid "Open Playlist..."
+msgstr "Otvoriť Playlist..."
+
+#: ../data/serpentine.glade.h:17
+msgid "Refreshes the max writing speed"
+msgstr "Obnov maximálnu zapisovaciu rýchlosť"
+
+#: ../data/serpentine.glade.h:18
+msgid "Remove selected tracks from playlist"
+msgstr "Odstráňiť zvolené stopy z playlistu"
+
+#: ../data/serpentine.glade.h:19
+msgid "Save Playlist As..."
+msgstr "Uložiť Playlist Ako..."
+
+#: ../data/serpentine.glade.h:20
+msgid "Serpentine Audio Mastering"
+msgstr "Serpentine Audio Mastering"
+
+#: ../data/serpentine.glade.h:21 ../serpentine/preferences.py:71
+#: ../serpentine/preferences.py:197
+msgid "Serpentine Preferences"
+msgstr "Možnosti Serpentine"
+
+#: ../data/serpentine.glade.h:22
+msgid "Use maximum writing speed"
+msgstr "Použiť maximálnu zapisovaciu rýchlosť"
+
+#: ../data/serpentine.glade.h:23
+msgid "Write playlist to disc"
+msgstr "Zapísať playlist na disk"
+
+#: ../data/serpentine.glade.h:24 ../serpentine/mainwindow.py:569
+msgid "Write to Disc"
+msgstr "Zapísať na Disk"
+
+#: ../data/serpentine.glade.h:25
+#, fuzzy
+msgid "_Edit"
+msgstr "Úprava"
+
+#: ../data/serpentine.glade.h:26
+msgid "_File"
+msgstr "_Súbor"
+
+#: ../data/serpentine.glade.h:27
+msgid "_Help"
+msgstr "_Pomoc"
+
+#: ../data/serpentine.glade.h:28
+msgid "_Toolbar"
+msgstr "_"
+
+#: ../data/serpentine.glade.h:29
+msgid "_View"
+msgstr "_Prezrieť"
+
+#: ../scripts/serpentine:57
+msgid "Recording operations will be done in simulation mode."
+msgstr "Nahrávanie sa vykoná v móde simulácie"
+
+#: ../scripts/serpentine:60
+msgid "Shows debugging information from recording backend."
+msgstr ""
+
+#: ../scripts/serpentine:63
+msgid "Shows preferences dialog."
+msgstr ""
+
+#: ../scripts/serpentine:66
+msgid ""
+"Writes the filenames after this option to a CD. This will show a dialog "
+"suitable for embedding in other applications."
+msgstr ""
+"Po vybratí tejto možnosti zapíše názvy súborov na CD. Otvorí sa okno vhodné "
+"na uloženie v iných aplikáciách."
+
+#: ../scripts/serpentine:71
+msgid "Uses filenames after this option as the playlist contents."
+msgstr ""
+
+#: ../scripts/serpentine:75
+msgid "Do not use GnomeVfs module."
+msgstr ""
+
+#: ../scripts/serpentine:132
+msgid "Simulation mode"
+msgstr "Mód simulácie"
+
+#: ../scripts/serpentine:133
+msgid ""
+"Serpentine is on simulation mode, no actual writing will be done on inserted "
+"media."
+msgstr ""
+"Serpentine pracuje v móde simulácie, nevykoná sa žiadny zápis na vložené "
+"médium"
+
+#: ../serpentine/__init__.py:63
+#, fuzzy
+msgid "The following musics have missing files:"
+msgstr "Nasledujúce súbory neboli pridané:"
+
+#: ../serpentine/__init__.py:90
+msgid "Please check if the cache location exists and has writable permissions."
+msgstr ""
+"Skontrolujte či existuje umiestnenie pamäti cache a či má práva na zápis."
+
+#: ../serpentine/__init__.py:100 ../serpentine/__init__.py:239
+msgid "All files"
+msgstr "Všetky súbory"
+
+#: ../serpentine/__init__.py:104 ../serpentine/__init__.py:290
+msgid "Supported playlists"
+msgstr ""
+
+#: ../serpentine/__init__.py:282
+msgid "Common media files"
+msgstr ""
+
+#: ../serpentine/common.py:71
+msgid "GByte"
+msgstr "GB"
+
+#: ../serpentine/common.py:71
+msgid "GBytes"
+msgstr "GB"
+
+#: ../serpentine/common.py:72
+msgid "MByte"
+msgstr "MB"
+
+#: ../serpentine/common.py:72
+msgid "MBytes"
+msgstr "MB"
+
+#: ../serpentine/common.py:73
+msgid "KByte"
+msgstr "Kb"
+
+#: ../serpentine/common.py:74
+msgid "byte"
+msgstr "bajt"
+
+#: ../serpentine/common.py:74
+msgid "bytes"
+msgstr "bajty"
+
+#: ../serpentine/mainwindow.py:152
+msgid "Save playlist in format:"
+msgstr ""
+
+#: ../serpentine/mainwindow.py:166
+msgid "Detect by extension"
+msgstr ""
+
+#: ../serpentine/mainwindow.py:183
+msgid "Playlist Not Saved"
+msgstr "Playlist neuložený"
+
+#: ../serpentine/mainwindow.py:184
+msgid "There was an error while saving the playlist."
+msgstr "Vyskytola sa chyba počas zápisu playlistu."
+
+#: ../serpentine/mainwindow.py:221
+msgid "Replace existing file"
+msgstr "Nahraď existujúci súbor"
+
+#: ../serpentine/mainwindow.py:222
+#, python-format
+msgid ""
+"A file named <i>%s</i> already exists. Do you want to replace it with the "
+"one you are saving?"
+msgstr ""
+"Súbor <i>%s<i> už existuje. Chcete ho nahradiť práve ukladaným súborom?"
+
+#: ../serpentine/mainwindow.py:249
+#, fuzzy
+msgid "Select one playlist format"
+msgstr "Vyčistiť playlist"
+
+#: ../serpentine/mainwindow.py:250
+msgid ""
+"Serpentine will open any of these formats so the one you choose only matters "
+"if you are going to open with other applications."
+msgstr ""
+
+#: ../serpentine/mainwindow.py:253
+#, fuzzy, python-format
+msgid "Do you want to save as the %s format?"
+msgstr "Chcete si napáliť hudbu?"
+
+#: ../serpentine/mainwindow.py:281
+msgid "Unsupported Format"
+msgstr "Nepodporovaný formát"
+
+#: ../serpentine/mainwindow.py:282
+msgid ""
+"The playlist format you used (by the file extension) is currently not "
+"supported."
+msgstr ""
+"Formát playlistu ktorý chcete použiť (koncovka súboru) nie je momentálne "
+"podporovaná."
+
+#: ../serpentine/mainwindow.py:464
+msgid "No recording drive found"
+msgstr "Napalovačka nenájdená"
+
+#: ../serpentine/mainwindow.py:465
+msgid ""
+"No recording drive found on your system, therefore some of Serpentine's "
+"functionalities will be disabled."
+msgstr "Nenašla sa napalovačka, preto nebudete môcť použiť niektoré funkcie."
+
+#: ../serpentine/mainwindow.py:532
+msgid "translator-credits"
+msgstr ""
+
+#: ../serpentine/mainwindow.py:533
+#, fuzzy
+msgid "Audio CD Creator"
+msgstr "Serpentine Audio-CD Creator"
+
+#: ../serpentine/mainwindow.py:546
+msgid "Cache directory location unavailable"
+msgstr "Nedostupné umiestnenie adresáru cache"
+
+#: ../serpentine/mainwindow.py:550
+msgid "Not enough space on cache directory"
+msgstr "nedostatok miesta v cache adresári"
+
+#: ../serpentine/mainwindow.py:557
+msgid "Do you want to overburn your disc?"
+msgstr "Chcete napáliť disk (Overburn)?"
+
+#: ../serpentine/mainwindow.py:558
+msgid ""
+"You are about to record a media disc in overburn mode. This may not work on "
+"all drives and shouldn't give you more then a couple of minutes."
+msgstr ""
+"Zachvílu začnete napalovať médium v Overburn móde. Nemusí to fungovať na "
+"všetkých zariadeniach a nemalo by to trvať viac ako pár minút."
+
+#: ../serpentine/mainwindow.py:561
+msgid "Write to Disc (Overburning)"
+msgstr "Zapísať na Disk (Overburn)"
+
+#: ../serpentine/mainwindow.py:564
+msgid "Do you want to record your music?"
+msgstr "Chcete si napáliť hudbu?"
+
+#: ../serpentine/mainwindow.py:565
+msgid ""
+"You are about to record a media disc. Canceling a writing operation will "
+"make your disc unusable."
+msgstr ""
+"Zachvíľu začnete napalovať médium. Ukončením zapisovania si ho zničíte."
+
+#: ../serpentine/mastering.py:73
+msgid "Unsupported file type"
+msgstr "Nepodporovaný typ súboru"
+
+#: ../serpentine/mastering.py:79
+#, fuzzy
+msgid "The following file was not added:"
+msgstr "Nasledujúce súbory neboli pridané:"
+
+#: ../serpentine/mastering.py:86
+msgid ""
+"If you're having problems opening certain files make sure you have the "
+"GStreamer plugins needed to decode them."
+msgstr ""
+
+#: ../serpentine/mastering.py:145
+msgid "Unknown"
+msgstr "Neznámy"
+
+#: ../serpentine/mastering.py:146
+msgid "Unknown Artist"
+msgstr ""
+
+#: ../serpentine/mastering.py:609
+msgid "Track"
+msgstr "Stopa"
+
+#: ../serpentine/mastering.py:622
+msgid "Artist"
+msgstr "Umelec"
+
+#: ../serpentine/mastering.py:625
+msgid "Duration"
+msgstr "Doba trvania"
+
+#. To translators: I know this is ugly for you
+#: ../serpentine/mastering.py:726
+msgid "minute"
+msgstr "minúta"
+
+#: ../serpentine/mastering.py:726
+msgid "minutes"
+msgstr "minúty"
+
+#. To translators: I know this is ugly for you
+#: ../serpentine/mastering.py:730
+msgid "second"
+msgstr "sekunda"
+
+#: ../serpentine/mastering.py:730
+msgid "seconds"
+msgstr "sekundy"
+
+#: ../serpentine/mastering.py:732
+msgid " and "
+msgstr " a "
+
+#: ../serpentine/mastering.py:766
+#, python-format
+msgid "%s remaining"
+msgstr "%s do konca"
+
+#: ../serpentine/mastering.py:768
+#, python-format
+msgid "%s overlaping"
+msgstr "%s prekrývanie"
+
+#: ../serpentine/mastering.py:770
+msgid "Empty"
+msgstr "Prázdny"
+
+#: ../serpentine/plugins/plugrhythmbox.py:41
+msgid "No Rhythmbox playlist found"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:42
+msgid ""
+"Please create a playlist using <i>Music&#8594;Playlist&#8594;New Playlist..."
+"</i>"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:48
+msgid "Which playlist do you choose to open?"
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:49
+msgid "These are the playlists created on Rhythmbox."
+msgstr ""
+
+#: ../serpentine/plugins/plugrhythmbox.py:50
+#, fuzzy, python-format
+msgid "Do you want to open the playlist <i>%s</i>?"
+msgstr "Chcete napáliť disk (Overburn)?"
+
+#: ../serpentine/plugins/plugrhythmbox.py:51
+#, fuzzy
+msgid "Rhythmbox playlists:"
+msgstr "Vyčistiť playlist"
+
+#: ../serpentine/plugins/plugrhythmbox.py:70
+msgid "Open Rhythmbox Playlist..."
+msgstr ""
+
+#: ../serpentine/preferences.py:361 ../serpentine/preferences.py:379
+msgid "Serpentine's playlist"
+msgstr "Serpentine's playlist"
+
+#: ../serpentine/recording.py:43 ../serpentine/recording.py:50
+msgid "Converting files failed"
+msgstr "Konvertovanie súborov zlyhalo"
+
+#: ../serpentine/recording.py:44
+msgid "Some of the files were missing. The disc is still usable."
+msgstr ""
+
+#: ../serpentine/recording.py:51
+msgid "Writing to disc didn't start so it is still usable."
+msgstr "Zápis na médium nezačal. Médium je stále použiteľné"
+
+#: ../serpentine/recording.py:64
+msgid "Writing to disc failed"
+msgstr "Zápis na médium zlyhal"
+
+#: ../serpentine/recording.py:66
+msgid "Writing to disc canceled"
+msgstr "Zápis na médium bol zrušený"
+
+#: ../serpentine/recording.py:69
+msgid "The writing operation has started. The disc may be unusable."
+msgstr ""
+
+#: ../serpentine/recording.py:90
+msgid "Writing Audio Disc"
+msgstr "Zapisujem Audio Disk"
+
+#: ../serpentine/recording.py:91
+msgid ""
+"The audio tracks are going to be written to a disc. This operation may take "
+"a long time, depending on data size and write speed."
+msgstr ""
+"Na disk sa idú zapísať audio stopy. Táto operácia môže trvať dlho v "
+"závislosti na veľkosti dát a zapisovacej rýchlosti"
+
+#: ../serpentine/recording.py:124
+msgid "CD-RW disc will be erased"
+msgstr "CD-RW bude vymazané"
+
+#: ../serpentine/recording.py:125
+msgid "Please remove your disc if you want to preserve it's contents."
+msgstr "Prosím vyberte disk ak chcete zachovať jeho obsah."
+
+#: ../serpentine/recording.py:172
+msgid "Preparing recorder"
+msgstr "Pripravujem napalovačku"
+
+#: ../serpentine/recording.py:174
+msgid "Writing media files to disc"
+msgstr "Zapisujem súbory na disk"
+
+#: ../serpentine/recording.py:176
+msgid "Fixating disc"
+msgstr "Fixujem disk"
+
+#: ../serpentine/recording.py:184
+msgid "Preparing media files"
+msgstr "Pripravujem súbory"
+
+#: ../serpentine/recording.py:199
+msgid "Writing to disc finished"
+msgstr "Napaľovanie ukončené"
+
+#: ../serpentine/recording.py:200
+msgid "Disc writing was successful."
+msgstr "Zápis na disk bol úspešný"
+
+#: ../serpentine/recording.py:231
+msgid "Writing Files to Disc"
+msgstr "Zapisujem Súbory na Disk"
+
+#: ../serpentine/recording.py:250
+msgid "There were no valid files for writing. Please select at least one."
+msgstr ""
+
+#: ../serpentine/recording.py:302
+msgid "Please make sure another application is not using the drive."
+msgstr "Prosim skontrolujte či iná aplikácia nepoužíva zariadenie."
+
+#: ../serpentine/recording.py:303
+msgid "Drive is busy"
+msgstr "Zariadenie sa používa"
+
+#: ../serpentine/recording.py:305
+msgid "Please put a rewritable or blank disc into the drive."
+msgstr "Prosím vložte zapisovateľné, alebo čisté médium do zariadenia"
+
+#: ../serpentine/recording.py:306
+msgid "Insert rewritable or blank disc"
+msgstr "Vložte zapisovateľné, alebo čisté médium"
+
+#: ../serpentine/recording.py:308
+msgid "Please put a blank disc into the drive."
+msgstr "Prosim vložte čisté médium do zariadenia."
+
+#: ../serpentine/recording.py:309
+msgid "Insert blank disc"
+msgstr "Vložte čisté médium"
+
+#: ../serpentine/recording.py:311
+msgid "Please replace the disc in the drive with a rewritable or blank disc."
+msgstr "Prosím nahraďte disk v zariadení čistým, alebo zapisovatelným médiom."
+
+#: ../serpentine/recording.py:314
+msgid "Reload rewritable or blank disc"
+msgstr "Znovu načítaj zapisovateľné, alebo čisté médium"
+
+#: ../serpentine/recording.py:316
+msgid "Please replace the disc in the drive a blank disc."
+msgstr "Prosím nahraďte disk v zariadení čistým médiom."
+
+#: ../serpentine/recording.py:317
+msgid "Reload blank disc"
+msgstr "Znovu načítaj čisté médium"
+
+#~ msgid "Audio Widget Wrapper"
+#~ msgstr "Audio Widget Wrapper"
+
+#~ msgid ""
+#~ "Remove some music tracks or make sure your cache location location has "
+#~ "enough free space (about %s)."
+#~ msgstr ""
+#~ "Odstránte niektoré súbory a uistite sa, že pamäť cache má dostatok "
+#~ "voľného miesta (okolo %s)."
+
+#~ msgid "Playlist Saved"
+#~ msgstr "Playlist uložený"
+
+#~ msgid "Playlist was saved successfully."
+#~ msgstr "Playlist bol úspešne uložený."
+
+#~ msgid "Unsupported file types"
+#~ msgstr "Neodporované typy súborov"
