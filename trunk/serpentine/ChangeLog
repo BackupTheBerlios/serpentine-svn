@@ -1,3 +1,8 @@
+2006-06-15 Tiago Cogumbreiro <cogumbreiro@users.sf.net>
+
+    * serpentine/__init__.py:
+    Corrected the filter for all files. Closes bug #344912.
+
 == 0.7 ==
 
 2006-06-12 Tiago Cogumbreiro <cogumbreiro@users.sf.net>

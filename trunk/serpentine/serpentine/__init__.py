@@ -98,7 +98,7 @@ class SavePlaylistRegistry (Component):
         # all files filter
         all_files = gtk.FileFilter ()
         all_files.set_name (_("All files"))
-        all_files.add_pattern ("*.*")
+        all_files.add_pattern ("*")
         
         self.__global_filter = gtk.FileFilter()
         self.__global_filter.set_name (_("Supported playlists"))
